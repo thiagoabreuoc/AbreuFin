@@ -1,7 +1,7 @@
 <!-- ═══════════════ REGISTER ═══════════════ -->
 <div class="screen hidden" id="screen-register">
   <div class="screen-body center-col">
-    <h4 class="text-primary fw-bold mb-0">TF</h4>
+    <h4 class="text-primary fw-bold mb-0">AbreuFin</h4>
     <p class="text-secondary mb-4">Crie sua conta</p>
 
     <div class="form-floating mb-3">

@@ -14,7 +14,7 @@ $csrfToken = csrfToken();
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>TF</title>
+<title>AbreuFin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
@@ -27,7 +27,7 @@ $csrfToken = csrfToken();
 
   <!-- ── Sidebar (desktop only) ── -->
   <aside class="app-sidebar" id="app-sidebar">
-    <div class="sidebar-brand">TF</div>
+    <div class="sidebar-brand">AbreuFin</div>
     <nav class="sidebar-nav">
       <a href="#" class="sidebar-item" id="snav-home" onclick="navigate('home');return false;">
         <i class="bi bi-house-fill"></i><span>Início</span>
@@ -96,7 +96,7 @@ $csrfToken = csrfToken();
   <div id="drawer-overlay" onclick="closeDrawer()"></div>
   <div id="drawer">
     <div class="drawer-header">
-      <span class="fw-bold fs-5 text-primary">TF</span>
+      <span class="fw-bold fs-5 text-primary">AbreuFin</span>
       <button class="btn btn-link text-secondary p-0" onclick="closeDrawer()"><i class="bi bi-x-lg"></i></button>
     </div>
     <div class="drawer-section-label">Lançamentos</div>

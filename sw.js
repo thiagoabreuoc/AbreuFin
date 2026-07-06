@@ -1,5 +1,5 @@
 self.addEventListener('push', function(event) {
-  var data = { title: 'TF', body: '' };
+  var data = { title: 'AbreuFin', body: '' };
   if (event.data) {
     try { data = Object.assign(data, event.data.json()); } catch(e) {}
   }

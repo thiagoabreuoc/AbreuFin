@@ -25,7 +25,7 @@ function exportJSON() {
 
 function exportTxt() {
   const yr=getYearTotals();
-  const lines=['FinFlow — Relatório Anual 2026','='.repeat(40),''];
+  const lines=['AbreuFin — Relatório Anual 2026','='.repeat(40),''];
   MONTHS.forEach((m,i)=>{
     const d=getMonthTotals(i);
     if (d.receita+d.despesa+d.investimento===0) return;

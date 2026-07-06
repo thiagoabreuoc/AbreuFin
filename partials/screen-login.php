@@ -1,7 +1,7 @@
 <!-- ═══════════════ LOGIN ═══════════════ -->
 <div class="screen active" id="screen-login">
   <div class="screen-body center-col">
-    <h4 class="text-primary fw-bold mb-0">TF</h4>
+    <h4 class="text-primary fw-bold mb-0">AbreuFin</h4>
     <p class="text-secondary mb-4">Suas finanças, sob controle.</p>
 
     <div class="form-floating mb-3">

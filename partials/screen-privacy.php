@@ -9,7 +9,7 @@
     <p class="text-muted small">Última atualização: 29/06/2026</p>
 
     <h6 class="fw-bold mt-3">1. Quem somos</h6>
-    <p class="small">O FinFlow é uma aplicação de controle financeiro pessoal. Esta política descreve como tratamos seus dados em conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).</p>
+    <p class="small">O AbreuFin é uma aplicação de controle financeiro pessoal. Esta política descreve como tratamos seus dados em conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).</p>
 
     <h6 class="fw-bold mt-3">2. Dados que coletamos</h6>
     <ul class="small">
