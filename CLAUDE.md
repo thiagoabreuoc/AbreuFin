@@ -1,7 +1,7 @@
 # Git / GitHub
 
 Este projeto deve ficar sempre sincronizado com o repositório remoto
-`https://github.com/thiagoabreuoc/TF` (branch `main`).
+`https://github.com/thiagoabreuoc/AbreuFin` (branch `main`).
 
 Sempre que uma tarefa pedida pelo usuário for concluída (uma feature, um
 fix, um ajuste), faça commit das mudanças e dê `git push` para `origin
