@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem \"$env:LOCALAPPDATA\\\\ms-playwright\" -ErrorAction SilentlyContinue | Select-Object Name)",
+      "PowerShell(Get-ChildItem \"$env:LOCALAPPDATA\\\\ms-playwright\" -ErrorAction SilentlyContinue | Select-Object Name, LastWriteTime | Format-Table -AutoSize)",
+      "PowerShell(php \"C:\\\\Users\\\\thiag\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--meu-site-proj-1\\\\446e0851-a9dd-4346-b249-605737e46731\\\\scratchpad\\\\test_cats.php\")",
+      "PowerShell(php \"C:\\\\Users\\\\thiag\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--meu-site-proj-1\\\\446e0851-a9dd-4346-b249-605737e46731\\\\scratchpad\\\\test_api.php\")",
+      "PowerShell(php \"C:\\\\Users\\\\thiag\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--meu-site-proj-1\\\\446e0851-a9dd-4346-b249-605737e46731\\\\scratchpad\\\\reset_cats.php\")",
+      "PowerShell(php \"C:\\\\Users\\\\thiag\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--meu-site-proj-1\\\\446e0851-a9dd-4346-b249-605737e46731\\\\scratchpad\\\\test_ec.php\" 2>&1)"
+    ]
+  }
+}
