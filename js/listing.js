@@ -12,9 +12,9 @@ function closeFilterPanel() {
 const STATUS_BADGE = {
   recebido:  'status-cell status-cell-success',
   a_receber: 'status-cell status-cell-neutral',
-  pago:      'status-cell status-cell-despesa',
+  pago:      'status-cell status-cell-success',
   a_pagar:   'status-cell status-cell-neutral',
-  investido: 'status-cell status-cell-investimento',
+  investido: 'status-cell status-cell-success',
   a_investir:'status-cell status-cell-neutral',
 };
 
@@ -62,9 +62,9 @@ function openListing(tipo, pinId) {
     '':           'status-cell-white',
     recebido:     'status-cell-success',
     a_receber:    'status-cell-neutral',
-    pago:         'status-cell-despesa',
+    pago:         'status-cell-success',
     a_pagar:      'status-cell-neutral',
-    investido:    'status-cell-investimento',
+    investido:    'status-cell-success',
     a_investir:   'status-cell-neutral',
   };
   const tabs = STATUS_TABS[tipo] || STATUS_TABS.despesa;
