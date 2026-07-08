@@ -161,9 +161,9 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .text-danger{color:var(--md-sys-color-error)!important}
 .text-secondary,.text-muted{color:var(--md-sys-color-on-surface-variant)!important}
 
-/* Cards — shape "Large" + elevation level 1 (nível cai ao pressionar, como no CardDefaults.cardElevation do M3) */
-.card{border:none;border-radius:var(--md-sys-shape-corner-large)!important;background-color:var(--md-sys-color-surface-container-low);box-shadow:var(--md-sys-elevation-level1);transition:box-shadow var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
-.card:active{box-shadow:var(--md-sys-elevation-level0)}
+/* Cards — variante "Outlined" do M3 (borda, sem elevação, com state-layer sutil ao pressionar) */
+.card{border:1px solid var(--md-sys-color-outline-variant)!important;border-radius:var(--md-sys-shape-corner-large)!important;background-color:var(--md-sys-color-surface);box-shadow:var(--md-sys-elevation-level0);transition:background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.card:active{background-color:var(--md-sys-color-surface-container)}
 .list-group-item{background-color:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);border-color:var(--md-sys-color-outline-variant)}
 
 /* Toast — role "inverse-surface" (spec M3 pra snackbar) */

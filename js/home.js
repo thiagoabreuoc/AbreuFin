@@ -170,32 +170,41 @@ function getYearTotals(year=2026) {
     .reduce((a,e)=>{ a[e.tipo]=(a[e.tipo]||0)+e.valor; return a; },{receita:0,despesa:0,investimento:0});
 }
 
-function buildGridLines(W, H) {
+function formatAxisValue(v) {
+  return Math.round(v).toLocaleString('pt-BR');
+}
+
+function buildGridLines(chartW, H, maxVal) {
   const stroke = cssVar('--md-sys-color-outline-variant');
-  return [0.25, 0.5, 0.75, 1].map(pct => {
+  const labelColor = cssVar('--md-sys-color-outline');
+  return [1, 0.75, 0.5, 0.25, 0].map(pct => {
     const y = H - pct * H * 0.92;
-    return `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="${stroke}" stroke-width="1" stroke-dasharray="4,3"/>`;
+    const line = pct > 0
+      ? `<line x1="0" y1="${y}" x2="${chartW}" y2="${y}" stroke="${stroke}" stroke-width="1" stroke-dasharray="4,3"/>`
+      : `<line x1="0" y1="${y}" x2="${chartW}" y2="${y}" stroke="${stroke}" stroke-width="1"/>`;
+    const label = `<text x="${chartW + 8}" y="${y + 3}" font-size="8" fill="${labelColor}">${formatAxisValue(pct * maxVal)}</text>`;
+    return line + label;
   }).join('');
 }
 
-function makeAreaPath(ys, xs, H) {
+function makeLinePath(ys, xs) {
   const n = ys.length;
-  if (n === 1) return `M 0 ${ys[0]} L ${xs[0]} ${ys[0]} L ${xs[0]} ${H} L 0 ${H} Z`;
-  let path = `M ${xs[0]} ${H} L ${xs[0]} ${ys[0]}`;
+  if (n === 1) return `M 0 ${ys[0]} L ${xs[0]} ${ys[0]}`;
+  let path = `M ${xs[0]} ${ys[0]}`;
   for (let i = 1; i < n; i++) {
     const cpx = (xs[i-1] + xs[i]) / 2;
     path += ` C ${cpx} ${ys[i-1]}, ${cpx} ${ys[i]}, ${xs[i]} ${ys[i]}`;
   }
-  path += ` L ${xs[n-1]} ${H} Z`;
   return path;
 }
 
 function buildAreaChart(data, xLabels) {
   if (data.every(d => TIPOS.every(t => d[t] === 0))) return emptyChart();
-  const W = 320, H = 100, PAD_B = 20;
+  const W = 320, H = 100, PAD_B = 20, PAD_R = 40;
+  const chartW = W - PAD_R;
   const n = data.length;
   const maxVal = Math.max(1, ...data.flatMap(d => TIPOS.map(t => d[t])));
-  const xs = data.map((_, i) => n === 1 ? W/2 : (i / (n-1)) * W);
+  const xs = data.map((_, i) => n === 1 ? chartW/2 : (i / (n-1)) * chartW);
 
   _areaXs = xs;
   _areaYs = {};
@@ -203,25 +212,28 @@ function buildAreaChart(data, xLabels) {
     _areaYs[tipo] = data.map(d => H - (d[tipo] / maxVal) * H * 0.92);
   });
 
-  const areas = TIPOS.map(tipo =>
-    `<path id="chart-area-${tipo}" d="${makeAreaPath(_areaYs[tipo], xs, H)}" fill="${TIPO_META[tipo].cor}" fill-opacity="0.25" stroke="${TIPO_META[tipo].cor}" stroke-width="1.5" stroke-linejoin="round"/>`
+  const lines = TIPOS.map(tipo =>
+    `<path id="chart-area-${tipo}" d="${makeLinePath(_areaYs[tipo], xs)}" fill="none" stroke="${TIPO_META[tipo].cor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
   ).join('');
 
   const labelColor = cssVar('--md-sys-color-outline');
-  const xLabelsSvg = xLabels.length <= 12 ? xLabels.map((l, i) =>
-    `<text x="${xs[i]}" y="${H + PAD_B - 2}" text-anchor="middle" font-size="8" fill="${labelColor}">${l}</text>`
-  ).join('') : '';
+  // rótulos esparsos no eixo X (primeiro/meio/último), como no gráfico de referência
+  const idxs = n <= 3 ? data.map((_, i) => i) : [0, Math.floor((n - 1) / 2), n - 1];
+  const xLabelsSvg = idxs.map(i =>
+    `<text x="${xs[i]}" y="${H + PAD_B - 2}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}" font-size="8" fill="${labelColor}">${xLabels[i]}</text>`
+  ).join('');
 
-  return `<svg id="chart-area-svg" viewBox="0 0 ${W} ${H + PAD_B}" width="100%" style="display:block;overflow:visible">${buildGridLines(W,H)}${areas}${xLabelsSvg}</svg>`;
+  return `<svg id="chart-area-svg" viewBox="0 0 ${W} ${H + PAD_B}" width="100%" style="display:block;overflow:visible">${buildGridLines(chartW,H,maxVal)}${lines}${xLabelsSvg}</svg>`;
 }
 
 function animateAreaTo(targetData) {
   if (_areaRaf) { cancelAnimationFrame(_areaRaf); _areaRaf = null; }
 
-  const W = 320, H = 100;
+  const W = 320, H = 100, PAD_R = 40;
+  const chartW = W - PAD_R;
   const n = targetData.length;
   const maxVal = Math.max(1, ...targetData.flatMap(d => TIPOS.map(t => d[t])));
-  const xs = _areaXs || targetData.map((_, i) => n === 1 ? W/2 : (i / (n-1)) * W);
+  const xs = _areaXs || targetData.map((_, i) => n === 1 ? chartW/2 : (i / (n-1)) * chartW);
 
   const toYs = {};
   TIPOS.forEach(tipo => {
@@ -243,7 +255,7 @@ function animateAreaTo(targetData) {
     TIPOS.forEach(tipo => {
       curYs[tipo] = fromYs[tipo].map((fy, i) => fy + (toYs[tipo][i] - fy) * t);
       const path = document.getElementById('chart-area-' + tipo);
-      if (path) path.setAttribute('d', makeAreaPath(curYs[tipo], xs, H));
+      if (path) path.setAttribute('d', makeLinePath(curYs[tipo], xs));
     });
     _areaYs = curYs;
     if (t < 1) _areaRaf = requestAnimationFrame(frame);
@@ -374,7 +386,7 @@ function buildLegendHtml(d) {
   return TIPOS.map(tipo =>
     `<div class="text-center" style="flex:1;cursor:pointer" onclick="openListing('${tipo}')">
       <div class="small d-flex align-items-center justify-content-center gap-1">
-        <span style="width:6px;height:6px;border-radius:50%;background:${TIPO_META[tipo].cor};display:inline-block;opacity:.7;flex-shrink:0"></span>
+        <span style="width:14px;height:3px;border-radius:2px;background:${TIPO_META[tipo].cor};display:inline-block;flex-shrink:0"></span>
         ${TIPO_META[tipo].label}
       </div>
       <div class="small">${fmt(d[tipo])}</div>
