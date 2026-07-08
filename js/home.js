@@ -145,7 +145,7 @@ function selectMonth(i) {
   if (homeTab === 'meses' && document.getElementById('chart-bars-svg')) {
     const d = getMonthTotals(homeMonth);
     renderBanners();
-    animateBarChartTo(d, homeMonth);
+    animateBarsTo(d);
     document.getElementById('home-legend').innerHTML = buildLegendHtml(d);
     const saldo = d.receita - d.despesa - d.investimento;
     const sv = document.getElementById('home-saldo-val');
@@ -297,49 +297,11 @@ function buildBarChartGridLines(W, H) {
   }).join('');
 }
 
-// pseudo-aleatório determinístico (0..1) a partir de um inteiro — mesma
-// entrada sempre gera a mesma "aleatoriedade", sem precisar de estado
-function pseudoRandom(seed) {
-  return Math.abs(Math.sin(seed * 12.9898) * 43758.5453) % 1;
-}
-
-// parâmetros do "blob" variam por categoria E por mês — cada um é uma
-// altura independente (pode subir ou descer bem além da altura "reta"),
-// pra gerar silhuetas bem diferentes entre si, não só uma leve ondulação
-function organicBarParams(tipo, month) {
-  const i = TIPOS.indexOf(tipo);
-  const seed = i * 101 + month * 47 + 13;
-  return {
-    hLeft:  (pseudoRandom(seed)     - 0.5) * 2, // -1..1
-    hMid:   (pseudoRandom(seed + 1) - 0.5) * 2, // -1..1
-    hRight: (pseudoRandom(seed + 2) - 0.5) * 2, // -1..1
-    midXFrac: 0.28 + pseudoRandom(seed + 3) * 0.44, // 0.28..0.72
-  };
-}
-
-function organicBarPath(x, barW, y, H, barH, p) {
-  // topo em curva assimétrica ("blob"), em vez de reto — ecoa as curvas
-  // suaves da visão Anual. hLeft/hMid/hRight deslocam o topo pra cima ou
-  // pra baixo de forma independente, gerando picos e vales bem marcados.
-  const amp = Math.min(barH * 0.4, 16);
-  const leftY  = y - p.hLeft  * amp;
-  const midY   = y - p.hMid   * amp;
-  const rightY = y - p.hRight * amp;
-  const midX = x + barW * p.midXFrac;
-  return `M ${x} ${H}
-    L ${x} ${leftY}
-    C ${x + barW * 0.16} ${leftY}, ${midX - barW * 0.14} ${midY}, ${midX} ${midY}
-    C ${midX + barW * 0.14} ${midY}, ${x + barW - barW * 0.16} ${rightY}, ${x + barW} ${rightY}
-    L ${x + barW} ${H}
-    Z`;
-}
-
-let _barChartState = { receita: null, despesa: null, investimento: null };
-let _barChartRaf = null;
+let _barRaf = null;
 
 function buildBarChart(d) {
   if (d.receita + d.despesa + d.investimento === 0) return emptyChart();
-  const W = 320, H = 100, GAP = 4;
+  const W = 320, H = 100, R = 6, GAP = 4;
   const maxVal = Math.max(1, ...TIPOS.map(t => d[t]));
   const barW = (W - GAP * (TIPOS.length - 1)) / TIPOS.length;
   const bars = TIPOS.map((tipo, i) => {
@@ -347,53 +309,47 @@ function buildBarChart(d) {
     const barH = Math.max((d[tipo] / maxVal) * H * 0.92, d[tipo] > 0 ? 4 : 0);
     const y = H - barH;
     const c = TIPO_META[tipo].cor;
-    const params = organicBarParams(tipo, homeMonth);
-    _barChartState[tipo] = { barH, ...params };
-    return `<path id="chart-bar-${tipo}" d="${organicBarPath(x, barW, y, H, barH, params)}" fill="${c}" fill-opacity="0.25" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"/>`;
+    return `<rect id="chart-bar-${tipo}" x="${x}" y="${y}" width="${barW}" height="${barH}" rx="${R}" ry="${R}"
+      fill="none" stroke="${c}" stroke-width="1.5"/>`;
   }).join('');
-  return `<svg id="chart-bars-svg" viewBox="0 0 ${W} ${H}" width="100%" style="display:block;overflow:visible">${buildBarChartGridLines(W,H)}${bars}</svg>`;
+  return `<svg id="chart-bars-svg" viewBox="0 0 ${W} ${H}" width="100%" style="display:block">${buildBarChartGridLines(W,H)}${bars}</svg>`;
 }
 
-function animateBarChartTo(targetD, targetMonth) {
-  if (_barChartRaf) { cancelAnimationFrame(_barChartRaf); _barChartRaf = null; }
-  const W = 320, H = 100, GAP = 4;
-  const maxVal = Math.max(1, ...TIPOS.map(t => targetD[t]));
-  const barW = (W - GAP * (TIPOS.length - 1)) / TIPOS.length;
+function animateBarsTo(target) {
+  if (_barRaf) { cancelAnimationFrame(_barRaf); _barRaf = null; }
 
-  const xOf = {}, from = {}, to = {};
-  TIPOS.forEach((tipo, i) => {
-    xOf[tipo] = i * (barW + GAP);
-    from[tipo] = _barChartState[tipo] || { barH: 0, hLeft: 0, hMid: 0, hRight: 0, midXFrac: .5 };
-    const barH = Math.max((targetD[tipo] / maxVal) * H * 0.92, targetD[tipo] > 0 ? 4 : 0);
-    to[tipo] = { barH, ...organicBarParams(tipo, targetMonth) };
-  });
-
-  const DURATION = 420;
+  const H = 100;
+  const maxVal = Math.max(1, target.receita, target.despesa, target.investimento);
+  const DURATION = 380;
   const startTime = performance.now();
   const ease = t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+
+  // Lê as alturas atuais do DOM — ponto de partida visual exato
+  const fromH = {};
+  TIPOS.forEach(tipo => {
+    const rect = document.getElementById('chart-bar-' + tipo);
+    fromH[tipo] = rect ? parseFloat(rect.getAttribute('height')) || 0 : 0;
+  });
+
+  const toH = {};
+  TIPOS.forEach(tipo => {
+    toH[tipo] = Math.max((target[tipo] / maxVal) * H * 0.92, 0);
+  });
 
   function frame(now) {
     const t = ease(Math.min((now - startTime) / DURATION, 1));
     TIPOS.forEach(tipo => {
-      const path = document.getElementById('chart-bar-' + tipo);
-      if (!path) return;
-      const f = from[tipo], g = to[tipo];
-      const cur = {
-        barH: f.barH + (g.barH - f.barH) * t,
-        hLeft: f.hLeft + (g.hLeft - f.hLeft) * t,
-        hMid: f.hMid + (g.hMid - f.hMid) * t,
-        hRight: f.hRight + (g.hRight - f.hRight) * t,
-        midXFrac: f.midXFrac + (g.midXFrac - f.midXFrac) * t,
-      };
-      const y = H - cur.barH;
-      path.setAttribute('d', organicBarPath(xOf[tipo], barW, y, H, cur.barH, cur));
-      _barChartState[tipo] = cur;
+      const rect = document.getElementById('chart-bar-' + tipo);
+      if (!rect) return;
+      const barH = fromH[tipo] + (toH[tipo] - fromH[tipo]) * t;
+      rect.setAttribute('y', H - barH);
+      rect.setAttribute('height', barH);
     });
-    if (t < 1) _barChartRaf = requestAnimationFrame(frame);
-    else _barChartRaf = null;
+    if (t < 1) _barRaf = requestAnimationFrame(frame);
+    else _barRaf = null;
   }
 
-  _barChartRaf = requestAnimationFrame(frame);
+  _barRaf = requestAnimationFrame(frame);
 }
 
 function buildSubLabels(d) {
