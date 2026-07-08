@@ -172,9 +172,11 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 #btn-novo-wrap.fab-open .fab-item:nth-child(2){transition-delay:.04s}
 #btn-novo-wrap.fab-open .fab-item:nth-child(3){transition-delay:.08s}
 
-/* Form outline boxes */
-.form-box{border:1.5px solid var(--md-sys-color-outline-variant);border-radius:var(--md-sys-shape-corner-small);padding:12px 14px;margin-bottom:14px}
-.form-box:focus-within{border-color:var(--md-sys-color-primary)}
+/* Text field (M3) — https://m3.material.io/components/text-fields/overview
+   variante "filled": fundo preenchido, cantos superiores arredondados,
+   indicador inferior (underline) que engrossa e muda pra cor primary no foco */
+.form-box{background:var(--md-sys-color-surface-container-highest);border:none;border-bottom:1px solid var(--md-sys-color-on-surface-variant);border-radius:var(--md-sys-shape-corner-extra-small) var(--md-sys-shape-corner-extra-small) 0 0;padding:12px 14px;margin-bottom:14px;transition:border-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard),border-width var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.form-box:focus-within{border-bottom:2px solid var(--md-sys-color-primary);padding-bottom:11px}
 .form-box-lbl{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--md-sys-color-on-surface-variant);margin-bottom:8px}
 .form-control-borderless{border:none;padding-left:0;padding-right:0;box-shadow:none!important;background:transparent;color:var(--md-sys-color-on-surface)}
 .form-control-borderless:focus{border:none;outline:none}
