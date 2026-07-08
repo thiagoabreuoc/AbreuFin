@@ -20,7 +20,7 @@
 /* ── Remapeamento das CSS vars do Bootstrap para os tokens M3 ── */
 :root{
   --bs-primary:var(--md-sys-color-primary);
-  --bs-primary-rgb:22,40,57;
+  --bs-primary-rgb:65,95,145;
   --bs-body-bg:var(--md-sys-color-surface);
   --bs-body-color:var(--md-sys-color-on-surface);
   --bs-border-color:var(--md-sys-color-outline-variant);
@@ -31,13 +31,13 @@
   --bs-border-radius-xl:var(--md-sys-shape-corner-large);
   --bs-border-radius-pill:var(--md-sys-shape-corner-full);
   --bs-link-color:var(--md-sys-color-primary);
-  --bs-link-color-rgb:22,40,57;
+  --bs-link-color-rgb:65,95,145;
   --bs-link-hover-color:var(--md-sys-color-primary);
   --bs-danger:var(--md-sys-color-error);
 }
 :root[data-theme="dark"]{
-  --bs-primary-rgb:181,200,223;
-  --bs-link-color-rgb:181,200,223;
+  --bs-primary-rgb:170,199,255;
+  --bs-link-color-rgb:170,199,255;
 }
 
 /* ── Tipografia — typescale M3 (Display/Headline/Title/Body/Label), Roboto ──
@@ -52,8 +52,8 @@ h6{font-size:var(--md-sys-typescale-title-medium-size);line-height:var(--md-sys-
 .fw-semibold{font-weight:600!important}
 
 /* ── Casca do app ── */
-body{background:#2b2b2b;display:flex;justify-content:center;align-items:center;min-height:100dvh;overflow:hidden;font-family:'Roboto',sans-serif}
-.app{width:100%;max-width:390px;height:100dvh;background:var(--md-sys-color-surface);position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 24px rgba(0,0,0,.4)}
+body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;align-items:center;min-height:100dvh;overflow:hidden;font-family:'Roboto',sans-serif}
+.app{width:100%;max-width:390px;height:100dvh;background:var(--md-sys-color-surface);position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 24px color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent)}
 
 /* app-content: o container que hospeda todas as telas */
 .app-content{flex:1;position:relative;overflow:hidden;min-height:0;background:var(--md-sys-color-surface)}
@@ -88,13 +88,13 @@ body{background:#2b2b2b;display:flex;justify-content:center;align-items:center;m
 .smaller{font-size:.65rem}
 
 /* Period Picker dropdown card */
-#period-overlay{position:absolute;inset:0;background:rgba(0,0,0,.25);z-index:400;opacity:0;pointer-events:none;transition:opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard)}
+#period-overlay{position:absolute;inset:0;background:color-mix(in srgb, var(--md-sys-color-scrim) 25%, transparent);z-index:400;opacity:0;pointer-events:none;transition:opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard)}
 #period-overlay.open{opacity:1;pointer-events:all}
 #period-sheet{position:absolute;top:84px;left:16px;right:16px;background:var(--md-sys-color-surface-container-high);border-radius:var(--md-sys-shape-corner-large);z-index:401;box-shadow:var(--md-sys-elevation-level2);transform:scale(.93) translateY(-6px);opacity:0;pointer-events:none;transition:transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate),opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard)}
 #period-sheet.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
 
 /* Drawer menu */
-#drawer-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);z-index:300;opacity:0;pointer-events:none;transition:opacity var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-standard)}
+#drawer-overlay{position:absolute;inset:0;background:color-mix(in srgb, var(--md-sys-color-scrim) 45%, transparent);z-index:300;opacity:0;pointer-events:none;transition:opacity var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-standard)}
 #drawer-overlay.open{opacity:1;pointer-events:all}
 #drawer{position:absolute;top:0;left:0;bottom:0;width:260px;background:var(--md-sys-color-surface-container-high);z-index:301;transform:translateX(-100%);transition:transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate);display:flex;flex-direction:column;box-shadow:var(--md-sys-elevation-level2)}
 #drawer.open{transform:translateX(0)}
@@ -168,9 +168,6 @@ body{background:#2b2b2b;display:flex;justify-content:center;align-items:center;m
 
 /* Toast — role "inverse-surface" (spec M3 pra snackbar) */
 .toast{background-color:var(--md-sys-color-inverse-surface)!important;color:var(--md-sys-color-inverse-on-surface)!important;border-radius:var(--md-sys-shape-corner-extra-small);box-shadow:var(--md-sys-elevation-level3)}
-
-/* Modal de confirmação */
-#confirm-modal > div{background:var(--md-sys-color-surface-container-high)!important;color:var(--md-sys-color-on-surface)}
 
 /* ── Ripple M3 — feedback tátil em elementos interativos (ver js/ripple.js) ── */
 .btn,.list-group-item,.cs-item{position:relative;overflow:hidden}

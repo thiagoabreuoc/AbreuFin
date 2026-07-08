@@ -207,8 +207,9 @@ function buildAreaChart(data, xLabels) {
     `<path id="chart-area-${tipo}" d="${makeAreaPath(_areaYs[tipo], xs, H)}" fill="${TIPO_META[tipo].cor}" fill-opacity="0.25" stroke="${TIPO_META[tipo].cor}" stroke-width="1.5" stroke-linejoin="round"/>`
   ).join('');
 
+  const labelColor = cssVar('--md-sys-color-outline');
   const xLabelsSvg = xLabels.length <= 12 ? xLabels.map((l, i) =>
-    `<text x="${xs[i]}" y="${H + PAD_B - 2}" text-anchor="middle" font-size="8" fill="#adb5bd">${l}</text>`
+    `<text x="${xs[i]}" y="${H + PAD_B - 2}" text-anchor="middle" font-size="8" fill="${labelColor}">${l}</text>`
   ).join('') : '';
 
   return `<svg id="chart-area-svg" viewBox="0 0 ${W} ${H + PAD_B}" width="100%" style="display:block;overflow:visible">${buildGridLines(W,H)}${areas}${xLabelsSvg}</svg>`;
