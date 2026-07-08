@@ -143,7 +143,8 @@ function populateCatOptions(tipo) {
   catSel.innerHTML='<option value="">Selecione</option>';
   const cats=categories[tipo]||[];
   cats.forEach(c=>{const o=document.createElement('option');o.value=c.name;o.textContent=c.name;catSel.appendChild(o);});
-  csStoreOptions('f-categoria', cats.map(c=>({value:c.name, label:c.name})));
+  const outros=document.createElement('option'); outros.value='Outros'; outros.textContent='Outros'; catSel.appendChild(outros);
+  csStoreOptions('f-categoria', [...cats.map(c=>({value:c.name, label:c.name})), {value:'Outros', label:'Outros'}]);
   csReset('f-categoria');
 }
 
@@ -165,7 +166,7 @@ function populateSubCatFromCat(tipo, catName) {
     const cat = (categories[tipo] || []).find(c => c.name === catName);
     if (cat && cat.subs && cat.subs.length) subs = cat.subs;
   }
-  const opts = hasCategory ? [...subs, 'outros'] : [];
+  const opts = hasCategory ? [...subs, 'outros'] : ['outros'];
   sel.innerHTML = '<option value="">Selecione</option>' +
     opts.map(v => `<option value="${escapeHtml(v)}">${escapeHtml(v === 'outros' ? 'Outros' : v)}</option>`).join('');
   csStoreOptions('f-subcategoria', opts.map(v => ({value: v, label: v === 'outros' ? 'Outros' : v})));
