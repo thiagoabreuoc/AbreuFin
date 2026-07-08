@@ -73,15 +73,23 @@
     <!-- Repetir a cada -->
     <fieldset class="form-box">
       <legend class="form-box-lbl">Repetir a cada</legend>
-      <div class="d-flex gap-2 flex-wrap" id="repetir-pills">
-        <input type="radio" class="btn-check" name="f-repetir" id="repetir-none"      value=""          autocomplete="off" checked>
-        <label class="btn btn-sm rounded-pill btn-outline-primary" for="repetir-none">Nunca</label>
-        <input type="radio" class="btn-check" name="f-repetir" id="repetir-semanal"   value="semanal"   autocomplete="off">
-        <label class="btn btn-sm rounded-pill btn-outline-primary" for="repetir-semanal">Semana</label>
-        <input type="radio" class="btn-check" name="f-repetir" id="repetir-quinzenal" value="quinzenal" autocomplete="off">
-        <label class="btn btn-sm rounded-pill btn-outline-primary" for="repetir-quinzenal">Quinzena</label>
-        <input type="radio" class="btn-check" name="f-repetir" id="repetir-mensal"    value="mensal"    autocomplete="off">
-        <label class="btn btn-sm rounded-pill btn-outline-primary" for="repetir-mensal">Mês</label>
+      <div class="d-flex gap-3 flex-wrap" id="repetir-pills">
+        <div class="form-check form-check-inline m-0">
+          <input class="form-check-input" type="radio" name="f-repetir" id="repetir-none" value="" autocomplete="off" checked>
+          <label class="form-check-label small" for="repetir-none">Nunca</label>
+        </div>
+        <div class="form-check form-check-inline m-0">
+          <input class="form-check-input" type="radio" name="f-repetir" id="repetir-semanal" value="semanal" autocomplete="off">
+          <label class="form-check-label small" for="repetir-semanal">Semana</label>
+        </div>
+        <div class="form-check form-check-inline m-0">
+          <input class="form-check-input" type="radio" name="f-repetir" id="repetir-quinzenal" value="quinzenal" autocomplete="off">
+          <label class="form-check-label small" for="repetir-quinzenal">Quinzena</label>
+        </div>
+        <div class="form-check form-check-inline m-0">
+          <input class="form-check-input" type="radio" name="f-repetir" id="repetir-mensal" value="mensal" autocomplete="off">
+          <label class="form-check-label small" for="repetir-mensal">Mês</label>
+        </div>
       </div>
     </fieldset>
 
