@@ -155,9 +155,9 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .fab-scrim{position:absolute;inset:0;z-index:200;background:color-mix(in srgb, var(--md-sys-color-scrim) 32%, transparent);opacity:0;pointer-events:none;transition:opacity var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-standard)}
 .fab-scrim.open{opacity:1;pointer-events:all}
 
-.fab-item-list{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:14px;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none}
-.fab-item{position:relative;overflow:hidden;display:flex;align-items:center;gap:10px;white-space:nowrap;border:none;background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);padding:12px 24px 12px 18px;border-radius:var(--md-sys-shape-corner-full);box-shadow:var(--md-sys-elevation-level2);font-size:.9rem;font-weight:500;font-family:'Roboto',sans-serif;opacity:0;transform:translateY(6px) scale(.85);transition:opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard-decelerate),transform var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard-decelerate)}
-.fab-item .material-symbols-outlined{font-size:1.2rem;color:var(--md-sys-color-on-primary-container)}
+.fab-item-list{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:14px;display:flex;flex-direction:row;align-items:center;gap:12px;pointer-events:none}
+.fab-item{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:none;background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);padding:0;border-radius:50%;box-shadow:var(--md-sys-elevation-level2);opacity:0;transform:translateY(6px) scale(.85);transition:opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard-decelerate),transform var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard-decelerate)}
+.fab-item .material-symbols-outlined{font-size:1.3rem;color:var(--md-sys-color-on-primary-container)}
 /* Item "Receita" do FAB Menu na mesma cor do status-cell da tela Receitas */
 .fab-item-receita{background:color-mix(in srgb, var(--md-extended-color-receita-color) 18%, white)!important;color:var(--md-extended-color-receita-color)!important}
 .fab-item-receita .material-symbols-outlined{color:var(--md-extended-color-receita-color)!important}

@@ -99,9 +99,9 @@ $csrfToken = csrfToken();
     <div id="btn-novo-wrap" style="position:absolute;bottom:0;left:0;right:0;padding:20px 20px 28px;background:linear-gradient(to bottom, transparent, var(--md-sys-color-surface));display:none;justify-content:center;pointer-events:none;z-index:210">
       <div style="position:relative">
         <div class="fab-item-list" id="fab-item-list">
-          <button class="fab-item fab-item-receita" onclick="selectFabAction('receita')"><span class="material-symbols-outlined">arrow_upward</span>Receita</button>
-          <button class="fab-item fab-item-despesa" onclick="selectFabAction('despesa')"><span class="material-symbols-outlined">arrow_downward</span>Despesa</button>
-          <button class="fab-item fab-item-investimento" onclick="selectFabAction('investimento')"><span class="material-symbols-outlined">trending_up</span>Investimento</button>
+          <button class="fab-item fab-item-receita" onclick="selectFabAction('receita')" aria-label="Receita"><span class="material-symbols-outlined">arrow_upward</span></button>
+          <button class="fab-item fab-item-despesa" onclick="selectFabAction('despesa')" aria-label="Despesa"><span class="material-symbols-outlined">arrow_downward</span></button>
+          <button class="fab-item fab-item-investimento" onclick="selectFabAction('investimento')" aria-label="Investimento"><span class="material-symbols-outlined">trending_up</span></button>
         </div>
         <button class="fab-main-btn" onclick="toggleFabMenu()" id="fab-main" aria-label="Novo lançamento" aria-haspopup="true" aria-expanded="false" style="pointer-events:auto">
           <span class="material-symbols-outlined">add</span>
