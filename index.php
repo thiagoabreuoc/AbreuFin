@@ -67,9 +67,15 @@ $csrfToken = csrfToken();
       <div class="d-flex flex-wrap gap-2 justify-content-center px-4 pb-4" id="period-month-grid"></div>
     </div>
 
-    <!-- Botão Novo -->
-    <div id="btn-novo-wrap" style="position:absolute;bottom:0;left:0;right:0;padding:32px 0 24px;background:linear-gradient(to bottom, transparent, #fff);display:none;justify-content:center;align-items:flex-end;pointer-events:none;z-index:40">
-      <button class="fab-main-btn" onclick="openNovo()" id="fab-main" aria-label="Novo lançamento" style="pointer-events:auto">
+    <!-- FAB Menu — https://m3.material.io/components/fab-menu/overview -->
+    <div class="fab-scrim" id="fab-scrim" onclick="closeFabMenu()"></div>
+    <div id="btn-novo-wrap" style="position:absolute;bottom:0;left:0;right:0;padding:32px 0 24px;background:linear-gradient(to bottom, transparent, var(--md-sys-color-surface));display:none;justify-content:center;align-items:flex-end;pointer-events:none;z-index:210">
+      <div class="fab-item-list" id="fab-item-list">
+        <button class="fab-item" onclick="selectFabAction('investimento')"><span class="material-symbols-outlined">trending_up</span>Investimento</button>
+        <button class="fab-item" onclick="selectFabAction('despesa')"><span class="material-symbols-outlined">arrow_upward</span>Despesa</button>
+        <button class="fab-item" onclick="selectFabAction('receita')"><span class="material-symbols-outlined">arrow_downward</span>Receita</button>
+      </div>
+      <button class="fab-main-btn" onclick="toggleFabMenu()" id="fab-main" aria-label="Novo lançamento" aria-haspopup="true" aria-expanded="false" style="pointer-events:auto">
         <span class="material-symbols-outlined">add</span>
       </button>
     </div>

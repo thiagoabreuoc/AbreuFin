@@ -40,7 +40,38 @@ function updateNovoBtn() {
     else allowed = true;
   }
   const wrap = document.getElementById('btn-novo-wrap');
-  if (wrap) wrap.style.display = (onAllowed && allowed) ? 'flex' : 'none';
+  if (wrap) {
+    const show = onAllowed && allowed;
+    wrap.style.display = show ? 'flex' : 'none';
+    if (!show) closeFabMenu();
+  }
+}
+
+/* ── FAB Menu (M3) ── */
+function toggleFabMenu() {
+  const wrap = document.getElementById('btn-novo-wrap');
+  if (wrap && wrap.classList.contains('fab-open')) closeFabMenu();
+  else openFabMenu();
+}
+function openFabMenu() {
+  const wrap = document.getElementById('btn-novo-wrap');
+  if (!wrap) return;
+  wrap.classList.add('fab-open');
+  document.getElementById('fab-scrim').classList.add('open');
+  document.getElementById('fab-main').setAttribute('aria-expanded', 'true');
+}
+function closeFabMenu() {
+  const wrap = document.getElementById('btn-novo-wrap');
+  if (!wrap) return;
+  wrap.classList.remove('fab-open');
+  const scrim = document.getElementById('fab-scrim');
+  if (scrim) scrim.classList.remove('open');
+  const btn = document.getElementById('fab-main');
+  if (btn) btn.setAttribute('aria-expanded', 'false');
+}
+function selectFabAction(tipo) {
+  closeFabMenu();
+  openNovo(tipo);
 }
 
 function switchHomeTab(tab) {

@@ -199,7 +199,7 @@ function saveCustomSubcat(tipo, val) {
   if (idx != null && idx >= 0) SUBCAT_MAP[tipo].splice(idx, 0, val);
 }
 
-function openNovo() {
+function openNovo(tipo) {
   ensureCSInit();
   editingId=null;
   document.getElementById('form-title').textContent='Novo';
@@ -207,7 +207,8 @@ function openNovo() {
   clearForm();
   const t=new Date();
   setDataField(String(t.getDate()).padStart(2,'0'), String(t.getMonth()+1).padStart(2,'0'), t.getFullYear());
-  if (currentListingType) setTipo(currentListingType);
+  const preselect = tipo || currentListingType;
+  if (preselect) setTipo(preselect);
   showScreen('form');
 }
 
