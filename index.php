@@ -62,10 +62,10 @@ $csrfToken = csrfToken();
         <button class="btn btn-link text-secondary p-0" onclick="closePeriodPicker()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%)"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
       </div>
       <div class="no-scrollbar d-flex gap-2 overflow-auto justify-content-center px-2 pb-3" id="period-year-strip"></div>
-      <div class="text-center py-3" style="border-top:1px solid var(--md-sys-color-outline-variant)">
+      <div class="text-center py-3" style="margin:0 16px;border-top:1px solid var(--md-sys-color-outline-variant)">
         <span class="fw-semibold">Altere o mês</span>
       </div>
-      <div class="d-flex flex-wrap gap-2 justify-content-center px-2 pb-4" id="period-month-grid"></div>
+      <div class="d-flex flex-wrap gap-2 justify-content-start px-2 pb-4" id="period-month-grid"></div>
     </div>
 
     <!-- FAB Menu — https://m3.material.io/components/fab-menu/overview -->
