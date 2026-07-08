@@ -73,18 +73,18 @@ $csrfToken = csrfToken();
         <button class="btn btn-link text-secondary p-0" onclick="closeFilterPanel()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%)"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
       </div>
       <div style="padding:0 16px 16px">
-        <div class="form-box mb-0">
-          <label class="form-box-lbl" for="f-cat">Categoria</label>
+        <fieldset class="form-box mb-0">
+          <legend class="form-box-lbl">Categoria</legend>
           <select class="form-select form-select-borderless" id="f-cat" onchange="onFilterCatChange()"></select>
-        </div>
-        <div class="form-box mb-0 mt-2" id="f-subcat-label" style="opacity:0.45">
-          <label class="form-box-lbl" for="f-subcat">Sub-categoria</label>
+        </fieldset>
+        <fieldset class="form-box mb-0 mt-2" id="f-subcat-label" style="opacity:0.45">
+          <legend class="form-box-lbl">Sub-categoria</legend>
           <select class="form-select form-select-borderless" id="f-subcat" onchange="applyFilter()"></select>
-        </div>
-        <div class="form-box mb-0 mt-2" id="f-repeat-label">
-          <label class="form-box-lbl" for="f-repeat">Repetir a cada</label>
+        </fieldset>
+        <fieldset class="form-box mb-0 mt-2" id="f-repeat-label">
+          <legend class="form-box-lbl">Repetir a cada</legend>
           <select class="form-select form-select-borderless" id="f-repeat" onchange="applyFilter()"></select>
-        </div>
+        </fieldset>
         <div class="d-flex justify-content-between align-items-center mt-3">
           <button class="btn btn-link btn-sm fw-semibold text-primary p-0" type="button" onclick="clearListingFilter();closeFilterPanel()">
             <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">filter_alt_off</span> Limpar filtros
