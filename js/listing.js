@@ -32,15 +32,12 @@ function ensureCSFilterInit() {
     {value:'anual',     label:'Anual'},
   ]);
   csSetDisabled('f-subcat', true);
-  csSetDisabled('f-repeat', true);
 }
 
 function _setFilterDepDisabled(disabled) {
-  ['f-subcat','f-repeat'].forEach(id => {
-    csSetDisabled(id, disabled);
-    const wrap = document.getElementById(id+'-label');
-    if (wrap) wrap.style.opacity = disabled ? '0.45' : '';
-  });
+  csSetDisabled('f-subcat', disabled);
+  const wrap = document.getElementById('f-subcat-label');
+  if (wrap) wrap.style.opacity = disabled ? '0.45' : '';
 }
 
 function openListing(tipo) {

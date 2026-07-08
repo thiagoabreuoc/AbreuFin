@@ -81,7 +81,7 @@ $csrfToken = csrfToken();
           <div class="form-box-lbl">Sub-categoria</div>
           <select class="form-select form-select-borderless" id="f-subcat" onchange="applyFilter()"></select>
         </div>
-        <div class="form-box mb-0 mt-2" id="f-repeat-label" style="opacity:0.45">
+        <div class="form-box mb-0 mt-2" id="f-repeat-label">
           <div class="form-box-lbl">Repetir a cada</div>
           <select class="form-select form-select-borderless" id="f-repeat" onchange="applyFilter()"></select>
         </div>
