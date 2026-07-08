@@ -40,11 +40,11 @@ function _setFilterDepDisabled(disabled) {
   if (wrap) wrap.style.opacity = disabled ? '0.45' : '';
 }
 
-function openListing(tipo) {
+function openListing(tipo, pinId) {
   currentListingType = tipo;
   listingStatusFilter = '';
   listingLimit = 10;
-  pinnedEntryId = null;
+  pinnedEntryId = pinId || null;
   sortField = 'prioridade';
   sortDir = 'asc';
   ensureCSFilterInit();

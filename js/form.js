@@ -543,19 +543,19 @@ async function saveEntry() {
   const entry={tipo,categoria,subcategoria,valor,dd,mm,yyyy,status,obs:document.getElementById('f-obs').value,repetir,notif:false};
 
   try {
+    let newId = null;
     if (editingId) {
       await apiUpdateEntry(editingId, entry);
       showToast('Lançamento atualizado.','success');
-      pinnedEntryId = null;
     } else {
       // recorrências mensal/anual são geradas no servidor (api/entries.php)
       const res = await apiCreateEntry(entry);
-      pinnedEntryId = res.ids[0] || null;
+      newId = res.ids[0] || null;
       showToast(res.ids.length>1?`Salvo + ${res.ids.length-1} recorrência(s)!`:'Lançamento salvo.','success');
     }
     await refreshData();
     screenStack = ['home'];
-    openListing(tipo);
+    openListing(tipo, newId);
   } catch (e) {
     showToast(e.message,'error');
   } finally {
