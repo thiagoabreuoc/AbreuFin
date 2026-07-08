@@ -93,6 +93,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .status-cell-receita{background:color-mix(in srgb, var(--md-extended-color-receita-color) 18%, white)!important;color:var(--md-extended-color-receita-color)!important}
 .status-cell-despesa{background:color-mix(in srgb, var(--md-sys-color-error) 18%, white)!important;color:var(--md-sys-color-error)!important}
 .status-cell-investimento{background:color-mix(in srgb, var(--md-extended-color-investimento-color) 18%, white)!important;color:var(--md-extended-color-investimento-color)!important}
+.status-cell-warning{background:color-mix(in srgb, #FFC107 25%, white)!important;color:#7A5900!important}
 
 /* Small badge — https://m3.material.io/components/badges (variante "small",
    só o indicador, sem conteúdo) */

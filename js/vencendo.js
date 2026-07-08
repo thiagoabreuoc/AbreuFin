@@ -7,7 +7,7 @@ function goToVencendo(mode='vencendo') {
   const badge = document.getElementById('vencendo-badge');
   const today2 = new Date(); today2.setHours(0,0,0,0);
   if (mode === 'vencido') {
-    if (badge) { badge.className = 'badge bg-danger fw-semibold'; badge.textContent = 'Vencidas'; }
+    if (badge) { badge.className = 'badge status-cell status-cell-despesa'; badge.textContent = 'Vencidas'; }
     const count = entries.filter(e => {
       if (e.tipo!=='despesa'||e.status!=='pendente') return false;
       const d=new Date(e.yyyy,e.mm-1,e.dd); d.setHours(0,0,0,0);
@@ -15,7 +15,7 @@ function goToVencendo(mode='vencendo') {
     }).length;
     if (sub) sub.textContent = count > 0 ? `${count} despesa${count!==1?'s':''}` : '0 despesas';
   } else {
-    if (badge) { badge.className = 'badge bg-warning text-dark fw-semibold'; badge.textContent = 'Vencendo'; }
+    if (badge) { badge.className = 'badge status-cell status-cell-warning'; badge.textContent = 'Vencendo'; }
     const count = entries.filter(e => {
       if (e.tipo!=='despesa'||e.status!=='pendente') return false;
       const d=new Date(e.yyyy,e.mm-1,e.dd); d.setHours(0,0,0,0);
@@ -60,7 +60,7 @@ function renderVencendo() {
 
   const el = document.getElementById('vencendo-entries');
   if (!list.length) {
-    el.innerHTML = `<li class="list-group-item text-center text-secondary py-5 border-0" style="border-radius:12px">Nenhuma despesa encontrada.</li>`;
+    el.innerHTML = `<li class="list-group-item text-center text-secondary small py-5 border-0" style="border-radius:12px">Nenhuma despesa encontrada.</li>`;
     return;
   }
   const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
@@ -71,8 +71,8 @@ function renderVencendo() {
         <div class="text-secondary small" style="margin-top:4px">${cap(escapeHtml(e.categoria))}</div>
       </div>
       <div class="text-end">
-        <span class="badge badge-despesa-soft mb-1">A pagar</span>
-        <div class="text-primary fw-semibold small">${fmt(e.valor)}</div>
-        <div class="text-secondary small">${String(e.dd).padStart(2,'0')}/${String(e.mm).padStart(2,'0')}/${e.yyyy}</div>
+        <span class="badge status-cell status-cell-neutral mb-1">A pagar</span>
+        <div class="fw-semibold small">${fmt(e.valor)}</div>
+        <div class="text-secondary small">${String(e.dd).padStart(2,'0')}/${String(e.mm).padStart(2,'0')}/${e.yyyy}${dueBadge(e)}</div>
       </div></li>`).join('');
 }
