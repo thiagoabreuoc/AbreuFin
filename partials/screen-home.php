@@ -13,7 +13,7 @@
       <button class="m3-tab" id="tab-meses" onclick="switchHomeTab('meses')">Mensal</button>
     </div>
 
-    <div class="no-scrollbar" style="display:none;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px;justify-content:center" id="year-strip"></div>
+    <div class="no-scrollbar" style="display:none;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px;margin-left:8px;margin-right:8px;justify-content:center" id="year-strip"></div>
     <div class="no-scrollbar" style="display:none;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px;margin-left:8px;margin-right:8px" id="month-strip"></div>
 
     <div id="home-summary"></div>
