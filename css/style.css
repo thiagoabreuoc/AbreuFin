@@ -178,11 +178,11 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .form-box:focus-within{border:2.5px solid var(--md-sys-color-primary);padding:13.5px 15.5px}
 .form-box-lbl{float:none;width:auto;max-width:calc(100% - 20px);padding:0 6px;margin:0 0 0 10px;font-size:.75rem;line-height:1rem;font-weight:400;color:var(--md-sys-color-on-surface-variant)}
 .form-box:focus-within>.form-box-lbl{color:var(--md-sys-color-primary)}
-.form-control-borderless{border:none;padding-left:0;padding-right:0;box-shadow:none!important;background:transparent;color:var(--md-sys-color-on-surface)}
+.form-control-borderless{border:none;padding:0;box-shadow:none!important;background:transparent;color:var(--md-sys-color-on-surface);font-size:1rem;line-height:1.5rem}
 .form-control-borderless:focus{border:none;outline:none}
-.form-select-borderless{border:none;padding-left:0;box-shadow:none!important;background:transparent;color:var(--md-sys-color-on-surface)}
+.form-select-borderless{border:none;padding:0;box-shadow:none!important;background:transparent;color:var(--md-sys-color-on-surface);font-size:1rem;line-height:1.5rem}
 .form-select-borderless:focus{border:none;outline:none;box-shadow:none!important}
-.form-box .cs-btn{border:none!important;padding-left:0;box-shadow:none!important;background:transparent}
+.form-box .cs-btn{border:none!important;padding:0!important;min-height:auto;box-shadow:none!important;background:transparent}
 .form-check-input:checked{background-color:var(--md-sys-color-primary);border-color:var(--md-sys-color-primary)}
 .form-check-input:focus{border-color:var(--md-sys-color-primary);box-shadow:0 0 0 .2rem color-mix(in srgb, var(--md-sys-color-primary) 25%, transparent)}
 
