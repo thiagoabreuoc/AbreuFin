@@ -98,6 +98,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .m3-badge-small{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;flex-shrink:0}
 .m3-badge-small-error{background:var(--md-sys-color-error)}
 .m3-badge-small-warning{background:#FFC107}
+.m3-badge-small-neutral{background:#9AA0A6}
 
 /* Primary tabs (M3) — https://m3.material.io/components/tabs/overview */
 .m3-tabs{display:flex;justify-content:center;border-bottom:1px solid var(--md-sys-color-outline-variant)}

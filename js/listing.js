@@ -97,7 +97,7 @@ function dueRank(e) {
   const d2 = new Date(e.yyyy, e.mm-1, e.dd); d2.setHours(0,0,0,0);
   if (d2 < today) return 'vencido';
   if (d2 <= in3) return 'vencendo';
-  return null;
+  return 'neutro';
 }
 function urgencyScore(e, primary) {
   const r = dueRank(e);
@@ -126,7 +126,7 @@ function getListingEntries() {
       if (a.id===pinnedEntryId) return -1;
       if (b.id===pinnedEntryId) return 1;
     }
-    if (sortField==='vencido' || sortField==='vencendo') {
+    if (sortField==='vencido' || sortField==='vencendo' || sortField==='neutro') {
       const sa=urgencyScore(a,sortField), sb=urgencyScore(b,sortField);
       if (sa!==sb) return sa-sb;
       const da=a.yyyy*10000+a.mm*100+a.dd, db=b.yyyy*10000+b.mm*100+b.dd;
@@ -140,23 +140,22 @@ function getListingEntries() {
   });
 }
 
+const DUE_RANK_CLASS = {vencido:'m3-badge-small-error', vencendo:'m3-badge-small-warning', neutro:'m3-badge-small-neutral'};
 function dueBadge(e) {
   if (!['a_pagar','a_receber'].includes(entryStatus(e))) return '';
-  const today = new Date(); today.setHours(0,0,0,0);
-  const in3 = new Date(today); in3.setDate(today.getDate()+3);
-  const d2 = new Date(e.yyyy, e.mm-1, e.dd); d2.setHours(0,0,0,0);
-  if (d2 < today) return `<span class="m3-badge-small m3-badge-small-error" style="margin-left:4px"></span>`;
-  if (d2 <= in3) return `<span class="m3-badge-small m3-badge-small-warning" style="margin-left:4px"></span>`;
-  return '';
+  const r = dueRank(e);
+  return `<span class="m3-badge-small ${DUE_RANK_CLASS[r]}" style="margin-left:4px"></span>`;
 }
 
 function renderListing() {
   const list=getListingEntries();
   const hasVencido  = list.some(e=>dueRank(e)==='vencido');
   const hasVencendo = list.some(e=>dueRank(e)==='vencendo');
+  const hasNeutro   = list.some(e=>dueRank(e)==='neutro');
   document.getElementById('sort-btn-vencido').style.display  = hasVencido  ? 'inline-flex' : 'none';
   document.getElementById('sort-btn-vencendo').style.display = hasVencendo ? 'inline-flex' : 'none';
-  document.getElementById('sort-urgency-sep').style.display  = (hasVencido || hasVencendo) ? 'inline' : 'none';
+  document.getElementById('sort-btn-neutro').style.display   = hasNeutro   ? 'inline-flex' : 'none';
+  document.getElementById('sort-urgency-sep').style.display  = (hasVencido || hasVencendo || hasNeutro) ? 'inline' : 'none';
   const el=document.getElementById('listing-entries');
   if (!list.length){el.innerHTML=`<li class="list-group-item text-center text-secondary small py-5 border-0" style="border-radius:12px">Nenhum lançamento encontrado.</li>`;return;}
   const visible=list.slice(0,listingLimit);

@@ -11,7 +11,7 @@
     </div>
     <div style="width:24px"></div>
   </div>
-  <div class="screen-body" style="padding:4px 16px 16px;position:relative">
+  <div class="screen-body" style="padding:16px 16px 16px;position:relative">
     <div style="display:flex;justify-content:center;align-items:center;gap:8px;margin-bottom:16px" id="listing-status-tabs">
       <!-- preenchido dinamicamente por openListing() -->
     </div>
@@ -30,6 +30,7 @@
         <span class="text-secondary" id="sort-urgency-sep" style="opacity:.35;font-size:.75rem;user-select:none;display:none">|</span>
         <a href="#" id="sort-btn-vencido" class="text-decoration-none d-inline-flex align-items-center" style="display:none" onclick="sortEntries('vencido','asc');return false;" aria-label="Ordenar por vencidos"><span class="m3-badge-small m3-badge-small-error"></span></a>
         <a href="#" id="sort-btn-vencendo" class="text-decoration-none d-inline-flex align-items-center" style="display:none" onclick="sortEntries('vencendo','asc');return false;" aria-label="Ordenar por a vencer"><span class="m3-badge-small m3-badge-small-warning"></span></a>
+        <a href="#" id="sort-btn-neutro" class="text-decoration-none d-inline-flex align-items-center" style="display:none" onclick="sortEntries('neutro','asc');return false;" aria-label="Ordenar por sem vencimento próximo"><span class="m3-badge-small m3-badge-small-neutral"></span></a>
       </div>
     </div>
     <ul class="list-group" id="listing-entries" style="display:flex;flex-direction:column;gap:8px;padding-bottom:72px"></ul>
