@@ -9,12 +9,8 @@
     <div id="home-banners"></div>
 
     <div class="m3-tabs mb-3">
-      <button class="m3-tab active" id="tab-anos" onclick="switchHomeTab('anos')">
-        <span class="material-symbols-outlined">calendar_month</span>Período
-      </button>
-      <button class="m3-tab" id="tab-meses" onclick="switchHomeTab('meses')">
-        <span class="material-symbols-outlined">calendar_view_month</span>Meses
-      </button>
+      <button class="m3-tab active" id="tab-anos" onclick="switchHomeTab('anos')">Anual</button>
+      <button class="m3-tab" id="tab-meses" onclick="switchHomeTab('meses')">Mensal</button>
     </div>
 
     <div class="no-scrollbar" style="display:none;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px;justify-content:center" id="year-strip"></div>
