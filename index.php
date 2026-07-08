@@ -89,7 +89,7 @@ $csrfToken = csrfToken();
           <button class="btn btn-link btn-sm fw-semibold text-primary p-0" type="button" onclick="clearListingFilter();closeFilterPanel()">
             <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">filter_alt_off</span> Limpar filtros
           </button>
-          <button class="btn btn-primary btn-sm" type="button" onclick="applyFilter();closeFilterPanel()">Aplicar filtro</button>
+          <button class="btn btn-primary btn-sm" type="button" onclick="applyFilter();closeFilterPanel()" style="padding:10px 24px">Aplicar filtro</button>
         </div>
       </div>
     </div>
