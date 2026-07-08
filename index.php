@@ -86,7 +86,7 @@ $csrfToken = csrfToken();
           <select class="form-select form-select-borderless" id="f-repeat" onchange="applyFilter()"></select>
         </div>
         <div class="d-flex justify-content-between align-items-center mt-3">
-          <button class="btn btn-link btn-sm fw-semibold text-primary p-0" type="button" onclick="clearListingFilter()">
+          <button class="btn btn-link btn-sm fw-semibold text-primary p-0" type="button" onclick="clearListingFilter();closeFilterPanel()">
             <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">filter_alt_off</span> Limpar filtros
           </button>
           <button class="btn btn-primary btn-sm fw-semibold" type="button" onclick="applyFilter();closeFilterPanel()">Aplicar filtro</button>
