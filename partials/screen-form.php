@@ -58,9 +58,6 @@
           <input type="text" class="form-control form-control-borderless" id="f-data" inputmode="numeric"
                  maxlength="10" placeholder="DD/MM/AAAA" autocomplete="off"
                  oninput="onDataInput(this)">
-          <input type="date" id="f-date-picker"
-                 style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;pointer-events:none"
-                 onchange="onDatePickerChange()">
           <button type="button" class="btn btn-link text-secondary p-0" onclick="openDatePicker()">
             <span class="material-symbols-outlined" style="font-size:1.25rem">calendar_today</span>
           </button>

@@ -322,16 +322,63 @@ function setDataField(dd, mm, yyyy) {
   document.getElementById('f-yyyy').value  = String(yyyy);
 }
 
+/* ── Date Picker (M3) ── */
+const DP_WEEKDAYS = ['D','S','T','Q','Q','S','S'];
+const DP_MONTHS_FULL = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+let dpYear, dpMonth, dpSelectedDay;
+
 function openDatePicker() {
-  const el = document.getElementById('f-date-picker');
-  try { el.showPicker(); } catch(e) { el.click(); }
+  const ddEl = document.getElementById('f-dd'), mmEl = document.getElementById('f-mm'), yyyyEl = document.getElementById('f-yyyy');
+  const today = new Date();
+  dpYear  = yyyyEl.value ? parseInt(yyyyEl.value) : today.getFullYear();
+  dpMonth = mmEl.value ? parseInt(mmEl.value) - 1 : today.getMonth();
+  dpSelectedDay = ddEl.value ? parseInt(ddEl.value) : null;
+  renderDatePicker();
+  document.getElementById('datepicker-overlay').classList.add('open');
+  document.getElementById('datepicker-sheet').classList.add('open');
 }
 
-function onDatePickerChange() {
-  const val = document.getElementById('f-date-picker').value; // YYYY-MM-DD
-  if (!val) return;
-  const [yyyy, mm, dd] = val.split('-');
-  setDataField(dd, mm, yyyy);
+function closeDatePicker() {
+  document.getElementById('datepicker-overlay').classList.remove('open');
+  document.getElementById('datepicker-sheet').classList.remove('open');
+}
+
+function dpChangeMonth(delta) {
+  dpMonth += delta;
+  if (dpMonth < 0) { dpMonth = 11; dpYear--; }
+  else if (dpMonth > 11) { dpMonth = 0; dpYear++; }
+  renderDatePicker();
+}
+
+function dpSelectDay(d) {
+  dpSelectedDay = d;
+  renderDatePicker();
+}
+
+function dpConfirm() {
+  if (!dpSelectedDay) { closeDatePicker(); return; }
+  setDataField(String(dpSelectedDay).padStart(2,'0'), String(dpMonth+1).padStart(2,'0'), dpYear);
+  closeDatePicker();
+}
+
+function renderDatePicker() {
+  document.getElementById('dp-month-label').textContent = `${DP_MONTHS_FULL[dpMonth]} ${dpYear}`;
+  document.getElementById('dp-weekdays').innerHTML = DP_WEEKDAYS.map(w =>
+    `<span class="small text-secondary">${w}</span>`
+  ).join('');
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  const firstWeekday = new Date(dpYear, dpMonth, 1).getDay();
+  const daysInMonth = new Date(dpYear, dpMonth + 1, 0).getDate();
+  const cells = [];
+  for (let i = 0; i < firstWeekday; i++) cells.push('<span></span>');
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isToday = today.getFullYear()===dpYear && today.getMonth()===dpMonth && today.getDate()===d;
+    const isSelected = dpSelectedDay === d;
+    const cls = isSelected ? 'dp-day dp-day-selected' : (isToday ? 'dp-day dp-day-today' : 'dp-day');
+    cells.push(`<button type="button" class="${cls}" onclick="dpSelectDay(${d})">${d}</button>`);
+  }
+  document.getElementById('dp-days').innerHTML = cells.join('');
 }
 
 function onValorInput(el) {

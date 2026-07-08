@@ -105,6 +105,12 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .m3-badge-small-warning{background:#FFC107}
 .m3-badge-small-neutral{background:#9AA0A6}
 
+/* Date picker (M3) — https://m3.material.io/components/date-pickers/overview */
+.dp-day{position:relative;overflow:hidden;width:100%;aspect-ratio:1;border:none;background:transparent;border-radius:50%;font-size:.8rem;color:var(--md-sys-color-on-surface);cursor:pointer;transition:background var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-standard)}
+.dp-day:hover{background:var(--md-sys-color-surface-container-highest)}
+.dp-day-today{border:1px solid var(--md-sys-color-primary)!important;color:var(--md-sys-color-primary)}
+.dp-day-selected{background:var(--md-sys-color-primary)!important;color:var(--md-sys-color-on-primary)!important;font-weight:600}
+
 /* Primary tabs (M3) — https://m3.material.io/components/tabs/overview */
 .m3-tabs{display:flex;justify-content:center;border-bottom:1px solid var(--md-sys-color-outline-variant)}
 .m3-tab{position:relative;overflow:hidden;flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:6px;background:none;border:none;padding:12px 20px;font-family:'Roboto',sans-serif;font-size:.875rem;font-weight:600;color:var(--md-sys-color-on-surface-variant);cursor:pointer;transition:color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
