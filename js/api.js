@@ -11,7 +11,13 @@ async function apiCall(url, method = 'GET', body = null) {
     opts.body = JSON.stringify(body);
   }
   const res = await fetch(url, opts);
-  const data = await res.json().catch(() => ({}));
+  const raw = await res.text();
+  let data;
+  try {
+    data = raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    throw new Error(`Resposta inválida do servidor em ${url} (status ${res.status}).`);
+  }
   if (!res.ok || data.ok === false) {
     throw new Error(data.error || 'Erro inesperado.');
   }

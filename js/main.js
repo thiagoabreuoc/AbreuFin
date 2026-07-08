@@ -17,6 +17,7 @@ const GOOGLE_ERROR_MESSAGES = {
   try {
     await enterApp();
   } catch (e) {
+    console.error('Falha ao entrar no app:', e);
     showScreen('login', false);
     if (window.__GOOGLE_ERROR__) {
       document.getElementById('login-err').textContent =
