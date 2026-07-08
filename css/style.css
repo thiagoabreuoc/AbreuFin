@@ -172,13 +172,11 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 #btn-novo-wrap.fab-open .fab-item:nth-child(2){transition-delay:.04s}
 #btn-novo-wrap.fab-open .fab-item:nth-child(3){transition-delay:.08s}
 
-/* Text field (M3) — https://m3.material.io/components/text-fields/guidelines
-   variante "outlined": container-shape = corner-extra-small (4dp),
-   outline 1dp em repouso / 3dp em foco, padding 16dp, label body-small
-   (12sp) "entalhado" na borda via fieldset/legend nativos do HTML */
-.form-box{background:transparent;border:1px solid var(--md-sys-color-outline);border-radius:var(--md-sys-shape-corner-extra-small);padding:15px 16px;margin:0 0 16px;min-width:0;transition:border-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard),padding var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
-.form-box:focus-within{border:3px solid var(--md-sys-color-primary);padding:13px 14px}
-.form-box-lbl{width:auto;padding:0 4px;margin-left:12px;font-size:.75rem;line-height:1rem;font-weight:400;text-transform:none;letter-spacing:normal;color:var(--md-sys-color-on-surface-variant)}
+/* Campo estilo app nativo (lista de configurações) — sem caixa/borda ao
+   redor, só uma linha divisória inferior que engrossa e vira primary no foco */
+.form-box{background:transparent;border:none;border-bottom:1px solid var(--md-sys-color-outline-variant);border-radius:0;padding:0 0 10px;margin:0 0 16px;min-width:0;width:100%;transition:border-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard),padding var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.form-box:focus-within{border-bottom:2px solid var(--md-sys-color-primary);padding-bottom:9px}
+.form-box-lbl{display:block;width:100%;padding:0;margin:0 0 6px;font-size:.75rem;line-height:1rem;font-weight:400;text-transform:none;letter-spacing:normal;color:var(--md-sys-color-on-surface-variant)}
 .form-box:focus-within>.form-box-lbl{color:var(--md-sys-color-primary)}
 .form-control-borderless{border:none;padding-left:0;padding-right:0;box-shadow:none!important;background:transparent;color:var(--md-sys-color-on-surface)}
 .form-control-borderless:focus{border:none;outline:none}
