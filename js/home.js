@@ -6,8 +6,6 @@ let homeMonth = new Date().getMonth();
 let homeYear = new Date().getFullYear();
 let dismissedBanners = { vencido: false, vencendo: false };
 
-let _barVals = null;
-let _barRaf  = null;
 let _areaYs  = null;
 let _areaXs  = null;
 let _areaRaf = null;
@@ -78,7 +76,6 @@ function switchHomeTab(tab) {
   document.getElementById('year-strip').style.display  = tab==='anos'  ? 'flex' : 'none';
   document.getElementById('month-strip').style.display = tab==='meses' ? 'flex' : 'none';
   if (tab === 'anos') buildYearStrip();
-  _barVals = null;
   _areaYs  = null;
   updateNovoBtn();
   renderHome();
@@ -145,11 +142,7 @@ function selectMonth(i) {
     b.classList.toggle('text-primary', idx!==i);
   });
   updateNovoBtn();
-  if (homeTab === 'meses' && document.getElementById('chart-bars-svg')) {
-    updateMonthView();
-  } else {
-    renderHome();
-  }
+  renderHome();
 }
 
 const TIPO_META = {
@@ -284,60 +277,43 @@ function emptyChart() {
   </div>`;
 }
 
+function buildBarChartGridLines(W, H) {
+  const stroke = cssVar('--md-sys-color-outline-variant');
+  return [0.25, 0.5, 0.75, 1].map(pct => {
+    const y = H - pct * H * 0.92;
+    return `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="${stroke}" stroke-width="1" stroke-dasharray="4,3"/>`;
+  }).join('');
+}
+
+function organicBarPath(x, barW, y, H, seed) {
+  // topo em curva assimétrica ("blob"), em vez de reto — ecoa as curvas
+  // suaves da visão Anual. Cada barra (seed = índice) tem um perfil único.
+  const barH = H - y;
+  const amp = Math.min(barH * 0.28, 9);
+  const w1 = amp * (0.7 + 0.3 * ((seed * 2) % 3) / 2);
+  const w2 = amp * (0.5 + 0.4 * ((seed * 3 + 1) % 3) / 2);
+  const midX = x + barW * (0.38 + 0.05 * seed);
+  return `M ${x} ${H}
+    L ${x} ${y + w1}
+    C ${x} ${y - w1 * 0.3}, ${midX - barW * 0.12} ${y - w1}, ${midX} ${y - w1 * 0.15}
+    C ${midX + barW * 0.22} ${y + w2 * 0.5}, ${x + barW} ${y - w2}, ${x + barW} ${y + w2 * 0.35}
+    L ${x + barW} ${H}
+    Z`;
+}
+
 function buildBarChart(d) {
   if (d.receita + d.despesa + d.investimento === 0) return emptyChart();
-  const W = 320, H = 100, R = 6, GAP = 4;
+  const W = 320, H = 100, GAP = 4;
   const maxVal = Math.max(1, ...TIPOS.map(t => d[t]));
   const barW = (W - GAP * (TIPOS.length - 1)) / TIPOS.length;
-  _barVals = {...d};
   const bars = TIPOS.map((tipo, i) => {
     const x = i * (barW + GAP);
     const barH = Math.max((d[tipo] / maxVal) * H * 0.92, d[tipo] > 0 ? 4 : 0);
     const y = H - barH;
     const c = TIPO_META[tipo].cor;
-    return `<rect id="chart-bar-${tipo}" x="${x}" y="${y}" width="${barW}" height="${barH}" rx="${R}" ry="${R}"
-      fill="${c}" fill-opacity="0.25" stroke="${c}" stroke-width="1.5"/>`;
+    return `<path d="${organicBarPath(x, barW, y, H, i)}" fill="${c}" fill-opacity="0.25" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"/>`;
   }).join('');
-  return `<svg id="chart-bars-svg" viewBox="0 0 ${W} ${H}" width="100%" style="display:block">${buildGridLines(W,H)}${bars}</svg>`;
-}
-
-function animateBarsTo(target) {
-  if (_barRaf) { cancelAnimationFrame(_barRaf); _barRaf = null; }
-
-  const H = 100;
-  const maxVal = Math.max(1, target.receita, target.despesa, target.investimento);
-  const DURATION = 380;
-  const startTime = performance.now();
-  const ease = t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
-
-  // Read current pixel heights from DOM — exact visual starting point
-  const fromH = {};
-  TIPOS.forEach(tipo => {
-    const rect = document.getElementById('chart-bar-' + tipo);
-    fromH[tipo] = rect ? parseFloat(rect.getAttribute('height')) || 0 : 0;
-  });
-
-  // Compute target pixel heights based on new maxVal
-  const toH = {};
-  TIPOS.forEach(tipo => {
-    toH[tipo] = Math.max((target[tipo] / maxVal) * H * 0.92, 0);
-  });
-
-  function frame(now) {
-    const t = ease(Math.min((now - startTime) / DURATION, 1));
-    TIPOS.forEach(tipo => {
-      const rect = document.getElementById('chart-bar-' + tipo);
-      if (!rect) return;
-      const barH = fromH[tipo] + (toH[tipo] - fromH[tipo]) * t;
-      rect.setAttribute('y', H - barH);
-      rect.setAttribute('height', barH);
-    });
-    _barVals = {...target};
-    if (t < 1) _barRaf = requestAnimationFrame(frame);
-    else _barRaf = null;
-  }
-
-  _barRaf = requestAnimationFrame(frame);
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;overflow:visible">${buildBarChartGridLines(W,H)}${bars}</svg>`;
 }
 
 function buildSubLabels(d) {
@@ -395,18 +371,6 @@ function buildLegendHtml(d) {
       ${detalheBtn(tipo)}
     </div>`
   ).join('');
-}
-
-function updateMonthView() {
-  const d = getMonthTotals(homeMonth);
-  renderBanners();
-  animateBarsTo(d);
-  document.getElementById('home-legend').innerHTML = buildLegendHtml(d);
-  const saldo = d.receita - d.despesa - d.investimento;
-  const sv = document.getElementById('home-saldo-val');
-  if (sv) { sv.className = 'text-primary'; sv.textContent = fmt(saldo); }
-  const sl = document.getElementById('home-periodo');
-  if (sl) sl.textContent = `${MONTHS_FULL[homeMonth]} ${homeYear}`;
 }
 
 function renderBanners() {
