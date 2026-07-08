@@ -89,6 +89,9 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .m3-tab.active{color:var(--md-sys-color-primary)}
 .m3-tab.active::after{transform:scaleX(1)}
 
+/* Pills do month-strip (visão Meses) — padding +8px em cada eixo */
+#month-strip .btn{padding:12px 16px}
+
 /* Permite scroll por toque/swipe sem exibir a barra de rolagem horizontal */
 .tab-inactive{background:var(--md-sys-color-surface-container)!important;color:var(--md-sys-color-on-surface-variant)}
 .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
