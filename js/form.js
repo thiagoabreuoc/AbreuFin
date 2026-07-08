@@ -268,7 +268,7 @@ function clearForm() {
   ['f-tipo','f-categoria','f-subcategoria','f-obs'].forEach(id=>{ document.getElementById(id).value=''; });
   TIPO_TABS.forEach(t => {
     const btn = document.getElementById('tab-tipo-' + t);
-    if (btn) btn.className = 'badge status-cell status-cell-white';
+    if (btn) btn.className = 'badge status-cell status-cell-white d-inline-flex align-items-center';
   });
   _setFormFieldsDisabled(true);
   csReset('f-categoria');
@@ -484,7 +484,7 @@ function setTipo(tipo) {
   TIPO_TABS.forEach(t => {
     const btn = document.getElementById('tab-tipo-' + t);
     if (!btn) return;
-    btn.className = 'badge status-cell ' + (t === tipo ? TIPO_TAB_COLOR_CLASS[t] : 'status-cell-white');
+    btn.className = 'badge status-cell d-inline-flex align-items-center ' + (t === tipo ? TIPO_TAB_COLOR_CLASS[t] : 'status-cell-white');
   });
   _setFormFieldsDisabled(false);
   onTipoChange();
