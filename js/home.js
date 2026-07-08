@@ -149,7 +149,7 @@ function selectMonth(i) {
     document.getElementById('home-legend').innerHTML = buildLegendHtml(d);
     const saldo = d.receita - d.despesa - d.investimento;
     const sv = document.getElementById('home-saldo-val');
-    if (sv) { sv.className = 'text-primary'; sv.textContent = fmt(saldo); }
+    if (sv) sv.textContent = fmt(saldo);
     const sl = document.getElementById('home-periodo');
     if (sl) sl.textContent = `${MONTHS_FULL[homeMonth]} ${homeYear}`;
   } else {
@@ -175,6 +175,21 @@ function getYearTotals(year=2026) {
 
 function formatAxisValue(v) {
   return Math.round(v).toLocaleString('pt-BR');
+}
+
+// Arredonda o valor máximo do eixo pra um número "redondo" (1/2/5 × 10^n),
+// em vez de usar a fração exata do maior valor real
+function niceCeil(value) {
+  if (value <= 0) return 1;
+  const exp = Math.floor(Math.log10(value));
+  const base = Math.pow(10, exp);
+  const frac = value / base;
+  let niceFrac;
+  if (frac <= 1) niceFrac = 1;
+  else if (frac <= 2) niceFrac = 2;
+  else if (frac <= 5) niceFrac = 5;
+  else niceFrac = 10;
+  return niceFrac * base;
 }
 
 function buildGridLines(chartW, H, maxVal) {
@@ -206,7 +221,7 @@ function buildAreaChart(data, xLabels) {
   const W = 320, H = 100, PAD_B = 20, PAD_R = 40;
   const chartW = W - PAD_R;
   const n = data.length;
-  const maxVal = Math.max(1, ...data.flatMap(d => TIPOS.map(t => d[t])));
+  const maxVal = niceCeil(Math.max(1, ...data.flatMap(d => TIPOS.map(t => d[t]))));
   const xs = data.map((_, i) => n === 1 ? chartW/2 : (i / (n-1)) * chartW);
 
   _areaXs = xs;
@@ -235,7 +250,7 @@ function animateAreaTo(targetData) {
   const W = 320, H = 100, PAD_R = 40;
   const chartW = W - PAD_R;
   const n = targetData.length;
-  const maxVal = Math.max(1, ...targetData.flatMap(d => TIPOS.map(t => d[t])));
+  const maxVal = niceCeil(Math.max(1, ...targetData.flatMap(d => TIPOS.map(t => d[t]))));
   const xs = _areaXs || targetData.map((_, i) => n === 1 ? chartW/2 : (i / (n-1)) * chartW);
 
   const toYs = {};
@@ -289,21 +304,14 @@ function emptyChart() {
   </div>`;
 }
 
-function buildBarChartGridLines(W, H) {
-  const stroke = cssVar('--md-sys-color-outline-variant');
-  return [0.25, 0.5, 0.75, 1].map(pct => {
-    const y = H - pct * H * 0.92;
-    return `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="${stroke}" stroke-width="1" stroke-dasharray="4,3"/>`;
-  }).join('');
-}
-
 let _barRaf = null;
 
 function buildBarChart(d) {
   if (d.receita + d.despesa + d.investimento === 0) return emptyChart();
-  const W = 320, H = 100, R = 6, GAP = 4;
-  const maxVal = Math.max(1, ...TIPOS.map(t => d[t]));
-  const barW = (W - GAP * (TIPOS.length - 1)) / TIPOS.length;
+  const W = 320, H = 100, R = 6, GAP = 4, PAD_R = 40;
+  const chartW = W - PAD_R;
+  const maxVal = niceCeil(Math.max(1, ...TIPOS.map(t => d[t])));
+  const barW = (chartW - GAP * (TIPOS.length - 1)) / TIPOS.length;
   const bars = TIPOS.map((tipo, i) => {
     const x = i * (barW + GAP);
     const barH = Math.max((d[tipo] / maxVal) * H * 0.92, d[tipo] > 0 ? 4 : 0);
@@ -312,14 +320,14 @@ function buildBarChart(d) {
     return `<rect id="chart-bar-${tipo}" x="${x}" y="${y}" width="${barW}" height="${barH}" rx="${R}" ry="${R}"
       fill="${c}" fill-opacity="0.25" stroke="${c}" stroke-width="1.5"/>`;
   }).join('');
-  return `<svg id="chart-bars-svg" viewBox="0 0 ${W} ${H}" width="100%" style="display:block;overflow:visible">${buildBarChartGridLines(W,H)}${bars}</svg>`;
+  return `<svg id="chart-bars-svg" viewBox="0 0 ${W} ${H}" width="100%" style="display:block;overflow:visible">${buildGridLines(chartW,H,maxVal)}${bars}</svg>`;
 }
 
 function animateBarsTo(target) {
   if (_barRaf) { cancelAnimationFrame(_barRaf); _barRaf = null; }
 
   const H = 100;
-  const maxVal = Math.max(1, target.receita, target.despesa, target.investimento);
+  const maxVal = niceCeil(Math.max(1, target.receita, target.despesa, target.investimento));
   const DURATION = 380;
   const startTime = performance.now();
   const ease = t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
@@ -469,7 +477,7 @@ function renderHome() {
     (homeTab==='meses' ? `<div class="card mb-2" style="border-radius:10px!important">
       <div class="card-body d-flex justify-content-between align-items-center py-2">
         <b>Saldo</b>
-        <b id="home-saldo-val" class="text-primary">${fmt(saldo)}</b>
+        <b id="home-saldo-val">${fmt(saldo)}</b>
       </div>
     </div>` : '');
   document.getElementById('home-summary').innerHTML = summary;

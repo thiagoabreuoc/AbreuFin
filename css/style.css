@@ -194,3 +194,11 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .btn,.list-group-item,.cs-item{position:relative;overflow:hidden}
 .md-ripple{position:absolute;border-radius:50%;background:currentColor;opacity:.16;transform:scale(0);pointer-events:none;animation:md-ripple-anim var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard-decelerate) forwards}
 @keyframes md-ripple-anim{to{transform:scale(1);opacity:0}}
+
+/* Rótulo de seção (ex: "Personalização" no Perfil) */
+.section-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--md-sys-color-outline);padding:0 4px 8px}
+
+/* Seletor de paleta M3 (Perfil > Personalização) */
+.md-theme-swatch{width:36px;height:36px;border-radius:50%;border:2px solid transparent;padding:0;cursor:pointer;position:relative}
+.md-theme-swatch.active{border-color:var(--md-sys-color-on-surface)}
+.md-theme-swatch.active::after{content:'check';font-family:'Material Symbols Outlined';font-size:1.1rem;color:#fff;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-shadow:0 0 3px rgba(0,0,0,.5)}
