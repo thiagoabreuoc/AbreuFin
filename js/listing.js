@@ -63,7 +63,7 @@ function openListing(tipo) {
     `<button class="m3-tab${i===0?' active':''}" onclick="selectStatus(this,'${t.val}')">${t.label}</button>`
   ).join('');
   const labels={receita:'Receitas',despesa:'Despesas',investimento:'Investimentos'};
-  const TIPO_HEADER_CLASS={receita:'badge bg-success fw-semibold',despesa:'badge bg-danger fw-semibold',investimento:'badge bg-info fw-semibold'};
+  const TIPO_HEADER_CLASS={receita:'badge status-cell status-cell-receita',despesa:'badge bg-danger fw-semibold',investimento:'badge bg-info fw-semibold'};
   const titleEl=document.getElementById('listing-title');
   titleEl.textContent=labels[tipo];
   titleEl.className=TIPO_HEADER_CLASS[tipo]||'badge bg-secondary fw-semibold';

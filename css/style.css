@@ -86,9 +86,10 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 
 /* Status cell — chip pill discreto (fundo pálido / texto médio, peso normal),
    para status confirmados (Recebido/A receber) */
-.status-cell{font-weight:400!important;font-size:.75rem;padding:4px 10px!important;border-radius:var(--md-sys-shape-corner-full)!important}
+.status-cell{font-weight:400!important;font-size:.75rem;padding:4px 8px!important;border-radius:var(--md-sys-shape-corner-full)!important}
 .status-cell-success{background:#D7F3E0!important;color:#146C34!important}
 .status-cell-neutral{background:#E9EBEE!important;color:#5F6368!important}
+.status-cell-receita{background:color-mix(in srgb, var(--md-extended-color-receita-color) 18%, white)!important;color:var(--md-extended-color-receita-color)!important}
 
 /* Primary tabs (M3) — https://m3.material.io/components/tabs/overview */
 .m3-tabs{display:flex;justify-content:center;border-bottom:1px solid var(--md-sys-color-outline-variant)}
