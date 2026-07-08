@@ -4,12 +4,16 @@
     <button class="btn btn-link text-dark p-0" onclick="goBack()"><span class="material-symbols-outlined">arrow_back</span></button>
     <div class="flex-grow-1 text-center">
       <span class="badge bg-success-subtle text-success fw-semibold" id="listing-title">Receitas</span>
-      <div class="fw-semibold mt-1" style="font-size:0.95rem" id="listing-date">JAN 26</div>
-      <button class="btn btn-link btn-sm fw-semibold text-primary p-0" style="font-size:0.75rem;margin-top:2px" onclick="openPeriodPicker()">Alterar período</button>
+      <div class="d-flex align-items-center justify-content-center mt-1" style="gap:16px">
+        <span class="fw-semibold" style="font-size:0.95rem" id="listing-date">JAN 26</span>
+        <button class="btn btn-link p-0" style="color:var(--md-sys-color-primary);line-height:0" onclick="openPeriodPicker()" aria-label="Alterar período">
+          <span class="material-symbols-outlined" style="font-size:1.15rem">edit_calendar</span>
+        </button>
+      </div>
     </div>
     <div style="width:24px"></div>
   </div>
-  <div class="screen-body" style="padding:24px 16px 16px;position:relative">
+  <div class="screen-body" style="padding:12px 16px 16px;position:relative">
     <div class="m3-tabs" id="listing-status-tabs" style="margin-bottom:16px">
       <!-- preenchido dinamicamente por openListing() -->
     </div>
