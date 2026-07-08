@@ -172,9 +172,11 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 #btn-novo-wrap.fab-open .fab-item:nth-child(2){transition-delay:.04s}
 #btn-novo-wrap.fab-open .fab-item:nth-child(3){transition-delay:.08s}
 
-/* Campo sem card/borda ao redor — só label acima do valor */
-.form-box{background:transparent;border:none;border-radius:0;padding:0;margin:0 0 20px;min-width:0;width:100%}
-.form-box-lbl{width:auto;padding:0;margin:0 0 4px;font-size:.75rem;line-height:1rem;font-weight:400;text-transform:none;letter-spacing:normal;color:var(--md-sys-color-on-surface-variant)}
+/* Text field (M3) — outlined, caixa completa com cantos arredondados e
+   label "entalhado" na borda (fieldset/legend nativos do HTML) */
+.form-box{background:transparent;border:1.5px solid var(--md-sys-color-outline-variant);border-radius:16px;padding:14px 16px;margin:0 0 16px;min-width:0;width:100%;transition:border-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard),border-width var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.form-box:focus-within{border:2.5px solid var(--md-sys-color-primary);padding:13.5px 15.5px}
+.form-box-lbl{width:auto;padding:0 6px;margin:0 0 0 10px;font-size:.75rem;line-height:1rem;font-weight:400;text-transform:none;letter-spacing:normal;color:var(--md-sys-color-on-surface-variant)}
 .form-box:focus-within>.form-box-lbl{color:var(--md-sys-color-primary)}
 .form-control-borderless{border:none;padding-left:0;padding-right:0;box-shadow:none!important;background:transparent;color:var(--md-sys-color-on-surface)}
 .form-control-borderless:focus{border:none;outline:none}
