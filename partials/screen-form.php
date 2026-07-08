@@ -105,9 +105,9 @@
       </div>
     </fieldset>
 
-    <div class="text-center mb-3" id="remove-row" style="display:none">
-      <a href="#" class="text-danger small text-decoration-underline" onclick="confirmRemove();return false;">
-        <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">delete</span> Remover lançamento
+    <div class="text-center mb-3" id="remove-row" style="display:none;margin-top:24px">
+      <a href="#" class="text-danger small text-decoration-none" onclick="confirmRemove();return false;">
+        <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">delete</span> Remover
       </a>
     </div>
 
