@@ -16,30 +16,11 @@
       <!-- preenchido dinamicamente por openListing() -->
     </div>
     <div class="mb-3">
-      <div class="text-center" style="position:relative">
-        <button class="btn btn-link btn-sm fw-semibold text-primary p-0" type="button" data-bs-toggle="collapse" data-bs-target="#filter-panel" aria-expanded="false">
+      <div class="text-center">
+        <button class="btn btn-link btn-sm fw-semibold text-primary p-0" type="button" onclick="openFilterPanel()">
           <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">filter_alt</span> Mais filtros
           <span id="filter-count" style="display:none;background:var(--md-extended-color-aviso-color);color:var(--md-extended-color-aviso-on-color);border-radius:50%;width:18px;height:18px;font-size:0.7rem;font-weight:700;line-height:18px;text-align:center;vertical-align:middle;margin-left:4px">0</span>
         </button>
-        <div class="collapse" id="filter-panel" style="position:absolute;left:0;right:0;z-index:100;top:100%">
-          <div class="text-start" style="margin-top:8px;border-radius:var(--md-sys-shape-corner-medium);background:var(--md-sys-color-surface-container-high);box-shadow:var(--md-sys-elevation-level2);padding:12px 14px">
-            <div class="form-box mb-0">
-              <div class="form-box-lbl">Categoria</div>
-              <select class="form-select form-select-borderless" id="f-cat" onchange="onFilterCatChange()"></select>
-            </div>
-            <div class="form-box mb-0 mt-2" id="f-subcat-label" style="opacity:0.45">
-              <div class="form-box-lbl">Sub-categoria</div>
-              <select class="form-select form-select-borderless" id="f-subcat" onchange="applyFilter()"></select>
-            </div>
-            <div class="form-box mb-0 mt-2" id="f-repeat-label" style="opacity:0.45">
-              <div class="form-box-lbl">Repetir a cada</div>
-              <select class="form-select form-select-borderless" id="f-repeat" onchange="applyFilter()"></select>
-            </div>
-            <div class="text-center mt-3">
-              <button class="btn btn-link btn-sm fw-semibold text-primary p-0" type="button" onclick="clearListingFilter()">Limpar filtros</button>
-            </div>
-          </div>
-        </div>
       </div>
       <div style="margin-top:16px;display:flex;justify-content:center;align-items:center;gap:16px">
         <a href="#" id="sort-btn-desc"      class="text-primary  text-decoration-none d-inline-flex align-items-center gap-1" onclick="sortEntries('valor','desc');return false;"><span class="material-symbols-outlined" style="font-size:.8rem">arrow_upward</span><span class="material-symbols-outlined" style="font-size:.9rem">attach_money</span></a>

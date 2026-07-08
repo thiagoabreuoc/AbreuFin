@@ -99,11 +99,11 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .no-scrollbar::-webkit-scrollbar{display:none}
 .smaller{font-size:.65rem}
 
-/* Period Picker dropdown card */
-#period-overlay{position:absolute;inset:0;background:color-mix(in srgb, var(--md-sys-color-scrim) 25%, transparent);z-index:400;opacity:0;pointer-events:none;transition:opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard)}
-#period-overlay.open{opacity:1;pointer-events:all}
-#period-sheet{position:absolute;top:84px;left:16px;right:16px;background:var(--md-sys-color-surface-container);border-radius:var(--md-sys-shape-corner-large);z-index:401;box-shadow:var(--md-sys-elevation-level2);transform:scale(.93) translateY(-6px);opacity:0;pointer-events:none;transition:transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate),opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard)}
-#period-sheet.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
+/* Dropdown card compartilhado — period picker e painel de filtros */
+.sheet-overlay{position:absolute;inset:0;background:color-mix(in srgb, var(--md-sys-color-scrim) 25%, transparent);z-index:400;opacity:0;pointer-events:none;transition:opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard)}
+.sheet-overlay.open{opacity:1;pointer-events:all}
+.sheet-card{position:absolute;top:84px;left:16px;right:16px;background:var(--md-sys-color-surface-container);border-radius:var(--md-sys-shape-corner-large);z-index:401;box-shadow:var(--md-sys-elevation-level2);transform:scale(.93) translateY(-6px);opacity:0;pointer-events:none;transition:transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate),opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard)}
+.sheet-card.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
 
 /* Drawer menu */
 #drawer-overlay{position:absolute;inset:0;background:color-mix(in srgb, var(--md-sys-color-scrim) 45%, transparent);z-index:300;opacity:0;pointer-events:none;transition:opacity var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-standard)}

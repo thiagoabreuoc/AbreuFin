@@ -55,14 +55,40 @@ $csrfToken = csrfToken();
     <?php include 'partials/toast.php'; ?>
 
     <!-- Period Picker dropdown card -->
-    <div id="period-overlay" onclick="closePeriodPicker()"></div>
-    <div id="period-sheet">
+    <div class="sheet-overlay" id="period-overlay" onclick="closePeriodPicker()"></div>
+    <div class="sheet-card" id="period-sheet">
       <div class="text-center py-3" style="position:relative">
         <span class="fw-semibold">Alteração de período</span>
         <button class="btn btn-link text-secondary p-0" onclick="closePeriodPicker()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%)"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
       </div>
       <div class="m3-tabs" id="period-year-strip" style="margin:0 16px 0"></div>
       <div class="pb-4" style="display:grid;grid-template-columns:repeat(5,auto);justify-content:center;gap:8px;margin-top:16px;padding-left:16px;padding-right:16px" id="period-month-grid"></div>
+    </div>
+
+    <!-- Filtros dropdown card -->
+    <div class="sheet-overlay" id="filter-overlay" onclick="closeFilterPanel()"></div>
+    <div class="sheet-card" id="filter-sheet">
+      <div class="text-center py-3" style="position:relative">
+        <span class="fw-semibold">Mais filtros</span>
+        <button class="btn btn-link text-secondary p-0" onclick="closeFilterPanel()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%)"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+      </div>
+      <div style="padding:0 16px 16px">
+        <div class="form-box mb-0">
+          <div class="form-box-lbl">Categoria</div>
+          <select class="form-select form-select-borderless" id="f-cat" onchange="onFilterCatChange()"></select>
+        </div>
+        <div class="form-box mb-0 mt-2" id="f-subcat-label" style="opacity:0.45">
+          <div class="form-box-lbl">Sub-categoria</div>
+          <select class="form-select form-select-borderless" id="f-subcat" onchange="applyFilter()"></select>
+        </div>
+        <div class="form-box mb-0 mt-2" id="f-repeat-label" style="opacity:0.45">
+          <div class="form-box-lbl">Repetir a cada</div>
+          <select class="form-select form-select-borderless" id="f-repeat" onchange="applyFilter()"></select>
+        </div>
+        <div class="text-center mt-3">
+          <button class="btn btn-link btn-sm fw-semibold text-primary p-0" type="button" onclick="clearListingFilter()">Limpar filtros</button>
+        </div>
+      </div>
     </div>
 
     <!-- FAB Menu — https://m3.material.io/components/fab-menu/overview -->

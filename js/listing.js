@@ -1,16 +1,14 @@
 /* ═══════════════════════════════════════
    LISTING
 ═══════════════════════════════════════ */
-document.addEventListener('click', e => {
-  const panel      = document.getElementById('filter-panel');
-  const btn        = document.querySelector('[data-bs-target="#filter-panel"]');
-  const csPanel    = document.getElementById('cs-panel');
-  const csBackdrop = document.getElementById('cs-backdrop');
-  const inCs = (csPanel && csPanel.contains(e.target)) || e.target === csBackdrop;
-  if (panel && panel.classList.contains('show') && !panel.contains(e.target) && btn && !btn.contains(e.target) && !inCs) {
-    bootstrap.Collapse.getOrCreateInstance(panel).hide();
-  }
-});
+function openFilterPanel() {
+  document.getElementById('filter-overlay').classList.add('open');
+  document.getElementById('filter-sheet').classList.add('open');
+}
+function closeFilterPanel() {
+  document.getElementById('filter-overlay').classList.remove('open');
+  document.getElementById('filter-sheet').classList.remove('open');
+}
 const STATUS_BADGE = {
   recebido:  'bg-success',
   a_receber: 'badge-receita-soft',
@@ -50,7 +48,7 @@ function openListing(tipo) {
   listingStatusFilter = '';
   listingLimit = 10;
   ensureCSFilterInit();
-  bootstrap.Collapse.getOrCreateInstance(document.getElementById('filter-panel'), {toggle:false}).hide();
+  closeFilterPanel();
   csReset('f-cat'); csReset('f-subcat'); csReset('f-repeat');
   _setFilterDepDisabled(true);
   updateFilterBadge();
