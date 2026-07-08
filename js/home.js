@@ -142,7 +142,19 @@ function selectMonth(i) {
     b.classList.toggle('text-primary', idx!==i);
   });
   updateNovoBtn();
-  renderHome();
+  if (homeTab === 'meses' && document.getElementById('chart-bars-svg')) {
+    const d = getMonthTotals(homeMonth);
+    renderBanners();
+    animateBarChartTo(d, homeMonth);
+    document.getElementById('home-legend').innerHTML = buildLegendHtml(d);
+    const saldo = d.receita - d.despesa - d.investimento;
+    const sv = document.getElementById('home-saldo-val');
+    if (sv) { sv.className = 'text-primary'; sv.textContent = fmt(saldo); }
+    const sl = document.getElementById('home-periodo');
+    if (sl) sl.textContent = `${MONTHS_FULL[homeMonth]} ${homeYear}`;
+  } else {
+    renderHome();
+  }
 }
 
 const TIPO_META = {
@@ -285,14 +297,31 @@ function buildBarChartGridLines(W, H) {
   }).join('');
 }
 
-function organicBarPath(x, barW, y, H, seed) {
+// pseudo-aleatório determinístico (0..1) a partir de um inteiro — mesma
+// entrada sempre gera a mesma "aleatoriedade", sem precisar de estado
+function pseudoRandom(seed) {
+  return Math.abs(Math.sin(seed * 12.9898) * 43758.5453) % 1;
+}
+
+// parâmetros do "blob" variam por categoria E por mês, pra cada mês ter
+// um perfil orgânico diferente
+function organicBarParams(tipo, month) {
+  const i = TIPOS.indexOf(tipo);
+  const seed = i * 7 + month * 13;
+  return {
+    ampFrac: 0.65 + pseudoRandom(seed) * 0.35,
+    w2Frac: 0.45 + pseudoRandom(seed + 1) * 0.45,
+    midXFrac: 0.32 + pseudoRandom(seed + 2) * 0.24,
+  };
+}
+
+function organicBarPath(x, barW, y, H, barH, params) {
   // topo em curva assimétrica ("blob"), em vez de reto — ecoa as curvas
-  // suaves da visão Anual. Cada barra (seed = índice) tem um perfil único.
-  const barH = H - y;
+  // suaves da visão Anual.
   const amp = Math.min(barH * 0.28, 9);
-  const w1 = amp * (0.7 + 0.3 * ((seed * 2) % 3) / 2);
-  const w2 = amp * (0.5 + 0.4 * ((seed * 3 + 1) % 3) / 2);
-  const midX = x + barW * (0.38 + 0.05 * seed);
+  const w1 = amp * params.ampFrac;
+  const w2 = amp * params.w2Frac;
+  const midX = x + barW * params.midXFrac;
   return `M ${x} ${H}
     L ${x} ${y + w1}
     C ${x} ${y - w1 * 0.3}, ${midX - barW * 0.12} ${y - w1}, ${midX} ${y - w1 * 0.15}
@@ -300,6 +329,9 @@ function organicBarPath(x, barW, y, H, seed) {
     L ${x + barW} ${H}
     Z`;
 }
+
+let _barChartState = { receita: null, despesa: null, investimento: null };
+let _barChartRaf = null;
 
 function buildBarChart(d) {
   if (d.receita + d.despesa + d.investimento === 0) return emptyChart();
@@ -311,9 +343,52 @@ function buildBarChart(d) {
     const barH = Math.max((d[tipo] / maxVal) * H * 0.92, d[tipo] > 0 ? 4 : 0);
     const y = H - barH;
     const c = TIPO_META[tipo].cor;
-    return `<path d="${organicBarPath(x, barW, y, H, i)}" fill="${c}" fill-opacity="0.25" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"/>`;
+    const params = organicBarParams(tipo, homeMonth);
+    _barChartState[tipo] = { barH, ...params };
+    return `<path id="chart-bar-${tipo}" d="${organicBarPath(x, barW, y, H, barH, params)}" fill="${c}" fill-opacity="0.25" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"/>`;
   }).join('');
-  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;overflow:visible">${buildBarChartGridLines(W,H)}${bars}</svg>`;
+  return `<svg id="chart-bars-svg" viewBox="0 0 ${W} ${H}" width="100%" style="display:block;overflow:visible">${buildBarChartGridLines(W,H)}${bars}</svg>`;
+}
+
+function animateBarChartTo(targetD, targetMonth) {
+  if (_barChartRaf) { cancelAnimationFrame(_barChartRaf); _barChartRaf = null; }
+  const W = 320, H = 100, GAP = 4;
+  const maxVal = Math.max(1, ...TIPOS.map(t => targetD[t]));
+  const barW = (W - GAP * (TIPOS.length - 1)) / TIPOS.length;
+
+  const xOf = {}, from = {}, to = {};
+  TIPOS.forEach((tipo, i) => {
+    xOf[tipo] = i * (barW + GAP);
+    from[tipo] = _barChartState[tipo] || { barH: 0, ampFrac: .8, w2Frac: .65, midXFrac: .4 };
+    const barH = Math.max((targetD[tipo] / maxVal) * H * 0.92, targetD[tipo] > 0 ? 4 : 0);
+    to[tipo] = { barH, ...organicBarParams(tipo, targetMonth) };
+  });
+
+  const DURATION = 420;
+  const startTime = performance.now();
+  const ease = t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+
+  function frame(now) {
+    const t = ease(Math.min((now - startTime) / DURATION, 1));
+    TIPOS.forEach(tipo => {
+      const path = document.getElementById('chart-bar-' + tipo);
+      if (!path) return;
+      const f = from[tipo], g = to[tipo];
+      const cur = {
+        barH: f.barH + (g.barH - f.barH) * t,
+        ampFrac: f.ampFrac + (g.ampFrac - f.ampFrac) * t,
+        w2Frac: f.w2Frac + (g.w2Frac - f.w2Frac) * t,
+        midXFrac: f.midXFrac + (g.midXFrac - f.midXFrac) * t,
+      };
+      const y = H - cur.barH;
+      path.setAttribute('d', organicBarPath(xOf[tipo], barW, y, H, cur.barH, cur));
+      _barChartState[tipo] = cur;
+    });
+    if (t < 1) _barChartRaf = requestAnimationFrame(frame);
+    else _barChartRaf = null;
+  }
+
+  _barChartRaf = requestAnimationFrame(frame);
 }
 
 function buildSubLabels(d) {
