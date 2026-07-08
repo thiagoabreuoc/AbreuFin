@@ -61,9 +61,8 @@ $csrfToken = csrfToken();
         <span class="fw-semibold">Alteração de período</span>
         <button class="btn btn-link text-secondary p-0" onclick="closePeriodPicker()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%)"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
       </div>
-      <div class="m3-tabs" id="period-year-strip" style="margin-top:16px"></div>
-      <div style="margin:16px 16px 0;border-top:1px solid var(--md-sys-color-outline-variant)"></div>
-      <div class="pb-4" style="display:grid;grid-template-columns:repeat(5,auto);justify-content:center;gap:8px;margin-top:16px;padding-left:8px;padding-right:8px" id="period-month-grid"></div>
+      <div class="m3-tabs" id="period-year-strip" style="margin:16px 16px 0"></div>
+      <div class="pb-4" style="display:grid;grid-template-columns:repeat(5,auto);justify-content:center;gap:8px;margin-top:16px;padding-left:16px;padding-right:16px" id="period-month-grid"></div>
     </div>
 
     <!-- FAB Menu — https://m3.material.io/components/fab-menu/overview -->
