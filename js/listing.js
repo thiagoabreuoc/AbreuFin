@@ -213,11 +213,9 @@ function openPeriodPicker() {
   if (!years.length) years.push(listingYear || homeYear);
   const yr = listingYear || homeYear;
 
-  const yearStrip = document.getElementById('period-year-strip');
-  yearStrip.innerHTML = years.map(y =>
-    `<button class="btn btn-sm rounded-pill flex-shrink-0 ${y===yr?'btn-primary':'tab-inactive text-primary'}" style="border:none" onclick="selectPeriodYear(${y})">${y}</button>`
+  document.getElementById('period-year-strip').innerHTML = years.map(y =>
+    `<button class="m3-tab${y===yr?' active':''}" onclick="selectPeriodYear(${y})">${y}</button>`
   ).join('');
-  attachStripScroll(yearStrip);
   _renderPeriodMonths();
   document.getElementById('period-overlay').classList.add('open');
   document.getElementById('period-sheet').classList.add('open');
@@ -236,11 +234,8 @@ function _renderPeriodMonths() {
 
 function selectPeriodYear(y) {
   listingYear = y;
-  document.querySelectorAll('#period-year-strip .btn').forEach(b => {
-    const by = parseInt(b.textContent);
-    b.classList.toggle('btn-primary', by===y);
-    b.classList.toggle('tab-inactive', by!==y);
-    b.classList.toggle('text-primary', by!==y);
+  document.querySelectorAll('#period-year-strip .m3-tab').forEach(b => {
+    b.classList.toggle('active', parseInt(b.textContent)===y);
   });
   updateListingDateLabel();
   listingLimit = 10;
