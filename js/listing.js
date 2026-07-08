@@ -62,7 +62,7 @@ function openListing(tipo) {
   };
   const tabs = STATUS_TABS[tipo] || STATUS_TABS.despesa;
   document.getElementById('listing-status-tabs').innerHTML = tabs.map((t,i)=>
-    `<button class="btn btn-sm rounded-pill flex-shrink-0 ${i===0?'btn-primary':'tab-inactive text-primary'}" onclick="selectStatus(this,'${t.val}')" style="border:none">${t.label}</button>`
+    `<button class="m3-tab${i===0?' active':''}" onclick="selectStatus(this,'${t.val}')">${t.label}</button>`
   ).join('');
   const labels={receita:'Receitas',despesa:'Despesas',investimento:'Investimentos'};
   const TIPO_HEADER_CLASS={receita:'badge bg-success fw-semibold',despesa:'badge bg-danger fw-semibold',investimento:'badge bg-info fw-semibold'};
@@ -164,12 +164,8 @@ function detachListingScroll() {
 function selectStatus(btn,val){
   listingStatusFilter=val;
   listingLimit=10;
-  document.querySelectorAll('#listing-status-tabs .btn').forEach(b=>{
-    b.classList.remove('btn-primary');
-    b.classList.add('tab-inactive','text-primary');
-  });
-  btn.classList.add('btn-primary');
-  btn.classList.remove('tab-inactive','text-primary');
+  document.querySelectorAll('#listing-status-tabs .m3-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
   renderListing();
 }
 function updateSortBtns(){

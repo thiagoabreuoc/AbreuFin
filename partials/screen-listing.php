@@ -10,7 +10,7 @@
     <div style="width:24px"></div>
   </div>
   <div class="screen-body" style="padding:24px 16px 16px;position:relative">
-    <div class="no-scrollbar d-flex gap-2 overflow-auto pb-1 justify-content-center" id="listing-status-tabs" style="margin-bottom:16px">
+    <div class="m3-tabs" id="listing-status-tabs" style="margin-bottom:16px">
       <!-- preenchido dinamicamente por openListing() -->
     </div>
     <div class="mb-3">
