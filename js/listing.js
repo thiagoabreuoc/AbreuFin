@@ -182,17 +182,17 @@ function renderListing() {
     const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
     const title = cap(escapeHtml(e.subcategoria||e.categoria));
     const sub   = cap(escapeHtml(e.categoria));
-    const rep   = e.repetir ? `<div class="text-secondary small mt-1"><span class="material-symbols-outlined me-1" style="font-size:.9rem;vertical-align:-2px">repeat</span>${cap(escapeHtml(e.repetir))}</div>` : '';
-    return `<li class="list-group-item d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer;border-radius:12px;border:1px solid var(--md-sys-color-outline-variant)">
+    const rep   = e.repetir ? `<div class="text-secondary small" style="margin-top:6px"><span class="material-symbols-outlined me-1" style="font-size:.9rem;vertical-align:-2px">repeat</span>${cap(escapeHtml(e.repetir))}</div>` : '';
+    return `<li class="list-group-item d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer;border-radius:12px;border:1px solid var(--md-sys-color-outline-variant);padding:14px 16px">
       <div>
         <div class="fw-semibold small">${title}</div>
-        <div class="text-secondary small" style="margin-top:4px">${sub}</div>
+        <div class="text-secondary small" style="margin-top:6px">${sub}</div>
         ${rep}
       </div>
       <div class="text-end">
-        <span class="badge ${STATUS_BADGE[es]} mb-1">${statusLabel(es)}</span>
+        <span class="badge ${STATUS_BADGE[es]}" style="margin-bottom:6px">${statusLabel(es)}</span>
         <div class="fw-semibold small">${fmt(e.valor)}</div>
-        <div class="text-secondary small">${String(e.dd).padStart(2,'0')}/${String(e.mm).padStart(2,'0')}/${e.yyyy}${dueBadge(e)}</div>
+        <div class="text-secondary small" style="margin-top:4px">${String(e.dd).padStart(2,'0')}/${String(e.mm).padStart(2,'0')}/${e.yyyy}${dueBadge(e)}</div>
       </div></li>`;
   }).join('');
 }
