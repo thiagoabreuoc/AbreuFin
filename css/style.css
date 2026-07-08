@@ -93,7 +93,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 
 /* Small badge — https://m3.material.io/components/badges (variante "small",
    só o indicador, sem conteúdo) */
-.m3-badge-small{display:inline-block;width:6px;height:6px;border-radius:50%;vertical-align:middle}
+.m3-badge-small{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;flex-shrink:0}
 .m3-badge-small-error{background:var(--md-sys-color-error)}
 .m3-badge-small-warning{background:var(--md-extended-color-aviso-color)}
 
