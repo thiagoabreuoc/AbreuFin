@@ -94,11 +94,6 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 #year-strip .btn, #month-strip .btn{padding:6px 16px}
 #year-strip .tab-inactive, #month-strip .tab-inactive{background:transparent!important}
 
-/* App bar estilo "search" do M3 — cápsula ocupando o header, mas mostrando
-   o nome do app em vez de um campo de busca editável */
-.m3-appbar-pill{display:flex;align-items:center;gap:10px;background:var(--md-sys-color-surface-container-high);border-radius:var(--md-sys-shape-corner-full);padding:8px 16px;cursor:pointer;color:var(--md-sys-color-on-surface-variant);font-weight:500;font-size:.95rem}
-.m3-appbar-pill .material-symbols-outlined{font-size:1.3rem;color:var(--md-sys-color-primary)}
-
 /* Permite scroll por toque/swipe sem exibir a barra de rolagem horizontal */
 .tab-inactive{background:var(--md-sys-color-surface-container)!important;color:var(--md-sys-color-on-surface-variant)}
 .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
