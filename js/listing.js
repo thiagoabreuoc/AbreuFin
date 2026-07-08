@@ -213,9 +213,11 @@ function openPeriodPicker() {
   if (!years.length) years.push(listingYear || homeYear);
   const yr = listingYear || homeYear;
 
-  document.getElementById('period-year-strip').innerHTML = years.map(y =>
+  const yearStrip = document.getElementById('period-year-strip');
+  yearStrip.innerHTML = years.map(y =>
     `<button class="btn btn-sm rounded-pill flex-shrink-0 ${y===yr?'btn-primary':'tab-inactive text-primary'}" style="border:none" onclick="selectPeriodYear(${y})">${y}</button>`
   ).join('');
+  attachStripScroll(yearStrip);
   _renderPeriodMonths();
   document.getElementById('period-overlay').classList.add('open');
   document.getElementById('period-sheet').classList.add('open');
