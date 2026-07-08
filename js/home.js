@@ -279,28 +279,32 @@ function emptyChart() {
   </div>`;
 }
 
-function buildBarChartGridLines(W, H) {
-  const stroke = cssVar('--md-sys-color-outline-variant');
-  return [0.25, 0.5, 0.75, 1].map(pct => {
+function buildBarChartAxis(chartX0, W, H, maxVal) {
+  const axisColor = cssVar('--md-sys-color-outline');
+  const labelColor = cssVar('--md-sys-color-outline');
+  const axisLines = `<line x1="${chartX0}" y1="0" x2="${chartX0}" y2="${H}" stroke="${axisColor}" stroke-width="1"/>
+    <line x1="${chartX0}" y1="${H}" x2="${W}" y2="${H}" stroke="${axisColor}" stroke-width="1"/>`;
+  const labels = [1, 0.75, 0.5, 0.25, 0].map(pct => {
     const y = H - pct * H * 0.92;
-    return `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="${stroke}" stroke-width="1" stroke-dasharray="4,3"/>`;
+    return `<text x="${chartX0 - 6}" y="${y + 3}" text-anchor="end" font-size="8" fill="${labelColor}">${formatAxisValue(pct * maxVal)}</text>`;
   }).join('');
+  return axisLines + labels;
 }
 
 function buildBarChart(d) {
   if (d.receita + d.despesa + d.investimento === 0) return emptyChart();
-  const W = 320, H = 100, R = 6, GAP = 4;
+  const W = 320, H = 100, PAD_L = 30, GAP = 8;
+  const chartW = W - PAD_L;
   const maxVal = Math.max(1, ...TIPOS.map(t => d[t]));
-  const barW = (W - GAP * (TIPOS.length - 1)) / TIPOS.length;
+  const barW = (chartW - GAP * (TIPOS.length - 1)) / TIPOS.length;
   const bars = TIPOS.map((tipo, i) => {
-    const x = i * (barW + GAP);
+    const x = PAD_L + i * (barW + GAP);
     const barH = Math.max((d[tipo] / maxVal) * H * 0.92, d[tipo] > 0 ? 4 : 0);
     const y = H - barH;
     const c = TIPO_META[tipo].cor;
-    return `<rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="${R}" ry="${R}"
-      fill="${c}" fill-opacity="0.25" stroke="${c}" stroke-width="1.5"/>`;
+    return `<rect x="${x}" y="${y}" width="${barW}" height="${barH}" fill="${c}"/>`;
   }).join('');
-  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block">${buildBarChartGridLines(W,H)}${bars}</svg>`;
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;overflow:visible">${buildBarChartAxis(PAD_L, W, H, maxVal)}${bars}</svg>`;
 }
 
 function buildMetricCard(tipo, value, sub) {
