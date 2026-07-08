@@ -1,7 +1,7 @@
 <!-- ═══════════════ PRIVACIDADE / LGPD ═══════════════ -->
 <div class="screen hidden" id="screen-privacy">
   <div class="d-flex align-items-center p-3 border-bottom flex-shrink-0">
-    <button class="btn btn-link text-dark p-0" onclick="goBack()"><i class="bi bi-chevron-left fs-4"></i></button>
+    <button class="btn btn-link text-dark p-0" onclick="goBack()"><span class="material-symbols-outlined">arrow_back</span></button>
     <div class="flex-grow-1 text-center fw-bold">Privacidade e LGPD</div>
     <div style="width:24px"></div>
   </div>

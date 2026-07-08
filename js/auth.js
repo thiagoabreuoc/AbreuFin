@@ -42,7 +42,7 @@ function applyCurrentUser(user) {
     } else {
       el.className = 'avatar-sm rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center overflow-hidden';
       el.style.background = '';
-      el.innerHTML = '<i class="bi bi-person-fill"></i>';
+      el.innerHTML = '<span class="material-symbols-outlined" style="font-size:1.1rem">person</span>';
     }
   });
 

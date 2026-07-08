@@ -24,39 +24,14 @@ $csrfToken = csrfToken();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/flatly/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 <link rel="stylesheet" href="css/material3-tokens.css?v=<?= filemtime(__DIR__.'/css/material3-tokens.css') ?>">
 <link rel="stylesheet" href="css/design-system.css?v=<?= filemtime(__DIR__.'/css/design-system.css') ?>">
 <link rel="stylesheet" href="css/style.css?v=<?= filemtime(__DIR__.'/css/style.css') ?>">
 </head>
 <body>
 <div class="app" id="app">
-
-  <!-- ── Sidebar (desktop only) ── -->
-  <aside class="app-sidebar" id="app-sidebar">
-    <div class="sidebar-brand">AbreuFin</div>
-    <nav class="sidebar-nav">
-      <a href="#" class="sidebar-item" id="snav-home" onclick="navigate('home');return false;">
-        <i class="bi bi-house-fill"></i><span>Início</span>
-      </a>
-      <a href="#" class="sidebar-item" id="snav-receita" onclick="openListing('receita');return false;">
-        <i class="bi bi-arrow-down-circle-fill"></i><span>Receitas</span>
-      </a>
-      <a href="#" class="sidebar-item" id="snav-despesa" onclick="openListing('despesa');return false;">
-        <i class="bi bi-arrow-up-circle-fill"></i><span>Despesas</span>
-      </a>
-      <a href="#" class="sidebar-item" id="snav-investimento" onclick="openListing('investimento');return false;">
-        <i class="bi bi-graph-up-arrow"></i><span>Investimentos</span>
-      </a>
-    </nav>
-    <div class="sidebar-footer">
-      <a href="#" class="sidebar-item" id="snav-profile" onclick="navigate('profile');return false;">
-        <i class="bi bi-person-circle"></i><span>Perfil</span>
-      </a>
-    </div>
-  </aside>
 
   <!-- ── Conteúdo principal ── -->
   <div class="app-content" id="app-content">
@@ -83,7 +58,7 @@ $csrfToken = csrfToken();
     <div id="period-sheet">
       <div class="text-center py-3" style="position:relative">
         <span class="fw-semibold">Período</span>
-        <button class="btn btn-link text-secondary p-0" onclick="closePeriodPicker()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%)"><i class="bi bi-x-lg"></i></button>
+        <button class="btn btn-link text-secondary p-0" onclick="closePeriodPicker()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%)"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
       </div>
       <div class="no-scrollbar d-flex gap-2 overflow-auto justify-content-center px-4 pb-3" id="period-year-strip"></div>
       <div class="text-center py-3" style="border-top:1px solid #f0f0f0">
@@ -95,7 +70,7 @@ $csrfToken = csrfToken();
     <!-- Botão Novo -->
     <div id="btn-novo-wrap" style="position:absolute;bottom:0;left:0;right:0;padding:32px 0 24px;background:linear-gradient(to bottom, transparent, #fff);display:none;justify-content:center;align-items:flex-end;pointer-events:none;z-index:40">
       <button class="fab-main-btn" onclick="openNovo()" id="fab-main" aria-label="Novo lançamento" style="pointer-events:auto">
-        <i class="bi bi-plus"></i>
+        <span class="material-symbols-outlined">add</span>
       </button>
     </div>
 
@@ -106,7 +81,7 @@ $csrfToken = csrfToken();
   <div id="drawer">
     <div class="drawer-header">
       <span class="fw-bold fs-5 text-primary">AbreuFin</span>
-      <button class="btn btn-link text-secondary p-0" onclick="closeDrawer()"><i class="bi bi-x-lg"></i></button>
+      <button class="btn btn-link text-secondary p-0" onclick="closeDrawer()"><span class="material-symbols-outlined">close</span></button>
     </div>
     <div class="drawer-section-label">Lançamentos</div>
     <a href="#" class="drawer-item" onclick="openListing('receita');closeDrawer();return false;">Receitas</a>
@@ -134,7 +109,7 @@ window.__VAPID_PUBLIC_KEY__ = <?= json_encode(wpVapidPublicKey()) ?>;
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <?php
-$jsFiles = ['data','api','navigation','auth','account','theme','toast','home','listing','vencendo','form','categories','profile','notifications','export','main'];
+$jsFiles = ['data','ripple','api','navigation','auth','account','theme','toast','home','listing','vencendo','form','categories','profile','notifications','export','main'];
 foreach ($jsFiles as $f):
   $v = filemtime(__DIR__."/js/{$f}.js");
 ?>

@@ -1,7 +1,7 @@
 <!-- ═══════════════ PROFILE ═══════════════ -->
 <div class="screen hidden" id="screen-profile">
   <div class="d-flex align-items-center p-3 border-bottom flex-shrink-0">
-    <button class="btn btn-link text-dark p-0" onclick="goBack()"><i class="bi bi-chevron-left fs-4"></i></button>
+    <button class="btn btn-link text-dark p-0" onclick="goBack()"><span class="material-symbols-outlined">arrow_back</span></button>
     <div class="flex-grow-1 text-center fw-bold">Perfil</div>
     <div style="width:24px"></div>
   </div>
@@ -26,23 +26,23 @@
         </div>
         <div class="list-group-item d-flex justify-content-between align-items-center" onclick="navigate('cats')" style="cursor:pointer">
           <span>Categorias</span>
-          <i class="bi bi-chevron-right text-secondary"></i>
+          <span class="material-symbols-outlined text-secondary">chevron_right</span>
         </div>
         <div class="list-group-item d-flex justify-content-between align-items-center" onclick="openExport()" style="cursor:pointer">
           <span>Exportar dados</span>
-          <i class="bi bi-chevron-right text-secondary"></i>
+          <span class="material-symbols-outlined text-secondary">chevron_right</span>
         </div>
         <div class="list-group-item d-flex justify-content-between align-items-center" onclick="showScreen('change-password')" style="cursor:pointer">
           <span>Alterar senha</span>
-          <i class="bi bi-chevron-right text-secondary"></i>
+          <span class="material-symbols-outlined text-secondary">chevron_right</span>
         </div>
         <div class="list-group-item d-flex justify-content-between align-items-center" onclick="showScreen('notifications');loadNotifSettings()" style="cursor:pointer">
           <span>Notificações</span>
-          <i class="bi bi-chevron-right text-secondary"></i>
+          <span class="material-symbols-outlined text-secondary">chevron_right</span>
         </div>
         <div class="list-group-item d-flex justify-content-between align-items-center" onclick="showScreen('privacy')" style="cursor:pointer">
           <span>Privacidade e LGPD</span>
-          <i class="bi bi-chevron-right text-secondary"></i>
+          <span class="material-symbols-outlined text-secondary">chevron_right</span>
         </div>
       </div>
     </div>

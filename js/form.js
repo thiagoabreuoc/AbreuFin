@@ -21,7 +21,7 @@ function csInit(id) {
   const btn = document.createElement('div');
   btn.className = 'form-control cs-btn';
   btn.id = id + '-btn';
-  btn.innerHTML = `<span class="cs-display text-muted" id="${id}-display">Selecione</span><i class="bi bi-chevron-down text-secondary ms-1 flex-shrink-0"></i>`;
+  btn.innerHTML = `<span class="cs-display text-muted" id="${id}-display">Selecione</span><span class="material-symbols-outlined text-secondary ms-1 flex-shrink-0" style="font-size:1.2rem">expand_more</span>`;
   btn.addEventListener('click', () => csOpen(id));
   sel.parentNode.insertBefore(btn, sel);
 }

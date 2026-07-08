@@ -1,7 +1,7 @@
 <!-- ═══════════════ FORM ═══════════════ -->
 <div class="screen hidden" id="screen-form">
   <div class="d-flex align-items-center p-3 border-bottom flex-shrink-0">
-    <button class="btn btn-link text-dark p-0" onclick="formBack()"><i class="bi bi-chevron-left fs-4"></i></button>
+    <button class="btn btn-link text-dark p-0" onclick="formBack()"><span class="material-symbols-outlined">arrow_back</span></button>
     <div class="flex-grow-1 text-center fw-bold" id="form-title">Novo</div>
     <div style="width:24px"></div>
   </div>
@@ -62,7 +62,7 @@
                style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;pointer-events:none"
                onchange="onDatePickerChange()">
         <button type="button" class="btn btn-link text-secondary" onclick="openDatePicker()">
-          <i class="bi bi-calendar3"></i>
+          <span class="material-symbols-outlined" style="font-size:1.25rem">calendar_today</span>
         </button>
       </div>
     </div>
@@ -101,7 +101,7 @@
 
     <div class="text-center mb-3" id="remove-row" style="display:none">
       <a href="#" class="text-danger small text-decoration-underline" onclick="confirmRemove();return false;">
-        <i class="bi bi-trash"></i> Remover lançamento
+        <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">delete</span> Remover lançamento
       </a>
     </div>
 

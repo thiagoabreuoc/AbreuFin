@@ -237,7 +237,7 @@ function updateYearView() {
 
 function emptyChart() {
   return `<div style="height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:${cssVar('--md-sys-color-outline')}">
-    <i class="bi bi-bar-chart-line" style="font-size:1.6rem;margin-bottom:6px"></i>
+    <span class="material-symbols-outlined" style="font-size:1.6rem;margin-bottom:6px">bar_chart</span>
     <span class="small">Sem movimentação até o momento</span>
   </div>`;
 }

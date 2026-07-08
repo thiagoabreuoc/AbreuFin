@@ -62,8 +62,8 @@ function renderCats() {
       '<div class="d-flex gap-2 align-items-center">' +
       '<input type="text" class="form-control form-control-sm flex-grow-1" id="new-group-name" placeholder="Nome do grupo"' +
       ' onkeydown="if(event.key===\'Enter\')saveNewGroup();if(event.key===\'Escape\')cancelNewGroup()">' +
-      '<button class="btn btn-primary btn-sm px-2" onclick="saveNewGroup()"><i class="bi bi-check-lg"></i></button>' +
-      '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelNewGroup()"><i class="bi bi-x-lg"></i></button>' +
+      '<button class="btn btn-primary btn-sm px-2" onclick="saveNewGroup()"><span class="material-symbols-outlined" style="font-size:1rem">check</span></button>' +
+      '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelNewGroup()"><span class="material-symbols-outlined" style="font-size:1rem">close</span></button>' +
       '</div></div>';
   } else {
     html += '<div class="mt-2 text-center"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewGroup()">Novo grupo</button></div>';
@@ -105,8 +105,8 @@ function renderGroup(tipo, g, gCats) {
       '<input type="text" class="form-control form-control-sm flex-grow-1" id="rename-group-' + g.id +
       '" value="' + escapeHtml(g.name) + '"' +
       ' onkeydown="if(event.key===\'Enter\')saveRenameGroup(' + g.id + ');if(event.key===\'Escape\')cancelRenameGroup()">' +
-      '<button class="btn btn-primary btn-sm px-2" onclick="saveRenameGroup(' + g.id + ')"><i class="bi bi-check-lg"></i></button>' +
-      '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelRenameGroup()"><i class="bi bi-x-lg"></i></button>' +
+      '<button class="btn btn-primary btn-sm px-2" onclick="saveRenameGroup(' + g.id + ')"><span class="material-symbols-outlined" style="font-size:1rem">check</span></button>' +
+      '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelRenameGroup()"><span class="material-symbols-outlined" style="font-size:1rem">close</span></button>' +
       '</div>';
   } else {
     headerHtml =
@@ -114,11 +114,11 @@ function renderGroup(tipo, g, gCats) {
       '<span class="badge bg-info-subtle text-info fw-semibold" style="font-size:.65rem">Grupo</span>' +
       '<span class="flex-grow-1">' + escapeHtml(g.name) + '</span>' +
       '<span class="text-muted small">' + gCats.length + '</span>' +
-      '<i class="bi bi-chevron-' + (isOpen ? 'up' : 'down') + ' text-secondary me-1"></i>' +
+      '<span class="material-symbols-outlined text-secondary me-1" style="font-size:1.1rem">' + (isOpen ? 'expand_less' : 'expand_more') + '</span>' +
       '<button class="btn btn-link text-secondary p-0" onclick="event.stopPropagation();startRenameGroup(' + g.id + ')">' +
-      '<i class="bi bi-pencil" style="font-size:.8rem"></i></button>' +
+      '<span class="material-symbols-outlined" style="font-size:.9rem">edit</span></button>' +
       '<button class="btn btn-link text-primary p-0 ms-1" onclick="event.stopPropagation();confirmDeleteGroup(' + g.id + ',\'' + tipo + '\')">' +
-      '<i class="bi bi-trash" style="font-size:.85rem"></i></button>' +
+      '<span class="material-symbols-outlined" style="font-size:.95rem">delete</span></button>' +
       '</div>';
   }
 
@@ -163,8 +163,8 @@ function renderAddCatForm(groupId, groupName) {
     '<input type="text" class="form-control form-control-sm flex-grow-1" id="new-cat-name-' + groupId +
     '" placeholder="Nome da categoria"' +
     ' onkeydown="if(event.key===\'Enter\')saveNewCat(' + groupId + ');if(event.key===\'Escape\')cancelNewCat()">' +
-    '<button class="btn btn-primary btn-sm px-2" onclick="saveNewCat(' + groupId + ')"><i class="bi bi-check-lg"></i></button>' +
-    '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelNewCat()"><i class="bi bi-x-lg"></i></button>' +
+    '<button class="btn btn-primary btn-sm px-2" onclick="saveNewCat(' + groupId + ')"><span class="material-symbols-outlined" style="font-size:1rem">check</span></button>' +
+    '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelNewCat()"><span class="material-symbols-outlined" style="font-size:1rem">close</span></button>' +
     '</div></div>';
 }
 
@@ -294,7 +294,7 @@ function renderCatItem(tipo, c) {
         '<span class="small ms-3" style="font-size:.875rem">' + escapeHtml(s) + '</span>' +
         '</div>' +
         '<button class="btn btn-link text-primary btn-sm p-0 pe-1" onclick="deleteSub(' + c.id + ',\'' + tipo + '\',' + i + ')">' +
-        '<i class="bi bi-x-circle"></i></button></div>'
+        '<span class="material-symbols-outlined" style="font-size:1.1rem">cancel</span></button></div>'
       );
     }).join('') : '<div class="text-muted small py-2 fst-italic px-3">Sem sub-categorias</div>';
 
@@ -317,8 +317,8 @@ function renderCatItem(tipo, c) {
         '<input type="text" class="form-control form-control-sm flex-grow-1" id="new-sub-' + c.id +
         '" placeholder="Nome da sub-categoria"' +
         ' onkeydown="if(event.key===\'Enter\')saveNewSub();if(event.key===\'Escape\')cancelNewSub()">' +
-        '<button class="btn btn-primary btn-sm px-2" onclick="saveNewSub()"><i class="bi bi-check-lg"></i></button>' +
-        '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelNewSub()"><i class="bi bi-x-lg"></i></button>' +
+        '<button class="btn btn-primary btn-sm px-2" onclick="saveNewSub()"><span class="material-symbols-outlined" style="font-size:1rem">check</span></button>' +
+        '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelNewSub()"><span class="material-symbols-outlined" style="font-size:1rem">close</span></button>' +
         '</div></div>'
       : '';
 
@@ -340,9 +340,9 @@ function renderCatItem(tipo, c) {
     '<span class="ms-3" style="font-size:.875rem">' + escapeHtml(c.name) + '</span>' +
     '</div>' +
     '<span class="text-muted small me-1">' + c.subs.length + '</span>' +
-    '<i class="bi bi-chevron-' + (open ? 'up' : 'down') + ' text-secondary me-1"></i>' +
+    '<span class="material-symbols-outlined text-secondary me-1" style="font-size:1.1rem">' + (open ? 'expand_less' : 'expand_more') + '</span>' +
     '<button class="btn btn-link text-primary p-0 flex-shrink-0" onclick="event.stopPropagation();confirmDeleteCat(' + c.id + ',\'' + tipo + '\')">' +
-    '<i class="bi bi-trash"></i></button></div>' +
+    '<span class="material-symbols-outlined" style="font-size:1rem">delete</span></button></div>' +
     subsContent + '</div>'
   );
 }
