@@ -112,8 +112,8 @@
     </div>
 
     <div class="d-flex gap-2" style="margin-top:40px;margin-bottom:32px">
-      <button class="btn btn-outline-primary flex-fill" style="padding-top:14px;padding-bottom:14px" onclick="formBack()">Cancelar</button>
-      <button class="btn btn-primary flex-fill" style="padding-top:14px;padding-bottom:14px" onclick="saveEntry()">Salvar</button>
+      <button class="btn btn-outline-primary flex-fill" style="padding-top:10px;padding-bottom:10px" onclick="formBack()">Cancelar</button>
+      <button class="btn btn-primary flex-fill" style="padding-top:10px;padding-bottom:10px" onclick="saveEntry()">Salvar</button>
     </div>
 
     </div><!-- /form-fields -->
