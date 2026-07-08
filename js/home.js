@@ -45,6 +45,11 @@ function updateNovoBtn() {
 
 /* ── FAB Menu (M3) ── */
 function toggleFabMenu() {
+  const activeScreen = document.querySelector('.screen.active');
+  if (activeScreen && activeScreen.id === 'screen-listing' && currentListingType) {
+    selectFabAction(currentListingType);
+    return;
+  }
   const wrap = document.getElementById('btn-novo-wrap');
   if (wrap && wrap.classList.contains('fab-open')) closeFabMenu();
   else openFabMenu();
