@@ -409,10 +409,7 @@ function buildLegendHtml(d) {
     : '';
   return TIPOS.map(tipo =>
     `<div class="text-center" style="flex:1${clickable ? ';cursor:pointer' : ''}" ${clickable ? `onclick="openListing('${tipo}')"` : ''}>
-      <div class="small d-flex align-items-center justify-content-center gap-1">
-        <span style="width:14px;height:3px;border-radius:2px;background:${TIPO_META[tipo].cor};display:inline-block;flex-shrink:0"></span>
-        ${TIPO_META[tipo].label}
-      </div>
+      <div class="small">${TIPO_META[tipo].label}</div>
       <div class="small">${fmt(d[tipo])}</div>
       ${sub[tipo]}
       ${detalheLbl}
