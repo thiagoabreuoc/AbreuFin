@@ -447,7 +447,7 @@ function populateSubCatOptions(tipo) {
 
 const STATUS_MAP = {
   receita:      [{value:'a_receber',  label:'A receber'}, {value:'recebido',   label:'Recebido'}],
-  despesa:      [{value:'pendente',   label:'Pendente'},  {value:'pago',       label:'Pago'}],
+  despesa:      [{value:'pendente',   label:'A pagar'},   {value:'pago',       label:'Pago'}],
   investimento: [{value:'a_investir', label:'A investir'},{value:'investido',  label:'Investido'}],
 };
 const STATUS_PILL_COLOR_CLASS = {
