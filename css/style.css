@@ -89,13 +89,12 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .m3-tab.active{color:var(--md-sys-color-primary)}
 .m3-tab.active::after{transform:scaleX(1)}
 
-/* Pills do year-strip (Anual) e month-strip (Mensal) — mesmo padding, sem
-   fundo nos itens deselecionados */
-#year-strip .btn, #month-strip .btn{padding:6px 16px}
-#year-strip .tab-inactive, #month-strip .tab-inactive{background:transparent!important}
+/* Pills do year-strip (Anual), month-strip (Mensal) e do period picker —
+   mesmo padding, sem fundo nos itens deselecionados */
+#year-strip .btn, #month-strip .btn, #period-year-strip .btn, #period-month-grid .btn{padding:6px 16px}
 
 /* Permite scroll por toque/swipe sem exibir a barra de rolagem horizontal */
-.tab-inactive{background:var(--md-sys-color-surface-container)!important;color:var(--md-sys-color-on-surface-variant)}
+.tab-inactive{background:transparent!important;color:var(--md-sys-color-on-surface-variant)}
 .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
 .no-scrollbar::-webkit-scrollbar{display:none}
 .smaller{font-size:.65rem}
@@ -103,7 +102,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 /* Period Picker dropdown card */
 #period-overlay{position:absolute;inset:0;background:color-mix(in srgb, var(--md-sys-color-scrim) 25%, transparent);z-index:400;opacity:0;pointer-events:none;transition:opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard)}
 #period-overlay.open{opacity:1;pointer-events:all}
-#period-sheet{position:absolute;top:84px;left:16px;right:16px;background:var(--md-sys-color-surface-container-high);border-radius:var(--md-sys-shape-corner-large);z-index:401;box-shadow:var(--md-sys-elevation-level2);transform:scale(.93) translateY(-6px);opacity:0;pointer-events:none;transition:transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate),opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard)}
+#period-sheet{position:absolute;top:84px;left:16px;right:16px;background:var(--md-sys-color-surface-container);border-radius:var(--md-sys-shape-corner-large);z-index:401;box-shadow:var(--md-sys-elevation-level2);transform:scale(.93) translateY(-6px);opacity:0;pointer-events:none;transition:transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate),opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard)}
 #period-sheet.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
 
 /* Drawer menu */
