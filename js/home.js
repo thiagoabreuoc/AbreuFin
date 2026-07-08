@@ -405,7 +405,7 @@ function buildLegendHtml(d) {
   const sub = (homeTab === 'meses' || homeTab === 'anos') ? buildSubLabels(d) : {receita:'', despesa:'', investimento:''};
   const clickable = homeTab === 'meses';
   const detalheLbl = clickable
-    ? `<div class="fw-semibold text-primary" style="font-size:.7rem">Detalhe</div>`
+    ? `<div class="fw-semibold text-primary" style="font-size:.7rem;margin-top:8px">Detalhe</div>`
     : '';
   return TIPOS.map(tipo =>
     `<div class="text-center" style="flex:1${clickable ? ';cursor:pointer' : ''}" ${clickable ? `onclick="openListing('${tipo}')"` : ''}>
