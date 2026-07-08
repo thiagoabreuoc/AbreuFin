@@ -100,8 +100,8 @@ $csrfToken = csrfToken();
       <div style="position:relative">
         <div class="fab-item-list" id="fab-item-list">
           <button class="fab-item fab-item-receita" onclick="selectFabAction('receita')"><span class="material-symbols-outlined">arrow_upward</span>Receita</button>
-          <button class="fab-item" onclick="selectFabAction('despesa')"><span class="material-symbols-outlined">arrow_downward</span>Despesa</button>
-          <button class="fab-item" onclick="selectFabAction('investimento')"><span class="material-symbols-outlined">trending_up</span>Investimento</button>
+          <button class="fab-item fab-item-despesa" onclick="selectFabAction('despesa')"><span class="material-symbols-outlined">arrow_downward</span>Despesa</button>
+          <button class="fab-item fab-item-investimento" onclick="selectFabAction('investimento')"><span class="material-symbols-outlined">trending_up</span>Investimento</button>
         </div>
         <button class="fab-main-btn" onclick="toggleFabMenu()" id="fab-main" aria-label="Novo lançamento" aria-haspopup="true" aria-expanded="false" style="pointer-events:auto">
           <span class="material-symbols-outlined">add</span>
