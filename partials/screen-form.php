@@ -45,27 +45,28 @@
       </div>
     </fieldset>
 
-    <!-- Valor -->
-    <fieldset class="form-box">
-      <legend class="form-box-lbl">Valor (R$)</legend>
-      <input class="form-control form-control-borderless" type="text" inputmode="numeric" id="f-valor" placeholder="0,00" autocomplete="off" oninput="onValorInput(this)">
-    </fieldset>
+    <!-- Valor + Data (lado a lado) -->
+    <div class="d-flex gap-2">
+      <fieldset class="form-box" style="flex:1;width:auto;min-width:0">
+        <legend class="form-box-lbl">Valor (R$)</legend>
+        <input class="form-control form-control-borderless" type="text" inputmode="numeric" id="f-valor" placeholder="0,00" autocomplete="off" oninput="onValorInput(this)">
+      </fieldset>
 
-    <!-- Data -->
-    <fieldset class="form-box">
-      <legend class="form-box-lbl">Data de vencimento</legend>
-      <div class="input-group" style="position:relative">
-        <input type="text" class="form-control form-control-borderless" id="f-data" inputmode="numeric"
-               maxlength="10" placeholder="DD/MM/AAAA" autocomplete="off"
-               oninput="onDataInput(this)">
-        <input type="date" id="f-date-picker"
-               style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;pointer-events:none"
-               onchange="onDatePickerChange()">
-        <button type="button" class="btn btn-link text-secondary" onclick="openDatePicker()">
-          <span class="material-symbols-outlined" style="font-size:1.25rem">calendar_today</span>
-        </button>
-      </div>
-    </fieldset>
+      <fieldset class="form-box" style="flex:1;width:auto;min-width:0">
+        <legend class="form-box-lbl">Data de vencimento</legend>
+        <div class="input-group" style="position:relative;display:flex;align-items:center">
+          <input type="text" class="form-control form-control-borderless" id="f-data" inputmode="numeric"
+                 maxlength="10" placeholder="DD/MM/AAAA" autocomplete="off"
+                 oninput="onDataInput(this)">
+          <input type="date" id="f-date-picker"
+                 style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;pointer-events:none"
+                 onchange="onDatePickerChange()">
+          <button type="button" class="btn btn-link text-secondary p-0" onclick="openDatePicker()">
+            <span class="material-symbols-outlined" style="font-size:1.25rem">calendar_today</span>
+          </button>
+        </div>
+      </fieldset>
+    </div>
     <input type="hidden" id="f-dd">
     <input type="hidden" id="f-mm">
     <input type="hidden" id="f-yyyy">
