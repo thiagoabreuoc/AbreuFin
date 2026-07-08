@@ -469,7 +469,7 @@ function renderHome() {
         <div id="home-legend" style="display:flex;justify-content:space-around">${buildLegendHtml(d)}</div>
       </div>
     </div>` +
-    (homeTab==='meses' ? `<div class="card mb-2" style="border-radius:16px">
+    (homeTab==='meses' ? `<div class="card mb-2" style="border-radius:10px!important">
       <div class="card-body d-flex justify-content-between align-items-center py-2">
         <b>Saldo</b>
         <b id="home-saldo-val" class="text-primary">${fmt(saldo)}</b>
