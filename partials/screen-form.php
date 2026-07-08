@@ -18,8 +18,8 @@
     <div id="form-fields">
 
     <!-- Categoria -->
-    <fieldset class="form-box">
-      <legend class="form-box-lbl">Categoria</legend>
+    <div class="form-box">
+      <label class="form-box-lbl" for="f-categoria">Categoria</label>
       <select class="form-select form-select-borderless" id="f-categoria" onchange="onCatChange()"><option value="">Selecione</option></select>
       <div id="f-categoria-custom-wrap" style="display:none" class="mt-2">
         <input type="text" class="form-control" id="f-categoria-custom" placeholder="Digite a categoria">
@@ -28,11 +28,11 @@
           <label class="form-check-label small text-secondary" for="f-categoria-save">Salvar na lista de categorias</label>
         </div>
       </div>
-    </fieldset>
+    </div>
 
     <!-- Sub-categoria (condicional) -->
-    <fieldset class="form-box" id="subcategoria-wrap" style="display:none">
-      <legend class="form-box-lbl">Sub-categoria</legend>
+    <div class="form-box" id="subcategoria-wrap" style="display:none">
+      <label class="form-box-lbl" for="f-subcategoria">Sub-categoria</label>
       <select class="form-select form-select-borderless" id="f-subcategoria" onchange="onSubCatChange()">
         <option value="">Selecione</option>
       </select>
@@ -43,17 +43,17 @@
           <label class="form-check-label small text-secondary" for="f-subcategoria-save">Salvar na lista de sub-categorias</label>
         </div>
       </div>
-    </fieldset>
+    </div>
 
     <!-- Valor -->
-    <fieldset class="form-box">
-      <legend class="form-box-lbl">Valor (R$)</legend>
+    <div class="form-box">
+      <label class="form-box-lbl" for="f-valor">Valor (R$)</label>
       <input class="form-control form-control-borderless" type="text" inputmode="numeric" id="f-valor" placeholder="0,00" autocomplete="off" oninput="onValorInput(this)">
-    </fieldset>
+    </div>
 
     <!-- Data -->
-    <fieldset class="form-box">
-      <legend class="form-box-lbl">Data de vencimento</legend>
+    <div class="form-box">
+      <label class="form-box-lbl" for="f-data">Data de vencimento</label>
       <div class="input-group" style="position:relative">
         <input type="text" class="form-control form-control-borderless" id="f-data" inputmode="numeric"
                maxlength="10" placeholder="DD/MM/AAAA" autocomplete="off"
@@ -65,14 +65,14 @@
           <span class="material-symbols-outlined" style="font-size:1.25rem">calendar_today</span>
         </button>
       </div>
-    </fieldset>
+    </div>
     <input type="hidden" id="f-dd">
     <input type="hidden" id="f-mm">
     <input type="hidden" id="f-yyyy">
 
     <!-- Repetir a cada -->
-    <fieldset class="form-box">
-      <legend class="form-box-lbl">Repetir a cada</legend>
+    <div class="form-box">
+      <label class="form-box-lbl">Repetir a cada</label>
       <div class="d-flex gap-2 flex-wrap" id="repetir-pills">
         <input type="radio" class="btn-check" name="f-repetir" id="repetir-none"      value=""          autocomplete="off" checked>
         <label class="btn btn-sm rounded-pill btn-outline-primary" for="repetir-none">Nunca</label>
@@ -83,21 +83,21 @@
         <input type="radio" class="btn-check" name="f-repetir" id="repetir-mensal"    value="mensal"    autocomplete="off">
         <label class="btn btn-sm rounded-pill btn-outline-primary" for="repetir-mensal">Mês</label>
       </div>
-    </fieldset>
+    </div>
 
     <!-- Observação -->
-    <fieldset class="form-box">
-      <legend class="form-box-lbl">Observação</legend>
+    <div class="form-box">
+      <label class="form-box-lbl" for="f-obs">Observação</label>
       <textarea class="form-control form-control-borderless" id="f-obs" style="height:72px" placeholder="Opcional"></textarea>
-    </fieldset>
+    </div>
 
     <!-- Status -->
-    <fieldset class="form-box">
-      <legend class="form-box-lbl">Status</legend>
+    <div class="form-box">
+      <label class="form-box-lbl">Status</label>
       <div class="d-flex gap-2 flex-wrap" id="status-pills">
         <span class="text-muted small">Selecione o tipo primeiro</span>
       </div>
-    </fieldset>
+    </div>
 
     <div class="text-center mb-3" id="remove-row" style="display:none">
       <a href="#" class="text-danger small text-decoration-underline" onclick="confirmRemove();return false;">

@@ -174,7 +174,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 
 /* Sem wrapper visual — só o label acima do campo */
 .form-box{border:none;padding:0;margin:0 0 20px;min-width:0;width:100%}
-.form-box-lbl{width:auto;padding:0;margin:0 0 4px;font-size:.75rem;line-height:1rem;font-weight:400;color:var(--md-sys-color-on-surface-variant)}
+.form-box-lbl{display:block;width:auto;padding:0;margin:0 0 4px;font-size:.75rem;line-height:1rem;font-weight:400;color:var(--md-sys-color-on-surface-variant)}
 .form-box:focus-within>.form-box-lbl{color:var(--md-sys-color-primary)}
 .form-control-borderless{border:none;padding-left:0;padding-right:0;box-shadow:none!important;background:transparent;color:var(--md-sys-color-on-surface)}
 .form-control-borderless:focus{border:none;outline:none}
