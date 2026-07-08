@@ -69,7 +69,7 @@ function openListing(tipo) {
   };
   const tabs = STATUS_TABS[tipo] || STATUS_TABS.despesa;
   document.getElementById('listing-status-tabs').innerHTML = tabs.map((t,i)=>
-    `<button class="badge status-cell ${STATUS_COLOR_CLASS[t.val]}" style="box-shadow:${i===0?'inset 0 0 0 2px currentColor':'none'}" onclick="selectStatus(this,'${t.val}')">${t.label}</button>`
+    `<button class="badge status-cell ${STATUS_COLOR_CLASS[t.val]}" onclick="selectStatus(this,'${t.val}')">${t.label}</button>`
   ).join('');
   const labels={receita:'Receitas',despesa:'Despesas',investimento:'Investimentos'};
   const TIPO_HEADER_CLASS={receita:'badge status-cell status-cell-receita',despesa:'badge status-cell status-cell-despesa',investimento:'badge status-cell status-cell-investimento'};
@@ -220,8 +220,6 @@ function detachListingScroll() {
 function selectStatus(btn,val){
   listingStatusFilter=val;
   listingLimit=10;
-  document.querySelectorAll('#listing-status-tabs button').forEach(b=>{ b.style.boxShadow = 'none'; });
-  btn.style.boxShadow = 'inset 0 0 0 2px currentColor';
   renderListing();
 }
 function updateSortBtns(){
