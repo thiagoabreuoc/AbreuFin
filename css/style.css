@@ -91,6 +91,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 
 /* Pills do month-strip (visão Meses) — vertical 6px, horizontal +8px */
 #month-strip .btn{padding:6px 16px}
+#month-strip .tab-inactive{background:transparent!important}
 
 /* Permite scroll por toque/swipe sem exibir a barra de rolagem horizontal */
 .tab-inactive{background:var(--md-sys-color-surface-container)!important;color:var(--md-sys-color-on-surface-variant)}
