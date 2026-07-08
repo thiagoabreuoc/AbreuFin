@@ -48,7 +48,9 @@ h1,h2,h3,h4,h5,h6{font-family:'Roboto',sans-serif;font-weight:600}
 h4{font-size:var(--md-sys-typescale-headline-small-size);line-height:var(--md-sys-typescale-headline-small-line-height)}
 h5{font-size:var(--md-sys-typescale-title-large-size);line-height:var(--md-sys-typescale-title-large-line-height)}
 h6{font-size:var(--md-sys-typescale-title-medium-size);line-height:var(--md-sys-typescale-title-medium-line-height)}
-.btn{font-family:'Roboto',sans-serif;font-weight:500}
+/* Label Large (M3 typescale) — tipografia padrão de botão: Medium (500),
+   14px/20px, tracking 0.1px */
+.btn{font-family:'Roboto',sans-serif;font-weight:500;font-size:var(--md-sys-typescale-label-large-size);line-height:var(--md-sys-typescale-label-large-line-height);letter-spacing:.1px}
 .fw-semibold{font-weight:600!important}
 
 /* ── Casca do app ── */
