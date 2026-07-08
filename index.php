@@ -96,7 +96,7 @@ $csrfToken = csrfToken();
 
     <!-- FAB Menu — https://m3.material.io/components/fab-menu/overview -->
     <div class="fab-scrim" id="fab-scrim" onclick="closeFabMenu()"></div>
-    <div id="btn-novo-wrap" style="position:absolute;bottom:0;left:0;right:0;padding:20px 20px 28px;background:linear-gradient(to bottom, transparent, var(--md-sys-color-surface));display:none;justify-content:flex-end;pointer-events:none;z-index:210">
+    <div id="btn-novo-wrap" style="position:absolute;bottom:0;left:0;right:0;padding:20px 20px 28px;background:linear-gradient(to bottom, transparent, var(--md-sys-color-surface));display:none;justify-content:center;pointer-events:none;z-index:210">
       <div style="position:relative">
         <div class="fab-item-list" id="fab-item-list">
           <button class="fab-item" onclick="selectFabAction('receita')"><span class="material-symbols-outlined">arrow_downward</span>Receita</button>

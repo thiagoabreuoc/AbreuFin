@@ -131,7 +131,7 @@ function renderListing() {
       </div>
       <div class="text-end">
         <span class="badge ${STATUS_BADGE[es]} mb-1">${statusLabel(es)}</span>
-        <div class="text-primary fw-semibold small">${fmt(e.valor)}</div>
+        <div class="fw-semibold small">${fmt(e.valor)}</div>
         <div class="text-secondary small">${String(e.dd).padStart(2,'0')}/${String(e.mm).padStart(2,'0')}/${e.yyyy}</div>
       </div></li>`;
   }).join('');
