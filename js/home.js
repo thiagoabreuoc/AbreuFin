@@ -279,17 +279,31 @@ function emptyChart() {
   </div>`;
 }
 
-function buildSingleBar(tipo, value, maxVal) {
-  const c = TIPO_META[tipo].cor;
-  const W = 60, H = 100, barW = 28;
-  const barH = Math.max((value / maxVal) * H * 0.92, value > 0 ? 4 : 0);
-  const x = (W - barW) / 2, y = H - barH;
-  return `<svg viewBox="0 0 ${W} ${H}" style="display:block;height:64px;width:100%">
-    <rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="6" ry="6" fill="${c}" fill-opacity="0.25" stroke="${c}" stroke-width="1.5"/>
-  </svg>`;
+function buildBarChartGridLines(W, H) {
+  const stroke = cssVar('--md-sys-color-outline-variant');
+  return [0.25, 0.5, 0.75, 1].map(pct => {
+    const y = H - pct * H * 0.92;
+    return `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="${stroke}" stroke-width="1" stroke-dasharray="4,3"/>`;
+  }).join('');
 }
 
-function buildMetricCard(tipo, value, maxVal, sub) {
+function buildBarChart(d) {
+  if (d.receita + d.despesa + d.investimento === 0) return emptyChart();
+  const W = 320, H = 100, R = 6, GAP = 4;
+  const maxVal = Math.max(1, ...TIPOS.map(t => d[t]));
+  const barW = (W - GAP * (TIPOS.length - 1)) / TIPOS.length;
+  const bars = TIPOS.map((tipo, i) => {
+    const x = i * (barW + GAP);
+    const barH = Math.max((d[tipo] / maxVal) * H * 0.92, d[tipo] > 0 ? 4 : 0);
+    const y = H - barH;
+    const c = TIPO_META[tipo].cor;
+    return `<rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="${R}" ry="${R}"
+      fill="${c}" fill-opacity="0.25" stroke="${c}" stroke-width="1.5"/>`;
+  }).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block">${buildBarChartGridLines(W,H)}${bars}</svg>`;
+}
+
+function buildMetricCard(tipo, value, sub) {
   const c = TIPO_META[tipo].cor;
   return `<div class="card h-100">
     <div class="card-body text-center py-3">
@@ -297,8 +311,7 @@ function buildMetricCard(tipo, value, maxVal, sub) {
         <span style="width:14px;height:3px;border-radius:2px;background:${c};display:inline-block;flex-shrink:0"></span>
         ${TIPO_META[tipo].label}
       </div>
-      <div class="my-2">${buildSingleBar(tipo, value, maxVal)}</div>
-      <div class="small">${fmt(value)}</div>
+      <div class="small mt-1">${fmt(value)}</div>
       ${sub}
       <button class="btn btn-link btn-sm fw-semibold text-primary p-0" style="font-size:.7rem" onclick="openListing('${tipo}')">Detalhe</button>
     </div>
@@ -306,9 +319,9 @@ function buildMetricCard(tipo, value, maxVal, sub) {
 }
 
 function buildSaldoCard(saldo) {
-  return `<div class="card h-100">
-    <div class="card-body text-center py-3 d-flex flex-column justify-content-center h-100">
-      <div class="small">Saldo</div>
+  return `<div class="card">
+    <div class="card-body d-flex justify-content-between align-items-center py-2">
+      <b>Saldo</b>
       <b id="home-saldo-val" class="text-primary">${fmt(saldo)}</b>
     </div>
   </div>`;
@@ -424,16 +437,20 @@ function renderHome() {
         ${emptyChart()}
       </div></div>`;
     } else {
-      const maxVal = Math.max(1, ...TIPOS.map(t => d[t]));
       const sub = buildSubLabels(d);
       summary =
-        `<div class="small text-center mb-2" id="home-periodo" style="font-weight:700">${periodoLabel}</div>
+        `<div class="card mb-2">
+          <div class="card-body py-3 px-3">
+            <div class="small text-center mb-3" id="home-periodo" style="font-weight:700">${periodoLabel}</div>
+            ${buildBarChart(d)}
+          </div>
+        </div>
         <div class="row g-2 mb-2">
-          <div class="col-6">${buildMetricCard('receita', d.receita, maxVal, sub.receita)}</div>
-          <div class="col-6">${buildMetricCard('despesa', d.despesa, maxVal, sub.despesa)}</div>
-          <div class="col-6">${buildMetricCard('investimento', d.investimento, maxVal, sub.investimento)}</div>
-          <div class="col-6">${buildSaldoCard(saldo)}</div>
-        </div>`;
+          <div class="col-4">${buildMetricCard('receita', d.receita, sub.receita)}</div>
+          <div class="col-4">${buildMetricCard('despesa', d.despesa, sub.despesa)}</div>
+          <div class="col-4">${buildMetricCard('investimento', d.investimento, sub.investimento)}</div>
+        </div>
+        <div class="mb-2">${buildSaldoCard(saldo)}</div>`;
     }
   } else {
     const chart = buildAreaChart(chartData, chartLabels);
