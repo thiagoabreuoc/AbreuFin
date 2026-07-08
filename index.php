@@ -91,10 +91,9 @@ $csrfToken = csrfToken();
       <span class="fw-bold fs-5 text-primary">AbreuFin</span>
       <button class="btn btn-link text-secondary p-0" onclick="closeDrawer()"><span class="material-symbols-outlined">close</span></button>
     </div>
-    <div class="drawer-section-label">Lançamentos</div>
-    <a href="#" class="drawer-item" onclick="openListing('receita');closeDrawer();return false;">Receitas</a>
-    <a href="#" class="drawer-item" onclick="openListing('despesa');closeDrawer();return false;">Despesas</a>
-    <a href="#" class="drawer-item" onclick="openListing('investimento');closeDrawer();return false;">Investimentos</a>
+    <a href="#" class="drawer-item" onclick="openListing('receita');closeDrawer();return false;"><span class="material-symbols-outlined">arrow_downward</span>Receitas</a>
+    <a href="#" class="drawer-item" onclick="openListing('despesa');closeDrawer();return false;"><span class="material-symbols-outlined">arrow_upward</span>Despesas</a>
+    <a href="#" class="drawer-item" onclick="openListing('investimento');closeDrawer();return false;"><span class="material-symbols-outlined">trending_up</span>Investimentos</a>
   </div>
 
 </div><!-- /.app -->
