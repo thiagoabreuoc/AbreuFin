@@ -173,10 +173,10 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 #btn-novo-wrap.fab-open .fab-item:nth-child(3){transition-delay:.08s}
 
 /* Text field (M3) — https://m3.material.io/components/text-fields/overview
-   variante "filled": fundo preenchido, cantos superiores arredondados,
-   indicador inferior (underline) que engrossa e muda pra cor primary no foco */
-.form-box{background:var(--md-sys-color-surface-container-highest);border:none;border-bottom:1px solid var(--md-sys-color-on-surface-variant);border-radius:var(--md-sys-shape-corner-extra-small) var(--md-sys-shape-corner-extra-small) 0 0;padding:12px 14px;margin-bottom:14px;transition:border-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard),border-width var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
-.form-box:focus-within{border-bottom:2px solid var(--md-sys-color-primary);padding-bottom:11px}
+   variante "outlined": fundo transparente, borda completa que engrossa
+   e muda pra cor primary no foco */
+.form-box{background:transparent;border:1px solid var(--md-sys-color-outline);border-radius:var(--md-sys-shape-corner-extra-small);padding:12px 14px;margin-bottom:14px;transition:border-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard),padding var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.form-box:focus-within{border:2px solid var(--md-sys-color-primary);padding:11px 13px}
 .form-box-lbl{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--md-sys-color-on-surface-variant);margin-bottom:8px}
 .form-control-borderless{border:none;padding-left:0;padding-right:0;box-shadow:none!important;background:transparent;color:var(--md-sys-color-on-surface)}
 .form-control-borderless:focus{border:none;outline:none}
