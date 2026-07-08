@@ -75,7 +75,7 @@ function openListing(tipo, pinId) {
   const TIPO_HEADER_ICON={receita:'arrow_upward',despesa:'arrow_downward',investimento:'trending_up'};
   const TIPO_HEADER_CLASS={receita:'badge status-cell status-cell-receita',despesa:'badge status-cell status-cell-despesa',investimento:'badge status-cell status-cell-investimento'};
   const titleEl=document.getElementById('listing-title');
-  titleEl.innerHTML=`<span class="material-symbols-outlined" style="font-size:1rem">${TIPO_HEADER_ICON[tipo]}</span>${labels[tipo]}`;
+  titleEl.innerHTML=`<span class="material-symbols-outlined" style="font-size:1rem;line-height:1;display:inline-flex">${TIPO_HEADER_ICON[tipo]}</span><span style="line-height:1">${labels[tipo]}</span>`;
   titleEl.className=(TIPO_HEADER_CLASS[tipo]||'badge bg-secondary fw-semibold')+' d-inline-flex align-items-center';
   titleEl.style.gap='6px';
   listingYear  = homeYear;
