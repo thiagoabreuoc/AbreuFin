@@ -12,10 +12,10 @@ function closeFilterPanel() {
 const STATUS_BADGE = {
   recebido:  'status-cell status-cell-success',
   a_receber: 'status-cell status-cell-neutral',
-  pago:      'bg-danger',
-  a_pagar:   'badge-despesa-soft',
-  investido: 'bg-info',
-  a_investir:'badge-investimento-soft',
+  pago:      'status-cell status-cell-despesa',
+  a_pagar:   'status-cell status-cell-neutral',
+  investido: 'status-cell status-cell-investimento',
+  a_investir:'status-cell status-cell-neutral',
 };
 
 let _csFilterInited = false;
@@ -60,7 +60,7 @@ function openListing(tipo) {
     `<button class="m3-tab${i===0?' active':''}" onclick="selectStatus(this,'${t.val}')">${t.label}</button>`
   ).join('');
   const labels={receita:'Receitas',despesa:'Despesas',investimento:'Investimentos'};
-  const TIPO_HEADER_CLASS={receita:'badge status-cell status-cell-receita',despesa:'badge bg-danger fw-semibold',investimento:'badge bg-info fw-semibold'};
+  const TIPO_HEADER_CLASS={receita:'badge status-cell status-cell-receita',despesa:'badge status-cell status-cell-despesa',investimento:'badge status-cell status-cell-investimento'};
   const titleEl=document.getElementById('listing-title');
   titleEl.textContent=labels[tipo];
   titleEl.className=TIPO_HEADER_CLASS[tipo]||'badge bg-secondary fw-semibold';
@@ -110,7 +110,7 @@ function getListingEntries() {
 }
 
 function dueBadge(e) {
-  if (e.tipo !== 'despesa' || e.status !== 'pendente') return '';
+  if (!['a_pagar','a_receber'].includes(entryStatus(e))) return '';
   const today = new Date(); today.setHours(0,0,0,0);
   const in3 = new Date(today); in3.setDate(today.getDate()+3);
   const d2 = new Date(e.yyyy, e.mm-1, e.dd); d2.setHours(0,0,0,0);
