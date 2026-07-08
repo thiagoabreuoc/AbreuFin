@@ -5,10 +5,10 @@
     <div class="flex-grow-1 text-center fw-bold fs-5 text-primary" style="cursor:pointer" onclick="navigate('home')">AbreuFin</div>
     <div class="avatar-sm rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center overflow-hidden" id="home-nav-avatar" style="cursor:pointer" onclick="navigate('profile')"><span class="material-symbols-outlined" style="font-size:1.1rem">person</span></div>
   </div>
-  <div class="screen-body" id="home-body" style="padding:16px 16px 16px">
+  <div class="screen-body" id="home-body" style="padding:0 16px 16px">
     <div id="home-banners"></div>
 
-    <div class="m3-tabs mb-3">
+    <div class="m3-tabs mb-3" style="margin-top:8px">
       <button class="m3-tab active" id="tab-anos" onclick="switchHomeTab('anos')">Anual</button>
       <button class="m3-tab" id="tab-meses" onclick="switchHomeTab('meses')">Mensal</button>
     </div>
