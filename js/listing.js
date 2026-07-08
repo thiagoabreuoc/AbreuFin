@@ -10,7 +10,7 @@ function closeFilterPanel() {
   document.getElementById('filter-sheet').classList.remove('open');
 }
 const STATUS_BADGE = {
-  recebido:  'bg-success',
+  recebido:  'badge-receita-soft',
   a_receber: 'badge-receita-soft',
   pago:      'bg-danger',
   a_pagar:   'badge-despesa-soft',
