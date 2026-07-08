@@ -86,7 +86,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 
 /* Status cell — chip pill discreto (fundo pálido / texto médio, peso normal),
    para status confirmados (Recebido/A receber) */
-.status-cell{font-weight:400!important;font-size:.75rem;padding:4px 8px!important;border-radius:var(--md-sys-shape-corner-full)!important;border:none}
+.status-cell{font-weight:400!important;font-size:.75rem;padding:8px 12px!important;border-radius:var(--md-sys-shape-corner-full)!important;border:none}
 .status-cell-success{background:#D7F3E0!important;color:#146C34!important}
 .status-cell-neutral{background:#E9EBEE!important;color:#5F6368!important}
 .status-cell-white{background:#FFFFFF!important;color:#5F6368!important}
