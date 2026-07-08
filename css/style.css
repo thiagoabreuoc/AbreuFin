@@ -169,6 +169,9 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .btn-outline-primary{--bs-btn-color:var(--md-sys-color-primary);--bs-btn-border-color:var(--md-sys-color-outline);--bs-btn-hover-color:var(--md-sys-color-on-primary);--bs-btn-hover-bg:var(--md-sys-color-primary);--bs-btn-hover-border-color:var(--md-sys-color-primary);--bs-btn-active-color:var(--md-sys-color-on-primary);--bs-btn-active-bg:var(--md-sys-color-primary);--bs-btn-active-border-color:var(--md-sys-color-primary);border-radius:var(--md-sys-shape-corner-full)}
 .btn-danger{--bs-btn-color:var(--md-sys-color-on-error);--bs-btn-bg:var(--md-sys-color-error);--bs-btn-border-color:var(--md-sys-color-error);--bs-btn-hover-bg:var(--md-sys-color-error);--bs-btn-hover-border-color:var(--md-sys-color-error);border-radius:var(--md-sys-shape-corner-full)}
 .btn-link,.btn-link:hover{color:var(--md-sys-color-primary)}
+/* Ícones de navegação (voltar/hamburguer) usam .text-dark do Bootstrap
+   (cor fixa, não respeita o tema) — força a cor do tema M3 */
+.btn-link.text-dark{color:var(--md-sys-color-on-surface)!important}
 .btn.rounded-pill,.rounded-pill{border-radius:var(--md-sys-shape-corner-full)!important}
 .text-primary{color:var(--md-sys-color-primary)!important}
 .text-danger{color:var(--md-sys-color-error)!important}
