@@ -6,8 +6,8 @@
       <span class="badge bg-success-subtle text-success fw-semibold" id="listing-title">Receitas</span>
       <div class="d-flex align-items-center justify-content-center mt-1" style="gap:16px">
         <span class="fw-semibold" style="font-size:0.95rem" id="listing-date">JAN 26</span>
-        <button class="btn btn-link p-0" style="color:var(--md-sys-color-primary);line-height:0" onclick="openPeriodPicker()" aria-label="Alterar período">
-          <span class="material-symbols-outlined" style="font-size:1.15rem">edit_calendar</span>
+        <button class="btn btn-link p-0 d-inline-flex align-items-center" style="color:var(--md-sys-color-primary)" onclick="openPeriodPicker()" aria-label="Alterar período">
+          <span class="material-symbols-outlined" style="font-size:1.1rem;line-height:1">edit</span>
         </button>
       </div>
     </div>
