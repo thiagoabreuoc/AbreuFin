@@ -6,6 +6,8 @@ let homeMonth = new Date().getMonth();
 let homeYear = new Date().getFullYear();
 let dismissedBanners = { vencido: false, vencendo: false };
 
+let _barVals = null;
+let _barRaf  = null;
 let _areaYs  = null;
 let _areaXs  = null;
 let _areaRaf = null;
@@ -78,6 +80,7 @@ function switchHomeTab(tab) {
   document.getElementById('year-strip').style.display  = tab==='anos'  ? 'flex' : 'none';
   document.getElementById('month-strip').style.display = tab==='meses' ? 'flex' : 'none';
   if (tab === 'anos') buildYearStrip();
+  _barVals = null;
   _areaYs  = null;
   updateNovoBtn();
   renderHome();
@@ -144,7 +147,11 @@ function selectMonth(i) {
     b.classList.toggle('text-primary', idx!==i);
   });
   updateNovoBtn();
-  renderHome();
+  if (homeTab === 'meses' && document.getElementById('chart-bars-svg')) {
+    updateMonthView();
+  } else {
+    renderHome();
+  }
 }
 
 const TIPO_META = {
@@ -279,56 +286,60 @@ function emptyChart() {
   </div>`;
 }
 
-function buildBarChartAxis(chartX0, W, H, maxVal) {
-  const axisColor = cssVar('--md-sys-color-outline');
-  const labelColor = cssVar('--md-sys-color-outline');
-  const axisLines = `<line x1="${chartX0}" y1="0" x2="${chartX0}" y2="${H}" stroke="${axisColor}" stroke-width="1"/>
-    <line x1="${chartX0}" y1="${H}" x2="${W}" y2="${H}" stroke="${axisColor}" stroke-width="1"/>`;
-  const labels = [1, 0.75, 0.5, 0.25, 0].map(pct => {
-    const y = H - pct * H * 0.92;
-    return `<text x="${chartX0 - 6}" y="${y + 3}" text-anchor="end" font-size="8" fill="${labelColor}">${formatAxisValue(pct * maxVal)}</text>`;
-  }).join('');
-  return axisLines + labels;
-}
-
 function buildBarChart(d) {
   if (d.receita + d.despesa + d.investimento === 0) return emptyChart();
-  const W = 320, H = 100, PAD_L = 30, GAP = 8;
-  const chartW = W - PAD_L;
+  const W = 320, H = 100, R = 6, GAP = 4;
   const maxVal = Math.max(1, ...TIPOS.map(t => d[t]));
-  const barW = (chartW - GAP * (TIPOS.length - 1)) / TIPOS.length;
+  const barW = (W - GAP * (TIPOS.length - 1)) / TIPOS.length;
+  _barVals = {...d};
   const bars = TIPOS.map((tipo, i) => {
-    const x = PAD_L + i * (barW + GAP);
+    const x = i * (barW + GAP);
     const barH = Math.max((d[tipo] / maxVal) * H * 0.92, d[tipo] > 0 ? 4 : 0);
     const y = H - barH;
     const c = TIPO_META[tipo].cor;
-    return `<rect x="${x}" y="${y}" width="${barW}" height="${barH}" fill="${c}"/>`;
+    return `<rect id="chart-bar-${tipo}" x="${x}" y="${y}" width="${barW}" height="${barH}" rx="${R}" ry="${R}"
+      fill="${c}" fill-opacity="0.25" stroke="${c}" stroke-width="1.5"/>`;
   }).join('');
-  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;overflow:visible">${buildBarChartAxis(PAD_L, W, H, maxVal)}${bars}</svg>`;
+  return `<svg id="chart-bars-svg" viewBox="0 0 ${W} ${H}" width="100%" style="display:block">${buildGridLines(W,H)}${bars}</svg>`;
 }
 
-function buildMetricCard(tipo, value, sub) {
-  const c = TIPO_META[tipo].cor;
-  return `<div class="card h-100">
-    <div class="card-body text-center py-3">
-      <div class="small d-flex align-items-center justify-content-center gap-1">
-        <span style="width:14px;height:3px;border-radius:2px;background:${c};display:inline-block;flex-shrink:0"></span>
-        ${TIPO_META[tipo].label}
-      </div>
-      <div class="small mt-1">${fmt(value)}</div>
-      ${sub}
-      <button class="btn btn-link btn-sm fw-semibold text-primary p-0" style="font-size:.7rem" onclick="openListing('${tipo}')">Detalhe</button>
-    </div>
-  </div>`;
-}
+function animateBarsTo(target) {
+  if (_barRaf) { cancelAnimationFrame(_barRaf); _barRaf = null; }
 
-function buildSaldoCard(saldo) {
-  return `<div class="card">
-    <div class="card-body d-flex justify-content-between align-items-center py-2">
-      <b>Saldo</b>
-      <b id="home-saldo-val" class="text-primary">${fmt(saldo)}</b>
-    </div>
-  </div>`;
+  const H = 100;
+  const maxVal = Math.max(1, target.receita, target.despesa, target.investimento);
+  const DURATION = 380;
+  const startTime = performance.now();
+  const ease = t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+
+  // Read current pixel heights from DOM — exact visual starting point
+  const fromH = {};
+  TIPOS.forEach(tipo => {
+    const rect = document.getElementById('chart-bar-' + tipo);
+    fromH[tipo] = rect ? parseFloat(rect.getAttribute('height')) || 0 : 0;
+  });
+
+  // Compute target pixel heights based on new maxVal
+  const toH = {};
+  TIPOS.forEach(tipo => {
+    toH[tipo] = Math.max((target[tipo] / maxVal) * H * 0.92, 0);
+  });
+
+  function frame(now) {
+    const t = ease(Math.min((now - startTime) / DURATION, 1));
+    TIPOS.forEach(tipo => {
+      const rect = document.getElementById('chart-bar-' + tipo);
+      if (!rect) return;
+      const barH = fromH[tipo] + (toH[tipo] - fromH[tipo]) * t;
+      rect.setAttribute('y', H - barH);
+      rect.setAttribute('height', barH);
+    });
+    _barVals = {...target};
+    if (t < 1) _barRaf = requestAnimationFrame(frame);
+    else _barRaf = null;
+  }
+
+  _barRaf = requestAnimationFrame(frame);
 }
 
 function buildSubLabels(d) {
@@ -371,7 +382,10 @@ function buildSubLabels(d) {
 }
 
 function buildLegendHtml(d) {
-  const sub = buildSubLabels(d);
+  const sub = (homeTab === 'meses' || homeTab === 'anos') ? buildSubLabels(d) : {receita:'', despesa:'', investimento:''};
+  const detalheBtn = tipo => homeTab === 'meses'
+    ? `<button class="btn btn-link btn-sm fw-semibold text-primary p-0" style="font-size:.7rem" onclick="openListing('${tipo}')">Detalhe</button>`
+    : '';
   return TIPOS.map(tipo =>
     `<div class="text-center" style="flex:1">
       <div class="small d-flex align-items-center justify-content-center gap-1">
@@ -380,8 +394,21 @@ function buildLegendHtml(d) {
       </div>
       <div class="small">${fmt(d[tipo])}</div>
       ${sub[tipo]}
+      ${detalheBtn(tipo)}
     </div>`
   ).join('');
+}
+
+function updateMonthView() {
+  const d = getMonthTotals(homeMonth);
+  renderBanners();
+  animateBarsTo(d);
+  document.getElementById('home-legend').innerHTML = buildLegendHtml(d);
+  const saldo = d.receita - d.despesa - d.investimento;
+  const sv = document.getElementById('home-saldo-val');
+  if (sv) { sv.className = 'text-primary'; sv.textContent = fmt(saldo); }
+  const sl = document.getElementById('home-periodo');
+  if (sl) sl.textContent = `${MONTHS_FULL[homeMonth]} ${homeYear}`;
 }
 
 function renderBanners() {
@@ -432,40 +459,21 @@ function renderHome() {
 
   const saldo = d.receita - d.despesa - d.investimento;
   const periodoLabel = homeTab==='meses' ? `${MONTHS_FULL[homeMonth]} ${homeYear}` : String(homeYear);
+  const chart = homeTab==='meses' ? buildBarChart(d) : buildAreaChart(chartData, chartLabels);
 
-  let summary;
-  if (homeTab === 'meses') {
-    if (d.receita + d.despesa + d.investimento === 0) {
-      summary = `<div class="card mb-2"><div class="card-body py-3 px-3">
-        <div class="small text-center mb-2" id="home-periodo" style="font-weight:700">${periodoLabel}</div>
-        ${emptyChart()}
-      </div></div>`;
-    } else {
-      const sub = buildSubLabels(d);
-      summary =
-        `<div class="card mb-2">
-          <div class="card-body py-3 px-3">
-            <div class="small text-center mb-3" id="home-periodo" style="font-weight:700">${periodoLabel}</div>
-            ${buildBarChart(d)}
-          </div>
-        </div>
-        <div class="row g-2 mb-2">
-          <div class="col-4">${buildMetricCard('receita', d.receita, sub.receita)}</div>
-          <div class="col-4">${buildMetricCard('despesa', d.despesa, sub.despesa)}</div>
-          <div class="col-4">${buildMetricCard('investimento', d.investimento, sub.investimento)}</div>
-        </div>
-        <div class="mb-2">${buildSaldoCard(saldo)}</div>`;
-    }
-  } else {
-    const chart = buildAreaChart(chartData, chartLabels);
-    summary =
-      `<div class="card mb-2" style="border-radius:16px">
-        <div class="card-body py-3 px-3">
-          <div class="small text-center mb-3" id="home-periodo" style="font-weight:700">${periodoLabel}</div>
-          <div class="mb-3">${chart}</div>
-          <div id="home-legend" style="display:flex;justify-content:space-around">${buildLegendHtml(d)}</div>
-        </div>
-      </div>`;
-  }
+  const summary =
+    `<div class="card mb-2" style="border-radius:16px">
+      <div class="card-body py-3 px-3">
+        <div class="small text-center mb-3" id="home-periodo" style="font-weight:700">${periodoLabel}</div>
+        <div class="mb-3">${chart}</div>
+        <div id="home-legend" style="display:flex;justify-content:space-around">${buildLegendHtml(d)}</div>
+      </div>
+    </div>` +
+    (homeTab==='meses' ? `<div class="card mb-2" style="border-radius:16px">
+      <div class="card-body d-flex justify-content-between align-items-center py-2">
+        <b>Saldo</b>
+        <b id="home-saldo-val" class="text-primary">${fmt(saldo)}</b>
+      </div>
+    </div>` : '');
   document.getElementById('home-summary').innerHTML = summary;
 }
