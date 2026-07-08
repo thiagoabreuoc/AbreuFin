@@ -9,9 +9,9 @@
 
     <!-- Tipo: tabs -->
     <div class="d-flex justify-content-center gap-2 mb-3">
-      <button class="badge status-cell status-cell-white" id="tab-tipo-receita"      onclick="setTipo('receita')"      >Receita</button>
-      <button class="badge status-cell status-cell-white" id="tab-tipo-despesa"      onclick="setTipo('despesa')"      >Despesa</button>
-      <button class="badge status-cell status-cell-white" id="tab-tipo-investimento" onclick="setTipo('investimento')" >Investimento</button>
+      <button class="badge status-cell status-cell-receita" id="tab-tipo-receita"      onclick="setTipo('receita')"      >Receita</button>
+      <button class="badge status-cell status-cell-despesa" id="tab-tipo-despesa"      onclick="setTipo('despesa')"      >Despesa</button>
+      <button class="badge status-cell status-cell-investimento" id="tab-tipo-investimento" onclick="setTipo('investimento')" >Investimento</button>
     </div>
     <input type="hidden" id="f-tipo">
 

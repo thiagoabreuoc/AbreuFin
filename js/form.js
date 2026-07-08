@@ -263,11 +263,12 @@ function openEdit(id) {
   showScreen('form');
 }
 
+const TIPO_TAB_COLOR_CLASS = {receita:'status-cell-receita', despesa:'status-cell-despesa', investimento:'status-cell-investimento'};
 function clearForm() {
   ['f-tipo','f-categoria','f-subcategoria','f-obs'].forEach(id=>{ document.getElementById(id).value=''; });
   TIPO_TABS.forEach(t => {
     const btn = document.getElementById('tab-tipo-' + t);
-    if (btn) btn.className = 'btn btn-sm rounded-pill btn-outline-primary';
+    if (btn) { btn.className = 'badge status-cell ' + TIPO_TAB_COLOR_CLASS[t]; btn.style.boxShadow = 'none'; }
   });
   _setFormFieldsDisabled(true);
   csReset('f-categoria');
@@ -472,14 +473,13 @@ function _setFormFieldsDisabled(disabled) {
   wrap.style.pointerEvents = disabled ? 'none' : '';
 }
 
-const TIPO_TAB_COLOR_CLASS = {receita:'status-cell-receita', despesa:'status-cell-despesa', investimento:'status-cell-investimento'};
 function setTipo(tipo) {
   if (document.getElementById('f-tipo').value === tipo) return;
   document.getElementById('f-tipo').value = tipo;
   TIPO_TABS.forEach(t => {
     const btn = document.getElementById('tab-tipo-' + t);
     if (!btn) return;
-    btn.className = 'badge status-cell ' + (t === tipo ? TIPO_TAB_COLOR_CLASS[t] : 'status-cell-white');
+    btn.style.boxShadow = t === tipo ? 'inset 0 0 0 2px currentColor' : 'none';
   });
   _setFormFieldsDisabled(false);
   onTipoChange();
