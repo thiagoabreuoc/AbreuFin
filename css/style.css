@@ -172,12 +172,13 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 #btn-novo-wrap.fab-open .fab-item:nth-child(2){transition-delay:.04s}
 #btn-novo-wrap.fab-open .fab-item:nth-child(3){transition-delay:.08s}
 
-/* Text field (M3) — https://m3.material.io/components/text-fields/overview
-   variante "outlined" com legend "entalhada" na borda (fieldset/legend
-   nativos do HTML já produzem esse recorte automaticamente) */
-.form-box{background:transparent;border:1px solid var(--md-sys-color-outline);border-radius:var(--md-sys-shape-corner-small);padding:8px 14px 12px;margin:0 0 14px;min-width:0;transition:border-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard),padding var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
-.form-box:focus-within{border:2px solid var(--md-sys-color-primary);padding:7px 13px 11px}
-.form-box-lbl{width:auto;padding:0 6px;margin-left:4px;font-size:.75rem;font-weight:400;text-transform:none;letter-spacing:normal;color:var(--md-sys-color-on-surface-variant)}
+/* Text field (M3) — https://m3.material.io/components/text-fields/guidelines
+   variante "outlined": container-shape = corner-extra-small (4dp),
+   outline 1dp em repouso / 3dp em foco, padding 16dp, label body-small
+   (12sp) "entalhado" na borda via fieldset/legend nativos do HTML */
+.form-box{background:transparent;border:1px solid var(--md-sys-color-outline);border-radius:var(--md-sys-shape-corner-extra-small);padding:15px 16px;margin:0 0 16px;min-width:0;transition:border-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard),padding var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.form-box:focus-within{border:3px solid var(--md-sys-color-primary);padding:13px 14px}
+.form-box-lbl{width:auto;padding:0 4px;margin-left:12px;font-size:.75rem;line-height:1rem;font-weight:400;text-transform:none;letter-spacing:normal;color:var(--md-sys-color-on-surface-variant)}
 .form-box:focus-within>.form-box-lbl{color:var(--md-sys-color-primary)}
 .form-control-borderless{border:none;padding-left:0;padding-right:0;box-shadow:none!important;background:transparent;color:var(--md-sys-color-on-surface)}
 .form-control-borderless:focus{border:none;outline:none}
