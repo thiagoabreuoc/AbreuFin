@@ -81,6 +81,13 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .badge-investimento-soft{background:var(--md-extended-color-investimento-color-container)!important;  color:var(--md-extended-color-investimento-on-color-container)!important}
 .badge-yellow-soft      {background:var(--md-extended-color-aviso-color-container)!important;         color:var(--md-extended-color-aviso-on-color-container)!important}
 
+/* Primary tabs (M3) — https://m3.material.io/components/tabs/overview */
+.m3-tabs{display:flex;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+.m3-tab{position:relative;overflow:hidden;flex:1;background:none;border:none;padding:14px 8px;font-family:'Roboto',sans-serif;font-size:.875rem;font-weight:600;color:var(--md-sys-color-on-surface-variant);cursor:pointer;transition:color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.m3-tab::after{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--md-sys-color-primary);border-radius:var(--md-sys-shape-corner-full) var(--md-sys-shape-corner-full) 0 0;transform:scaleX(0);transition:transform var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized)}
+.m3-tab.active{color:var(--md-sys-color-primary)}
+.m3-tab.active::after{transform:scaleX(1)}
+
 /* Permite scroll por toque/swipe sem exibir a barra de rolagem horizontal */
 .tab-inactive{background:var(--md-sys-color-surface-container)!important;color:var(--md-sys-color-on-surface-variant)}
 .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}

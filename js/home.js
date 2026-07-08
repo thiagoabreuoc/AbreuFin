@@ -19,9 +19,7 @@ function dismissBanner(kind) {
 }
 
 function setTabActive(btn, active) {
-  btn.classList.toggle('btn-primary', active);
-  btn.classList.toggle('tab-inactive', !active);
-  btn.classList.toggle('text-primary', !active);
+  btn.classList.toggle('active', active);
 }
 
 function updateNovoBtn() {

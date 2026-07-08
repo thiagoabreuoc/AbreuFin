@@ -8,11 +8,9 @@
   <div class="screen-body p-3" id="home-body">
     <div id="home-banners"></div>
 
-    <div class="d-flex justify-content-center align-items-center mb-3">
-      <div class="d-inline-flex p-1 gap-3">
-        <button class="btn btn-sm rounded-pill btn-primary" id="tab-anos" onclick="switchHomeTab('anos')" style="border:none">Período</button>
-        <button class="btn btn-sm rounded-pill tab-inactive text-primary" id="tab-meses" onclick="switchHomeTab('meses')" style="border:none">Meses</button>
-      </div>
+    <div class="m3-tabs mb-3">
+      <button class="m3-tab active" id="tab-anos" onclick="switchHomeTab('anos')">Período</button>
+      <button class="m3-tab" id="tab-meses" onclick="switchHomeTab('meses')">Meses</button>
     </div>
 
     <div class="no-scrollbar" style="display:none;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px;justify-content:center" id="year-strip"></div>
