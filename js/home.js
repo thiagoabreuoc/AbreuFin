@@ -423,17 +423,16 @@ function renderBanners() {
     return d2 < today;
   }).length;
 
-  const closeFilter = getTheme() === 'dark' ? 'filter:invert(1)' : '';
   let banners = '';
   if (vencidoCount > 0 && !dismissedBanners.vencido)
     banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-vencido" style="background:var(--md-sys-color-error-container);color:var(--md-sys-color-on-error-container)">
       <span class="small" onclick="goToVencendo('vencido')" style="cursor:pointer">${vencidoCount} despesa${vencidoCount>1?'s':''} vencida${vencidoCount>1?'s':''}. <u>Resolver</u></span>
-      <button type="button" class="btn-close" style="font-size:.55rem;${closeFilter}" onclick="dismissBanner('vencido')"></button>
+      <button type="button" class="btn btn-link p-0" style="color:inherit;line-height:0" onclick="dismissBanner('vencido')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
     </div>`;
   if (vencendoCount > 0 && !dismissedBanners.vencendo)
     banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-vencendo" style="background:var(--md-extended-color-aviso-color-container);color:var(--md-extended-color-aviso-on-color-container)">
       <span class="small" onclick="goToVencendo('vencendo')" style="cursor:pointer">${vencendoCount} despesa${vencendoCount>1?'s':''} vencendo em 3 dias. <u>Ver</u></span>
-      <button type="button" class="btn-close" style="font-size:.55rem;${closeFilter}" onclick="dismissBanner('vencendo')"></button>
+      <button type="button" class="btn btn-link p-0" style="color:inherit;line-height:0" onclick="dismissBanner('vencendo')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
     </div>`;
   const bannersEl = document.getElementById('home-banners');
   bannersEl.innerHTML = banners;
@@ -460,9 +459,9 @@ function renderHome() {
   const chart = homeTab==='meses' ? buildBarChart(d) : buildAreaChart(chartData, chartLabels);
 
   const summary =
-    `<div class="card mb-2" style="border-radius:8px!important">
+    `<div class="card" style="border-radius:8px!important;margin-bottom:24px">
       <div class="card-body py-3 px-3">
-        <div class="small text-center mb-3" id="home-periodo" style="font-weight:700">${periodoLabel}</div>
+        <div class="small text-center mb-3" id="home-periodo" style="font-weight:400">${periodoLabel}</div>
         <div class="mb-3">${chart}</div>
         <div id="home-legend" style="display:flex;justify-content:space-around">${buildLegendHtml(d)}</div>
       </div>
