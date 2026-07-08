@@ -450,6 +450,11 @@ const STATUS_MAP = {
   despesa:      [{value:'pendente',   label:'Pendente'},  {value:'pago',       label:'Pago'}],
   investimento: [{value:'a_investir', label:'A investir'},{value:'investido',  label:'Investido'}],
 };
+const STATUS_PILL_COLOR_CLASS = {
+  a_receber:'status-cell-neutral', recebido:'status-cell-success',
+  pendente:'status-cell-neutral',  pago:'status-cell-success',
+  a_investir:'status-cell-neutral',investido:'status-cell-success',
+};
 
 function renderStatusPills(tipo) {
   const container = document.getElementById('status-pills');
@@ -460,7 +465,7 @@ function renderStatusPills(tipo) {
   }
   container.innerHTML = opts.map((o, i) =>
     `<input type="radio" class="btn-check" name="f-status" id="status-${o.value}" value="${o.value}" autocomplete="off"${i===0?' checked':''}>` +
-    `<label class="btn btn-sm rounded-pill btn-outline-primary" for="status-${o.value}">${o.label}</label>`
+    `<label class="badge status-cell ${STATUS_PILL_COLOR_CLASS[o.value]}" for="status-${o.value}">${o.label}</label>`
   ).join('');
 }
 
