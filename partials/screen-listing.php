@@ -18,10 +18,7 @@
     <div class="mb-3">
       <div class="text-center">
         <button class="btn btn-link btn-sm fw-semibold text-primary p-0" type="button" onclick="openFilterPanel()">
-          <span style="position:relative;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;vertical-align:-7px">
-            <span class="material-symbols-outlined" style="font-size:1rem">filter_alt</span>
-            <span id="filter-count" class="m3-badge-large" style="display:none">0</span>
-          </span> Mais filtros
+          <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">filter_alt</span> Mais filtros<span id="filter-count" class="m3-badge-large" style="display:none">0</span>
         </button>
       </div>
       <div style="margin-top:16px;display:flex;justify-content:center;align-items:center;gap:16px">
