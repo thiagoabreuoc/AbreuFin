@@ -199,14 +199,11 @@ function niceCeil(value) {
 
 function buildGridLines(chartW, H, maxVal) {
   const stroke = cssVar('--md-sys-color-outline-variant');
-  const labelColor = cssVar('--md-sys-color-outline');
   return [1, 0.75, 0.5, 0.25, 0].map(pct => {
     const y = H - pct * H * 0.92;
-    const line = pct > 0
+    return pct > 0
       ? `<line x1="0" y1="${y}" x2="${chartW}" y2="${y}" stroke="${stroke}" stroke-width="1" stroke-dasharray="4,3"/>`
       : `<line x1="0" y1="${y}" x2="${chartW}" y2="${y}" stroke="${stroke}" stroke-width="1"/>`;
-    const label = `<text x="${chartW + 8}" y="${y + 3}" font-size="8" fill="${labelColor}">${formatAxisValue(pct * maxVal)}</text>`;
-    return line + label;
   }).join('');
 }
 
@@ -223,7 +220,7 @@ function makeLinePath(ys, xs) {
 
 function buildAreaChart(data, xLabels) {
   if (data.every(d => TIPOS.every(t => d[t] === 0))) return emptyChart();
-  const W = 320, H = 100, PAD_B = 20, PAD_R = 40;
+  const W = 320, H = 100, PAD_B = 20, PAD_R = 8;
   const chartW = W - PAD_R;
   const n = data.length;
   const maxVal = niceCeil(Math.max(1, ...data.flatMap(d => TIPOS.map(t => d[t]))));
@@ -252,7 +249,7 @@ function buildAreaChart(data, xLabels) {
 function animateAreaTo(targetData) {
   if (_areaRaf) { cancelAnimationFrame(_areaRaf); _areaRaf = null; }
 
-  const W = 320, H = 100, PAD_R = 40;
+  const W = 320, H = 100, PAD_R = 8;
   const chartW = W - PAD_R;
   const n = targetData.length;
   const maxVal = niceCeil(Math.max(1, ...targetData.flatMap(d => TIPOS.map(t => d[t]))));
@@ -313,7 +310,7 @@ let _barRaf = null;
 
 function buildBarChart(d) {
   if (d.receita + d.despesa + d.investimento === 0) return emptyChart();
-  const W = 320, H = 100, R = 6, GAP = 4, PAD_R = 40;
+  const W = 320, H = 100, R = 6, GAP = 4, PAD_R = 8;
   const chartW = W - PAD_R;
   const maxVal = niceCeil(Math.max(1, ...TIPOS.map(t => d[t])));
   const barW = (chartW - GAP * (TIPOS.length - 1)) / TIPOS.length;
