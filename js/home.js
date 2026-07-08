@@ -124,9 +124,9 @@ function selectMonth(i) {
 }
 
 const TIPO_META = {
-  receita:     {cor:'#18BC9C', label:'Receita'},
-  despesa:     {cor:'#E74C3C', label:'Despesa'},
-  investimento:{cor:'#3498DB', label:'Investido'},
+  get receita()      { return {cor: cssVar('--md-extended-color-receita-color'),      label:'Receita'}; },
+  get despesa()      { return {cor: cssVar('--md-sys-color-error'),                   label:'Despesa'}; },
+  get investimento() { return {cor: cssVar('--md-extended-color-investimento-color'), label:'Investido'}; },
 };
 const TIPOS = ['receita','despesa','investimento'];
 
@@ -140,9 +140,10 @@ function getYearTotals(year=2026) {
 }
 
 function buildGridLines(W, H) {
+  const stroke = cssVar('--md-sys-color-outline-variant');
   return [0.25, 0.5, 0.75, 1].map(pct => {
     const y = H - pct * H * 0.92;
-    return `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="#dee2e6" stroke-width="1" stroke-dasharray="4,3"/>`;
+    return `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="${stroke}" stroke-width="1" stroke-dasharray="4,3"/>`;
   }).join('');
 }
 
@@ -235,7 +236,7 @@ function updateYearView() {
 }
 
 function emptyChart() {
-  return `<div style="height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#adb5bd">
+  return `<div style="height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:${cssVar('--md-sys-color-outline')}">
     <i class="bi bi-bar-chart-line" style="font-size:1.6rem;margin-bottom:6px"></i>
     <span class="small">Sem movimentação até o momento</span>
   </div>`;
@@ -304,29 +305,31 @@ function buildSubLabels(d) {
     const prevMonth = homeMonth === 0 ? 11 : homeMonth - 1;
     const prevYear  = homeMonth === 0 ? homeYear - 1 : homeYear;
     const prev = getMonthTotals(prevMonth, prevYear);
+    const faint = cssVar('--md-sys-color-outline');
     if (prev.receita > 0) {
       const pct = ((d.receita - prev.receita) / prev.receita) * 100;
       const up = pct >= 0;
-      sub.receita = `<div class="smaller" style="color:${up?'#18BC9C':'#E74C3C'}">${up?'↑':'↓'} ${Math.abs(pct).toFixed(1)}% vs mês ant.</div>`;
+      sub.receita = `<div class="smaller" style="color:${up ? TIPO_META.receita.cor : TIPO_META.despesa.cor}">${up?'↑':'↓'} ${Math.abs(pct).toFixed(1)}% vs mês ant.</div>`;
     } else if (d.receita > 0) {
-      sub.receita = `<div class="smaller" style="color:#adb5bd">sem mês ant.</div>`;
+      sub.receita = `<div class="smaller" style="color:${faint}">sem mês ant.</div>`;
     }
     if (d.receita > 0) {
-      sub.despesa      = `<div class="smaller" style="color:#adb5bd">${((d.despesa / d.receita)*100).toFixed(1)}% da receita</div>`;
-      sub.investimento = `<div class="smaller" style="color:#adb5bd">${((d.investimento / d.receita)*100).toFixed(1)}% da receita</div>`;
+      sub.despesa      = `<div class="smaller" style="color:${faint}">${((d.despesa / d.receita)*100).toFixed(1)}% da receita</div>`;
+      sub.investimento = `<div class="smaller" style="color:${faint}">${((d.investimento / d.receita)*100).toFixed(1)}% da receita</div>`;
     }
   } else if (homeTab === 'anos') {
+    const faint = cssVar('--md-sys-color-outline');
     const prev = getYearTotals(homeYear - 1);
     const hasPrev = prev.receita + prev.despesa + prev.investimento > 0;
     TIPOS.forEach(tipo => {
       if (prev[tipo] > 0) {
         const pct = ((d[tipo] - prev[tipo]) / prev[tipo]) * 100;
         const up = pct >= 0;
-        sub[tipo] = `<div class="smaller" style="color:${up?'#18BC9C':'#E74C3C'}">${up?'↑':'↓'} ${Math.abs(pct).toFixed(1)}% vs ano ant.</div>`;
+        sub[tipo] = `<div class="smaller" style="color:${up ? TIPO_META.receita.cor : TIPO_META.despesa.cor}">${up?'↑':'↓'} ${Math.abs(pct).toFixed(1)}% vs ano ant.</div>`;
       } else if (hasPrev && d[tipo] > 0) {
-        sub[tipo] = `<div class="smaller" style="color:#adb5bd">novo</div>`;
+        sub[tipo] = `<div class="smaller" style="color:${faint}">novo</div>`;
       } else if (!hasPrev && d[tipo] > 0) {
-        sub[tipo] = `<div class="smaller" style="color:#adb5bd">sem ano ant.</div>`;
+        sub[tipo] = `<div class="smaller" style="color:${faint}">sem ano ant.</div>`;
       }
     });
   }
@@ -374,16 +377,17 @@ function renderBanners() {
     return d2 < today;
   }).length;
 
+  const closeFilter = getTheme() === 'dark' ? 'filter:invert(1)' : '';
   let banners = '';
   if (vencidoCount > 0 && !dismissedBanners.vencido)
-    banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-vencido" style="background:rgba(231,76,60,.1)">
-      <span class="small text-dark" onclick="goToVencendo('vencido')" style="cursor:pointer">${vencidoCount} despesa${vencidoCount>1?'s':''} vencida${vencidoCount>1?'s':''}. <u>Resolver</u></span>
-      <button type="button" class="btn-close" style="font-size:.55rem;filter:brightness(0)" onclick="dismissBanner('vencido')"></button>
+    banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-vencido" style="background:var(--md-sys-color-error-container);color:var(--md-sys-color-on-error-container)">
+      <span class="small" onclick="goToVencendo('vencido')" style="cursor:pointer">${vencidoCount} despesa${vencidoCount>1?'s':''} vencida${vencidoCount>1?'s':''}. <u>Resolver</u></span>
+      <button type="button" class="btn-close" style="font-size:.55rem;${closeFilter}" onclick="dismissBanner('vencido')"></button>
     </div>`;
   if (vencendoCount > 0 && !dismissedBanners.vencendo)
-    banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-vencendo" style="background:rgba(243,156,18,.1)">
-      <span class="small text-dark" onclick="goToVencendo('vencendo')" style="cursor:pointer">${vencendoCount} despesa${vencendoCount>1?'s':''} vencendo em 3 dias. <u>Ver</u></span>
-      <button type="button" class="btn-close" style="font-size:.55rem;filter:brightness(0)" onclick="dismissBanner('vencendo')"></button>
+    banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-vencendo" style="background:var(--md-extended-color-aviso-color-container);color:var(--md-extended-color-aviso-on-color-container)">
+      <span class="small" onclick="goToVencendo('vencendo')" style="cursor:pointer">${vencendoCount} despesa${vencendoCount>1?'s':''} vencendo em 3 dias. <u>Ver</u></span>
+      <button type="button" class="btn-close" style="font-size:.55rem;${closeFilter}" onclick="dismissBanner('vencendo')"></button>
     </div>`;
   const bannersEl = document.getElementById('home-banners');
   bannersEl.innerHTML = banners;

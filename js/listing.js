@@ -125,7 +125,7 @@ function renderListing() {
     const title = cap(escapeHtml(e.subcategoria||e.categoria));
     const sub   = cap(escapeHtml(e.categoria));
     const rep   = e.repetir ? `<div class="text-secondary small mt-1"><i class="bi bi-arrow-repeat me-1"></i>${cap(escapeHtml(e.repetir))}</div>` : '';
-    return `<li class="list-group-item d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer;border-radius:12px;border:1px solid #dee2e6">
+    return `<li class="list-group-item d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer;border-radius:12px;border:1px solid var(--md-sys-color-outline-variant)">
       <div>
         <div class="fw-semibold small">${title}</div>
         <div class="text-secondary small" style="margin-top:4px">${sub}</div>

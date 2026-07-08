@@ -15,11 +15,20 @@ $csrfToken = csrfToken();
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>AbreuFin</title>
+<script>
+(function() {
+  var saved = localStorage.getItem('theme');
+  var theme = saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/flatly/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/material3-tokens.css?v=<?= filemtime(__DIR__.'/css/material3-tokens.css') ?>">
+<link rel="stylesheet" href="css/design-system.css?v=<?= filemtime(__DIR__.'/css/design-system.css') ?>">
 <link rel="stylesheet" href="css/style.css?v=<?= filemtime(__DIR__.'/css/style.css') ?>">
 </head>
 <body>
@@ -125,7 +134,7 @@ window.__VAPID_PUBLIC_KEY__ = <?= json_encode(wpVapidPublicKey()) ?>;
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <?php
-$jsFiles = ['data','api','navigation','auth','account','toast','home','listing','vencendo','form','categories','profile','notifications','export','main'];
+$jsFiles = ['data','api','navigation','auth','account','theme','toast','home','listing','vencendo','form','categories','profile','notifications','export','main'];
 foreach ($jsFiles as $f):
   $v = filemtime(__DIR__."/js/{$f}.js");
 ?>

@@ -76,5 +76,5 @@ function navigate(id) {
   showScreen(id, false);
   if (id === 'home') renderHome();
   if (id === 'cats') renderCats();
-  if (id === 'profile') renderProfile();
+  if (id === 'profile') { renderProfile(); initThemeToggle(); }
 }

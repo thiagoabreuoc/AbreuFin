@@ -65,7 +65,7 @@ function renderVencendo() {
   }
   const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
   el.innerHTML = list.map(e => `
-    <li class="list-group-item d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer;border-radius:12px;border:1px solid #dee2e6">
+    <li class="list-group-item d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer;border-radius:12px;border:1px solid var(--md-sys-color-outline-variant)">
       <div>
         <div class="fw-semibold small">${cap(escapeHtml(e.subcategoria||e.categoria))}</div>
         <div class="text-secondary small" style="margin-top:4px">${cap(escapeHtml(e.categoria))}</div>

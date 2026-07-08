@@ -12,22 +12,22 @@
    ──────────────────────────────────────────────────────────────── */
 
 :root{
-  /* Neutros / superfícies */
-  --ds-bg-page:#eef0f5;
-  --ds-bg-surface:#ffffff;
-  --ds-bg-subtle:#f7f9fb;
-  --ds-border:#e9ecef;
-  --ds-text:#212529;
-  --ds-text-muted:#6b7280;
-  --ds-text-faint:#adb5bd;
+  /* Neutros / superfícies — herdados dos tokens Material 3 (material3-tokens.css) */
+  --ds-bg-page:var(--md-sys-color-surface-container-low);
+  --ds-bg-surface:var(--md-sys-color-surface-container-lowest);
+  --ds-bg-subtle:var(--md-sys-color-surface-container);
+  --ds-border:var(--md-sys-color-outline-variant);
+  --ds-text:var(--md-sys-color-on-surface);
+  --ds-text-muted:var(--md-sys-color-on-surface-variant);
+  --ds-text-faint:var(--md-sys-color-outline);
 
-  /* Marca / semântico (herdado do tema atual — Flatly) */
-  --ds-primary:#2c3e50;
+  /* Marca / semântico — role M3 "primary" (contraste ajustado por tema) */
+  --ds-primary:var(--md-sys-color-primary);
 
-  --ds-green:#18bc9c;      --ds-green-soft:rgba(24,188,156,.14);      --ds-green-ink:#11866e;
-  --ds-red:#e74c3c;        --ds-red-soft:rgba(231,76,60,.12);         --ds-red-ink:#c0392b;
-  --ds-blue:#3498db;       --ds-blue-soft:rgba(52,152,219,.14);       --ds-blue-ink:#2278b5;
-  --ds-amber:#f39c12;      --ds-amber-soft:rgba(243,156,18,.16);      --ds-amber-ink:#b7770d;
+  --ds-green:var(--md-extended-color-receita-color);       --ds-green-soft:color-mix(in srgb, var(--md-extended-color-receita-color) 16%, transparent);       --ds-green-ink:var(--md-extended-color-receita-color);
+  --ds-red:var(--md-sys-color-error);                       --ds-red-soft:color-mix(in srgb, var(--md-sys-color-error) 14%, transparent);                       --ds-red-ink:var(--md-sys-color-error);
+  --ds-blue:var(--md-extended-color-investimento-color);    --ds-blue-soft:color-mix(in srgb, var(--md-extended-color-investimento-color) 16%, transparent);    --ds-blue-ink:var(--md-extended-color-investimento-color);
+  --ds-amber:var(--md-extended-color-aviso-color);          --ds-amber-soft:color-mix(in srgb, var(--md-extended-color-aviso-color) 18%, transparent);          --ds-amber-ink:var(--md-extended-color-aviso-color);
 
   /* Escala tipográfica */
   --ds-fs-xs:.68rem;
@@ -48,17 +48,17 @@
   --ds-space-8:32px;
   --ds-space-10:40px;
 
-  /* Raios */
-  --ds-radius-sm:8px;
-  --ds-radius-md:12px;
-  --ds-radius-lg:16px;
-  --ds-radius-xl:20px;
-  --ds-radius-pill:999px;
+  /* Raios — shape scale M3 */
+  --ds-radius-sm:var(--md-sys-shape-corner-extra-small);
+  --ds-radius-md:var(--md-sys-shape-corner-small);
+  --ds-radius-lg:var(--md-sys-shape-corner-medium);
+  --ds-radius-xl:var(--md-sys-shape-corner-large);
+  --ds-radius-pill:var(--md-sys-shape-corner-full);
 
-  /* Sombras (discretas, como no kit de referência) */
-  --ds-shadow-sm:0 2px 8px rgba(15,23,42,.05);
-  --ds-shadow-md:0 8px 24px rgba(15,23,42,.08);
-  --ds-shadow-lg:0 20px 60px rgba(15,23,42,.16);
+  /* Sombras — elevation scale M3 */
+  --ds-shadow-sm:var(--md-sys-elevation-level1);
+  --ds-shadow-md:var(--md-sys-elevation-level2);
+  --ds-shadow-lg:var(--md-sys-elevation-level4);
 }
 
 /* ── Painel / superfície base ── */

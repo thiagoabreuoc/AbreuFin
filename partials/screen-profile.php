@@ -18,6 +18,12 @@
 
     <div class="mb-4">
       <div class="list-group">
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          <span>Tema escuro</span>
+          <div class="form-check form-switch mb-0">
+            <input class="form-check-input" type="checkbox" id="theme-toggle" role="switch" onchange="toggleTheme(this.checked)">
+          </div>
+        </div>
         <div class="list-group-item d-flex justify-content-between align-items-center" onclick="navigate('cats')" style="cursor:pointer">
           <span>Categorias</span>
           <i class="bi bi-chevron-right text-secondary"></i>
