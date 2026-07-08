@@ -5,7 +5,9 @@
     <div class="flex-grow-1 text-center">
       <span class="badge bg-success-subtle text-success fw-semibold" id="listing-title">Receitas</span>
       <div class="fw-semibold mt-1" style="font-size:0.95rem" id="listing-date">JAN 26</div>
-      <button class="btn btn-link btn-sm fw-semibold text-primary p-0" style="font-size:0.75rem;margin-top:2px" onclick="openPeriodPicker()">Alterar período</button>
+      <button class="btn btn-link btn-sm fw-semibold text-primary p-0" style="margin-top:2px" onclick="openPeriodPicker()">
+        <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">edit</span> Alterar período
+      </button>
     </div>
     <div style="width:24px"></div>
   </div>
