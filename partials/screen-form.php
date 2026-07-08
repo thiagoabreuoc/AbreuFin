@@ -8,10 +8,10 @@
   <div class="screen-body p-3">
 
     <!-- Tipo: tabs -->
-    <div class="d-flex p-1 gap-2 mb-3">
-      <button class="btn btn-sm rounded-pill btn-outline-primary" id="tab-tipo-receita"      onclick="setTipo('receita')"      >Receita</button>
-      <button class="btn btn-sm rounded-pill btn-outline-primary" id="tab-tipo-despesa"      onclick="setTipo('despesa')"      >Despesa</button>
-      <button class="btn btn-sm rounded-pill btn-outline-primary" id="tab-tipo-investimento" onclick="setTipo('investimento')" >Investimento</button>
+    <div class="d-flex justify-content-center gap-2 mb-3">
+      <button class="badge status-cell status-cell-white" id="tab-tipo-receita"      onclick="setTipo('receita')"      >Receita</button>
+      <button class="badge status-cell status-cell-white" id="tab-tipo-despesa"      onclick="setTipo('despesa')"      >Despesa</button>
+      <button class="badge status-cell status-cell-white" id="tab-tipo-investimento" onclick="setTipo('investimento')" >Investimento</button>
     </div>
     <input type="hidden" id="f-tipo">
 

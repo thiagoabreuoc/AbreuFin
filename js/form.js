@@ -472,13 +472,14 @@ function _setFormFieldsDisabled(disabled) {
   wrap.style.pointerEvents = disabled ? 'none' : '';
 }
 
+const TIPO_TAB_COLOR_CLASS = {receita:'status-cell-receita', despesa:'status-cell-despesa', investimento:'status-cell-investimento'};
 function setTipo(tipo) {
   if (document.getElementById('f-tipo').value === tipo) return;
   document.getElementById('f-tipo').value = tipo;
   TIPO_TABS.forEach(t => {
     const btn = document.getElementById('tab-tipo-' + t);
     if (!btn) return;
-    btn.className = 'btn btn-sm rounded-pill ' + (t === tipo ? 'btn-primary' : 'btn-outline-primary');
+    btn.className = 'badge status-cell ' + (t === tipo ? TIPO_TAB_COLOR_CLASS[t] : 'status-cell-white');
   });
   _setFormFieldsDisabled(false);
   onTipoChange();
