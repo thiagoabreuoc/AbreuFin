@@ -407,7 +407,7 @@ function buildSubLabels(d) {
 function buildLegendHtml(d) {
   const sub = (homeTab === 'meses' || homeTab === 'anos') ? buildSubLabels(d) : {receita:'', despesa:'', investimento:''};
   const detalheBtn = tipo => homeTab === 'meses'
-    ? `<button class="btn btn-link btn-sm fw-semibold text-primary p-0" style="font-size:.7rem" onclick="openListing('${tipo}')">Detalhe</button>`
+    ? `<button class="btn btn-link btn-sm fw-semibold text-primary p-0" style="font-size:.7rem" onclick="openListing('${tipo}')"><span class="material-symbols-outlined" style="font-size:.9rem;vertical-align:-2px">add</span> Detalhe</button>`
     : '';
   return TIPOS.map(tipo =>
     `<div class="text-center" style="flex:1">
