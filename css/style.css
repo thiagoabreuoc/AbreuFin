@@ -82,8 +82,8 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .badge-yellow-soft      {background:var(--md-extended-color-aviso-color-container)!important;         color:var(--md-extended-color-aviso-on-color-container)!important}
 
 /* Primary tabs (M3) — https://m3.material.io/components/tabs/overview */
-.m3-tabs{display:flex;border-bottom:1px solid var(--md-sys-color-outline-variant)}
-.m3-tab{position:relative;overflow:hidden;flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:none;border:none;padding:12px 8px;font-family:'Roboto',sans-serif;font-size:.875rem;font-weight:600;color:var(--md-sys-color-on-surface-variant);cursor:pointer;transition:color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.m3-tabs{display:flex;justify-content:center;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+.m3-tab{position:relative;overflow:hidden;flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:6px;background:none;border:none;padding:12px 20px;font-family:'Roboto',sans-serif;font-size:.875rem;font-weight:600;color:var(--md-sys-color-on-surface-variant);cursor:pointer;transition:color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
 .m3-tab .material-symbols-outlined{font-size:1.2rem}
 .m3-tab::after{content:'';position:absolute;left:50%;bottom:0;width:32px;margin-left:-16px;height:3px;background:var(--md-sys-color-primary);border-radius:var(--md-sys-shape-corner-full) var(--md-sys-shape-corner-full) 0 0;transform:scaleX(0);transition:transform var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized)}
 .m3-tab.active{color:var(--md-sys-color-primary)}
