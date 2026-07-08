@@ -303,29 +303,33 @@ function pseudoRandom(seed) {
   return Math.abs(Math.sin(seed * 12.9898) * 43758.5453) % 1;
 }
 
-// parâmetros do "blob" variam por categoria E por mês, pra cada mês ter
-// um perfil orgânico diferente
+// parâmetros do "blob" variam por categoria E por mês — cada um é uma
+// altura independente (pode subir ou descer bem além da altura "reta"),
+// pra gerar silhuetas bem diferentes entre si, não só uma leve ondulação
 function organicBarParams(tipo, month) {
   const i = TIPOS.indexOf(tipo);
-  const seed = i * 7 + month * 13;
+  const seed = i * 101 + month * 47 + 13;
   return {
-    ampFrac: 0.65 + pseudoRandom(seed) * 0.35,
-    w2Frac: 0.45 + pseudoRandom(seed + 1) * 0.45,
-    midXFrac: 0.32 + pseudoRandom(seed + 2) * 0.24,
+    hLeft:  (pseudoRandom(seed)     - 0.5) * 2, // -1..1
+    hMid:   (pseudoRandom(seed + 1) - 0.5) * 2, // -1..1
+    hRight: (pseudoRandom(seed + 2) - 0.5) * 2, // -1..1
+    midXFrac: 0.28 + pseudoRandom(seed + 3) * 0.44, // 0.28..0.72
   };
 }
 
-function organicBarPath(x, barW, y, H, barH, params) {
+function organicBarPath(x, barW, y, H, barH, p) {
   // topo em curva assimétrica ("blob"), em vez de reto — ecoa as curvas
-  // suaves da visão Anual.
-  const amp = Math.min(barH * 0.28, 9);
-  const w1 = amp * params.ampFrac;
-  const w2 = amp * params.w2Frac;
-  const midX = x + barW * params.midXFrac;
+  // suaves da visão Anual. hLeft/hMid/hRight deslocam o topo pra cima ou
+  // pra baixo de forma independente, gerando picos e vales bem marcados.
+  const amp = Math.min(barH * 0.4, 16);
+  const leftY  = y - p.hLeft  * amp;
+  const midY   = y - p.hMid   * amp;
+  const rightY = y - p.hRight * amp;
+  const midX = x + barW * p.midXFrac;
   return `M ${x} ${H}
-    L ${x} ${y + w1}
-    C ${x} ${y - w1 * 0.3}, ${midX - barW * 0.12} ${y - w1}, ${midX} ${y - w1 * 0.15}
-    C ${midX + barW * 0.22} ${y + w2 * 0.5}, ${x + barW} ${y - w2}, ${x + barW} ${y + w2 * 0.35}
+    L ${x} ${leftY}
+    C ${x + barW * 0.16} ${leftY}, ${midX - barW * 0.14} ${midY}, ${midX} ${midY}
+    C ${midX + barW * 0.14} ${midY}, ${x + barW - barW * 0.16} ${rightY}, ${x + barW} ${rightY}
     L ${x + barW} ${H}
     Z`;
 }
@@ -359,7 +363,7 @@ function animateBarChartTo(targetD, targetMonth) {
   const xOf = {}, from = {}, to = {};
   TIPOS.forEach((tipo, i) => {
     xOf[tipo] = i * (barW + GAP);
-    from[tipo] = _barChartState[tipo] || { barH: 0, ampFrac: .8, w2Frac: .65, midXFrac: .4 };
+    from[tipo] = _barChartState[tipo] || { barH: 0, hLeft: 0, hMid: 0, hRight: 0, midXFrac: .5 };
     const barH = Math.max((targetD[tipo] / maxVal) * H * 0.92, targetD[tipo] > 0 ? 4 : 0);
     to[tipo] = { barH, ...organicBarParams(tipo, targetMonth) };
   });
@@ -376,8 +380,9 @@ function animateBarChartTo(targetD, targetMonth) {
       const f = from[tipo], g = to[tipo];
       const cur = {
         barH: f.barH + (g.barH - f.barH) * t,
-        ampFrac: f.ampFrac + (g.ampFrac - f.ampFrac) * t,
-        w2Frac: f.w2Frac + (g.w2Frac - f.w2Frac) * t,
+        hLeft: f.hLeft + (g.hLeft - f.hLeft) * t,
+        hMid: f.hMid + (g.hMid - f.hMid) * t,
+        hRight: f.hRight + (g.hRight - f.hRight) * t,
         midXFrac: f.midXFrac + (g.midXFrac - f.midXFrac) * t,
       };
       const y = H - cur.barH;
