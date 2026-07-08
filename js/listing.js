@@ -10,8 +10,8 @@ function closeFilterPanel() {
   document.getElementById('filter-sheet').classList.remove('open');
 }
 const STATUS_BADGE = {
-  recebido:  'badge-receita-soft',
-  a_receber: 'badge-neutral-soft',
+  recebido:  'status-cell status-cell-success',
+  a_receber: 'status-cell status-cell-neutral',
   pago:      'bg-danger',
   a_pagar:   'badge-despesa-soft',
   investido: 'bg-info',

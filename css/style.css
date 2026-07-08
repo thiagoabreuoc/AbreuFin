@@ -84,6 +84,12 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .badge-yellow-soft      {background:var(--md-extended-color-aviso-color-container)!important;         color:var(--md-extended-color-aviso-on-color-container)!important}
 .badge-neutral-soft     {background:var(--md-sys-color-surface-variant)!important;                    color:var(--md-sys-color-on-surface-variant)!important}
 
+/* Status cell — chip pill discreto (fundo pálido / texto médio, peso normal),
+   para status confirmados (Recebido/A receber) */
+.status-cell{font-weight:500!important;font-size:.75rem;padding:4px 10px!important;border-radius:var(--md-sys-shape-corner-full)!important}
+.status-cell-success{background:#D7F3E0!important;color:#146C34!important}
+.status-cell-neutral{background:#E9EBEE!important;color:#5F6368!important}
+
 /* Primary tabs (M3) — https://m3.material.io/components/tabs/overview */
 .m3-tabs{display:flex;justify-content:center;border-bottom:1px solid var(--md-sys-color-outline-variant)}
 .m3-tab{position:relative;overflow:hidden;flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:6px;background:none;border:none;padding:12px 20px;font-family:'Roboto',sans-serif;font-size:.875rem;font-weight:600;color:var(--md-sys-color-on-surface-variant);cursor:pointer;transition:color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
