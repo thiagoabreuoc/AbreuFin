@@ -1,16 +1,14 @@
 /* ────────────────────────────────────────────────────────────────
    Material 3 design tokens (https://m3.material.io/)
 
-   Gerado a partir da cor semente verde-oliva suave (#6e7b4f) com a lib
-   oficial @material/material-color-utilities (scheme "Content", que
-   preserva a cor de origem em vez de saturá-la — por isso
-   primaryContainer bate exatamente com o oliva escolhido). O terciário
-   (verde-azulado) surge automaticamente do algoritmo como complementar
-   harmônico. Cores estendidas (receita/investimento/aviso) geradas via
-   customColor()/Blend.harmonize a partir das cores semânticas do app,
-   levemente puxadas em direção ao oliva pra combinar sem perder a
-   distinção (receita continua um verde mais vivo, investimento um
-   azul-petróleo, aviso um âmbar).
+   Paleta "baseline" roxa do M3 — cor semente #6750A4 (a referência
+   clássica usada nos exemplos oficiais do Material 3), gerada com a lib
+   oficial @material/material-color-utilities via scheme "TonalSpot"
+   (o mesmo esquema usado no baseline padrão: primaryContainer é um tom
+   claro do matiz, não a cor semente crua). Cores estendidas
+   (receita/investimento/aviso) geradas via customColor()/Blend.harmonize
+   a partir das cores semânticas do app, levemente puxadas em direção ao
+   roxo pra combinar sem perder a distinção.
 
    Nomenclatura oficial M3: --md-sys-color-*, --md-sys-shape-corner-*,
    --md-sys-elevation-level*, --md-sys-motion-*, --md-extended-color-*.
@@ -20,64 +18,64 @@
   color-scheme: light;
 
   /* ── Cor — tema claro (default) ── */
-  --md-sys-color-primary:#566238;
+  --md-sys-color-primary:#65558f;
   --md-sys-color-on-primary:#ffffff;
-  --md-sys-color-primary-container:#6e7b4f;
-  --md-sys-color-on-primary-container:#ffffff;
-  --md-sys-color-inverse-primary:#becc9a;
+  --md-sys-color-primary-container:#e9ddff;
+  --md-sys-color-on-primary-container:#4d3d75;
+  --md-sys-color-inverse-primary:#cfbdfe;
 
-  --md-sys-color-secondary:#5b614d;
+  --md-sys-color-secondary:#625b71;
   --md-sys-color-on-secondary:#ffffff;
-  --md-sys-color-secondary-container:#dde2c9;
-  --md-sys-color-on-secondary-container:#606551;
+  --md-sys-color-secondary-container:#e8def8;
+  --md-sys-color-on-secondary-container:#4a4458;
 
-  --md-sys-color-tertiary:#3c6653;
+  --md-sys-color-tertiary:#7e5260;
   --md-sys-color-on-tertiary:#ffffff;
-  --md-sys-color-tertiary-container:#557f6b;
-  --md-sys-color-on-tertiary-container:#ffffff;
+  --md-sys-color-tertiary-container:#ffd9e3;
+  --md-sys-color-on-tertiary-container:#633b48;
 
   --md-sys-color-error:#ba1a1a;
   --md-sys-color-on-error:#ffffff;
   --md-sys-color-error-container:#ffdad6;
   --md-sys-color-on-error-container:#93000a;
 
-  --md-sys-color-background:#fbf9f3;
-  --md-sys-color-on-background:#1b1c18;
-  --md-sys-color-surface:#fbf9f3;
-  --md-sys-color-on-surface:#1b1c18;
-  --md-sys-color-surface-variant:#e3e3d5;
-  --md-sys-color-on-surface-variant:#46483e;
-  --md-sys-color-surface-dim:#dcdad4;
-  --md-sys-color-surface-bright:#fbf9f3;
+  --md-sys-color-background:#fdf7ff;
+  --md-sys-color-on-background:#1d1b20;
+  --md-sys-color-surface:#fdf7ff;
+  --md-sys-color-on-surface:#1d1b20;
+  --md-sys-color-surface-variant:#e7e0eb;
+  --md-sys-color-on-surface-variant:#49454e;
+  --md-sys-color-surface-dim:#ded8e0;
+  --md-sys-color-surface-bright:#fdf7ff;
   --md-sys-color-surface-container-lowest:#ffffff;
-  --md-sys-color-surface-container-low:#f6f3ed;
-  --md-sys-color-surface-container:#f0eee8;
-  --md-sys-color-surface-container-high:#eae8e2;
-  --md-sys-color-surface-container-highest:#e4e2dc;
+  --md-sys-color-surface-container-low:#f8f2fa;
+  --md-sys-color-surface-container:#f2ecf4;
+  --md-sys-color-surface-container-high:#ece6ee;
+  --md-sys-color-surface-container-highest:#e6e0e9;
 
-  --md-sys-color-outline:#76786c;
-  --md-sys-color-outline-variant:#c6c8ba;
-  --md-sys-color-inverse-surface:#30312d;
-  --md-sys-color-inverse-on-surface:#f3f1ea;
+  --md-sys-color-outline:#7a757f;
+  --md-sys-color-outline-variant:#cac4cf;
+  --md-sys-color-inverse-surface:#322f35;
+  --md-sys-color-inverse-on-surface:#f5eff7;
   --md-sys-color-shadow:#000000;
   --md-sys-color-scrim:#000000;
-  --md-sys-color-surface-tint:#576339;
+  --md-sys-color-surface-tint:#65558f;
 
   /* ── Cores estendidas (domínio financeiro do app) — tema claro ── */
-  --md-extended-color-receita-color:#006c44;
+  --md-extended-color-receita-color:#006a66;
   --md-extended-color-receita-on-color:#ffffff;
-  --md-extended-color-receita-color-container:#88f9bb;
-  --md-extended-color-receita-on-color-container:#002112;
+  --md-extended-color-receita-color-container:#6bf8f0;
+  --md-extended-color-receita-on-color-container:#00201e;
 
-  --md-extended-color-investimento-color:#006686;
+  --md-extended-color-investimento-color:#185eac;
   --md-extended-color-investimento-on-color:#ffffff;
-  --md-extended-color-investimento-color-container:#c0e8ff;
-  --md-extended-color-investimento-on-color-container:#001e2b;
+  --md-extended-color-investimento-color-container:#d5e3ff;
+  --md-extended-color-investimento-on-color-container:#001b3c;
 
-  --md-extended-color-aviso-color:#7a5900;
+  --md-extended-color-aviso-color:#944a00;
   --md-extended-color-aviso-on-color:#ffffff;
-  --md-extended-color-aviso-color-container:#ffdea1;
-  --md-extended-color-aviso-on-color-container:#261900;
+  --md-extended-color-aviso-color-container:#ffdcc5;
+  --md-extended-color-aviso-on-color-container:#301400;
 
   /* ── Forma (shape scale) — igual nos dois temas ── */
   --md-sys-shape-corner-none:0px;
@@ -162,61 +160,61 @@
 :root[data-theme="dark"]{
   color-scheme: dark;
 
-  --md-sys-color-primary:#becc9a;
-  --md-sys-color-on-primary:#293410;
-  --md-sys-color-primary-container:#6e7b4f;
-  --md-sys-color-on-primary-container:#ffffff;
-  --md-sys-color-inverse-primary:#576339;
+  --md-sys-color-primary:#cfbdfe;
+  --md-sys-color-on-primary:#36275d;
+  --md-sys-color-primary-container:#4d3d75;
+  --md-sys-color-on-primary-container:#e9ddff;
+  --md-sys-color-inverse-primary:#65558f;
 
-  --md-sys-color-secondary:#c4c9b1;
-  --md-sys-color-on-secondary:#2d3221;
-  --md-sys-color-secondary-container:#444936;
-  --md-sys-color-on-secondary-container:#b3b8a0;
+  --md-sys-color-secondary:#cbc2db;
+  --md-sys-color-on-secondary:#332d41;
+  --md-sys-color-secondary-container:#4a4458;
+  --md-sys-color-on-secondary-container:#e8def8;
 
-  --md-sys-color-tertiary:#a4d0b9;
-  --md-sys-color-on-tertiary:#0b3727;
-  --md-sys-color-tertiary-container:#557f6b;
-  --md-sys-color-on-tertiary-container:#ffffff;
+  --md-sys-color-tertiary:#efb8c8;
+  --md-sys-color-on-tertiary:#4a2532;
+  --md-sys-color-tertiary-container:#633b48;
+  --md-sys-color-on-tertiary-container:#ffd9e3;
 
   --md-sys-color-error:#ffb4ab;
   --md-sys-color-on-error:#690005;
   --md-sys-color-error-container:#93000a;
   --md-sys-color-on-error-container:#ffdad6;
 
-  --md-sys-color-background:#131410;
-  --md-sys-color-on-background:#e4e2dc;
-  --md-sys-color-surface:#131410;
-  --md-sys-color-on-surface:#e4e2dc;
-  --md-sys-color-surface-variant:#46483e;
-  --md-sys-color-on-surface-variant:#c6c8ba;
-  --md-sys-color-surface-dim:#131410;
-  --md-sys-color-surface-bright:#393935;
-  --md-sys-color-surface-container-lowest:#0e0e0b;
-  --md-sys-color-surface-container-low:#1b1c18;
-  --md-sys-color-surface-container:#1f201c;
-  --md-sys-color-surface-container-high:#2a2a26;
-  --md-sys-color-surface-container-highest:#353531;
+  --md-sys-color-background:#141218;
+  --md-sys-color-on-background:#e6e0e9;
+  --md-sys-color-surface:#141218;
+  --md-sys-color-on-surface:#e6e0e9;
+  --md-sys-color-surface-variant:#49454e;
+  --md-sys-color-on-surface-variant:#cac4cf;
+  --md-sys-color-surface-dim:#141218;
+  --md-sys-color-surface-bright:#3b383e;
+  --md-sys-color-surface-container-lowest:#0f0d13;
+  --md-sys-color-surface-container-low:#1d1b20;
+  --md-sys-color-surface-container:#211f24;
+  --md-sys-color-surface-container-high:#2b292f;
+  --md-sys-color-surface-container-highest:#36343a;
 
-  --md-sys-color-outline:#909285;
-  --md-sys-color-outline-variant:#46483e;
-  --md-sys-color-inverse-surface:#e4e2dc;
-  --md-sys-color-inverse-on-surface:#30312d;
+  --md-sys-color-outline:#948f99;
+  --md-sys-color-outline-variant:#49454e;
+  --md-sys-color-inverse-surface:#e6e0e9;
+  --md-sys-color-inverse-on-surface:#322f35;
   --md-sys-color-shadow:#000000;
   --md-sys-color-scrim:#000000;
-  --md-sys-color-surface-tint:#becc9a;
+  --md-sys-color-surface-tint:#cfbdfe;
 
-  --md-extended-color-receita-color:#6bdca1;
-  --md-extended-color-receita-on-color:#003821;
-  --md-extended-color-receita-color-container:#005232;
-  --md-extended-color-receita-on-color-container:#88f9bb;
+  --md-extended-color-receita-color:#48dbd3;
+  --md-extended-color-receita-on-color:#003735;
+  --md-extended-color-receita-color-container:#00504d;
+  --md-extended-color-receita-on-color-container:#6bf8f0;
 
-  --md-extended-color-investimento-color:#6fd2ff;
-  --md-extended-color-investimento-on-color:#003547;
-  --md-extended-color-investimento-color-container:#004d66;
-  --md-extended-color-investimento-on-color-container:#c0e8ff;
+  --md-extended-color-investimento-color:#a7c8ff;
+  --md-extended-color-investimento-on-color:#003061;
+  --md-extended-color-investimento-color-container:#004788;
+  --md-extended-color-investimento-on-color-container:#d5e3ff;
 
-  --md-extended-color-aviso-color:#f9bd28;
-  --md-extended-color-aviso-on-color:#402d00;
-  --md-extended-color-aviso-color-container:#5c4300;
-  --md-extended-color-aviso-on-color-container:#ffdea1;
+  --md-extended-color-aviso-color:#ffb783;
+  --md-extended-color-aviso-on-color:#4f2500;
+  --md-extended-color-aviso-color-container:#713700;
+  --md-extended-color-aviso-on-color-container:#ffdcc5;
 }
