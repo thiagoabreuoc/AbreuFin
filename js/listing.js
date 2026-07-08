@@ -55,9 +55,18 @@ function openListing(tipo) {
     despesa:     [{val:'',label:'Tudo'},{val:'pago',label:'Pago'},{val:'a_pagar',label:'A pagar'}],
     investimento:[{val:'',label:'Tudo'},{val:'investido',label:'Investido'},{val:'a_investir',label:'A investir'}],
   };
+  const STATUS_COLOR_CLASS = {
+    '':           'status-cell-neutral',
+    recebido:     'status-cell-success',
+    a_receber:    'status-cell-neutral',
+    pago:         'status-cell-despesa',
+    a_pagar:      'status-cell-neutral',
+    investido:    'status-cell-investimento',
+    a_investir:   'status-cell-neutral',
+  };
   const tabs = STATUS_TABS[tipo] || STATUS_TABS.despesa;
   document.getElementById('listing-status-tabs').innerHTML = tabs.map((t,i)=>
-    `<button class="m3-tab${i===0?' active':''}" onclick="selectStatus(this,'${t.val}')">${t.label}</button>`
+    `<button class="badge status-cell ${STATUS_COLOR_CLASS[t.val]}" style="border:2px solid ${i===0?'currentColor':'transparent'}" onclick="selectStatus(this,'${t.val}')">${t.label}</button>`
   ).join('');
   const labels={receita:'Receitas',despesa:'Despesas',investimento:'Investimentos'};
   const TIPO_HEADER_CLASS={receita:'badge status-cell status-cell-receita',despesa:'badge status-cell status-cell-despesa',investimento:'badge status-cell status-cell-investimento'};
@@ -143,6 +152,11 @@ function dueBadge(e) {
 
 function renderListing() {
   const list=getListingEntries();
+  const hasVencido  = list.some(e=>dueRank(e)==='vencido');
+  const hasVencendo = list.some(e=>dueRank(e)==='vencendo');
+  document.getElementById('sort-btn-vencido').style.display  = hasVencido  ? 'inline-flex' : 'none';
+  document.getElementById('sort-btn-vencendo').style.display = hasVencendo ? 'inline-flex' : 'none';
+  document.getElementById('sort-urgency-sep').style.display  = (hasVencido || hasVencendo) ? 'inline' : 'none';
   const el=document.getElementById('listing-entries');
   if (!list.length){el.innerHTML=`<li class="list-group-item text-center text-secondary small py-5 border-0" style="border-radius:12px">Nenhum lançamento encontrado.</li>`;return;}
   const visible=list.slice(0,listingLimit);
@@ -191,8 +205,8 @@ function detachListingScroll() {
 function selectStatus(btn,val){
   listingStatusFilter=val;
   listingLimit=10;
-  document.querySelectorAll('#listing-status-tabs .m3-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
+  document.querySelectorAll('#listing-status-tabs button').forEach(b=>{ b.style.borderColor = 'transparent'; });
+  btn.style.borderColor = 'currentColor';
   renderListing();
 }
 function updateSortBtns(){
