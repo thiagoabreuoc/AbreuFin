@@ -109,6 +109,16 @@ function getListingEntries() {
   });
 }
 
+function dueBadge(e) {
+  if (e.tipo !== 'despesa' || e.status !== 'pendente') return '';
+  const today = new Date(); today.setHours(0,0,0,0);
+  const in3 = new Date(today); in3.setDate(today.getDate()+3);
+  const d2 = new Date(e.yyyy, e.mm-1, e.dd); d2.setHours(0,0,0,0);
+  if (d2 < today) return `<span class="m3-badge-small m3-badge-small-error" style="margin-left:4px"></span>`;
+  if (d2 <= in3) return `<span class="m3-badge-small m3-badge-small-warning" style="margin-left:4px"></span>`;
+  return '';
+}
+
 function renderListing() {
   const list=getListingEntries();
   const el=document.getElementById('listing-entries');
@@ -129,7 +139,7 @@ function renderListing() {
       <div class="text-end">
         <span class="badge ${STATUS_BADGE[es]} mb-1">${statusLabel(es)}</span>
         <div class="fw-semibold small">${fmt(e.valor)}</div>
-        <div class="text-secondary small">${String(e.dd).padStart(2,'0')}/${String(e.mm).padStart(2,'0')}/${e.yyyy}</div>
+        <div class="text-secondary small">${String(e.dd).padStart(2,'0')}/${String(e.mm).padStart(2,'0')}/${e.yyyy}${dueBadge(e)}</div>
       </div></li>`;
   }).join('');
 }

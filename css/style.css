@@ -91,6 +91,12 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .status-cell-neutral{background:#E9EBEE!important;color:#5F6368!important}
 .status-cell-receita{background:color-mix(in srgb, var(--md-extended-color-receita-color) 18%, white)!important;color:var(--md-extended-color-receita-color)!important}
 
+/* Small badge — https://m3.material.io/components/badges (variante "small",
+   só o indicador, sem conteúdo) */
+.m3-badge-small{display:inline-block;width:6px;height:6px;border-radius:50%;vertical-align:middle}
+.m3-badge-small-error{background:var(--md-sys-color-error)}
+.m3-badge-small-warning{background:var(--md-extended-color-aviso-color)}
+
 /* Primary tabs (M3) — https://m3.material.io/components/tabs/overview */
 .m3-tabs{display:flex;justify-content:center;border-bottom:1px solid var(--md-sys-color-outline-variant)}
 .m3-tab{position:relative;overflow:hidden;flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:6px;background:none;border:none;padding:12px 20px;font-family:'Roboto',sans-serif;font-size:.875rem;font-weight:600;color:var(--md-sys-color-on-surface-variant);cursor:pointer;transition:color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
