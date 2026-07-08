@@ -89,6 +89,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .status-cell{font-weight:400!important;font-size:.75rem;padding:4px 8px!important;border-radius:var(--md-sys-shape-corner-full)!important}
 .status-cell-success{background:#D7F3E0!important;color:#146C34!important}
 .status-cell-neutral{background:#E9EBEE!important;color:#5F6368!important}
+.status-cell-white{background:#FFFFFF!important;color:#5F6368!important;border:1px solid var(--md-sys-color-outline-variant)}
 .status-cell-receita{background:color-mix(in srgb, var(--md-extended-color-receita-color) 18%, white)!important;color:var(--md-extended-color-receita-color)!important}
 .status-cell-despesa{background:color-mix(in srgb, var(--md-sys-color-error) 18%, white)!important;color:var(--md-sys-color-error)!important}
 .status-cell-investimento{background:color-mix(in srgb, var(--md-extended-color-investimento-color) 18%, white)!important;color:var(--md-extended-color-investimento-color)!important}

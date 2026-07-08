@@ -44,6 +44,9 @@ function openListing(tipo) {
   currentListingType = tipo;
   listingStatusFilter = '';
   listingLimit = 10;
+  pinnedEntryId = null;
+  sortField = 'prioridade';
+  sortDir = 'asc';
   ensureCSFilterInit();
   closeFilterPanel();
   csReset('f-cat'); csReset('f-subcat'); csReset('f-repeat');
@@ -56,7 +59,7 @@ function openListing(tipo) {
     investimento:[{val:'',label:'Tudo'},{val:'investido',label:'Investido'},{val:'a_investir',label:'A investir'}],
   };
   const STATUS_COLOR_CLASS = {
-    '':           'status-cell-neutral',
+    '':           'status-cell-white',
     recebido:     'status-cell-success',
     a_receber:    'status-cell-neutral',
     pago:         'status-cell-despesa',
@@ -66,7 +69,7 @@ function openListing(tipo) {
   };
   const tabs = STATUS_TABS[tipo] || STATUS_TABS.despesa;
   document.getElementById('listing-status-tabs').innerHTML = tabs.map((t,i)=>
-    `<button class="badge status-cell ${STATUS_COLOR_CLASS[t.val]}" style="border:2px solid ${i===0?'currentColor':'transparent'}" onclick="selectStatus(this,'${t.val}')">${t.label}</button>`
+    `<button class="badge status-cell ${STATUS_COLOR_CLASS[t.val]}" style="box-shadow:${i===0?'inset 0 0 0 2px currentColor':'none'}" onclick="selectStatus(this,'${t.val}')">${t.label}</button>`
   ).join('');
   const labels={receita:'Receitas',despesa:'Despesas',investimento:'Investimentos'};
   const TIPO_HEADER_CLASS={receita:'badge status-cell status-cell-receita',despesa:'badge status-cell status-cell-despesa',investimento:'badge status-cell status-cell-investimento'};
@@ -105,6 +108,13 @@ function urgencyScore(e, primary) {
   if (r) return 1;
   return 2;
 }
+function overallPriority(e) {
+  const r = dueRank(e);
+  if (r === 'vencido')  return 0;
+  if (r === 'vencendo') return 1;
+  if (r === 'neutro')   return 2;
+  return 3; // confirmado (recebido/pago/investido)
+}
 
 function getListingEntries() {
   const cat=document.getElementById('f-cat').value;
@@ -125,6 +135,12 @@ function getListingEntries() {
     if (pinnedEntryId) {
       if (a.id===pinnedEntryId) return -1;
       if (b.id===pinnedEntryId) return 1;
+    }
+    if (sortField==='prioridade') {
+      const pa=overallPriority(a), pb=overallPriority(b);
+      if (pa!==pb) return pa-pb;
+      const da=a.yyyy*10000+a.mm*100+a.dd, db=b.yyyy*10000+b.mm*100+b.dd;
+      return da-db;
     }
     if (sortField==='vencido' || sortField==='vencendo' || sortField==='neutro') {
       const sa=urgencyScore(a,sortField), sb=urgencyScore(b,sortField);
@@ -204,8 +220,8 @@ function detachListingScroll() {
 function selectStatus(btn,val){
   listingStatusFilter=val;
   listingLimit=10;
-  document.querySelectorAll('#listing-status-tabs button').forEach(b=>{ b.style.borderColor = 'transparent'; });
-  btn.style.borderColor = 'currentColor';
+  document.querySelectorAll('#listing-status-tabs button').forEach(b=>{ b.style.boxShadow = 'none'; });
+  btn.style.boxShadow = 'inset 0 0 0 2px currentColor';
   renderListing();
 }
 function updateSortBtns(){
