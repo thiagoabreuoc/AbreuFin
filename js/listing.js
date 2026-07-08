@@ -201,8 +201,6 @@ function updateSortBtns(){
   document.getElementById('sort-btn-asc').className       = active('sort-btn-asc','valor','asc');
   document.getElementById('sort-btn-date-desc').className = active('sort-btn-date-desc','data','desc');
   document.getElementById('sort-btn-date-asc').className  = active('sort-btn-date-asc','data','asc');
-  document.getElementById('sort-btn-vencido').style.opacity  = sortField==='vencido'  ? '1' : '.4';
-  document.getElementById('sort-btn-vencendo').style.opacity = sortField==='vencendo' ? '1' : '.4';
 }
 function sortEntries(field,dir){
   pinnedEntryId=null; sortField=field; sortDir=dir; listingLimit=10;
