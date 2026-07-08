@@ -446,7 +446,7 @@ function renderBanners() {
     </div>`;
   const bannersEl = document.getElementById('home-banners');
   bannersEl.innerHTML = banners;
-  bannersEl.style.marginBottom = banners ? '32px' : '0';
+  bannersEl.style.marginBottom = banners ? '16px' : '0';
 }
 
 function renderHome() {
