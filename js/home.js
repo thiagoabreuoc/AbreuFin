@@ -310,9 +310,9 @@ function buildBarChart(d) {
     const y = H - barH;
     const c = TIPO_META[tipo].cor;
     return `<rect id="chart-bar-${tipo}" x="${x}" y="${y}" width="${barW}" height="${barH}" rx="${R}" ry="${R}"
-      fill="none" stroke="${c}" stroke-width="1.5"/>`;
+      fill="${c}" fill-opacity="0.25" stroke="${c}" stroke-width="1.5"/>`;
   }).join('');
-  return `<svg id="chart-bars-svg" viewBox="0 0 ${W} ${H}" width="100%" style="display:block">${buildBarChartGridLines(W,H)}${bars}</svg>`;
+  return `<svg id="chart-bars-svg" viewBox="0 0 ${W} ${H}" width="100%" style="display:block;overflow:visible">${buildBarChartGridLines(W,H)}${bars}</svg>`;
 }
 
 function animateBarsTo(target) {
@@ -460,7 +460,7 @@ function renderHome() {
   const chart = homeTab==='meses' ? buildBarChart(d) : buildAreaChart(chartData, chartLabels);
 
   const summary =
-    `<div class="card mb-2" style="border-radius:8px!important;border:none!important">
+    `<div class="card mb-2" style="border-radius:8px!important">
       <div class="card-body py-3 px-3">
         <div class="small text-center mb-3" id="home-periodo" style="font-weight:700">${periodoLabel}</div>
         <div class="mb-3">${chart}</div>
