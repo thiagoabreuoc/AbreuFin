@@ -81,6 +81,22 @@ function entryStatus(e) {
   return e.status;
 }
 
+function dueRank(e) {
+  if (!['a_pagar','a_receber','a_investir'].includes(entryStatus(e))) return null;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const in3 = new Date(today); in3.setDate(today.getDate()+3);
+  const d2 = new Date(e.yyyy, e.mm-1, e.dd); d2.setHours(0,0,0,0);
+  if (d2 < today) return 'vencido';
+  if (d2 <= in3) return 'vencendo';
+  return null;
+}
+function urgencyScore(e, primary) {
+  const r = dueRank(e);
+  if (r === primary) return 0;
+  if (r) return 1;
+  return 2;
+}
+
 function getListingEntries() {
   const cat=document.getElementById('f-cat').value;
   const sub=document.getElementById('f-subcat').value;
@@ -100,6 +116,12 @@ function getListingEntries() {
     if (pinnedEntryId) {
       if (a.id===pinnedEntryId) return -1;
       if (b.id===pinnedEntryId) return 1;
+    }
+    if (sortField==='vencido' || sortField==='vencendo') {
+      const sa=urgencyScore(a,sortField), sb=urgencyScore(b,sortField);
+      if (sa!==sb) return sa-sb;
+      const da=a.yyyy*10000+a.mm*100+a.dd, db=b.yyyy*10000+b.mm*100+b.dd;
+      return da-db;
     }
     if (sortField==='data') {
       const da=a.yyyy*10000+a.mm*100+a.dd, db=b.yyyy*10000+b.mm*100+b.dd;
@@ -179,6 +201,8 @@ function updateSortBtns(){
   document.getElementById('sort-btn-asc').className       = active('sort-btn-asc','valor','asc');
   document.getElementById('sort-btn-date-desc').className = active('sort-btn-date-desc','data','desc');
   document.getElementById('sort-btn-date-asc').className  = active('sort-btn-date-asc','data','asc');
+  document.getElementById('sort-btn-vencido').style.opacity  = sortField==='vencido'  ? '1' : '.4';
+  document.getElementById('sort-btn-vencendo').style.opacity = sortField==='vencendo' ? '1' : '.4';
 }
 function sortEntries(field,dir){
   pinnedEntryId=null; sortField=field; sortDir=dir; listingLimit=10;
