@@ -72,10 +72,12 @@ function openListing(tipo, pinId) {
     `<button class="badge status-cell ${STATUS_COLOR_CLASS[t.val]}" style="box-shadow:${i===0?'inset 0 0 0 2px currentColor':'none'}" onclick="selectStatus(this,'${t.val}')">${t.label}</button>`
   ).join('');
   const labels={receita:'Receitas',despesa:'Despesas',investimento:'Investimentos'};
+  const TIPO_HEADER_ICON={receita:'arrow_upward',despesa:'arrow_downward',investimento:'trending_up'};
   const TIPO_HEADER_CLASS={receita:'badge status-cell status-cell-receita',despesa:'badge status-cell status-cell-despesa',investimento:'badge status-cell status-cell-investimento'};
   const titleEl=document.getElementById('listing-title');
-  titleEl.textContent=labels[tipo];
-  titleEl.className=TIPO_HEADER_CLASS[tipo]||'badge bg-secondary fw-semibold';
+  titleEl.innerHTML=`<span class="material-symbols-outlined" style="font-size:1rem">${TIPO_HEADER_ICON[tipo]}</span>${labels[tipo]}`;
+  titleEl.className=(TIPO_HEADER_CLASS[tipo]||'badge bg-secondary fw-semibold')+' d-inline-flex align-items-center';
+  titleEl.style.gap='6px';
   listingYear  = homeYear;
   listingMonth = homeTab === 'meses' ? homeMonth : null;
   updateListingDateLabel();
