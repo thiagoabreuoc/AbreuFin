@@ -11,7 +11,7 @@ function closeFilterPanel() {
 }
 const STATUS_BADGE = {
   recebido:  'badge-receita-soft',
-  a_receber: 'badge-receita-soft',
+  a_receber: 'badge-neutral-soft',
   pago:      'bg-danger',
   a_pagar:   'badge-despesa-soft',
   investido: 'bg-info',

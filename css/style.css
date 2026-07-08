@@ -82,6 +82,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .badge-despesa-soft     {background:var(--md-sys-color-error-container)!important;                    color:var(--md-sys-color-on-error-container)!important}
 .badge-investimento-soft{background:var(--md-extended-color-investimento-color-container)!important;  color:var(--md-extended-color-investimento-on-color-container)!important}
 .badge-yellow-soft      {background:var(--md-extended-color-aviso-color-container)!important;         color:var(--md-extended-color-aviso-on-color-container)!important}
+.badge-neutral-soft     {background:var(--md-sys-color-surface-variant)!important;                    color:var(--md-sys-color-on-surface-variant)!important}
 
 /* Primary tabs (M3) — https://m3.material.io/components/tabs/overview */
 .m3-tabs{display:flex;justify-content:center;border-bottom:1px solid var(--md-sys-color-outline-variant)}
