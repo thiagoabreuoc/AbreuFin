@@ -43,7 +43,7 @@ function renderCats() {
 
   var html = '';
   if (!groups.length && !ungrouped.length) {
-    html += '<div class="text-muted small text-center py-4 fst-italic">Crie um grupo para começar a organizar suas categorias.</div>';
+    html += '<div class="text-muted small text-center py-4 fst-italic">Nenhum grupo encontrado.</div>';
   } else {
     html += '<div class="list-group">';
     html += groups.map(function(g) {
