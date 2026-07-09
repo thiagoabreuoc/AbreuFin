@@ -46,7 +46,7 @@
     </div>
 
     <div class="text-center mt-2">
-      <button class="btn btn-link btn-sm fw-semibold text-danger" onclick="doLogout()">Sair da conta</button>
+      <button class="btn btn-link btn-sm fw-semibold text-danger" onclick="doLogout()"><span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">logout</span> Sair da conta</button>
     </div>
   </div>
 </div>
