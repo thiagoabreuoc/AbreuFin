@@ -12,9 +12,9 @@ let _addingCat      = false;
 let _addingSub      = false;
 
 const CATS_TABS = [
-  { key: 'receita',      label: 'Receitas' },
-  { key: 'despesa',      label: 'Despesas' },
-  { key: 'investimento', label: 'Investimentos' },
+  { key: 'receita',      label: 'Receitas',      colorClass: 'status-cell-receita' },
+  { key: 'despesa',      label: 'Despesas',      colorClass: 'status-cell-despesa' },
+  { key: 'investimento', label: 'Investimentos', colorClass: 'status-cell-investimento' },
 ];
 
 function switchCatsTab(tipo) {
@@ -32,7 +32,8 @@ function renderCats() {
   CATS_TABS.forEach(function(t) {
     var btn = document.getElementById('cats-tab-' + t.key);
     if (!btn) return;
-    btn.style.boxShadow = t.key === _catsTab ? 'inset 0 0 0 2px currentColor' : 'none';
+    var active = t.key === _catsTab;
+    btn.className = 'badge status-cell d-inline-flex align-items-center ' + (active ? t.colorClass : 'status-cell-white');
   });
 
   var tipo      = _catsTab;
