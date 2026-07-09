@@ -160,7 +160,7 @@ function onCatChange() {
 function populateSubCatFromCat(tipo, catName) {
   const sel = document.getElementById('f-subcategoria');
   if (!sel) return;
-  const hasCategory = !!(catName && catName !== 'Outros');
+  const hasCategory = !!catName;
   let subs = [];
   if (hasCategory) {
     const cat = (categories[tipo] || []).find(c => c.name === catName);
