@@ -53,7 +53,7 @@
       </fieldset>
 
       <fieldset class="form-box" style="flex:1;width:auto;min-width:0">
-        <legend class="form-box-lbl">Data de vencimento</legend>
+        <legend class="form-box-lbl">Data do pagamento</legend>
         <div class="input-group" style="position:relative;display:flex;align-items:center">
           <input type="text" class="form-control form-control-borderless" id="f-data" inputmode="numeric"
                  maxlength="10" placeholder="DD/MM/AAAA" autocomplete="off"
