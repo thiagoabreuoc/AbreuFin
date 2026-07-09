@@ -152,7 +152,8 @@ function selectMonth(i) {
     renderBanners();
     animateBarsTo(d);
     document.getElementById('home-legend').innerHTML = buildLegendHtml(d);
-    const saldo = d.receita - d.despesa - d.investimento;
+    const dc = getConfirmedTotals(homeMonth);
+    const saldo = dc.receita - dc.despesa - dc.investimento;
     const sv = document.getElementById('home-saldo-val');
     if (sv) sv.textContent = fmt(saldo);
     const sl = document.getElementById('home-periodo');
@@ -175,6 +176,16 @@ function getMonthTotals(month, year=2026) {
 }
 function getYearTotals(year=2026) {
   return entries.filter(e=>e.yyyy===year)
+    .reduce((a,e)=>{ a[e.tipo]=(a[e.tipo]||0)+e.valor; return a; },{receita:0,despesa:0,investimento:0});
+}
+
+const CONFIRMED_STATUS = {receita:'recebido', despesa:'pago', investimento:'investido'};
+function getConfirmedTotals(month, year=2026) {
+  return entries.filter(e => e.mm-1===month && e.yyyy===year && e.status===CONFIRMED_STATUS[e.tipo])
+    .reduce((a,e)=>{ a[e.tipo]=(a[e.tipo]||0)+e.valor; return a; },{receita:0,despesa:0,investimento:0});
+}
+function getConfirmedYearTotals(year=2026) {
+  return entries.filter(e => e.yyyy===year && e.status===CONFIRMED_STATUS[e.tipo])
     .reduce((a,e)=>{ a[e.tipo]=(a[e.tipo]||0)+e.valor; return a; },{receita:0,despesa:0,investimento:0});
 }
 
@@ -463,7 +474,8 @@ function renderHome() {
     chartLabels = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
   }
 
-  const saldo = d.receita - d.despesa - d.investimento;
+  const dc = homeTab==='meses' ? getConfirmedTotals(homeMonth) : getConfirmedYearTotals(yr);
+  const saldo = dc.receita - dc.despesa - dc.investimento;
   const periodoLabel = homeTab==='meses' ? `${MONTHS_FULL[homeMonth]} ${homeYear}` : String(homeYear);
   const chart = homeTab==='meses' ? buildBarChart(d) : buildAreaChart(chartData, chartLabels);
 
