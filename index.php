@@ -96,6 +96,26 @@ $csrfToken = csrfToken();
       </div>
     </div>
 
+    <!-- Novo grupo (categorias) -->
+    <div class="sheet-overlay" id="new-group-overlay" onclick="closeNewGroupModal()"></div>
+    <div class="sheet-card" id="new-group-sheet">
+      <div class="text-center py-3" style="position:relative">
+        <span class="fw-semibold">Novo grupo</span>
+        <button class="btn btn-link text-secondary p-0" onclick="closeNewGroupModal()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%)"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+      </div>
+      <div style="padding:0 16px 16px">
+        <fieldset class="form-box mb-0">
+          <legend class="form-box-lbl">Nome do grupo</legend>
+          <input type="text" class="form-control form-control-borderless" id="new-group-input" placeholder="Ex: Bancos"
+                 onkeydown="if(event.key==='Enter')saveNewGroup();if(event.key==='Escape')closeNewGroupModal()">
+        </fieldset>
+        <div class="d-flex justify-content-end gap-2 mt-3">
+          <button class="btn btn-outline-primary btn-sm" type="button" onclick="closeNewGroupModal()">Cancelar</button>
+          <button class="btn btn-primary btn-sm" type="button" onclick="saveNewGroup()" style="padding:10px 24px">Criar</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Date Picker (M3) -->
     <div class="sheet-overlay" id="datepicker-overlay" onclick="closeDatePicker()"></div>
     <div class="sheet-card" id="datepicker-sheet">

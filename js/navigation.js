@@ -60,6 +60,6 @@ function navigate(id) {
   screenStack = [id === 'login' ? 'login' : 'home', id].filter((v,i,a)=>a.indexOf(v)===i);
   showScreen(id, false);
   if (id === 'home') renderHome();
-  if (id === 'cats') { _addingGroup = false; _renamingGroup = null; renderCats(); }
+  if (id === 'cats') { _renamingGroup = null; renderCats(); }
   if (id === 'profile') { renderProfile(); initThemeToggle(); }
 }

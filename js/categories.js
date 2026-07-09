@@ -4,7 +4,6 @@
    Categoria (sub-categorias), navegando via screenStack/goBack().
 ═══════════════════════════════════════ */
 let _catsTab        = 'receita';
-let _addingGroup    = false;
 let _renamingGroup  = null;   // id do grupo sendo renomeado
 let _currentGroupId = undefined; // grupo aberto na tela 2 (null = "Sem grupo")
 let _currentCatId   = null;   // categoria aberta na tela 3
@@ -19,7 +18,6 @@ const CATS_TABS = [
 
 function switchCatsTab(tipo) {
   _catsTab       = tipo;
-  _addingGroup   = false;
   _renamingGroup = null;
   renderCats();
 }
@@ -54,23 +52,11 @@ function renderCats() {
     html += '</div>';
   }
 
-  if (_addingGroup) {
-    html += '<div class="mt-3 p-2 border rounded-3">' +
-      '<div class="d-flex gap-2 align-items-center">' +
-      '<input type="text" class="form-control form-control-sm flex-grow-1" id="new-group-name" placeholder="Nome do grupo"' +
-      ' onkeydown="if(event.key===\'Enter\')saveNewGroup();if(event.key===\'Escape\')cancelNewGroup()">' +
-      '<button class="btn btn-primary btn-sm px-2" onclick="saveNewGroup()"><span class="material-symbols-outlined" style="font-size:1rem">check</span></button>' +
-      '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelNewGroup()"><span class="material-symbols-outlined" style="font-size:1rem">close</span></button>' +
-      '</div></div>';
-  } else {
-    html += '<div class="mt-3 text-center"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewGroup()">+ Novo grupo</button></div>';
-  }
+  html += '<div class="mt-3 text-center"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewGroup()">+ Novo grupo</button></div>';
 
   el.innerHTML = html;
 
-  if (_addingGroup) {
-    setTimeout(function() { var i = document.getElementById('new-group-name'); if (i) i.focus(); }, 60);
-  } else if (_renamingGroup !== null) {
+  if (_renamingGroup !== null) {
     var rid = _renamingGroup;
     setTimeout(function() { var i = document.getElementById('rename-group-' + rid); if (i) { i.focus(); i.select(); } }, 60);
   }
@@ -101,18 +87,26 @@ function renderGroupRow(id, name, count, editable) {
     '</div></div>';
 }
 
-function startNewGroup() { _addingGroup = true; renderCats(); }
-function cancelNewGroup() { _addingGroup = false; renderCats(); }
+function startNewGroup() {
+  document.getElementById('new-group-input').value = '';
+  document.getElementById('new-group-overlay').classList.add('open');
+  document.getElementById('new-group-sheet').classList.add('open');
+  setTimeout(function() { document.getElementById('new-group-input').focus(); }, 60);
+}
+function closeNewGroupModal() {
+  document.getElementById('new-group-overlay').classList.remove('open');
+  document.getElementById('new-group-sheet').classList.remove('open');
+}
 
 async function saveNewGroup() {
-  var inp  = document.getElementById('new-group-name');
+  var inp  = document.getElementById('new-group-input');
   var name = inp ? inp.value.trim() : '';
   if (!name) { if (inp) inp.focus(); return; }
   try {
     var data = await apiCreateGroup(_catsTab, name);
     if (!catGroups[_catsTab]) catGroups[_catsTab] = [];
     catGroups[_catsTab].push(data.group);
-    _addingGroup = false;
+    closeNewGroupModal();
     renderCats();
     showToast('Grupo criado!', 'success');
   } catch (e) { showToast(e.message, 'error'); }
