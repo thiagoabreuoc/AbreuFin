@@ -1,34 +1,30 @@
 /* ═══════════════════════════════════════
    CATEGORIES
+   Fluxo em 3 telas: Categorias (grupos) → Grupo (categorias) →
+   Categoria (sub-categorias), navegando via screenStack/goBack().
 ═══════════════════════════════════════ */
-const _expandedCats   = new Set();
-const _expandedGroups = new Set();
-let _catsTab       = 'receita';
-let _addingGroup   = false;
-let _renamingGroup = null;       // group id being renamed
-let _addingCatGroup = null;      // null=closed  0=sem-grupo  N=group id
-let _addingSub      = null;       // { id, tipo }
+let _catsTab        = 'receita';
+let _addingGroup    = false;
+let _renamingGroup  = null;   // id do grupo sendo renomeado
+let _currentGroupId = undefined; // grupo aberto na tela 2 (null = "Sem grupo")
+let _currentCatId   = null;   // categoria aberta na tela 3
+let _addingCat      = false;
+let _addingSub      = false;
 
 const CATS_TABS = [
-  { key: 'receita',      label: 'Receitas',      color: 'text-success' },
-  { key: 'despesa',      label: 'Despesas',      color: 'text-danger'  },
-  { key: 'investimento', label: 'Investimentos', color: 'text-info'    },
+  { key: 'receita',      label: 'Receitas' },
+  { key: 'despesa',      label: 'Despesas' },
+  { key: 'investimento', label: 'Investimentos' },
 ];
 
-function _tipoColor(tipo) {
-  return tipo === 'receita' ? 'text-success' : tipo === 'despesa' ? 'text-danger' : 'text-info';
-}
-
 function switchCatsTab(tipo) {
-  _catsTab        = tipo;
-  _addingGroup    = false;
-  _renamingGroup  = null;
-  _addingCatGroup = null;
-  _addingSub      = null;
+  _catsTab       = tipo;
+  _addingGroup   = false;
+  _renamingGroup = null;
   renderCats();
 }
 
-/* ─────────────── RENDER PRINCIPAL ─────────────── */
+/* ─────────────── TELA 1: CATEGORIAS (lista de grupos) ─────────────── */
 function renderCats() {
   var el = document.getElementById('cats-body');
   if (!el) return;
@@ -40,23 +36,24 @@ function renderCats() {
     btn.style.border = 'none';
   });
 
-  var tipo   = _catsTab;
-  var groups = catGroups[tipo]  || [];
-  var allCats = categories[tipo] || [];
-  var html = '';
+  var tipo      = _catsTab;
+  var groups    = catGroups[tipo]  || [];
+  var allCats   = categories[tipo] || [];
+  var ungrouped = allCats.filter(function(c) { return !c.groupId; });
 
-  if (groups.length === 0) {
-    html += renderFlatSection(tipo, allCats);
+  var html = '';
+  if (!groups.length && !ungrouped.length) {
+    html += '<div class="text-muted small text-center py-4 fst-italic">Crie um grupo para começar a organizar suas categorias.</div>';
   } else {
-    groups.forEach(function(g) {
-      var gCats = allCats.filter(function(c) { return c.groupId === g.id; });
-      html += renderGroup(tipo, g, gCats);
-    });
-    var ungrouped = allCats.filter(function(c) { return !c.groupId; });
-    if (ungrouped.length) html += renderUngroupedSection(tipo, ungrouped);
+    html += '<div class="list-group">';
+    html += groups.map(function(g) {
+      var count = allCats.filter(function(c) { return c.groupId === g.id; }).length;
+      return renderGroupRow(g.id, g.name, count, true);
+    }).join('');
+    if (ungrouped.length) html += renderGroupRow(null, 'Sem grupo', ungrouped.length, false);
+    html += '</div>';
   }
 
-  // Botão / formulário Novo grupo
   if (_addingGroup) {
     html += '<div class="mt-3 p-2 border rounded-3">' +
       '<div class="d-flex gap-2 align-items-center">' +
@@ -66,128 +63,46 @@ function renderCats() {
       '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelNewGroup()"><span class="material-symbols-outlined" style="font-size:1rem">close</span></button>' +
       '</div></div>';
   } else {
-    html += '<div class="mt-2 text-center"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewGroup()">Novo grupo</button></div>';
+    html += '<div class="mt-3 text-center"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewGroup()">+ Novo grupo</button></div>';
   }
 
   el.innerHTML = html;
 
-  // Auto-focus
   if (_addingGroup) {
     setTimeout(function() { var i = document.getElementById('new-group-name'); if (i) i.focus(); }, 60);
   } else if (_renamingGroup !== null) {
     var rid = _renamingGroup;
     setTimeout(function() { var i = document.getElementById('rename-group-' + rid); if (i) { i.focus(); i.select(); } }, 60);
-  } else if (_addingCatGroup !== null) {
-    var cg = _addingCatGroup;
-    setTimeout(function() { var i = document.getElementById('new-cat-name-' + cg); if (i) i.focus(); }, 60);
-  } else if (_addingSub !== null) {
-    var sid = _addingSub.id;
-    setTimeout(function() { var i = document.getElementById('new-sub-' + sid); if (i) i.focus(); }, 60);
   }
 }
 
-/* ─────────────── SEÇÕES ─────────────── */
-function renderFlatSection(tipo, cats) {
-  var items = cats.map(function(c) { return renderCatItem(tipo, c); }).join('');
-  var empty = '<div class="text-muted small text-center py-4 fst-italic">' +
-    'Crie um <strong>grupo</strong> para começar a adicionar categorias.</div>';
-  return '<div class="mb-1">' + (items || empty) + '</div>';
-}
-
-function renderGroup(tipo, g, gCats) {
-  var isOpen     = _expandedGroups.has(g.id);
-  var isRenaming = _renamingGroup === g.id;
-  var headerHtml;
-
+function renderGroupRow(id, name, count, editable) {
+  var isRenaming = editable && _renamingGroup === id;
   if (isRenaming) {
-    headerHtml =
-      '<div class="d-flex align-items-center px-3 py-2 gap-2">' +
-      '<input type="text" class="form-control form-control-sm flex-grow-1" id="rename-group-' + g.id +
-      '" value="' + escapeHtml(g.name) + '"' +
-      ' onkeydown="if(event.key===\'Enter\')saveRenameGroup(' + g.id + ');if(event.key===\'Escape\')cancelRenameGroup()">' +
-      '<button class="btn btn-primary btn-sm px-2" onclick="saveRenameGroup(' + g.id + ')"><span class="material-symbols-outlined" style="font-size:1rem">check</span></button>' +
+    return '<div class="list-group-item d-flex align-items-center gap-2 py-2">' +
+      '<input type="text" class="form-control form-control-sm flex-grow-1" id="rename-group-' + id + '" value="' + escapeHtml(name) + '"' +
+      ' onkeydown="if(event.key===\'Enter\')saveRenameGroup(' + id + ');if(event.key===\'Escape\')cancelRenameGroup()">' +
+      '<button class="btn btn-primary btn-sm px-2" onclick="saveRenameGroup(' + id + ')"><span class="material-symbols-outlined" style="font-size:1rem">check</span></button>' +
       '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelRenameGroup()"><span class="material-symbols-outlined" style="font-size:1rem">close</span></button>' +
       '</div>';
-  } else {
-    headerHtml =
-      '<div class="d-flex align-items-center px-3 py-2 gap-2" style="cursor:pointer" onclick="toggleGroupExpand(' + g.id + ')">' +
-      '<span class="badge bg-info-subtle text-info fw-semibold" style="font-size:.65rem">Grupo</span>' +
-      '<span class="flex-grow-1">' + escapeHtml(g.name) + '</span>' +
-      '<span class="text-muted small">' + gCats.length + '</span>' +
-      '<span class="material-symbols-outlined text-secondary me-1" style="font-size:1.1rem">' + (isOpen ? 'expand_less' : 'expand_more') + '</span>' +
-      '<button class="btn btn-link text-secondary p-0" onclick="event.stopPropagation();startRenameGroup(' + g.id + ')">' +
-      '<span class="material-symbols-outlined" style="font-size:.9rem">edit</span></button>' +
-      '<button class="btn btn-link text-primary p-0 ms-1" onclick="event.stopPropagation();confirmDeleteGroup(' + g.id + ',\'' + tipo + '\')">' +
-      '<span class="material-symbols-outlined" style="font-size:.95rem">delete</span></button>' +
-      '</div>';
   }
-
-  var content = '';
-  if (isOpen || isRenaming) {
-    var catItems = gCats.map(function(c) { return renderCatItem(tipo, c); }).join('');
-    var emptyMsg = !catItems && _addingCatGroup !== g.id
-      ? '<div class="text-muted small fst-italic py-3 px-3">Sem categorias neste grupo.</div>' : '';
-    var addRow = _addingCatGroup === g.id ? renderAddCatForm(g.id, g.name) : '';
-    var addBtn = _addingCatGroup !== g.id
-      ? '<div class="text-center py-2"><button class="btn btn-link btn-sm fw-semibold text-primary p-0" onclick="startNewCat(' + g.id + ')">Nova categoria</button></div>'
-      : '';
-    content = '<div class="m-2 border rounded-2 overflow-hidden">' +
-      (catItems || emptyMsg) + addRow + addBtn + '</div>';
-  }
-
-  return '<div class="mb-2 border rounded-3 overflow-hidden" id="group-item-' + g.id + '">' +
-    headerHtml + content + '</div>';
-}
-
-function renderUngroupedSection(tipo, cats) {
-  if (!cats.length) return '';
-  var items = cats.map(function(c) { return renderCatItem(tipo, c); }).join('');
-  return '<div class="mb-2 border rounded-3 overflow-hidden">' +
-    '<div class="px-3 py-2 border-bottom"><span class="text-muted small">Sem grupo</span></div>' +
-    '<div class="m-2 border rounded-2 overflow-hidden">' + items + '</div>' +
-    '</div>';
-}
-
-function renderAddCatForm(groupId, groupName) {
-  var breadcrumb = groupName
-    ? '<div class="small text-muted mb-1">' +
-      '<span class="badge bg-info-subtle text-info fw-semibold me-1" style="font-size:.6rem">Grupo</span>' +
-      '<span class="fw-medium">' + escapeHtml(groupName) + '</span>' +
-      ' <span class="text-muted">›</span> ' +
-      '<span class="badge bg-success-subtle text-success fw-semibold" style="font-size:.6rem">Nova Categoria</span>' +
-      '</div>'
+  var idArg = id === null ? 'null' : id;
+  var actions = editable
+    ? '<button class="btn btn-link text-secondary p-0 ms-2" onclick="event.stopPropagation();startRenameGroup(' + id + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
+      '<button class="btn btn-link text-danger p-0 ms-1" onclick="event.stopPropagation();confirmDeleteGroup(' + id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>'
     : '';
-  return '<div class="py-2 px-3">' +
-    breadcrumb +
-    '<div class="d-flex gap-2 align-items-center">' +
-    '<input type="text" class="form-control form-control-sm flex-grow-1" id="new-cat-name-' + groupId +
-    '" placeholder="Nome da categoria"' +
-    ' onkeydown="if(event.key===\'Enter\')saveNewCat(' + groupId + ');if(event.key===\'Escape\')cancelNewCat()">' +
-    '<button class="btn btn-primary btn-sm px-2" onclick="saveNewCat(' + groupId + ')"><span class="material-symbols-outlined" style="font-size:1rem">check</span></button>' +
-    '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelNewCat()"><span class="material-symbols-outlined" style="font-size:1rem">close</span></button>' +
+  return '<div class="list-group-item d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openGroup(' + idArg + ')">' +
+    '<div>' +
+    '<div class="fw-semibold">' + escapeHtml(name) + '</div>' +
+    '<div class="text-secondary small">' + count + (count === 1 ? ' categoria' : ' categorias') + '</div>' +
+    '</div>' +
+    '<div class="d-flex align-items-center">' + actions +
+    '<span class="material-symbols-outlined text-secondary ms-1">chevron_right</span>' +
     '</div></div>';
 }
 
-/* ─────────────── GRUPOS ─────────────── */
-function toggleGroupExpand(id) {
-  if (_expandedGroups.has(id)) { _expandedGroups.delete(id); } else { _expandedGroups.add(id); }
-  if (_addingSub !== null) {
-    var cat = (_addingSub && (categories[_catsTab] || []).filter(function(c) { return c.id === _addingSub.id; })[0]);
-    if (cat && cat.groupId === id) _addingSub = null;
-  }
-  renderCats();
-}
-
-function startNewGroup() {
-  _addingGroup    = true;
-  _addingCatGroup = null;
-  renderCats();
-}
-
-function cancelNewGroup() {
-  _addingGroup = false;
-  renderCats();
-}
+function startNewGroup() { _addingGroup = true; renderCats(); }
+function cancelNewGroup() { _addingGroup = false; renderCats(); }
 
 async function saveNewGroup() {
   var inp  = document.getElementById('new-group-name');
@@ -198,21 +113,13 @@ async function saveNewGroup() {
     if (!catGroups[_catsTab]) catGroups[_catsTab] = [];
     catGroups[_catsTab].push(data.group);
     _addingGroup = false;
-    _expandedGroups.add(data.group.id);
     renderCats();
     showToast('Grupo criado!', 'success');
   } catch (e) { showToast(e.message, 'error'); }
 }
 
-function startRenameGroup(id) {
-  _renamingGroup = id;
-  renderCats();
-}
-
-function cancelRenameGroup() {
-  _renamingGroup = null;
-  renderCats();
-}
+function startRenameGroup(id) { _renamingGroup = id; renderCats(); }
+function cancelRenameGroup() { _renamingGroup = null; renderCats(); }
 
 async function saveRenameGroup(id) {
   var inp  = document.getElementById('rename-group-' + id);
@@ -244,163 +151,73 @@ function confirmDeleteGroup(id, tipo) {
   showConfirmModal();
 }
 
-/* ─────────────── CATEGORIAS ─────────────── */
-function startNewCat(groupId) {
-  _addingCatGroup = groupId;
-  renderCats();
+/* ─────────────── TELA 2: CATEGORIAS DE UM GRUPO ─────────────── */
+function openGroup(groupId) {
+  _currentGroupId = groupId;
+  _addingCat = false;
+  showScreen('cat-group');
+  renderCatGroupScreen();
 }
 
-function cancelNewCat() {
-  _addingCatGroup = null;
-  renderCats();
-}
+function renderCatGroupScreen() {
+  var tipo    = _catsTab;
+  var groupId = _currentGroupId;
+  var group   = groupId !== null ? (catGroups[tipo] || []).find(function(g) { return g.id === groupId; }) : null;
+  var titleEl = document.getElementById('cat-group-title');
+  if (titleEl) titleEl.textContent = group ? group.name : 'Sem grupo';
 
-async function saveNewCat(groupId) {
-  var nameEl  = document.getElementById('new-cat-name-' + groupId);
-  var emojiEl = document.getElementById('new-cat-emoji-' + groupId);
-  var name    = nameEl  ? nameEl.value.trim()  : '';
-  var emoji   = (emojiEl && emojiEl.value.trim()) ? emojiEl.value.trim() : '📌';
-  if (!name) { if (nameEl) nameEl.focus(); return; }
-  var gId = groupId > 0 ? groupId : null;
-  try {
-    var data = await apiCreateCategory(_catsTab, name, emoji, gId);
-    if (!categories[_catsTab]) categories[_catsTab] = [];
-    categories[_catsTab].push(data.category);
-    _addingCatGroup = null;
-    _expandedCats.add(data.category.id);
-    if (gId) _expandedGroups.add(gId);
-    _addingSub = { id: data.category.id, tipo: _catsTab };
-    renderCats();
-    showToast('Categoria criada! Adicione sub-categorias.', 'success');
-    setTimeout(function() {
-      var el = document.getElementById('new-sub-' + data.category.id);
-      if (el) el.focus();
-    }, 80);
-  } catch (e) { showToast(e.message, 'error'); }
-}
+  var cats = (categories[tipo] || []).filter(function(c) {
+    return groupId === null ? !c.groupId : c.groupId === groupId;
+  });
 
-function renderCatItem(tipo, c) {
-  var open = _expandedCats.has(c.id);
-  var group = c.groupId ? (catGroups[tipo] || []).filter(function(g) { return g.id === c.groupId; })[0] : null;
-  var groupName = group ? group.name : null;
-  var subsContent = '';
-
-  if (open) {
-    var subRows = c.subs.length ? c.subs.map(function(s, i) {
-      return (
-        '<div class="d-flex align-items-center justify-content-between px-3 py-2 border-bottom">' +
-        '<div>' +
-        '<span class="badge bg-primary-subtle text-primary fw-semibold" style="font-size:.65rem">Sub-categoria</span>' +
-        '<span class="small ms-3" style="font-size:.875rem">' + escapeHtml(s) + '</span>' +
-        '</div>' +
-        '<button class="btn btn-link text-primary btn-sm p-0 pe-1" onclick="deleteSub(' + c.id + ',\'' + tipo + '\',' + i + ')">' +
-        '<span class="material-symbols-outlined" style="font-size:1.1rem">cancel</span></button></div>'
-      );
-    }).join('') : '<div class="text-muted small py-2 fst-italic px-3">Sem sub-categorias</div>';
-
-    var addingThisSub = _addingSub !== null && _addingSub.id === c.id;
-
-    var subBreadcrumb = addingThisSub
-      ? '<div class="small text-muted mb-1">' +
-        (groupName ? '<span class="badge bg-info-subtle text-info fw-semibold me-1" style="font-size:.6rem">Grupo</span><span class="fw-medium">' + escapeHtml(groupName) + '</span> <span class="text-muted">›</span> ' : '') +
-        '<span class="badge bg-success-subtle text-success fw-semibold me-1" style="font-size:.6rem">Categoria</span>' +
-        '<span class="fw-normal">' + escapeHtml(c.name) + '</span>' +
-        ' <span class="text-muted">›</span> ' +
-        '<span class="badge bg-primary-subtle text-primary fw-semibold" style="font-size:.6rem">Nova Sub-categoria</span>' +
-        '</div>'
-      : '';
-
-    var addSubRow = addingThisSub
-      ? '<div class="border-top px-3 py-2">' +
-        subBreadcrumb +
-        '<div class="d-flex gap-2 align-items-center">' +
-        '<input type="text" class="form-control form-control-sm flex-grow-1" id="new-sub-' + c.id +
-        '" placeholder="Nome da sub-categoria"' +
-        ' onkeydown="if(event.key===\'Enter\')saveNewSub();if(event.key===\'Escape\')cancelNewSub()">' +
-        '<button class="btn btn-primary btn-sm px-2" onclick="saveNewSub()"><span class="material-symbols-outlined" style="font-size:1rem">check</span></button>' +
-        '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelNewSub()"><span class="material-symbols-outlined" style="font-size:1rem">close</span></button>' +
-        '</div></div>'
-      : '';
-
-    var addSubBtn = !addingThisSub
-      ? '<div class="text-center py-2 border-top"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewSub(' + c.id + ',\'' + tipo + '\')">' +
-        'Adicionar sub-categoria</button></div>'
-      : '';
-
-    subsContent =
-      '<div id="cat-subs-' + c.id + '" class="mx-2 mb-2 border rounded-2 overflow-hidden">' +
-      subRows + addSubRow + addSubBtn + '</div>';
+  var el = document.getElementById('cat-group-body');
+  if (!el) return;
+  var html = '';
+  if (!cats.length && !_addingCat) {
+    html += '<div class="text-muted small text-center py-4 fst-italic">Nenhuma categoria neste grupo ainda.</div>';
+  } else if (cats.length) {
+    html += '<div class="list-group">' + cats.map(renderCatRow).join('') + '</div>';
   }
 
-  return (
-    '<div class="p-0 border-bottom" id="cat-item-' + c.id + '">' +
-    '<div class="d-flex align-items-center px-3 py-2 gap-2" style="cursor:pointer" onclick="toggleCatExpand(' + c.id + ',\'' + tipo + '\')">' +
-    '<div class="flex-grow-1">' +
-    '<span class="badge bg-success-subtle text-success fw-semibold" style="font-size:.65rem">Categoria</span>' +
-    '<span class="ms-3" style="font-size:.875rem">' + escapeHtml(c.name) + '</span>' +
-    '</div>' +
-    '<span class="text-muted small me-1">' + c.subs.length + '</span>' +
-    '<span class="material-symbols-outlined text-secondary me-1" style="font-size:1.1rem">' + (open ? 'expand_less' : 'expand_more') + '</span>' +
-    '<button class="btn btn-link text-primary p-0 flex-shrink-0" onclick="event.stopPropagation();confirmDeleteCat(' + c.id + ',\'' + tipo + '\')">' +
-    '<span class="material-symbols-outlined" style="font-size:1rem">delete</span></button></div>' +
-    subsContent + '</div>'
-  );
+  if (_addingCat) {
+    html += '<div class="mt-3 p-2 border rounded-3">' +
+      '<div class="d-flex gap-2 align-items-center">' +
+      '<input type="text" class="form-control form-control-sm flex-grow-1" id="new-cat-name" placeholder="Nome da categoria"' +
+      ' onkeydown="if(event.key===\'Enter\')saveNewCat();if(event.key===\'Escape\')cancelNewCat()">' +
+      '<button class="btn btn-primary btn-sm px-2" onclick="saveNewCat()"><span class="material-symbols-outlined" style="font-size:1rem">check</span></button>' +
+      '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelNewCat()"><span class="material-symbols-outlined" style="font-size:1rem">close</span></button>' +
+      '</div></div>';
+  } else {
+    html += '<div class="mt-3 text-center"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewCat()">+ Nova categoria</button></div>';
+  }
+  el.innerHTML = html;
+  if (_addingCat) setTimeout(function() { var i = document.getElementById('new-cat-name'); if (i) i.focus(); }, 60);
 }
 
-function toggleCatExpand(id, tipo) {
-  if (_expandedCats.has(id)) { _expandedCats.delete(id); } else { _expandedCats.add(id); }
-  if (_addingSub !== null && _addingSub.id === id) _addingSub = null;
-  renderCats();
+function renderCatRow(c) {
+  return '<div class="list-group-item d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openCatDetail(' + c.id + ')">' +
+    '<div class="fw-semibold">' + escapeHtml(c.name) + '</div>' +
+    '<div class="d-flex align-items-center">' +
+    '<span class="text-secondary small me-2">' + c.subs.length + (c.subs.length === 1 ? ' sub-categoria' : ' sub-categorias') + '</span>' +
+    '<button class="btn btn-link text-danger p-0 me-1" onclick="event.stopPropagation();confirmDeleteCat(' + c.id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
+    '<span class="material-symbols-outlined text-secondary">chevron_right</span>' +
+    '</div></div>';
 }
 
-/* ─────────────── SUB-CATEGORIAS ─────────────── */
-function startNewSub(catId, tipo) {
-  _addingSub = { id: catId, tipo: tipo };
-  _expandedCats.add(catId);
-  renderCats();
-  setTimeout(function() {
-    var el = document.getElementById('new-sub-' + catId);
-    if (el) el.focus();
-  }, 60);
-}
+function startNewCat() { _addingCat = true; renderCatGroupScreen(); }
+function cancelNewCat() { _addingCat = false; renderCatGroupScreen(); }
 
-function cancelNewSub() {
-  _addingSub = null;
-  renderCats();
-}
-
-async function saveNewSub() {
-  if (!_addingSub) return;
-  var catId = _addingSub.id;
-  var tipo  = _addingSub.tipo;
-  var inp   = document.getElementById('new-sub-' + catId);
-  var name  = inp ? inp.value.trim() : '';
-  if (!name) { if (inp) inp.focus(); return; }
-  var cat = (categories[tipo] || []).filter(function(c) { return c.id === catId; })[0];
-  if (!cat) return;
-  var newSubs = cat.subs.concat([name]);
+async function saveNewCat() {
+  var nameEl = document.getElementById('new-cat-name');
+  var name   = nameEl ? nameEl.value.trim() : '';
+  if (!name) { if (nameEl) nameEl.focus(); return; }
   try {
-    await apiUpdateCategory(catId, { subs: newSubs });
-    cat.subs = newSubs;
-    renderCats();
-    showToast('Sub-categoria adicionada!', 'success');
-    setTimeout(function() {
-      var newInp = document.getElementById('new-sub-' + catId);
-      if (newInp) newInp.focus();
-    }, 60);
-  } catch (e) { showToast(e.message, 'error'); }
-}
-
-async function deleteSub(catId, tipo, idx) {
-  var cat = (categories[tipo] || []).filter(function(c) { return c.id === catId; })[0];
-  if (!cat) return;
-  var newSubs = cat.subs.filter(function(_, i) { return i !== idx; });
-  try {
-    await apiUpdateCategory(catId, { subs: newSubs });
-    cat.subs = newSubs;
-    _expandedCats.add(catId);
-    renderCats();
-    showToast('Sub-categoria removida.', 'success');
+    var data = await apiCreateCategory(_catsTab, name, '📌', _currentGroupId);
+    if (!categories[_catsTab]) categories[_catsTab] = [];
+    categories[_catsTab].push(data.category);
+    _addingCat = false;
+    renderCatGroupScreen();
+    showToast('Categoria criada!', 'success');
   } catch (e) { showToast(e.message, 'error'); }
 }
 
@@ -412,11 +229,88 @@ function confirmDeleteCat(id, tipo) {
     try {
       await apiDeleteCategory(id);
       categories[tipo] = (categories[tipo] || []).filter(function(c) { return c.id !== id; });
-      _expandedCats.delete(id);
-      if (_addingSub !== null && _addingSub.id === id) _addingSub = null;
-      renderCats();
+      renderCatGroupScreen();
       showToast('Categoria removida.', 'success');
     } catch (e) { showToast(e.message, 'error'); }
   };
   showConfirmModal();
+}
+
+/* ─────────────── TELA 3: SUB-CATEGORIAS DE UMA CATEGORIA ─────────────── */
+function openCatDetail(catId) {
+  _currentCatId = catId;
+  _addingSub = false;
+  showScreen('cat-detail');
+  renderCatDetailScreen();
+}
+
+function renderCatDetailScreen() {
+  var tipo = _catsTab;
+  var cat  = (categories[tipo] || []).find(function(c) { return c.id === _currentCatId; });
+  if (!cat) { goBack(); return; }
+  var group = cat.groupId ? (catGroups[tipo] || []).find(function(g) { return g.id === cat.groupId; }) : null;
+
+  var bc = document.getElementById('cat-detail-breadcrumb');
+  var ti = document.getElementById('cat-detail-title');
+  if (bc) bc.textContent = group ? group.name : 'Sem grupo';
+  if (ti) ti.textContent = cat.name;
+
+  var el = document.getElementById('cat-detail-body');
+  if (!el) return;
+  var html = '';
+  if (!cat.subs.length && !_addingSub) {
+    html += '<div class="text-muted small text-center py-4 fst-italic">Nenhuma sub-categoria ainda.</div>';
+  } else if (cat.subs.length) {
+    html += '<div class="list-group">' + cat.subs.map(function(s, i) {
+      return '<div class="list-group-item d-flex align-items-center justify-content-between">' +
+        '<div class="small">' + escapeHtml(s) + '</div>' +
+        '<button class="btn btn-link text-danger p-0" onclick="deleteSub(' + i + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
+        '</div>';
+    }).join('') + '</div>';
+  }
+
+  if (_addingSub) {
+    html += '<div class="mt-3 p-2 border rounded-3">' +
+      '<div class="d-flex gap-2 align-items-center">' +
+      '<input type="text" class="form-control form-control-sm flex-grow-1" id="new-sub-name" placeholder="Nome da sub-categoria"' +
+      ' onkeydown="if(event.key===\'Enter\')saveNewSub();if(event.key===\'Escape\')cancelNewSub()">' +
+      '<button class="btn btn-primary btn-sm px-2" onclick="saveNewSub()"><span class="material-symbols-outlined" style="font-size:1rem">check</span></button>' +
+      '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelNewSub()"><span class="material-symbols-outlined" style="font-size:1rem">close</span></button>' +
+      '</div></div>';
+  } else {
+    html += '<div class="mt-3 text-center"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewSub()">+ Nova sub-categoria</button></div>';
+  }
+  el.innerHTML = html;
+  if (_addingSub) setTimeout(function() { var i = document.getElementById('new-sub-name'); if (i) i.focus(); }, 60);
+}
+
+function startNewSub() { _addingSub = true; renderCatDetailScreen(); }
+function cancelNewSub() { _addingSub = false; renderCatDetailScreen(); }
+
+async function saveNewSub() {
+  var inp  = document.getElementById('new-sub-name');
+  var name = inp ? inp.value.trim() : '';
+  if (!name) { if (inp) inp.focus(); return; }
+  var cat = (categories[_catsTab] || []).find(function(c) { return c.id === _currentCatId; });
+  if (!cat) return;
+  var newSubs = cat.subs.concat([name]);
+  try {
+    await apiUpdateCategory(cat.id, { subs: newSubs });
+    cat.subs = newSubs;
+    _addingSub = false;
+    renderCatDetailScreen();
+    showToast('Sub-categoria adicionada!', 'success');
+  } catch (e) { showToast(e.message, 'error'); }
+}
+
+async function deleteSub(idx) {
+  var cat = (categories[_catsTab] || []).find(function(c) { return c.id === _currentCatId; });
+  if (!cat) return;
+  var newSubs = cat.subs.filter(function(_, i) { return i !== idx; });
+  try {
+    await apiUpdateCategory(cat.id, { subs: newSubs });
+    cat.subs = newSubs;
+    renderCatDetailScreen();
+    showToast('Sub-categoria removida.', 'success');
+  } catch (e) { showToast(e.message, 'error'); }
 }
