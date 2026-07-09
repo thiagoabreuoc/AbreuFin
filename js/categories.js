@@ -4,7 +4,7 @@
    Categoria (sub-categorias), navegando via screenStack/goBack().
 ═══════════════════════════════════════ */
 let _catsTab        = 'receita';
-let _renamingGroup  = null;   // id do grupo sendo renomeado
+let _groupModalEditId = null; // null = modal em modo criação; id = modo edição
 let _currentGroupId = undefined; // grupo aberto na tela 2 (null = "Sem grupo")
 let _currentCatId   = null;   // categoria aberta na tela 3
 let _addingCat      = false;
@@ -17,8 +17,7 @@ const CATS_TABS = [
 ];
 
 function switchCatsTab(tipo) {
-  _catsTab       = tipo;
-  _renamingGroup = null;
+  _catsTab = tipo;
   renderCats();
 }
 
@@ -55,53 +54,68 @@ function renderCats() {
   html += '<div class="mt-3 text-center"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewGroup()">+ Novo grupo</button></div>';
 
   el.innerHTML = html;
-
-  if (_renamingGroup !== null) {
-    var rid = _renamingGroup;
-    setTimeout(function() { var i = document.getElementById('rename-group-' + rid); if (i) { i.focus(); i.select(); } }, 60);
-  }
 }
 
 function renderGroupRow(id, name, count, editable) {
-  var isRenaming = editable && _renamingGroup === id;
-  if (isRenaming) {
-    return '<div class="list-group-item d-flex align-items-center gap-2 py-2">' +
-      '<input type="text" class="form-control form-control-sm flex-grow-1" id="rename-group-' + id + '" value="' + escapeHtml(name) + '"' +
-      ' onkeydown="if(event.key===\'Enter\')saveRenameGroup(' + id + ');if(event.key===\'Escape\')cancelRenameGroup()">' +
-      '<button class="btn btn-primary btn-sm px-2" onclick="saveRenameGroup(' + id + ')"><span class="material-symbols-outlined" style="font-size:1rem">check</span></button>' +
-      '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelRenameGroup()"><span class="material-symbols-outlined" style="font-size:1rem">close</span></button>' +
-      '</div>';
-  }
   var idArg = id === null ? 'null' : id;
   var actions = editable
-    ? '<button class="btn btn-link text-secondary p-0 ms-2" onclick="event.stopPropagation();startRenameGroup(' + id + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
-      '<button class="btn btn-link text-danger p-0 ms-1" onclick="event.stopPropagation();confirmDeleteGroup(' + id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>'
+    ? '<button class="btn btn-link text-primary p-0" onclick="event.stopPropagation();startRenameGroup(' + id + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
+      '<button class="btn btn-link text-danger p-0" onclick="event.stopPropagation();confirmDeleteGroup(' + id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>'
     : '';
   return '<div class="list-group-item d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openGroup(' + idArg + ')">' +
     '<div>' +
     '<div class="fw-semibold">' + escapeHtml(name) + '</div>' +
     '<div class="text-secondary small">' + count + (count === 1 ? ' categoria' : ' categorias') + '</div>' +
     '</div>' +
-    '<div class="d-flex align-items-center">' + actions +
-    '<span class="material-symbols-outlined text-secondary ms-1">chevron_right</span>' +
+    '<div class="d-flex align-items-center" style="gap:12px">' + actions +
     '</div></div>';
 }
 
 function startNewGroup() {
+  _groupModalEditId = null;
+  document.getElementById('new-group-modal-title').textContent = 'Novo grupo';
+  document.getElementById('new-group-save-btn').textContent = 'Criar';
   document.getElementById('new-group-input').value = '';
+  openNewGroupModal();
+}
+
+function startRenameGroup(id) {
+  var g = (catGroups[_catsTab] || []).find(function(x) { return x.id === id; });
+  if (!g) return;
+  _groupModalEditId = id;
+  document.getElementById('new-group-modal-title').textContent = 'Editar grupo';
+  document.getElementById('new-group-save-btn').textContent = 'Salvar';
+  document.getElementById('new-group-input').value = g.name;
+  openNewGroupModal();
+}
+
+function openNewGroupModal() {
   document.getElementById('new-group-overlay').classList.add('open');
   document.getElementById('new-group-sheet').classList.add('open');
-  setTimeout(function() { document.getElementById('new-group-input').focus(); }, 60);
+  setTimeout(function() { var i = document.getElementById('new-group-input'); i.focus(); i.select(); }, 60);
 }
 function closeNewGroupModal() {
   document.getElementById('new-group-overlay').classList.remove('open');
   document.getElementById('new-group-sheet').classList.remove('open');
+  _groupModalEditId = null;
 }
 
 async function saveNewGroup() {
   var inp  = document.getElementById('new-group-input');
   var name = inp ? inp.value.trim() : '';
   if (!name) { if (inp) inp.focus(); return; }
+  if (_groupModalEditId !== null) {
+    var editId = _groupModalEditId;
+    try {
+      await apiRenameGroup(editId, name);
+      var g = (catGroups[_catsTab] || []).find(function(x) { return x.id === editId; });
+      if (g) g.name = name;
+      closeNewGroupModal();
+      renderCats();
+      showToast('Grupo renomeado.', 'success');
+    } catch (e) { showToast(e.message, 'error'); }
+    return;
+  }
   try {
     var data = await apiCreateGroup(_catsTab, name);
     if (!catGroups[_catsTab]) catGroups[_catsTab] = [];
@@ -109,23 +123,6 @@ async function saveNewGroup() {
     closeNewGroupModal();
     renderCats();
     showToast('Grupo criado!', 'success');
-  } catch (e) { showToast(e.message, 'error'); }
-}
-
-function startRenameGroup(id) { _renamingGroup = id; renderCats(); }
-function cancelRenameGroup() { _renamingGroup = null; renderCats(); }
-
-async function saveRenameGroup(id) {
-  var inp  = document.getElementById('rename-group-' + id);
-  var name = inp ? inp.value.trim() : '';
-  if (!name) { if (inp) inp.focus(); return; }
-  try {
-    await apiRenameGroup(id, name);
-    var g = (catGroups[_catsTab] || []).filter(function(x) { return x.id === id; })[0];
-    if (g) g.name = name;
-    _renamingGroup = null;
-    renderCats();
-    showToast('Grupo renomeado.', 'success');
   } catch (e) { showToast(e.message, 'error'); }
 }
 
