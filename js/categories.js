@@ -7,8 +7,8 @@ let _catsTab        = 'receita';
 let _groupModalEditId = null; // null = modal em modo criação; id = modo edição
 let _currentGroupId = undefined; // grupo aberto na tela 2 (null = "Sem grupo")
 let _currentCatId   = null;   // categoria aberta na tela 3
-let _addingCat      = false;
-let _addingSub      = false;
+let _catModalEditId = null;   // null = modal de categoria em modo criação; id = modo edição
+let _subModalEditIdx = null;  // null = modal de sub-categoria em modo criação; índice = modo edição
 
 const CATS_TABS = [
   { key: 'receita',      label: 'Receitas',      colorClass: 'status-cell-receita' },
@@ -145,7 +145,6 @@ function confirmDeleteGroup(id, tipo) {
 /* ─────────────── TELA 2: CATEGORIAS DE UM GRUPO ─────────────── */
 function openGroup(groupId) {
   _currentGroupId = groupId;
-  _addingCat = false;
   showScreen('cat-group');
   renderCatGroupScreen();
 }
@@ -164,49 +163,76 @@ function renderCatGroupScreen() {
   var el = document.getElementById('cat-group-body');
   if (!el) return;
   var html = '';
-  if (!cats.length && !_addingCat) {
+  if (!cats.length) {
     html += '<div class="text-muted small text-center py-4 fst-italic">Nenhuma categoria neste grupo ainda.</div>';
-  } else if (cats.length) {
+  } else {
     html += '<div class="list-group">' + cats.map(renderCatRow).join('') + '</div>';
   }
 
-  if (_addingCat) {
-    html += '<div class="mt-3 p-2 border rounded-3">' +
-      '<div class="d-flex gap-2 align-items-center">' +
-      '<input type="text" class="form-control form-control-sm flex-grow-1" id="new-cat-name" placeholder="Nome da categoria"' +
-      ' onkeydown="if(event.key===\'Enter\')saveNewCat();if(event.key===\'Escape\')cancelNewCat()">' +
-      '<button class="btn btn-primary btn-sm px-2" onclick="saveNewCat()"><span class="material-symbols-outlined" style="font-size:1rem">check</span></button>' +
-      '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelNewCat()"><span class="material-symbols-outlined" style="font-size:1rem">close</span></button>' +
-      '</div></div>';
-  } else {
-    html += '<div class="mt-3 text-center"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewCat()">+ Nova categoria</button></div>';
-  }
+  html += '<div class="mt-3 text-center"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewCat()">+ Nova categoria</button></div>';
   el.innerHTML = html;
-  if (_addingCat) setTimeout(function() { var i = document.getElementById('new-cat-name'); if (i) i.focus(); }, 60);
 }
 
 function renderCatRow(c) {
   return '<div class="list-group-item d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openCatDetail(' + c.id + ')">' +
     '<div class="fw-semibold">' + escapeHtml(c.name) + '</div>' +
-    '<div class="d-flex align-items-center">' +
-    '<span class="text-secondary small me-2">' + c.subs.length + (c.subs.length === 1 ? ' sub-categoria' : ' sub-categorias') + '</span>' +
-    '<button class="btn btn-link text-danger p-0 me-1" onclick="event.stopPropagation();confirmDeleteCat(' + c.id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
-    '<span class="material-symbols-outlined text-secondary">chevron_right</span>' +
+    '<div class="d-flex align-items-center" style="gap:12px">' +
+    '<span class="text-secondary small">' + c.subs.length + (c.subs.length === 1 ? ' sub-categoria' : ' sub-categorias') + '</span>' +
+    '<button class="btn btn-link text-primary p-0" onclick="event.stopPropagation();startRenameCat(' + c.id + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
+    '<button class="btn btn-link text-danger p-0" onclick="event.stopPropagation();confirmDeleteCat(' + c.id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
     '</div></div>';
 }
 
-function startNewCat() { _addingCat = true; renderCatGroupScreen(); }
-function cancelNewCat() { _addingCat = false; renderCatGroupScreen(); }
+function startNewCat() {
+  _catModalEditId = null;
+  document.getElementById('new-cat-modal-title').textContent = 'Nova categoria';
+  document.getElementById('new-cat-save-btn').textContent = 'Criar';
+  document.getElementById('new-cat-input').value = '';
+  openNewCatModal();
+}
+
+function startRenameCat(id) {
+  var c = (categories[_catsTab] || []).find(function(x) { return x.id === id; });
+  if (!c) return;
+  _catModalEditId = id;
+  document.getElementById('new-cat-modal-title').textContent = 'Editar categoria';
+  document.getElementById('new-cat-save-btn').textContent = 'Salvar';
+  document.getElementById('new-cat-input').value = c.name;
+  openNewCatModal();
+}
+
+function openNewCatModal() {
+  document.getElementById('new-cat-overlay').classList.add('open');
+  document.getElementById('new-cat-sheet').classList.add('open');
+  setTimeout(function() { var i = document.getElementById('new-cat-input'); i.focus(); i.select(); }, 60);
+}
+function closeNewCatModal() {
+  document.getElementById('new-cat-overlay').classList.remove('open');
+  document.getElementById('new-cat-sheet').classList.remove('open');
+  _catModalEditId = null;
+}
 
 async function saveNewCat() {
-  var nameEl = document.getElementById('new-cat-name');
-  var name   = nameEl ? nameEl.value.trim() : '';
-  if (!name) { if (nameEl) nameEl.focus(); return; }
+  var inp  = document.getElementById('new-cat-input');
+  var name = inp ? inp.value.trim() : '';
+  if (!name) { if (inp) inp.focus(); return; }
+  if (_catModalEditId !== null) {
+    var editId = _catModalEditId;
+    try {
+      await apiUpdateCategory(editId, { name: name });
+      var c = (categories[_catsTab] || []).find(function(x) { return x.id === editId; });
+      if (c) c.name = name;
+      closeNewCatModal();
+      renderCatGroupScreen();
+      showToast('Categoria renomeada.', 'success');
+    } catch (e) { showToast(e.message, 'error'); }
+    return;
+  }
   try {
     var data = await apiCreateCategory(_catsTab, name, '📌', _currentGroupId);
     if (!categories[_catsTab]) categories[_catsTab] = [];
     categories[_catsTab].push(data.category);
-    _addingCat = false;
+    closeNewCatModal();
     renderCatGroupScreen();
     showToast('Categoria criada!', 'success');
   } catch (e) { showToast(e.message, 'error'); }
@@ -230,7 +256,6 @@ function confirmDeleteCat(id, tipo) {
 /* ─────────────── TELA 3: SUB-CATEGORIAS DE UMA CATEGORIA ─────────────── */
 function openCatDetail(catId) {
   _currentCatId = catId;
-  _addingSub = false;
   showScreen('cat-detail');
   renderCatDetailScreen();
 }
@@ -249,48 +274,67 @@ function renderCatDetailScreen() {
   var el = document.getElementById('cat-detail-body');
   if (!el) return;
   var html = '';
-  if (!cat.subs.length && !_addingSub) {
+  if (!cat.subs.length) {
     html += '<div class="text-muted small text-center py-4 fst-italic">Nenhuma sub-categoria ainda.</div>';
-  } else if (cat.subs.length) {
+  } else {
     html += '<div class="list-group">' + cat.subs.map(function(s, i) {
       return '<div class="list-group-item d-flex align-items-center justify-content-between">' +
         '<div class="small">' + escapeHtml(s) + '</div>' +
+        '<div class="d-flex align-items-center" style="gap:12px">' +
+        '<button class="btn btn-link text-primary p-0" onclick="startRenameSub(' + i + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
         '<button class="btn btn-link text-danger p-0" onclick="deleteSub(' + i + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
-        '</div>';
+        '</div></div>';
     }).join('') + '</div>';
   }
 
-  if (_addingSub) {
-    html += '<div class="mt-3 p-2 border rounded-3">' +
-      '<div class="d-flex gap-2 align-items-center">' +
-      '<input type="text" class="form-control form-control-sm flex-grow-1" id="new-sub-name" placeholder="Nome da sub-categoria"' +
-      ' onkeydown="if(event.key===\'Enter\')saveNewSub();if(event.key===\'Escape\')cancelNewSub()">' +
-      '<button class="btn btn-primary btn-sm px-2" onclick="saveNewSub()"><span class="material-symbols-outlined" style="font-size:1rem">check</span></button>' +
-      '<button class="btn btn-outline-secondary btn-sm px-2" onclick="cancelNewSub()"><span class="material-symbols-outlined" style="font-size:1rem">close</span></button>' +
-      '</div></div>';
-  } else {
-    html += '<div class="mt-3 text-center"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewSub()">+ Nova sub-categoria</button></div>';
-  }
+  html += '<div class="mt-3 text-center"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewSub()">+ Nova sub-categoria</button></div>';
   el.innerHTML = html;
-  if (_addingSub) setTimeout(function() { var i = document.getElementById('new-sub-name'); if (i) i.focus(); }, 60);
 }
 
-function startNewSub() { _addingSub = true; renderCatDetailScreen(); }
-function cancelNewSub() { _addingSub = false; renderCatDetailScreen(); }
+function startNewSub() {
+  _subModalEditIdx = null;
+  document.getElementById('new-sub-modal-title').textContent = 'Nova sub-categoria';
+  document.getElementById('new-sub-save-btn').textContent = 'Criar';
+  document.getElementById('new-sub-input').value = '';
+  openNewSubModal();
+}
+
+function startRenameSub(idx) {
+  var cat = (categories[_catsTab] || []).find(function(c) { return c.id === _currentCatId; });
+  if (!cat) return;
+  _subModalEditIdx = idx;
+  document.getElementById('new-sub-modal-title').textContent = 'Editar sub-categoria';
+  document.getElementById('new-sub-save-btn').textContent = 'Salvar';
+  document.getElementById('new-sub-input').value = cat.subs[idx];
+  openNewSubModal();
+}
+
+function openNewSubModal() {
+  document.getElementById('new-sub-overlay').classList.add('open');
+  document.getElementById('new-sub-sheet').classList.add('open');
+  setTimeout(function() { var i = document.getElementById('new-sub-input'); i.focus(); i.select(); }, 60);
+}
+function closeNewSubModal() {
+  document.getElementById('new-sub-overlay').classList.remove('open');
+  document.getElementById('new-sub-sheet').classList.remove('open');
+  _subModalEditIdx = null;
+}
 
 async function saveNewSub() {
-  var inp  = document.getElementById('new-sub-name');
+  var inp  = document.getElementById('new-sub-input');
   var name = inp ? inp.value.trim() : '';
   if (!name) { if (inp) inp.focus(); return; }
   var cat = (categories[_catsTab] || []).find(function(c) { return c.id === _currentCatId; });
   if (!cat) return;
-  var newSubs = cat.subs.concat([name]);
+  var newSubs = cat.subs.slice();
+  var isEdit  = _subModalEditIdx !== null;
+  if (isEdit) newSubs[_subModalEditIdx] = name; else newSubs.push(name);
   try {
     await apiUpdateCategory(cat.id, { subs: newSubs });
     cat.subs = newSubs;
-    _addingSub = false;
+    closeNewSubModal();
     renderCatDetailScreen();
-    showToast('Sub-categoria adicionada!', 'success');
+    showToast(isEdit ? 'Sub-categoria renomeada.' : 'Sub-categoria adicionada!', 'success');
   } catch (e) { showToast(e.message, 'error'); }
 }
 

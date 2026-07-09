@@ -116,6 +116,46 @@ $csrfToken = csrfToken();
       </div>
     </div>
 
+    <!-- Nova/Editar categoria -->
+    <div class="sheet-overlay" id="new-cat-overlay" onclick="closeNewCatModal()"></div>
+    <div class="sheet-card" id="new-cat-sheet">
+      <div class="text-center py-3" style="position:relative">
+        <span class="fw-semibold" id="new-cat-modal-title">Nova categoria</span>
+        <button class="btn btn-link text-secondary p-0" onclick="closeNewCatModal()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%)"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+      </div>
+      <div style="padding:0 16px 16px">
+        <fieldset class="form-box mb-0">
+          <legend class="form-box-lbl">Nome da categoria</legend>
+          <input type="text" class="form-control form-control-borderless" id="new-cat-input" placeholder="Ex: Itaú"
+                 onkeydown="if(event.key==='Enter')saveNewCat();if(event.key==='Escape')closeNewCatModal()">
+        </fieldset>
+        <div class="d-flex justify-content-end gap-2 mt-3">
+          <button class="btn btn-outline-primary btn-sm" type="button" onclick="closeNewCatModal()">Cancelar</button>
+          <button class="btn btn-primary btn-sm" type="button" id="new-cat-save-btn" onclick="saveNewCat()" style="padding:10px 24px">Criar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nova/Editar sub-categoria -->
+    <div class="sheet-overlay" id="new-sub-overlay" onclick="closeNewSubModal()"></div>
+    <div class="sheet-card" id="new-sub-sheet">
+      <div class="text-center py-3" style="position:relative">
+        <span class="fw-semibold" id="new-sub-modal-title">Nova sub-categoria</span>
+        <button class="btn btn-link text-secondary p-0" onclick="closeNewSubModal()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%)"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+      </div>
+      <div style="padding:0 16px 16px">
+        <fieldset class="form-box mb-0">
+          <legend class="form-box-lbl">Nome da sub-categoria</legend>
+          <input type="text" class="form-control form-control-borderless" id="new-sub-input" placeholder="Ex: Cartão de crédito"
+                 onkeydown="if(event.key==='Enter')saveNewSub();if(event.key==='Escape')closeNewSubModal()">
+        </fieldset>
+        <div class="d-flex justify-content-end gap-2 mt-3">
+          <button class="btn btn-outline-primary btn-sm" type="button" onclick="closeNewSubModal()">Cancelar</button>
+          <button class="btn btn-primary btn-sm" type="button" id="new-sub-save-btn" onclick="saveNewSub()" style="padding:10px 24px">Criar</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Date Picker (M3) -->
     <div class="sheet-overlay" id="datepicker-overlay" onclick="closeDatePicker()"></div>
     <div class="sheet-card" id="datepicker-sheet">
