@@ -9,6 +9,9 @@ let _currentGroupId = undefined; // grupo aberto na tela 2 (null = "Sem grupo")
 let _currentCatId   = null;   // categoria aberta na tela 3
 let _catModalEditId = null;   // null = modal de categoria em modo criação; id = modo edição
 let _subModalEditIdx = null;  // null = modal de sub-categoria em modo criação; índice = modo edição
+let _groupsSortDir  = 'asc';
+let _catsSortDir    = 'asc';
+let _subsSortDir    = 'asc';
 
 const CATS_TABS = [
   { key: 'receita',      label: 'Receitas',      colorClass: 'status-cell-receita' },
@@ -20,6 +23,24 @@ function switchCatsTab(tipo) {
   _catsTab = tipo;
   renderCats();
 }
+
+function byNameAlpha(dir) {
+  return function(a, b) {
+    var cmp = a.localeCompare(b, 'pt-BR', { sensitivity: 'base' });
+    return dir === 'asc' ? cmp : -cmp;
+  };
+}
+
+function renderAlphaSortRow(dir, ascCall, descCall) {
+  return '<div style="display:flex;justify-content:center;align-items:center;gap:16px;margin-bottom:12px">' +
+    '<a href="#" class="' + (dir === 'asc' ? 'text-primary' : 'text-secondary') + ' text-decoration-none d-inline-flex align-items-center gap-1" onclick="' + ascCall + ';return false;"><span class="material-symbols-outlined" style="font-size:.8rem">arrow_upward</span><span class="material-symbols-outlined" style="font-size:.9rem">sort_by_alpha</span></a>' +
+    '<a href="#" class="' + (dir === 'desc' ? 'text-primary' : 'text-secondary') + ' text-decoration-none d-inline-flex align-items-center gap-1" onclick="' + descCall + ';return false;"><span class="material-symbols-outlined" style="font-size:.8rem">arrow_downward</span><span class="material-symbols-outlined" style="font-size:.9rem">sort_by_alpha</span></a>' +
+    '</div>';
+}
+
+function sortGroups(dir) { _groupsSortDir = dir; renderCats(); }
+function sortCatsInGroup(dir) { _catsSortDir = dir; renderCatGroupScreen(); }
+function sortSubs(dir) { _subsSortDir = dir; renderCatDetailScreen(); }
 
 /* ─────────────── TELA 1: CATEGORIAS (lista de grupos) ─────────────── */
 function renderCats() {
@@ -34,7 +55,7 @@ function renderCats() {
   });
 
   var tipo      = _catsTab;
-  var groups    = catGroups[tipo]  || [];
+  var groups    = (catGroups[tipo]  || []).slice().sort(function(a, b) { return byNameAlpha(_groupsSortDir)(a.name, b.name); });
   var allCats   = categories[tipo] || [];
   var ungrouped = allCats.filter(function(c) { return !c.groupId; });
 
@@ -42,6 +63,7 @@ function renderCats() {
   if (!groups.length && !ungrouped.length) {
     html += '<div class="text-muted small text-center py-4 fst-italic">Nenhum grupo encontrado.</div>';
   } else {
+    html += renderAlphaSortRow(_groupsSortDir, "sortGroups('asc')", "sortGroups('desc')");
     html += '<div class="list-group">';
     html += groups.map(function(g) {
       var count = allCats.filter(function(c) { return c.groupId === g.id; }).length;
@@ -63,9 +85,9 @@ function renderGroupRow(id, name, count, editable) {
       '<button class="btn btn-link text-danger p-0" onclick="event.stopPropagation();confirmDeleteGroup(' + id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>'
     : '';
   return '<div class="list-group-item d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openGroup(' + idArg + ')">' +
-    '<div>' +
-    '<div class="fw-semibold">' + escapeHtml(name) + '</div>' +
-    '<div class="text-secondary small">' + count + (count === 1 ? ' categoria' : ' categorias') + '</div>' +
+    '<div class="d-flex align-items-center gap-2">' +
+    '<span class="m3-count-badge">' + count + '</span>' +
+    '<span class="fw-semibold">' + escapeHtml(name) + '</span>' +
     '</div>' +
     '<div class="d-flex align-items-center" style="gap:12px">' + actions +
     '</div></div>';
@@ -158,7 +180,7 @@ function renderCatGroupScreen() {
 
   var cats = (categories[tipo] || []).filter(function(c) {
     return groupId === null ? !c.groupId : c.groupId === groupId;
-  });
+  }).sort(function(a, b) { return byNameAlpha(_catsSortDir)(a.name, b.name); });
 
   var el = document.getElementById('cat-group-body');
   if (!el) return;
@@ -166,6 +188,7 @@ function renderCatGroupScreen() {
   if (!cats.length) {
     html += '<div class="text-muted small text-center py-4 fst-italic">Nenhuma categoria neste grupo ainda.</div>';
   } else {
+    html += renderAlphaSortRow(_catsSortDir, "sortCatsInGroup('asc')", "sortCatsInGroup('desc')");
     html += '<div class="list-group">' + cats.map(renderCatRow).join('') + '</div>';
   }
 
@@ -175,9 +198,11 @@ function renderCatGroupScreen() {
 
 function renderCatRow(c) {
   return '<div class="list-group-item d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openCatDetail(' + c.id + ')">' +
-    '<div class="fw-semibold">' + escapeHtml(c.name) + '</div>' +
+    '<div class="d-flex align-items-center gap-2">' +
+    '<span class="m3-count-badge">' + c.subs.length + '</span>' +
+    '<span class="fw-semibold">' + escapeHtml(c.name) + '</span>' +
+    '</div>' +
     '<div class="d-flex align-items-center" style="gap:12px">' +
-    '<span class="text-secondary small">' + c.subs.length + (c.subs.length === 1 ? ' sub-categoria' : ' sub-categorias') + '</span>' +
     '<button class="btn btn-link text-primary p-0" onclick="event.stopPropagation();startRenameCat(' + c.id + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
     '<button class="btn btn-link text-danger p-0" onclick="event.stopPropagation();confirmDeleteCat(' + c.id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
     '</div></div>';
@@ -277,12 +302,15 @@ function renderCatDetailScreen() {
   if (!cat.subs.length) {
     html += '<div class="text-muted small text-center py-4 fst-italic">Nenhuma sub-categoria ainda.</div>';
   } else {
-    html += '<div class="list-group">' + cat.subs.map(function(s, i) {
+    var subsIndexed = cat.subs.map(function(s, i) { return { name: s, idx: i }; })
+      .sort(function(a, b) { return byNameAlpha(_subsSortDir)(a.name, b.name); });
+    html += renderAlphaSortRow(_subsSortDir, "sortSubs('asc')", "sortSubs('desc')");
+    html += '<div class="list-group">' + subsIndexed.map(function(item) {
       return '<div class="list-group-item d-flex align-items-center justify-content-between">' +
-        '<div class="small">' + escapeHtml(s) + '</div>' +
+        '<div class="small">' + escapeHtml(item.name) + '</div>' +
         '<div class="d-flex align-items-center" style="gap:12px">' +
-        '<button class="btn btn-link text-primary p-0" onclick="startRenameSub(' + i + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
-        '<button class="btn btn-link text-danger p-0" onclick="deleteSub(' + i + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
+        '<button class="btn btn-link text-primary p-0" onclick="startRenameSub(' + item.idx + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
+        '<button class="btn btn-link text-danger p-0" onclick="deleteSub(' + item.idx + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
         '</div></div>';
     }).join('') + '</div>';
   }

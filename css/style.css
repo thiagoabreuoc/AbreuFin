@@ -131,6 +131,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 
 /* Large badge — https://m3.material.io/components/badges (variante "large") */
 .m3-badge-large{display:inline-block;position:relative;top:-1px;margin-left:8px;box-sizing:border-box;min-width:16px;height:16px;padding:0 4px;border-radius:var(--md-sys-shape-corner-full);background:var(--md-sys-color-error);color:var(--md-sys-color-on-error);font-size:.65rem;font-weight:700;line-height:16px;text-align:center;vertical-align:middle}
+.m3-count-badge{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;min-width:24px;height:24px;padding:0 6px;border-radius:var(--md-sys-shape-corner-full);background:var(--md-sys-color-surface-container-highest);color:var(--md-sys-color-on-surface-variant);font-size:.75rem;font-weight:600}
 
 /* Dropdown card compartilhado — period picker e painel de filtros */
 .sheet-overlay{position:absolute;inset:0;background:color-mix(in srgb, var(--md-sys-color-scrim) 25%, transparent);z-index:400;opacity:0;pointer-events:none;transition:opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard)}
