@@ -32,8 +32,7 @@ function renderCats() {
   CATS_TABS.forEach(function(t) {
     var btn = document.getElementById('cats-tab-' + t.key);
     if (!btn) return;
-    btn.className = 'btn btn-sm rounded-pill ' + (t.key === _catsTab ? 'btn-primary' : 'bg-transparent text-primary');
-    btn.style.border = 'none';
+    btn.style.boxShadow = t.key === _catsTab ? 'inset 0 0 0 2px currentColor' : 'none';
   });
 
   var tipo      = _catsTab;
