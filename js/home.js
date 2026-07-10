@@ -443,6 +443,11 @@ function renderBanners() {
   }).length;
 
   let banners = '';
+  if (insights && insights.length)
+    banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-insights" style="background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);max-height:60px;cursor:pointer" onclick="navigate('insights')">
+      <span class="small d-flex align-items-center gap-2"><span class="material-symbols-outlined" style="font-size:1.1rem;flex-shrink:0">tips_and_updates</span>Há insights interessantes sobre sua gestão financeira.</span>
+      <span class="material-symbols-outlined flex-shrink-0" style="font-size:1.1rem">chevron_right</span>
+    </div>`;
   if (vencidoCount > 0 && !dismissedBanners.vencido)
     banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-vencido" style="background:var(--md-sys-color-error-container);color:var(--md-sys-color-on-error-container)">
       <span class="small" onclick="goToVencendo('vencido')" style="cursor:pointer">${vencidoCount} despesa${vencidoCount>1?'s':''} vencida${vencidoCount>1?'s':''}. <u>Resolver</u></span>
@@ -452,11 +457,6 @@ function renderBanners() {
     banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-vencendo" style="background:var(--md-extended-color-aviso-color-container);color:var(--md-extended-color-aviso-on-color-container)">
       <span class="small" onclick="goToVencendo('vencendo')" style="cursor:pointer">${vencendoCount} despesa${vencendoCount>1?'s':''} vencendo em 3 dias. <u>Ver</u></span>
       <button type="button" class="btn btn-link p-0" style="color:inherit;line-height:0" onclick="dismissBanner('vencendo')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
-    </div>`;
-  if (insights && insights.length)
-    banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-insights" style="background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);max-height:60px;cursor:pointer" onclick="navigate('insights')">
-      <span class="small d-flex align-items-center gap-2"><span class="material-symbols-outlined" style="font-size:1.1rem;flex-shrink:0">tips_and_updates</span>Há insights interessantes sobre sua gestão financeira.</span>
-      <span class="material-symbols-outlined flex-shrink-0" style="font-size:1.1rem">chevron_right</span>
     </div>`;
   const bannersEl = document.getElementById('home-banners');
   bannersEl.innerHTML = banners;
