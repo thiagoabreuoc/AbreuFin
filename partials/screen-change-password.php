@@ -19,6 +19,6 @@
   </div>
   <div class="d-flex gap-2 p-3 border-top flex-shrink-0">
     <button class="btn btn-outline-primary flex-fill" style="padding-top:10px;padding-bottom:10px" onclick="goBack()">Cancelar</button>
-    <button class="btn btn-primary flex-fill" style="padding-top:10px;padding-bottom:10px" onclick="doChangePassword()">Salvar</button>
+    <button class="btn btn-primary flex-fill" id="change-password-submit-btn" style="padding-top:10px;padding-bottom:10px" onclick="doChangePassword()">Salvar</button>
   </div>
 </div>

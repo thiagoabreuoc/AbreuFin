@@ -107,6 +107,12 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .status-cell-warning{background:var(--md-extended-color-aviso-color-container)!important;color:var(--md-extended-color-aviso-on-color-container)!important}
 .status-cell-lilac{background:var(--md-extended-color-lilac-color-container)!important;color:var(--md-extended-color-lilac-on-color-container)!important}
 .btn-check:checked + .status-cell{box-shadow:inset 0 0 0 2px currentColor}
+/* State layer M3 (hover/press) — overlay semitransparente de currentColor por
+   cima do chip, funciona com qualquer variante de cor sem precisar de !important */
+button.status-cell{position:relative;overflow:hidden;cursor:pointer}
+button.status-cell::after{content:'';position:absolute;inset:0;background:currentColor;opacity:0;transition:opacity var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);pointer-events:none}
+button.status-cell:hover::after{opacity:var(--md-sys-state-hover-opacity)}
+button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 
 /* Small badge — https://m3.material.io/components/badges (variante "small",
    só o indicador, sem conteúdo) */
@@ -238,8 +244,11 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 
 /* Cards — variante "Outlined" do M3 (borda, sem elevação, com state-layer sutil ao pressionar) */
 .card{border:1px solid var(--md-sys-color-outline-variant)!important;border-radius:var(--md-sys-shape-corner-large)!important;background-color:var(--md-sys-color-surface);box-shadow:var(--md-sys-elevation-level0);transition:background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.card:hover{background-color:var(--md-sys-color-surface-container-low)}
 .card:active{background-color:var(--md-sys-color-surface-container)}
-.list-group-item{background-color:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);border-color:var(--md-sys-color-outline-variant)}
+.list-group-item{background-color:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);border-color:var(--md-sys-color-outline-variant);transition:background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.list-group-item[onclick]:hover{background-color:var(--md-sys-color-surface-container-low)}
+.list-group-item[onclick]:active{background-color:var(--md-sys-color-surface-container)}
 .cat-row-list{display:flex;flex-direction:column;gap:8px}
 .cat-row-card{border-radius:var(--md-sys-shape-corner-medium)!important;border:1px solid var(--md-sys-color-outline-variant)!important;padding:14px 16px}
 
@@ -250,6 +259,18 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .btn,.list-group-item,.cs-item{position:relative;overflow:hidden}
 .md-ripple{position:absolute;border-radius:50%;background:currentColor;opacity:.16;transform:scale(0);pointer-events:none;animation:md-ripple-anim var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard-decelerate) forwards}
 @keyframes md-ripple-anim{to{transform:scale(1);opacity:0}}
+
+/* ── Circular progress indicator M3 (indeterminado) — https://m3.material.io/components/progress-indicators
+   usado em botões durante ações assíncronas (ver setBtnLoading() em js/data.js) ── */
+.m3-spinner{display:inline-block;width:16px;height:16px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;opacity:.9;vertical-align:-3px;animation:m3-spin var(--md-sys-motion-duration-long2) linear infinite}
+@keyframes m3-spin{to{transform:rotate(360deg)}}
+.btn:disabled{cursor:not-allowed}
+
+/* ── Linear progress indicator M3 (indeterminado) — carregamento de tela inteira ── */
+.m3-linear-progress{position:absolute;top:0;left:0;right:0;height:3px;overflow:hidden;background:var(--md-sys-color-secondary-container);z-index:600;display:none}
+.m3-linear-progress.active{display:block}
+.m3-linear-progress::after{content:'';position:absolute;top:0;left:0;height:100%;width:40%;background:var(--md-sys-color-primary);border-radius:var(--md-sys-shape-corner-full);animation:m3-linear-indeterminate var(--md-sys-motion-duration-long4) var(--md-sys-motion-easing-standard) infinite}
+@keyframes m3-linear-indeterminate{0%{left:-40%}100%{left:100%}}
 
 /* Seletor de paleta M3 (Perfil > Personalização) */
 .md-theme-swatch{width:36px;height:36px;border-radius:50%;border:2px solid transparent;padding:0;cursor:pointer;position:relative}

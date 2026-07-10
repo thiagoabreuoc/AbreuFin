@@ -17,7 +17,7 @@
       <label class="form-check-label" for="l-remember">Lembrar-me</label>
     </div>
     <div class="text-danger text-center small" style="min-height:18px;margin:6px 0" id="login-err"></div>
-    <button class="btn btn-primary w-100" onclick="doLogin()">Entrar</button>
+    <button class="btn btn-primary w-100" id="login-submit-btn" onclick="doLogin()">Entrar</button>
 
     <div class="text-center text-secondary my-3 d-flex align-items-center gap-2">
       <span class="flex-grow-1 border-top"></span>ou<span class="flex-grow-1 border-top"></span>

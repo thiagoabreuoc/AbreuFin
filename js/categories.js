@@ -314,6 +314,8 @@ async function saveNewGroup() {
     return;
   }
   _savingGroup = true;
+  var btn = document.getElementById('new-group-save-btn');
+  setBtnLoading(btn, true);
   if (_groupModalEditId !== null) {
     var editId = _groupModalEditId;
     try {
@@ -325,6 +327,7 @@ async function saveNewGroup() {
       showToast('Grupo renomeado.', 'success');
     } catch (e) { showToast(e.message, 'error'); }
     _savingGroup = false;
+    setBtnLoading(btn, false);
     return;
   }
   try {
@@ -336,6 +339,7 @@ async function saveNewGroup() {
     showToast('Grupo criado!', 'success');
   } catch (e) { showToast(e.message, 'error'); }
   _savingGroup = false;
+  setBtnLoading(btn, false);
 }
 
 function confirmDeleteGroup(id, tipo) {
@@ -428,10 +432,15 @@ function closeNewCatModal() {
   _catModalEditId = null;
 }
 
+let _savingCat = false;
 async function saveNewCat() {
+  if (_savingCat) return;
   var inp  = document.getElementById('new-cat-input');
   var name = inp ? inp.value.trim() : '';
   if (!name) { if (inp) inp.focus(); return; }
+  _savingCat = true;
+  var btn = document.getElementById('new-cat-save-btn');
+  setBtnLoading(btn, true);
   if (_catModalEditId !== null) {
     var editId = _catModalEditId;
     try {
@@ -442,6 +451,8 @@ async function saveNewCat() {
       renderCatGroupScreen();
       showToast('Categoria renomeada.', 'success');
     } catch (e) { showToast(e.message, 'error'); }
+    _savingCat = false;
+    setBtnLoading(btn, false);
     return;
   }
   try {
@@ -452,6 +463,8 @@ async function saveNewCat() {
     renderCatGroupScreen();
     showToast('Categoria criada!', 'success');
   } catch (e) { showToast(e.message, 'error'); }
+  _savingCat = false;
+  setBtnLoading(btn, false);
 }
 
 function confirmDeleteCat(id, tipo) {
@@ -542,7 +555,9 @@ function closeNewSubModal() {
   _subModalEditIdx = null;
 }
 
+let _savingSub = false;
 async function saveNewSub() {
+  if (_savingSub) return;
   var inp  = document.getElementById('new-sub-input');
   var name = inp ? inp.value.trim() : '';
   if (!name) { if (inp) inp.focus(); return; }
@@ -551,6 +566,9 @@ async function saveNewSub() {
   var newSubs = cat.subs.slice();
   var isEdit  = _subModalEditIdx !== null;
   if (isEdit) newSubs[_subModalEditIdx] = name; else newSubs.push(name);
+  _savingSub = true;
+  var btn = document.getElementById('new-sub-save-btn');
+  setBtnLoading(btn, true);
   try {
     await apiUpdateCategory(cat.id, { subs: newSubs });
     cat.subs = newSubs;
@@ -558,6 +576,8 @@ async function saveNewSub() {
     renderCatDetailScreen();
     showToast(isEdit ? 'Sub-categoria renomeada.' : 'Sub-categoria adicionada!', 'success');
   } catch (e) { showToast(e.message, 'error'); }
+  _savingSub = false;
+  setBtnLoading(btn, false);
 }
 
 async function deleteSub(idx) {
@@ -633,7 +653,7 @@ async function applySmartGroups() {
   _savingSmartGroups = true;
   var saveBtn = document.getElementById('smart-groups-save-btn');
   var cancelBtn = document.getElementById('smart-groups-cancel-btn');
-  if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = 'Criando...'; }
+  setBtnLoading(saveBtn, true, 'Criando...');
   if (cancelBtn) cancelBtn.disabled = true;
 
   try {
@@ -677,6 +697,6 @@ async function applySmartGroups() {
   } catch (e) { showToast(e.message, 'error'); }
 
   _savingSmartGroups = false;
-  if (saveBtn) { saveBtn.disabled = false; saveBtn.textContent = 'Criar grupos'; }
+  setBtnLoading(saveBtn, false);
   if (cancelBtn) cancelBtn.disabled = false;
 }

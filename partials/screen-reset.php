@@ -14,7 +14,7 @@
       <label for="rp-senha2">Confirmar nova senha</label>
     </div>
     <div class="text-danger text-center small" style="min-height:18px;margin:6px 0" id="reset-err"></div>
-    <button class="btn btn-primary w-100" onclick="doResetPassword()">Redefinir senha</button>
+    <button class="btn btn-primary w-100" id="reset-submit-btn" onclick="doResetPassword()">Redefinir senha</button>
     <div class="text-center small mt-4">
       <a href="#" onclick="showScreen('login');return false;">Voltar para o login</a>
     </div>

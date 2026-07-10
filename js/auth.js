@@ -51,12 +51,17 @@ function applyCurrentUser(user) {
 }
 
 async function refreshData() {
-  const data = await apiBootstrap();
-  catGroups  = data.groups || { receita: [], despesa: [], investimento: [] };
-  categories = data.categories;
-  entries    = data.entries;
-  insights   = data.insights || [];
-  return data;
+  setAppLoading(true);
+  try {
+    const data = await apiBootstrap();
+    catGroups  = data.groups || { receita: [], despesa: [], investimento: [] };
+    categories = data.categories;
+    entries    = data.entries;
+    insights   = data.insights || [];
+    return data;
+  } finally {
+    setAppLoading(false);
+  }
 }
 
 async function enterApp() {
@@ -77,15 +82,19 @@ async function doLogin() {
   const senha = document.getElementById('l-senha').value;
   const lembrar = document.getElementById('l-remember').checked;
   const err = document.getElementById('login-err');
+  const btn = document.getElementById('login-submit-btn');
   err.textContent = '';
   if (!email || !email.includes('@')) { err.textContent = 'Informe um e-mail válido.'; return; }
   if (!senha) { err.textContent = 'Informe sua senha.'; return; }
+  setBtnLoading(btn, true);
   try {
     await apiLogin(email, senha, lembrar);
     document.getElementById('l-senha').value = '';
     await enterApp();
   } catch (e) {
     err.textContent = e.message;
+  } finally {
+    setBtnLoading(btn, false);
   }
 }
 
@@ -95,11 +104,13 @@ async function doRegister() {
   const senha = document.getElementById('r-senha').value;
   const senha2 = document.getElementById('r-senha2').value;
   const err = document.getElementById('register-err');
+  const btn = document.getElementById('register-submit-btn');
   err.textContent = '';
   if (!name) { err.textContent = 'Informe seu nome.'; return; }
   if (!email || !email.includes('@')) { err.textContent = 'Informe um e-mail válido.'; return; }
   if (senha.length < 8) { err.textContent = 'A senha deve ter pelo menos 8 caracteres.'; return; }
   if (senha !== senha2) { err.textContent = 'As senhas não coincidem.'; return; }
+  setBtnLoading(btn, true);
   try {
     await apiRegister(name, email, senha);
     document.getElementById('r-senha').value = '';
@@ -107,6 +118,8 @@ async function doRegister() {
     await enterApp();
   } catch (e) {
     err.textContent = e.message;
+  } finally {
+    setBtnLoading(btn, false);
   }
 }
 

@@ -21,7 +21,7 @@
       <label for="r-senha2">Confirmar senha</label>
     </div>
     <div class="text-danger text-center small" style="min-height:18px;margin:6px 0" id="register-err"></div>
-    <button class="btn btn-primary w-100" onclick="doRegister()">Criar conta</button>
+    <button class="btn btn-primary w-100" id="register-submit-btn" onclick="doRegister()">Criar conta</button>
 
     <div class="text-center text-secondary my-3 d-flex align-items-center gap-2">
       <span class="flex-grow-1 border-top"></span>ou<span class="flex-grow-1 border-top"></span>

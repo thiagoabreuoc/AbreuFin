@@ -566,19 +566,19 @@ function getActivePill() {
 let _saving = false;
 async function saveEntry() {
   if (_saving) return;
-  _saving = true;
-  const saveBtn = document.querySelector('#screen-form .btn-primary[onclick="saveEntry()"]');
-  if (saveBtn) saveBtn.disabled = true;
+  const saveBtn = document.getElementById('save-entry-btn');
   const tipo=document.getElementById('f-tipo').value;
   const valor=parseValor();
   const dd=parseInt(document.getElementById('f-dd').value);
   const mm=parseInt(document.getElementById('f-mm').value);
   const yyyy=parseInt(document.getElementById('f-yyyy').value);
   const status=getActivePill();
-  if (!tipo){showToast('Selecione o tipo.','error');_saving=false;if(saveBtn)saveBtn.disabled=false;return;}
-  if (!valor||valor<=0){showToast('Informe um valor válido.','error');_saving=false;if(saveBtn)saveBtn.disabled=false;return;}
-  if (!dd||!mm||!yyyy){showToast('Informe a data completa.','error');_saving=false;if(saveBtn)saveBtn.disabled=false;return;}
-  if (!status){showToast('Selecione o status.','error');_saving=false;if(saveBtn)saveBtn.disabled=false;return;}
+  if (!tipo){showToast('Selecione o tipo.','error');return;}
+  if (!valor||valor<=0){showToast('Informe um valor válido.','error');return;}
+  if (!dd||!mm||!yyyy){showToast('Informe a data completa.','error');return;}
+  if (!status){showToast('Selecione o status.','error');return;}
+  _saving = true;
+  setBtnLoading(saveBtn, true);
 
   const repetir=getActiveRepetir();
   const rawSubcat=document.getElementById('f-subcategoria').value;
@@ -616,7 +616,7 @@ async function saveEntry() {
     showToast(e.message,'error');
   } finally {
     _saving = false;
-    if (saveBtn) saveBtn.disabled = false;
+    setBtnLoading(saveBtn, false);
   }
 }
 

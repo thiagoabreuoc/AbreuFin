@@ -33,6 +33,8 @@ $csrfToken = csrfToken();
 <body>
 <div class="app" id="app">
 
+  <div class="m3-linear-progress" id="app-loading-bar"></div>
+
   <!-- ── Conteúdo principal ── -->
   <div class="app-content" id="app-content">
 
