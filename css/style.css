@@ -96,6 +96,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .status-cell-despesa{background:color-mix(in srgb, var(--md-sys-color-error) 18%, white)!important;color:var(--md-sys-color-error)!important}
 .status-cell-investimento{background:color-mix(in srgb, var(--md-extended-color-investimento-color) 18%, white)!important;color:var(--md-extended-color-investimento-color)!important}
 .status-cell-warning{background:color-mix(in srgb, #FFC107 25%, white)!important;color:#7A5900!important}
+.status-cell-lilac{background:#EDE0F8!important;color:#6A1B9A!important}
 .btn-check:checked + .status-cell{box-shadow:inset 0 0 0 2px currentColor}
 
 /* Small badge — https://m3.material.io/components/badges (variante "small",

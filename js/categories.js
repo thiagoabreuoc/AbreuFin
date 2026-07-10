@@ -200,7 +200,7 @@ function renderCatGroupScreen() {
 function renderCatRow(c) {
   return '<div class="list-group-item cat-row-card d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openCatDetail(' + c.id + ')">' +
     '<div class="d-flex align-items-center gap-2">' +
-    '<span class="badge status-cell bg-info-subtle text-info">Cat</span>' +
+    '<span class="badge status-cell status-cell-lilac">Cat</span>' +
     '<span class="fw-normal small">' + escapeHtml(c.name) + '</span>' +
     '</div>' +
     '<div class="d-flex align-items-center" style="gap:12px">' +
@@ -310,7 +310,7 @@ function renderCatDetailScreen() {
     html += '<div class="list-group cat-row-list">' + subsIndexed.map(function(item) {
       return '<div class="list-group-item cat-row-card d-flex align-items-center justify-content-between">' +
         '<div class="d-flex align-items-center gap-2">' +
-        '<span class="badge status-cell bg-info-subtle text-info">Sub</span>' +
+        '<span class="badge status-cell status-cell-success">Sub</span>' +
         '<span class="small">' + escapeHtml(item.name) + '</span>' +
         '</div>' +
         '<div class="d-flex align-items-center" style="gap:12px">' +
