@@ -6,6 +6,7 @@
     <div style="width:24px"></div>
   </div>
   <div class="screen-body p-3">
+    <p class="text-secondary small mb-3">Use pelo menos 8 caracteres.</p>
     <div class="form-floating mb-3">
       <input class="form-control" id="cp-nova" type="password" placeholder="Nova senha" autocomplete="new-password">
       <label for="cp-nova">Nova senha</label>

@@ -39,7 +39,7 @@ async function loadNotifSettings() {
       _notifSetStatus('Inativa', false, false, false, false);
     }
   } catch (e) {
-    _notifSetStatus('Erro ao verificar', false, true, false, false);
+    _notifSetStatus('Não foi possível verificar', false, true, false, false);
   }
 }
 
@@ -85,7 +85,7 @@ async function onNotifToggle() {
       _notifSetStatus('Inativa', false, false, false, false);
       showToast('Notificações desativadas.', 'success');
     } catch (e) {
-      showToast('Erro ao desativar.', 'error');
+      showToast('Não foi possível desativar as notificações.', 'error');
       await loadNotifSettings();
     }
   }

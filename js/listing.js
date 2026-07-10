@@ -175,7 +175,7 @@ function renderListing() {
   document.getElementById('sort-btn-neutro').style.display   = hasNeutro   ? 'inline-flex' : 'none';
   document.getElementById('sort-urgency-sep').style.display  = (hasVencido || hasVencendo || hasNeutro) ? 'inline' : 'none';
   const el=document.getElementById('listing-entries');
-  if (!list.length){el.innerHTML=`<li class="list-group-item text-center text-secondary small py-5 border-0" style="border-radius:12px">Nenhum lançamento encontrado.</li>`;return;}
+  if (!list.length){el.innerHTML=`<li class="list-group-item text-center text-secondary small py-5 border-0" style="border-radius:12px">Nenhum lançamento neste período.</li>`;return;}
   const visible=list.slice(0,listingLimit);
   el.innerHTML=visible.map(e=>{
     const es=entryStatus(e);

@@ -37,7 +37,7 @@
         <option value="">Selecione</option>
       </select>
       <div id="f-subcategoria-custom-wrap" style="display:none" class="mt-2">
-        <input type="text" class="form-control" id="f-subcategoria-custom" placeholder="Descreva">
+        <input type="text" class="form-control" id="f-subcategoria-custom" placeholder="Digite a sub-categoria">
         <div class="form-check mt-2">
           <input class="form-check-input" type="checkbox" id="f-subcategoria-save" checked>
           <label class="form-check-label small text-secondary" for="f-subcategoria-save">Salvar na lista de sub-categorias</label>

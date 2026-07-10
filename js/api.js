@@ -16,10 +16,11 @@ async function apiCall(url, method = 'GET', body = null) {
   try {
     data = raw ? JSON.parse(raw) : {};
   } catch (e) {
-    throw new Error(`Resposta inválida do servidor em ${url} (status ${res.status}).`);
+    console.error(`Resposta inválida do servidor em ${url} (status ${res.status}).`, raw);
+    throw new Error('Não foi possível falar com o servidor. Tente novamente em instantes.');
   }
   if (!res.ok || data.ok === false) {
-    throw new Error(data.error || 'Erro inesperado.');
+    throw new Error(data.error || 'Algo deu errado. Tente novamente.');
   }
   return data;
 }

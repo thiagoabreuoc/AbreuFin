@@ -2,7 +2,7 @@
 <div class="screen hidden" id="screen-reset">
   <div class="screen-body center-col">
     <h5 class="text-primary fw-bold mb-0">Nova senha</h5>
-    <p class="text-secondary mb-4">Defina uma nova senha para sua conta.</p>
+    <p class="text-secondary mb-4">Escolha uma nova senha para acessar sua conta.</p>
 
     <input type="hidden" id="rp-token">
     <div class="form-floating mb-3">

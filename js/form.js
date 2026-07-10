@@ -509,7 +509,7 @@ function renderStatusPills(tipo) {
   const container = document.getElementById('status-pills');
   const opts = STATUS_MAP[tipo] || [];
   if (!opts.length) {
-    container.innerHTML = '<span class="text-muted small">Selecione o tipo primeiro</span>';
+    container.innerHTML = '<span class="text-muted small">Selecione o tipo primeiro.</span>';
     return;
   }
   container.innerHTML = opts.map((o, i) =>

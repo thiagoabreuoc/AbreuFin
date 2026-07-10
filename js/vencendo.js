@@ -60,7 +60,7 @@ function renderVencendo() {
 
   const el = document.getElementById('vencendo-entries');
   if (!list.length) {
-    el.innerHTML = `<li class="list-group-item text-center text-secondary small py-5 border-0" style="border-radius:12px">Nenhuma despesa encontrada.</li>`;
+    el.innerHTML = `<li class="list-group-item text-center text-secondary small py-5 border-0" style="border-radius:12px">Nenhuma despesa vencida ou a vencer. Tudo em dia!</li>`;
     return;
   }
   const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;

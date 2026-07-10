@@ -78,7 +78,7 @@ async function doLogin() {
   const lembrar = document.getElementById('l-remember').checked;
   const err = document.getElementById('login-err');
   err.textContent = '';
-  if (!email || !email.includes('@')) { err.textContent = 'E-mail inválido.'; return; }
+  if (!email || !email.includes('@')) { err.textContent = 'Informe um e-mail válido.'; return; }
   if (!senha) { err.textContent = 'Informe sua senha.'; return; }
   try {
     await apiLogin(email, senha, lembrar);
@@ -97,8 +97,8 @@ async function doRegister() {
   const err = document.getElementById('register-err');
   err.textContent = '';
   if (!name) { err.textContent = 'Informe seu nome.'; return; }
-  if (!email || !email.includes('@')) { err.textContent = 'E-mail inválido.'; return; }
-  if (senha.length < 8) { err.textContent = 'Senha deve ter ao menos 8 caracteres.'; return; }
+  if (!email || !email.includes('@')) { err.textContent = 'Informe um e-mail válido.'; return; }
+  if (senha.length < 8) { err.textContent = 'A senha deve ter pelo menos 8 caracteres.'; return; }
   if (senha !== senha2) { err.textContent = 'As senhas não coincidem.'; return; }
   try {
     await apiRegister(name, email, senha);

@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="list-group-item">
-        <div class="mb-2">Cor do tema (Material 3)</div>
+        <div class="mb-2">Cor do tema</div>
         <div class="d-flex gap-3">
           <button class="md-theme-swatch" data-theme-name="azul" style="background:#415F91" aria-label="Azul" onclick="applyMaterialTheme('azul')"></button>
           <button class="md-theme-swatch" data-theme-name="roxo" style="background:#65558f" aria-label="Roxo" onclick="applyMaterialTheme('roxo')"></button>

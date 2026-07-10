@@ -24,12 +24,13 @@ function exportJSON() {
 }
 
 function exportTxt() {
-  const yr=getYearTotals();
-  const lines=['AbreuFin — Relatório Anual 2026','='.repeat(40),''];
+  const anoAtual=new Date().getFullYear();
+  const yr=getYearTotals(anoAtual);
+  const lines=[`AbreuFin — Relatório Anual ${anoAtual}`,'='.repeat(40),''];
   MONTHS.forEach((m,i)=>{
-    const d=getMonthTotals(i);
+    const d=getMonthTotals(i,anoAtual);
     if (d.receita+d.despesa+d.investimento===0) return;
-    lines.push(`${m} 2026`);
+    lines.push(`${m} ${anoAtual}`);
     lines.push(`  Receita:      ${fmt(d.receita)}`);
     lines.push(`  Despesa:      ${fmt(d.despesa)}`);
     lines.push(`  Investido:${fmt(d.investimento)}`);
@@ -41,6 +42,6 @@ function exportTxt() {
   lines.push(`  Despesa:      ${fmt(yr.despesa)}`);
   lines.push(`  Investido:${fmt(yr.investimento)}`);
   lines.push(`  Saldo:        ${fmt(yr.receita-yr.despesa-yr.investimento)}`);
-  downloadFile(lines.join('\n'),'finflow_relatorio_2026.txt','text/plain;charset=utf-8');
+  downloadFile(lines.join('\n'),`finflow_relatorio_${anoAtual}.txt`,'text/plain;charset=utf-8');
   showToast('Relatório exportado!','success');
 }

@@ -7,7 +7,7 @@ async function doForgotPassword() {
   const result = document.getElementById('forgot-result');
   err.textContent = '';
   result.style.display = 'none';
-  if (!email || !email.includes('@')) { err.textContent = 'E-mail inválido.'; return; }
+  if (!email || !email.includes('@')) { err.textContent = 'Informe um e-mail válido.'; return; }
   try {
     const data = await apiForgotPassword(email);
     if (data.resetLink) {
@@ -40,7 +40,7 @@ async function doResetPassword() {
   const senha2 = document.getElementById('rp-senha2').value;
   const err = document.getElementById('reset-err');
   err.textContent = '';
-  if (senha.length < 8) { err.textContent = 'Senha deve ter ao menos 8 caracteres.'; return; }
+  if (senha.length < 8) { err.textContent = 'A senha deve ter pelo menos 8 caracteres.'; return; }
   if (senha !== senha2) { err.textContent = 'As senhas não coincidem.'; return; }
   try {
     await apiResetPassword(token, senha);
@@ -57,7 +57,7 @@ async function doChangePassword() {
   const nova2 = document.getElementById('cp-nova2').value;
   const err = document.getElementById('change-password-err');
   err.textContent = '';
-  if (nova.length < 8) { err.textContent = 'A nova senha deve ter ao menos 8 caracteres.'; return; }
+  if (nova.length < 8) { err.textContent = 'A nova senha deve ter pelo menos 8 caracteres.'; return; }
   if (nova !== nova2) { err.textContent = 'As senhas não coincidem.'; return; }
   try {
     await apiChangePassword(nova);

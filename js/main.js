@@ -2,11 +2,11 @@
    INIT
 ═══════════════════════════════════════ */
 const GOOGLE_ERROR_MESSAGES = {
-  state_invalido: 'Sessão de login expirou, tente novamente.',
+  state_invalido: 'Sua sessão expirou. Tente entrar novamente.',
   acesso_negado: 'Login com Google cancelado.',
-  codigo_ausente: 'Login com Google falhou. Tente novamente.',
+  codigo_ausente: 'Não foi possível entrar com Google. Tente novamente.',
   token_falhou: 'Não foi possível confirmar sua conta Google.',
-  email_nao_verificado: 'Seu e-mail Google precisa estar verificado.',
+  email_nao_verificado: 'Seu e-mail do Google precisa estar verificado.',
 };
 
 (async function init() {

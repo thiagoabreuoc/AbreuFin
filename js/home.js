@@ -313,7 +313,7 @@ function updateYearView() {
 function emptyChart() {
   return `<div style="height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:${cssVar('--md-sys-color-outline')}">
     <span class="material-symbols-outlined" style="font-size:1.6rem;margin-bottom:6px">bar_chart</span>
-    <span class="small">Sem movimentação até o momento</span>
+    <span class="small">Nenhum lançamento neste período ainda</span>
   </div>`;
 }
 
@@ -386,7 +386,7 @@ function buildSubLabels(d) {
       const up = pct >= 0;
       sub.receita = `<div class="smaller" style="color:${up ? TIPO_META.receita.cor : TIPO_META.despesa.cor}">${up?'↑':'↓'} ${Math.abs(pct).toFixed(1)}% vs mês ant.</div>`;
     } else if (d.receita > 0) {
-      sub.receita = `<div class="smaller" style="color:${faint}">sem mês ant.</div>`;
+      sub.receita = `<div class="smaller" style="color:${faint}">sem comparação</div>`;
     }
     if (d.receita > 0) {
       sub.despesa      = `<div class="smaller" style="color:${faint}">${((d.despesa / d.receita)*100).toFixed(1)}% da receita</div>`;
@@ -404,7 +404,7 @@ function buildSubLabels(d) {
       } else if (hasPrev && d[tipo] > 0) {
         sub[tipo] = `<div class="smaller" style="color:${faint}">novo</div>`;
       } else if (!hasPrev && d[tipo] > 0) {
-        sub[tipo] = `<div class="smaller" style="color:${faint}">sem ano ant.</div>`;
+        sub[tipo] = `<div class="smaller" style="color:${faint}">sem comparação</div>`;
       }
     });
   }
