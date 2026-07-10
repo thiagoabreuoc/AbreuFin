@@ -172,9 +172,6 @@ function renderCats() {
   var ungrouped = allCats.filter(function(c) { return !c.groupId; });
 
   var html = '';
-  html += '<div class="text-center" style="margin-bottom:16px">' +
-    '<button class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-2" type="button" onclick="openSmartGroupsModal()" style="padding:10px 24px">' +
-    '<span class="material-symbols-outlined" style="font-size:1.1rem">auto_awesome</span>Grupos inteligentes</button></div>';
   if (!groups.length && !ungrouped.length) {
     html += '<div class="text-muted small text-center py-4 fst-italic">Nenhum grupo encontrado.</div>';
   } else {
@@ -189,6 +186,9 @@ function renderCats() {
   }
 
   html += '<div class="mt-3 text-center"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewGroup()">+ Novo grupo</button></div>';
+  html += '<div class="text-center" style="margin-top:16px">' +
+    '<button class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-2" type="button" onclick="openSmartGroupsModal()" style="padding:10px 24px">' +
+    '<span class="material-symbols-outlined" style="font-size:1.1rem">auto_awesome</span>Grupos inteligentes</button></div>';
 
   el.innerHTML = html;
 }
