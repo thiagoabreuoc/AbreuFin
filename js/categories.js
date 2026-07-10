@@ -19,86 +19,131 @@ const CATS_TABS = [
   { key: 'investimento', label: 'Investimentos', colorClass: 'status-cell-investimento' },
 ];
 
-/* Perguntas curtas de perfil — poucas escolhas bastam pra inferir o
-   estilo de vida da pessoa e montar grupos completos automaticamente. */
+/* Perguntas curtas de perfil — cada escolha é um sinal específico do
+   estilo de vida da pessoa. Quanto mais traços cobertos, mais o
+   conjunto final de grupos fica personalizado pra combinação escolhida. */
 const SMART_PROFILE_TRAITS = {
   despesa: [
-    { key: 'moradia',   label: 'Moro de aluguel ou tenho financiamento', icon: 'home' },
-    { key: 'transporte', label: 'Tenho carro ou uso apps de transporte', icon: 'directions_car' },
-    { key: 'alimentacao', label: 'Faço compras de mercado ou peço delivery', icon: 'restaurant' },
-    { key: 'saude',     label: 'Tenho plano de saúde ou consultas frequentes', icon: 'health_and_safety' },
-    { key: 'lazer',     label: 'Assino streaming ou saio com frequência', icon: 'live_tv' },
-    { key: 'estudos',   label: 'Faço cursos ou pago mensalidade escolar', icon: 'school' },
-    { key: 'viagens',   label: 'Viajo com frequência', icon: 'flight' },
-    { key: 'pets',      label: 'Tenho animais de estimação', icon: 'pets' },
+    { key: 'moradia',      label: 'Moro de aluguel ou tenho financiamento', icon: 'home' },
+    { key: 'transporte',   label: 'Tenho carro ou uso apps de transporte', icon: 'directions_car' },
+    { key: 'alimentacao',  label: 'Faço compras de mercado ou peço delivery', icon: 'restaurant' },
+    { key: 'saude',        label: 'Tenho plano de saúde ou consultas frequentes', icon: 'health_and_safety' },
+    { key: 'lazer',        label: 'Assino streaming ou saio com frequência', icon: 'live_tv' },
+    { key: 'estudos',      label: 'Faço cursos ou pago mensalidade escolar', icon: 'school' },
+    { key: 'viagens',      label: 'Viajo com frequência', icon: 'flight' },
+    { key: 'pets',         label: 'Tenho animais de estimação', icon: 'pets' },
+    { key: 'assinaturas',  label: 'Tenho assinaturas de apps e serviços digitais', icon: 'subscriptions' },
+    { key: 'financas',     label: 'Pago anuidade de cartão, tarifas ou juros bancários', icon: 'credit_card' },
+    { key: 'seguros',      label: 'Tenho seguros (vida, celular, carro, residência)', icon: 'verified_user' },
+    { key: 'filhos',       label: 'Tenho filhos ou dependentes', icon: 'family_restroom' },
+    { key: 'compras',      label: 'Compro roupas, eletrônicos ou itens de casa com frequência', icon: 'shopping_bag' },
+    { key: 'presentes',    label: 'Compro presentes ou organizo festas com frequência', icon: 'redeem' },
   ],
   receita: [
-    { key: 'clt',        label: 'Trabalho com carteira assinada / salário fixo', icon: 'work' },
-    { key: 'autonomo',   label: 'Trabalho como autônomo ou freelancer', icon: 'badge' },
-    { key: 'rendimentos', label: 'Recebo rendimentos de investimentos', icon: 'trending_up' },
-    { key: 'aluguel',    label: 'Recebo aluguel de imóveis', icon: 'apartment' },
+    { key: 'clt',          label: 'Trabalho com carteira assinada / salário fixo', icon: 'work' },
+    { key: 'autonomo',     label: 'Trabalho como autônomo ou freelancer', icon: 'badge' },
+    { key: 'rendimentos',  label: 'Recebo rendimentos de investimentos', icon: 'trending_up' },
+    { key: 'aluguel',      label: 'Recebo aluguel de imóveis', icon: 'apartment' },
+    { key: 'vendas',       label: 'Vendo produtos ou faço bicos/vendas extras', icon: 'sell' },
+    { key: 'reembolsos',   label: 'Recebo reembolsos ou restituições com frequência', icon: 'currency_exchange' },
   ],
   investimento: [
     { key: 'renda_fixa',     label: 'Invisto em renda fixa (Tesouro, CDB...)', icon: 'account_balance' },
     { key: 'renda_variavel', label: 'Invisto em renda variável (Ações, FIIs...)', icon: 'show_chart' },
     { key: 'reserva',        label: 'Mantenho uma reserva de emergência', icon: 'savings' },
     { key: 'cripto',         label: 'Invisto em criptomoedas', icon: 'currency_bitcoin' },
+    { key: 'previdencia',    label: 'Contribuo pra previdência privada ou aposentadoria', icon: 'elderly' },
   ],
 };
 
 /* Cada escolha traz um grupo já bem preenchido com categorias e
-   sub-categorias — não apenas o item marcado. */
+   sub-categorias — cobrindo também os gastos extras e corriqueiros do
+   dia a dia daquele domínio, não apenas o item principal marcado. */
 const SMART_TRAIT_GROUPS = {
   despesa: {
     moradia: { group: 'Moradia', categories: [
       { name: 'Aluguel/Financiamento', subs: ['Condomínio', 'IPTU', 'Seguro residencial'] },
-      { name: 'Contas de casa', subs: ['Água', 'Luz', 'Internet', 'Gás'] },
-      { name: 'Manutenção do lar', subs: ['Reparos', 'Móveis e utensílios'] },
+      { name: 'Contas de casa', subs: ['Água', 'Luz', 'Internet', 'Gás', 'TV a cabo'] },
+      { name: 'Manutenção do lar', subs: ['Reparos', 'Móveis e utensílios', 'Diarista/Faxina', 'Jardinagem'] },
+      { name: 'Produtos de limpeza e higiene', subs: [] },
     ]},
     transporte: { group: 'Transporte', categories: [
       { name: 'Combustível', subs: [] },
       { name: 'Aplicativos', subs: ['Uber', '99'] },
-      { name: 'Manutenção', subs: ['Revisão', 'Pneus', 'Estacionamento'] },
+      { name: 'Manutenção', subs: ['Revisão', 'Pneus', 'Lavagem'] },
       { name: 'Transporte público', subs: ['Ônibus', 'Metrô'] },
+      { name: 'Documentação do veículo', subs: ['IPVA', 'Licenciamento', 'Estacionamento', 'Multas'] },
     ]},
     alimentacao: { group: 'Alimentação', categories: [
-      { name: 'Supermercado', subs: ['Feira', 'Hortifruti'] },
+      { name: 'Supermercado', subs: ['Feira', 'Hortifruti', 'Açougue'] },
       { name: 'Restaurantes', subs: ['Delivery', 'Lanches'] },
+      { name: 'Padaria e conveniência', subs: ['Café', 'Bebidas'] },
     ]},
     saude: { group: 'Saúde', categories: [
       { name: 'Plano de saúde', subs: [] },
-      { name: 'Farmácia', subs: ['Medicamentos'] },
-      { name: 'Consultas e exames', subs: ['Médico', 'Dentista'] },
+      { name: 'Farmácia', subs: ['Medicamentos', 'Suplementos'] },
+      { name: 'Consultas e exames', subs: ['Médico', 'Dentista', 'Psicólogo'] },
+      { name: 'Academia e bem-estar', subs: [] },
     ]},
     lazer: { group: 'Lazer', categories: [
       { name: 'Streaming', subs: ['Netflix', 'Spotify', 'Prime Video'] },
       { name: 'Saídas', subs: ['Cinema', 'Shows', 'Bares'] },
-      { name: 'Hobbies', subs: [] },
+      { name: 'Hobbies', subs: ['Jogos', 'Livros'] },
     ]},
     estudos: { group: 'Educação', categories: [
-      { name: 'Cursos', subs: [] },
+      { name: 'Cursos', subs: ['Idiomas'] },
       { name: 'Mensalidade', subs: [] },
       { name: 'Livros e material', subs: [] },
     ]},
     viagens: { group: 'Viagens', categories: [
       { name: 'Passagens', subs: [] },
       { name: 'Hospedagem', subs: [] },
-      { name: 'Passeios', subs: ['Alimentação em viagem'] },
+      { name: 'Passeios', subs: ['Alimentação em viagem', 'Souvenirs'] },
     ]},
     pets: { group: 'Pets', categories: [
       { name: 'Alimentação pet', subs: [] },
-      { name: 'Veterinário', subs: ['Consultas', 'Vacinas'] },
-      { name: 'Higiene e acessórios', subs: [] },
+      { name: 'Veterinário', subs: ['Consultas', 'Vacinas', 'Medicamentos'] },
+      { name: 'Higiene e acessórios', subs: ['Banho e tosa'] },
+    ]},
+    assinaturas: { group: 'Assinaturas', categories: [
+      { name: 'Serviços digitais', subs: ['Armazenamento em nuvem', 'Aplicativos'] },
+      { name: 'Publicações', subs: ['Jornais e revistas'] },
+    ]},
+    financas: { group: 'Finanças pessoais', categories: [
+      { name: 'Cartão de crédito', subs: ['Anuidade', 'Juros'] },
+      { name: 'Tarifas bancárias', subs: [] },
+      { name: 'Empréstimos', subs: [] },
+    ]},
+    seguros: { group: 'Seguros', categories: [
+      { name: 'Seguro de vida', subs: [] },
+      { name: 'Seguro do celular', subs: [] },
+      { name: 'Seguro do carro', subs: [] },
+    ]},
+    filhos: { group: 'Filhos e dependentes', categories: [
+      { name: 'Escola/Creche', subs: [] },
+      { name: 'Vestuário infantil', subs: [] },
+      { name: 'Atividades extracurriculares', subs: [] },
+      { name: 'Saúde infantil', subs: [] },
+    ]},
+    compras: { group: 'Compras', categories: [
+      { name: 'Vestuário e calçados', subs: [] },
+      { name: 'Eletrônicos', subs: [] },
+      { name: 'Casa e decoração', subs: [] },
+    ]},
+    presentes: { group: 'Presentes e ocasiões', categories: [
+      { name: 'Presentes', subs: [] },
+      { name: 'Festas e comemorações', subs: [] },
     ]},
   },
   receita: {
     clt: { group: 'Trabalho', categories: [
-      { name: 'Salário', subs: [] },
-      { name: 'Bônus/13º', subs: ['Férias'] },
+      { name: 'Salário', subs: ['Vale-alimentação', 'Vale-transporte'] },
+      { name: 'Bônus/13º', subs: ['Férias', 'PLR'] },
     ]},
     autonomo: { group: 'Trabalho', categories: [
       { name: 'Freelance', subs: [] },
       { name: 'Prestação de serviços', subs: [] },
+      { name: 'Consultoria', subs: [] },
     ]},
     rendimentos: { group: 'Rendimentos', categories: [
       { name: 'Dividendos', subs: [] },
@@ -107,6 +152,15 @@ const SMART_TRAIT_GROUPS = {
     ]},
     aluguel: { group: 'Rendimentos', categories: [
       { name: 'Aluguel recebido', subs: [] },
+    ]},
+    vendas: { group: 'Vendas', categories: [
+      { name: 'Vendas online', subs: [] },
+      { name: 'Bicos/Freelas extras', subs: [] },
+    ]},
+    reembolsos: { group: 'Outros recebimentos', categories: [
+      { name: 'Reembolsos', subs: [] },
+      { name: 'Restituição de IR', subs: [] },
+      { name: 'Presentes recebidos', subs: [] },
     ]},
   },
   investimento: {
@@ -118,7 +172,7 @@ const SMART_TRAIT_GROUPS = {
     renda_variavel: { group: 'Renda Variável', categories: [
       { name: 'Ações', subs: [] },
       { name: 'Fundos Imobiliários', subs: [] },
-      { name: 'ETFs', subs: [] },
+      { name: 'ETFs', subs: ['BDRs'] },
     ]},
     reserva: { group: 'Reserva', categories: [
       { name: 'Poupança', subs: [] },
@@ -126,7 +180,11 @@ const SMART_TRAIT_GROUPS = {
     ]},
     cripto: { group: 'Cripto', categories: [
       { name: 'Bitcoin', subs: [] },
-      { name: 'Altcoins', subs: [] },
+      { name: 'Altcoins', subs: ['Staking/Rendimentos'] },
+    ]},
+    previdencia: { group: 'Previdência', categories: [
+      { name: 'PGBL', subs: [] },
+      { name: 'VGBL', subs: [] },
     ]},
   },
 };
