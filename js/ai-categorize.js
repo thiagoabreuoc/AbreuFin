@@ -45,7 +45,7 @@ const AI_CONCEPT_LABELS = {
 };
 
 let _aiSuggestTimer = null;
-let _aiSuggestion = null;
+let _aiSuggestions = [];
 
 function aiNormalize(str) {
   return (str || '')
@@ -68,43 +68,57 @@ function aiStripStopwords(norm) {
   return norm.split(' ').filter(function(w) { return w && AI_STOPWORDS.indexOf(w) === -1; }).join(' ');
 }
 
-function suggestCategoryFromText(text, tipo) {
+function suggestCategoriesFromText(text, tipo) {
   const norm = aiNormalize(text);
-  if (norm.length < 3) return null;
+  if (norm.length < 3) return [];
   const cats = categories[tipo] || [];
+  const results = [];
+  const seen = {};
+  function add(categoria, subcategoria, isNew) {
+    const key = categoria + '|' + (subcategoria || '');
+    if (seen[key]) return;
+    seen[key] = true;
+    results.push({ categoria: categoria, subcategoria: subcategoria || null, isNew: !!isNew });
+  }
 
-  // 1) casa direto contra sub-categorias que o usuário já tem
+  // 1) casa direto contra sub-categorias que o usuário já tem — pode haver
+  // mais de uma sub-categoria com o mesmo nome em categorias diferentes,
+  // então TODAS as combinações que baterem viram opções.
   for (const c of cats) {
     for (const s of (c.subs || [])) {
       const sNorm = aiNormalize(s);
-      if (sNorm.length >= 3 && norm.includes(sNorm)) return { categoria: c.name, subcategoria: s, isNew: false };
+      if (sNorm.length >= 3 && norm.includes(sNorm)) add(c.name, s, false);
     }
   }
   // 2) casa direto contra nomes de categorias que o usuário já tem
   for (const c of cats) {
     const cNorm = aiNormalize(c.name);
-    if (cNorm.length >= 3 && norm.includes(cNorm)) return { categoria: c.name, subcategoria: null, isNew: false };
+    if (cNorm.length >= 3 && norm.includes(cNorm)) add(c.name, null, false);
   }
-  // 3) dicionário de palavras-chave (inclui frases de 2 palavras) -> conceito.
-  // Ordena as chaves da mais longa pra mais curta, pra "lava jato" vencer
-  // antes de qualquer palavra isolada mais genérica bater primeiro.
-  const compact = aiStripStopwords(norm);
-  const keys = Object.keys(AI_CATEGORY_KEYWORDS).sort((a, b) => b.length - a.length);
-  let concept = null;
-  for (const key of keys) {
-    if (compact.includes(key)) { concept = AI_CATEGORY_KEYWORDS[key]; break; }
+  // 3) dicionário de palavras-chave (inclui frases de 2 palavras) -> conceito,
+  // só entra em jogo se nada acima bateu. Ordena as chaves da mais longa
+  // pra mais curta, pra "lava jato" vencer antes de palavra isolada genérica.
+  if (!results.length) {
+    const compact = aiStripStopwords(norm);
+    const keys = Object.keys(AI_CATEGORY_KEYWORDS).sort((a, b) => b.length - a.length);
+    let concept = null;
+    for (const key of keys) {
+      if (compact.includes(key)) { concept = AI_CATEGORY_KEYWORDS[key]; break; }
+    }
+    if (concept) {
+      const existing = cats.filter(c => {
+        const cNorm = aiNormalize(c.name);
+        return cNorm.includes(concept) || concept.includes(cNorm);
+      });
+      if (existing.length) {
+        existing.forEach(c => add(c.name, null, false));
+      } else {
+        const label = AI_CONCEPT_LABELS[concept] || (concept.charAt(0).toUpperCase() + concept.slice(1));
+        add(label, null, true);
+      }
+    }
   }
-  if (!concept) return null;
-
-  const existing = cats.find(c => {
-    const cNorm = aiNormalize(c.name);
-    return cNorm.includes(concept) || concept.includes(cNorm);
-  });
-  if (existing) return { categoria: existing.name, subcategoria: null, isNew: false };
-
-  // Nenhuma categoria correspondente ainda: sugere criar uma nova.
-  const label = AI_CONCEPT_LABELS[concept] || (concept.charAt(0).toUpperCase() + concept.slice(1));
-  return { categoria: label, subcategoria: null, isNew: true };
+  return results.slice(0, 4);
 }
 
 function onObsInputAi() {
@@ -112,34 +126,58 @@ function onObsInputAi() {
   _aiSuggestTimer = setTimeout(runAiSuggestion, 500);
 }
 
+function aiSuggestionLabel(s) {
+  return s.subcategoria ? `${s.categoria} › ${s.subcategoria}` : s.categoria;
+}
+
 function runAiSuggestion() {
   const tipo = document.getElementById('f-tipo').value;
   const catVal = document.getElementById('f-categoria').value;
   const obs = document.getElementById('f-obs').value;
+  const row = document.getElementById('ai-suggest-row');
   if (!tipo || catVal) { hideAiSuggestion(); return; }
-  const suggestion = suggestCategoryFromText(obs, tipo);
-  if (!suggestion) { hideAiSuggestion(); return; }
-  _aiSuggestion = suggestion;
-  const label = suggestion.subcategoria ? `${suggestion.categoria} › ${suggestion.subcategoria}` : suggestion.categoria;
-  const text = suggestion.isNew ? `Criar categoria "${label}"?` : 'Sugestão: ' + label;
-  document.getElementById('ai-suggest-text').textContent = text;
-  document.getElementById('ai-suggest-row').classList.remove('d-none');
+  const suggestions = suggestCategoriesFromText(obs, tipo);
+  if (!suggestions.length) { hideAiSuggestion(); return; }
+  _aiSuggestions = suggestions;
+
+  if (suggestions.length === 1) {
+    const s = suggestions[0];
+    const text = s.isNew ? `Criar categoria "${aiSuggestionLabel(s)}"?` : 'Sugestão: ' + aiSuggestionLabel(s);
+    row.innerHTML =
+      '<div class="d-flex align-items-center justify-content-between p-2 rounded-3" style="background:var(--md-sys-color-primary-container);gap:8px">' +
+      '<div class="d-flex align-items-center gap-2 small" style="color:var(--md-sys-color-on-primary-container)">' +
+      '<span class="material-symbols-outlined" style="font-size:1.1rem">auto_awesome</span>' +
+      '<span>' + escapeHtml(text) + '</span></div>' +
+      '<button type="button" class="btn btn-sm btn-primary flex-shrink-0" onclick="applyAiSuggestion(0,this)" style="padding:4px 12px">Aplicar</button>' +
+      '</div>';
+  } else {
+    const chips = suggestions.map(function(s, i) {
+      return '<button type="button" class="btn btn-sm btn-outline-primary" onclick="applyAiSuggestion(' + i + ',this)" style="padding:4px 10px;font-size:.78rem">' + escapeHtml(aiSuggestionLabel(s)) + '</button>';
+    }).join('');
+    row.innerHTML =
+      '<div class="p-2 rounded-3" style="background:var(--md-sys-color-primary-container)">' +
+      '<div class="d-flex align-items-center gap-2 small mb-2" style="color:var(--md-sys-color-on-primary-container)">' +
+      '<span class="material-symbols-outlined" style="font-size:1.1rem">auto_awesome</span>' +
+      '<span>Qual categoria combina melhor?</span></div>' +
+      '<div class="d-flex flex-wrap gap-2">' + chips + '</div>' +
+      '</div>';
+  }
+  row.classList.remove('d-none');
 }
 
 function hideAiSuggestion() {
-  _aiSuggestion = null;
+  _aiSuggestions = [];
   const row = document.getElementById('ai-suggest-row');
-  if (row) row.classList.add('d-none');
+  if (row) { row.classList.add('d-none'); row.innerHTML = ''; }
 }
 
-async function applyAiSuggestion() {
-  if (!_aiSuggestion) return;
-  const suggestion = _aiSuggestion;
-  const btn = document.querySelector('#ai-suggest-row button');
+async function applyAiSuggestion(idx, btnEl) {
+  const suggestion = _aiSuggestions[idx];
+  if (!suggestion) return;
 
   if (suggestion.isNew) {
     const tipo = document.getElementById('f-tipo').value;
-    setBtnLoading(btn, true);
+    setBtnLoading(btnEl, true);
     try {
       const data = await apiCreateCategory(tipo, suggestion.categoria, '📌');
       if (!categories[tipo]) categories[tipo] = [];
@@ -147,10 +185,10 @@ async function applyAiSuggestion() {
       populateCatOptions(tipo);
     } catch (e) {
       showToast(e.message, 'error');
-      setBtnLoading(btn, false);
+      setBtnLoading(btnEl, false);
       return;
     }
-    setBtnLoading(btn, false);
+    setBtnLoading(btnEl, false);
   }
 
   csSetValue('f-categoria', suggestion.categoria);
