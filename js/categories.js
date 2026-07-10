@@ -86,10 +86,11 @@ function renderGroupRow(id, name, count, editable) {
     : '';
   return '<div class="list-group-item d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openGroup(' + idArg + ')">' +
     '<div class="d-flex align-items-center gap-2">' +
-    '<span class="m3-count-badge">' + count + '</span>' +
+    '<span class="badge status-cell bg-info-subtle text-info">Grupo</span>' +
     '<span class="fw-semibold">' + escapeHtml(name) + '</span>' +
     '</div>' +
-    '<div class="d-flex align-items-center" style="gap:12px">' + actions +
+    '<div class="d-flex align-items-center" style="gap:12px">' +
+    '<span class="m3-count-badge">' + count + '</span>' + actions +
     '</div></div>';
 }
 
@@ -199,10 +200,11 @@ function renderCatGroupScreen() {
 function renderCatRow(c) {
   return '<div class="list-group-item d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openCatDetail(' + c.id + ')">' +
     '<div class="d-flex align-items-center gap-2">' +
-    '<span class="m3-count-badge">' + c.subs.length + '</span>' +
+    '<span class="badge status-cell bg-info-subtle text-info">Cat</span>' +
     '<span class="fw-semibold">' + escapeHtml(c.name) + '</span>' +
     '</div>' +
     '<div class="d-flex align-items-center" style="gap:12px">' +
+    '<span class="m3-count-badge">' + c.subs.length + '</span>' +
     '<button class="btn btn-link text-primary p-0" onclick="event.stopPropagation();startRenameCat(' + c.id + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
     '<button class="btn btn-link text-danger p-0" onclick="event.stopPropagation();confirmDeleteCat(' + c.id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
     '</div></div>';
@@ -307,7 +309,10 @@ function renderCatDetailScreen() {
     html += renderAlphaSortRow(_subsSortDir, "sortSubs('asc')", "sortSubs('desc')");
     html += '<div class="list-group">' + subsIndexed.map(function(item) {
       return '<div class="list-group-item d-flex align-items-center justify-content-between">' +
-        '<div class="small">' + escapeHtml(item.name) + '</div>' +
+        '<div class="d-flex align-items-center gap-2">' +
+        '<span class="badge status-cell bg-info-subtle text-info">Sub</span>' +
+        '<span class="small">' + escapeHtml(item.name) + '</span>' +
+        '</div>' +
         '<div class="d-flex align-items-center" style="gap:12px">' +
         '<button class="btn btn-link text-primary p-0" onclick="startRenameSub(' + item.idx + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
         '<button class="btn btn-link text-danger p-0" onclick="deleteSub(' + item.idx + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
