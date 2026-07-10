@@ -1,9 +1,10 @@
 <?php
 /* Insights proativos — regras simples sobre os lançamentos confirmados
-   do mês corrente, sem dependência externa. Retorna no máximo 1 insight
-   por chamada (o de maior prioridade), pra não sobrecarregar o usuário. */
+   do mês corrente, sem dependência externa. Retorna todos os insights
+   aplicáveis (ordenados por prioridade), pra exibir na tela de Insights;
+   o push usa apenas o primeiro (mais prioritário). */
 
-function computeTopInsight(array $entries): ?array {
+function computeInsights(array $entries): array {
     $confirmedStatus = ['receita' => 'recebido', 'despesa' => 'pago', 'investimento' => 'investido'];
 
     $today = new DateTime('today');
@@ -33,9 +34,11 @@ function computeTopInsight(array $entries): ?array {
         }
     }
 
+    $insights = [];
+
     // Regra 1 (mais urgente): despesas confirmadas já superam receitas confirmadas no mês.
     if ($curDespesaTotal > 0 && $curDespesaTotal > $curReceitaTotal) {
-        return [
+        $insights[] = [
             'key'     => 'balance_negative',
             'title'   => 'Atenção ao saldo',
             'message' => sprintf(
@@ -56,7 +59,7 @@ function computeTopInsight(array $entries): ?array {
         }
     }
     if ($bestSpike) {
-        return [
+        $insights[] = [
             'key'     => 'cat_spike',
             'title'   => 'Gasto em alta',
             'message' => sprintf(
@@ -66,14 +69,15 @@ function computeTopInsight(array $entries): ?array {
         ];
     }
 
-    // Regra 3: concentração de gastos em uma única categoria.
+    // Regra 3: concentração de gastos em uma única categoria (exige 3+ categorias, senão é trivial).
     if ($curDespesaTotal >= 100 && count($curDespesaByCat) >= 3) {
-        arsort($curDespesaByCat);
-        $topCat = array_key_first($curDespesaByCat);
-        $topVal = $curDespesaByCat[$topCat];
+        $sorted = $curDespesaByCat;
+        arsort($sorted);
+        $topCat = array_key_first($sorted);
+        $topVal = $sorted[$topCat];
         $pct = $topVal / $curDespesaTotal;
         if ($pct >= 0.4) {
-            return [
+            $insights[] = [
                 'key'     => 'concentration',
                 'title'   => 'Concentração de gastos',
                 'message' => sprintf(
@@ -84,7 +88,7 @@ function computeTopInsight(array $entries): ?array {
         }
     }
 
-    return null;
+    return $insights;
 }
 
 function insightFmt(float $v): string {

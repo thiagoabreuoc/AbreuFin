@@ -61,5 +61,6 @@ function navigate(id) {
   showScreen(id, false);
   if (id === 'home') renderHome();
   if (id === 'cats') renderCats();
+  if (id === 'insights') renderInsightsScreen();
   if (id === 'profile') { renderProfile(); initThemeToggle(); }
 }

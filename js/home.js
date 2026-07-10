@@ -453,6 +453,11 @@ function renderBanners() {
       <span class="small" onclick="goToVencendo('vencendo')" style="cursor:pointer">${vencendoCount} despesa${vencendoCount>1?'s':''} vencendo em 3 dias. <u>Ver</u></span>
       <button type="button" class="btn btn-link p-0" style="color:inherit;line-height:0" onclick="dismissBanner('vencendo')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
     </div>`;
+  if (insights && insights.length)
+    banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-insights" style="background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);max-height:60px;cursor:pointer" onclick="navigate('insights')">
+      <span class="small d-flex align-items-center gap-2"><span class="material-symbols-outlined" style="font-size:1.1rem;flex-shrink:0">tips_and_updates</span>Há insights interessantes sobre sua gestão financeira.</span>
+      <span class="material-symbols-outlined flex-shrink-0" style="font-size:1.1rem">chevron_right</span>
+    </div>`;
   const bannersEl = document.getElementById('home-banners');
   bannersEl.innerHTML = banners;
   bannersEl.style.marginTop = banners ? '16px' : '0';
@@ -496,21 +501,25 @@ function renderHome() {
   document.getElementById('home-summary').innerHTML = summary;
 }
 
-/* ─────────────── INSIGHT PROATIVO (popup) ─────────────── */
-function maybeShowInsightPopup(insight) {
-  if (!insight || !currentUser) return;
-  const storageKey = 'ff_insight_seen_' + currentUser.id;
-  const today = new Date().toISOString().slice(0, 10);
-  if (localStorage.getItem(storageKey) === today) return;
-  localStorage.setItem(storageKey, today);
-  setTimeout(function() {
-    document.getElementById('insight-popup-title').textContent = insight.title;
-    document.getElementById('insight-popup-message').textContent = insight.message;
-    document.getElementById('insight-overlay').classList.add('open');
-    document.getElementById('insight-sheet').classList.add('open');
-  }, 600);
-}
-function closeInsightPopup() {
-  document.getElementById('insight-overlay').classList.remove('open');
-  document.getElementById('insight-sheet').classList.remove('open');
+/* ─────────────── TELA DE INSIGHTS ─────────────── */
+function renderInsightsScreen() {
+  const el = document.getElementById('insights-body');
+  if (!el) return;
+  if (!insights || !insights.length) {
+    el.innerHTML = '<div class="text-muted small text-center py-5 fst-italic">Nenhum insight no momento. Continue registrando seus lançamentos.</div>';
+    return;
+  }
+  el.innerHTML = '<div class="d-flex flex-column" style="gap:12px">' + insights.map(function(ins) {
+    return `<div class="card" style="border-radius:14px">
+      <div class="card-body d-flex gap-3 align-items-start">
+        <div class="d-inline-flex align-items-center justify-content-center flex-shrink-0" style="width:40px;height:40px;border-radius:50%;background:var(--md-sys-color-primary-container)">
+          <span class="material-symbols-outlined" style="font-size:1.3rem;color:var(--md-sys-color-on-primary-container)">tips_and_updates</span>
+        </div>
+        <div>
+          <div class="fw-semibold mb-1">${escapeHtml(ins.title)}</div>
+          <div class="text-secondary small">${escapeHtml(ins.message)}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('') + '</div>';
 }

@@ -13,3 +13,4 @@ let catGroups  = { receita: [], despesa: [], investimento: [] };
 let categories = { receita: [], despesa: [], investimento: [] };
 let entries = [];
 let currentUser = null;
+let insights = [];

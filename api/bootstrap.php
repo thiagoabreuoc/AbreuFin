@@ -91,11 +91,11 @@ if ($pushLast !== $today) {
     }
 }
 
-// Insight proativo (calculado a cada carregamento; envio por push é throttled a 1x/dia)
+// Insights proativos (calculados a cada carregamento; envio por push é throttled a 1x/dia)
 require_once __DIR__ . '/../lib/insights.php';
-$insight = computeTopInsight($entries);
+$insights = computeInsights($entries);
 
-if ($insight) {
+if ($insights) {
     $insightLastRow = $pdo->prepare('SELECT insight_last_notif FROM users WHERE id=?');
     $insightLastRow->execute([$userId]);
     $insightLast = $insightLastRow->fetchColumn();
@@ -106,7 +106,8 @@ if ($insight) {
         $subs = $subStmt->fetchAll();
         if ($subs) {
             require_once __DIR__ . '/../lib/webpush.php';
-            $payload = json_encode(['title' => $insight['title'], 'body' => $insight['message']]);
+            $topInsight = $insights[0];
+            $payload = json_encode(['title' => $topInsight['title'], 'body' => $topInsight['message']]);
             $sent = false;
             foreach ($subs as $sub) {
                 $code = wpSend($sub['endpoint'], $sub['p256dh'], $sub['auth'], $payload);
@@ -121,4 +122,4 @@ if ($insight) {
     }
 }
 
-jsonResponse(['ok' => true, 'user' => $user, 'groups' => $groups, 'categories' => $categories, 'entries' => $entries, 'insight' => $insight]);
+jsonResponse(['ok' => true, 'user' => $user, 'groups' => $groups, 'categories' => $categories, 'entries' => $entries, 'insights' => $insights]);

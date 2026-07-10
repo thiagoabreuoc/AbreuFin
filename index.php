@@ -44,6 +44,7 @@ $csrfToken = csrfToken();
     <?php include 'partials/screen-home.php'; ?>
     <?php include 'partials/screen-listing.php'; ?>
     <?php include 'partials/screen-vencendo.php'; ?>
+    <?php include 'partials/screen-insights.php'; ?>
     <?php include 'partials/screen-form.php'; ?>
     <?php include 'partials/screen-cats.php'; ?>
     <?php include 'partials/screen-cat-group.php'; ?>
@@ -153,21 +154,6 @@ $csrfToken = csrfToken();
           <button class="btn btn-outline-primary btn-sm" type="button" onclick="closeNewSubModal()">Cancelar</button>
           <button class="btn btn-primary btn-sm" type="button" id="new-sub-save-btn" onclick="saveNewSub()" style="padding:10px 24px">Criar</button>
         </div>
-      </div>
-    </div>
-
-    <!-- Insight proativo -->
-    <div class="sheet-overlay" id="insight-overlay" onclick="closeInsightPopup()"></div>
-    <div class="sheet-card" id="insight-sheet">
-      <div class="text-center" style="padding:24px 20px 8px">
-        <div class="d-inline-flex align-items-center justify-content-center" style="width:48px;height:48px;border-radius:50%;background:var(--md-sys-color-primary-container);margin-bottom:12px">
-          <span class="material-symbols-outlined" style="font-size:1.5rem;color:var(--md-sys-color-on-primary-container)">tips_and_updates</span>
-        </div>
-        <div class="fw-semibold" id="insight-popup-title" style="font-size:1.05rem">Insight</div>
-      </div>
-      <div class="text-secondary small text-center" id="insight-popup-message" style="padding:0 20px 20px"></div>
-      <div class="text-center" style="padding:0 20px 20px">
-        <button class="btn btn-primary btn-sm" type="button" onclick="closeInsightPopup()" style="padding:10px 24px">Entendi</button>
       </div>
     </div>
 

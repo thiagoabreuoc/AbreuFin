@@ -55,6 +55,7 @@ async function refreshData() {
   catGroups  = data.groups || { receita: [], despesa: [], investimento: [] };
   categories = data.categories;
   entries    = data.entries;
+  insights   = data.insights || [];
   return data;
 }
 
@@ -69,7 +70,6 @@ async function enterApp() {
   showScreen('home', false);
   buildMonthStrip();
   switchHomeTab('meses');
-  maybeShowInsightPopup(data.insight);
 }
 
 async function doLogin() {
