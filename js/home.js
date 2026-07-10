@@ -445,7 +445,7 @@ function renderBanners() {
   let banners = '';
   if (insights && insights.length)
     banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-insights" style="background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);max-height:60px;cursor:pointer" onclick="navigate('insights')">
-      <span class="small d-flex align-items-center gap-2"><span class="material-symbols-outlined" style="font-size:1.1rem;flex-shrink:0">tips_and_updates</span>Há insights interessantes sobre sua gestão financeira.</span>
+      <span class="small d-flex align-items-center gap-2"><span class="material-symbols-outlined" style="font-size:1.1rem;flex-shrink:0">tips_and_updates</span>Novos insights financeiros.</span>
       <span class="material-symbols-outlined flex-shrink-0" style="font-size:1.1rem">chevron_right</span>
     </div>`;
   if (vencidoCount > 0 && !dismissedBanners.vencido)
