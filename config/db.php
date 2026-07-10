@@ -114,6 +114,8 @@ function migrate(PDO $pdo): void {
     $userCols = array_column($pdo->query("PRAGMA table_info(users)")->fetchAll(), 'name');
     if (!in_array('push_last_notif', $userCols, true))
         $pdo->exec("ALTER TABLE users ADD COLUMN push_last_notif TEXT NOT NULL DEFAULT ''");
+    if (!in_array('insight_last_notif', $userCols, true))
+        $pdo->exec("ALTER TABLE users ADD COLUMN insight_last_notif TEXT NOT NULL DEFAULT ''");
 
     $pdo->exec("CREATE INDEX IF NOT EXISTS idx_category_groups_user ON category_groups(user_id)");
     $pdo->exec("CREATE INDEX IF NOT EXISTS idx_categories_user ON categories(user_id)");

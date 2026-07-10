@@ -495,3 +495,22 @@ function renderHome() {
     </div>` : '');
   document.getElementById('home-summary').innerHTML = summary;
 }
+
+/* ─────────────── INSIGHT PROATIVO (popup) ─────────────── */
+function maybeShowInsightPopup(insight) {
+  if (!insight || !currentUser) return;
+  const storageKey = 'ff_insight_seen_' + currentUser.id;
+  const today = new Date().toISOString().slice(0, 10);
+  if (localStorage.getItem(storageKey) === today) return;
+  localStorage.setItem(storageKey, today);
+  setTimeout(function() {
+    document.getElementById('insight-popup-title').textContent = insight.title;
+    document.getElementById('insight-popup-message').textContent = insight.message;
+    document.getElementById('insight-overlay').classList.add('open');
+    document.getElementById('insight-sheet').classList.add('open');
+  }, 600);
+}
+function closeInsightPopup() {
+  document.getElementById('insight-overlay').classList.remove('open');
+  document.getElementById('insight-sheet').classList.remove('open');
+}

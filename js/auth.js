@@ -69,6 +69,7 @@ async function enterApp() {
   showScreen('home', false);
   buildMonthStrip();
   switchHomeTab('meses');
+  maybeShowInsightPopup(data.insight);
 }
 
 async function doLogin() {

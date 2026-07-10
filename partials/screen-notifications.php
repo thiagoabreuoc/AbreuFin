@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <p class="text-muted small text-center">Notificações são enviadas uma vez por dia quando há despesas vencidas ou vencendo nos próximos 3 dias.</p>
+    <p class="text-muted small text-center">Notificações são enviadas até uma vez por dia: alertas de despesas vencidas/a vencer e insights proativos sobre seus gastos.</p>
 
   </div>
 </div>

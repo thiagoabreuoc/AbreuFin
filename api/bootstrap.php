@@ -91,4 +91,34 @@ if ($pushLast !== $today) {
     }
 }
 
-jsonResponse(['ok' => true, 'user' => $user, 'groups' => $groups, 'categories' => $categories, 'entries' => $entries]);
+// Insight proativo (calculado a cada carregamento; envio por push é throttled a 1x/dia)
+require_once __DIR__ . '/../lib/insights.php';
+$insight = computeTopInsight($entries);
+
+if ($insight) {
+    $insightLastRow = $pdo->prepare('SELECT insight_last_notif FROM users WHERE id=?');
+    $insightLastRow->execute([$userId]);
+    $insightLast = $insightLastRow->fetchColumn();
+
+    if ($insightLast !== $today) {
+        $subStmt = $pdo->prepare('SELECT endpoint, p256dh, auth FROM push_subscriptions WHERE user_id=?');
+        $subStmt->execute([$userId]);
+        $subs = $subStmt->fetchAll();
+        if ($subs) {
+            require_once __DIR__ . '/../lib/webpush.php';
+            $payload = json_encode(['title' => $insight['title'], 'body' => $insight['message']]);
+            $sent = false;
+            foreach ($subs as $sub) {
+                $code = wpSend($sub['endpoint'], $sub['p256dh'], $sub['auth'], $payload);
+                if ($code === 404 || $code === 410) {
+                    $pdo->prepare('DELETE FROM push_subscriptions WHERE endpoint=?')->execute([$sub['endpoint']]);
+                } elseif ($code >= 200 && $code < 300) {
+                    $sent = true;
+                }
+            }
+            if ($sent) $pdo->prepare('UPDATE users SET insight_last_notif=? WHERE id=?')->execute([$today, $userId]);
+        }
+    }
+}
+
+jsonResponse(['ok' => true, 'user' => $user, 'groups' => $groups, 'categories' => $categories, 'entries' => $entries, 'insight' => $insight]);
