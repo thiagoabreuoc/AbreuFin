@@ -176,11 +176,18 @@ function aiSuggestionActionText(s) {
 
 function runAiSuggestion() {
   const tipo = document.getElementById('f-tipo').value;
-  const catVal = document.getElementById('f-categoria').value;
   const obs = document.getElementById('f-obs').value;
   const row = document.getElementById('ai-suggest-row');
-  if (!tipo || catVal) { hideAiSuggestion(); return; }
-  const suggestions = suggestCategoriesFromText(obs, tipo);
+  if (!tipo) { hideAiSuggestion(); return; }
+  let suggestions = suggestCategoriesFromText(obs, tipo);
+  if (!suggestions.length) { hideAiSuggestion(); return; }
+
+  // não repete uma sugestão idêntica ao que já está selecionado no
+  // formulário — mas continua sugerindo se o usuário seguir digitando
+  // e o texto passar a apontar pra outra categoria/sub-categoria.
+  const curCat = document.getElementById('f-categoria').value;
+  const curSub = document.getElementById('f-subcategoria').value;
+  suggestions = suggestions.filter(s => !(s.categoria === curCat && (s.subcategoria || '') === (curSub || '')));
   if (!suggestions.length) { hideAiSuggestion(); return; }
   _aiSuggestions = suggestions;
 
