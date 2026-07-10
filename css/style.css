@@ -159,6 +159,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .fab-main-btn{position:relative;overflow:hidden;width:44px;height:44px;border-radius:50%;background:var(--md-sys-color-primary-container);border:none;color:var(--md-sys-color-on-primary-container);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;box-shadow:var(--md-sys-elevation-level3);transition:transform var(--md-sys-motion-duration-medium3) var(--md-sys-motion-easing-emphasized),box-shadow var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard)}
 .fab-main-btn:active{box-shadow:var(--md-sys-elevation-level4)}
 #btn-novo-wrap.fab-open .fab-main-btn{transform:rotate(45deg);background:var(--md-sys-color-primary);color:var(--md-sys-color-on-primary)}
+#btn-novo-wrap.fab-open{background:none!important}
 
 /* FAB Menu (M3) — https://m3.material.io/components/fab-menu/overview
    Lista vertical de ações ancorada no canto inferior direito, acima do FAB
