@@ -163,7 +163,7 @@ $csrfToken = csrfToken();
         <span class="fw-semibold">Grupos inteligentes</span>
         <button class="btn btn-link text-secondary p-0" onclick="closeSmartGroupsModal()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%)"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
       </div>
-      <div class="text-secondary small" style="padding:0 16px 8px;flex-shrink:0">Selecione as categorias e sub-categorias sugeridas. Vamos organizá-las em grupos automaticamente.</div>
+      <div class="text-secondary small" style="padding:0 16px 8px;flex-shrink:0">Marque o que combina com você. Com poucas escolhas, montamos grupos completos com categorias e sub-categorias pra você.</div>
       <div style="padding:0 16px;overflow-y:auto;flex:1" id="smart-groups-body">
         <!-- preenchido por JS -->
       </div>

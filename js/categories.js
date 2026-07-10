@@ -19,72 +19,116 @@ const CATS_TABS = [
   { key: 'investimento', label: 'Investimentos', colorClass: 'status-cell-investimento' },
 ];
 
-const SMART_GROUP_SUGGESTIONS = {
+/* Perguntas curtas de perfil — poucas escolhas bastam pra inferir o
+   estilo de vida da pessoa e montar grupos completos automaticamente. */
+const SMART_PROFILE_TRAITS = {
   despesa: [
-    { group: 'Moradia', categories: [
-      { name: 'Aluguel/Financiamento', subs: ['Condomínio', 'IPTU'] },
+    { key: 'moradia',   label: 'Moro de aluguel ou tenho financiamento', icon: 'home' },
+    { key: 'transporte', label: 'Tenho carro ou uso apps de transporte', icon: 'directions_car' },
+    { key: 'alimentacao', label: 'Faço compras de mercado ou peço delivery', icon: 'restaurant' },
+    { key: 'saude',     label: 'Tenho plano de saúde ou consultas frequentes', icon: 'health_and_safety' },
+    { key: 'lazer',     label: 'Assino streaming ou saio com frequência', icon: 'live_tv' },
+    { key: 'estudos',   label: 'Faço cursos ou pago mensalidade escolar', icon: 'school' },
+    { key: 'viagens',   label: 'Viajo com frequência', icon: 'flight' },
+    { key: 'pets',      label: 'Tenho animais de estimação', icon: 'pets' },
+  ],
+  receita: [
+    { key: 'clt',        label: 'Trabalho com carteira assinada / salário fixo', icon: 'work' },
+    { key: 'autonomo',   label: 'Trabalho como autônomo ou freelancer', icon: 'badge' },
+    { key: 'rendimentos', label: 'Recebo rendimentos de investimentos', icon: 'trending_up' },
+    { key: 'aluguel',    label: 'Recebo aluguel de imóveis', icon: 'apartment' },
+  ],
+  investimento: [
+    { key: 'renda_fixa',     label: 'Invisto em renda fixa (Tesouro, CDB...)', icon: 'account_balance' },
+    { key: 'renda_variavel', label: 'Invisto em renda variável (Ações, FIIs...)', icon: 'show_chart' },
+    { key: 'reserva',        label: 'Mantenho uma reserva de emergência', icon: 'savings' },
+    { key: 'cripto',         label: 'Invisto em criptomoedas', icon: 'currency_bitcoin' },
+  ],
+};
+
+/* Cada escolha traz um grupo já bem preenchido com categorias e
+   sub-categorias — não apenas o item marcado. */
+const SMART_TRAIT_GROUPS = {
+  despesa: {
+    moradia: { group: 'Moradia', categories: [
+      { name: 'Aluguel/Financiamento', subs: ['Condomínio', 'IPTU', 'Seguro residencial'] },
       { name: 'Contas de casa', subs: ['Água', 'Luz', 'Internet', 'Gás'] },
+      { name: 'Manutenção do lar', subs: ['Reparos', 'Móveis e utensílios'] },
     ]},
-    { group: 'Transporte', categories: [
+    transporte: { group: 'Transporte', categories: [
       { name: 'Combustível', subs: [] },
       { name: 'Aplicativos', subs: ['Uber', '99'] },
       { name: 'Manutenção', subs: ['Revisão', 'Pneus', 'Estacionamento'] },
+      { name: 'Transporte público', subs: ['Ônibus', 'Metrô'] },
     ]},
-    { group: 'Alimentação', categories: [
-      { name: 'Supermercado', subs: [] },
-      { name: 'Restaurantes', subs: ['Delivery'] },
+    alimentacao: { group: 'Alimentação', categories: [
+      { name: 'Supermercado', subs: ['Feira', 'Hortifruti'] },
+      { name: 'Restaurantes', subs: ['Delivery', 'Lanches'] },
     ]},
-    { group: 'Saúde', categories: [
+    saude: { group: 'Saúde', categories: [
       { name: 'Plano de saúde', subs: [] },
-      { name: 'Farmácia', subs: [] },
-      { name: 'Consultas e exames', subs: [] },
+      { name: 'Farmácia', subs: ['Medicamentos'] },
+      { name: 'Consultas e exames', subs: ['Médico', 'Dentista'] },
     ]},
-    { group: 'Lazer', categories: [
-      { name: 'Streaming', subs: ['Netflix', 'Spotify'] },
-      { name: 'Viagens', subs: [] },
+    lazer: { group: 'Lazer', categories: [
+      { name: 'Streaming', subs: ['Netflix', 'Spotify', 'Prime Video'] },
+      { name: 'Saídas', subs: ['Cinema', 'Shows', 'Bares'] },
+      { name: 'Hobbies', subs: [] },
     ]},
-    { group: 'Educação', categories: [
+    estudos: { group: 'Educação', categories: [
       { name: 'Cursos', subs: [] },
       { name: 'Mensalidade', subs: [] },
-      { name: 'Livros', subs: [] },
+      { name: 'Livros e material', subs: [] },
     ]},
-    { group: 'Pessoais', categories: [
-      { name: 'Vestuário', subs: [] },
-      { name: 'Cuidados pessoais', subs: [] },
+    viagens: { group: 'Viagens', categories: [
+      { name: 'Passagens', subs: [] },
+      { name: 'Hospedagem', subs: [] },
+      { name: 'Passeios', subs: ['Alimentação em viagem'] },
     ]},
-  ],
-  receita: [
-    { group: 'Trabalho', categories: [
+    pets: { group: 'Pets', categories: [
+      { name: 'Alimentação pet', subs: [] },
+      { name: 'Veterinário', subs: ['Consultas', 'Vacinas'] },
+      { name: 'Higiene e acessórios', subs: [] },
+    ]},
+  },
+  receita: {
+    clt: { group: 'Trabalho', categories: [
       { name: 'Salário', subs: [] },
-      { name: 'Freelance', subs: [] },
-      { name: 'Bônus/13º', subs: [] },
+      { name: 'Bônus/13º', subs: ['Férias'] },
     ]},
-    { group: 'Rendimentos', categories: [
+    autonomo: { group: 'Trabalho', categories: [
+      { name: 'Freelance', subs: [] },
+      { name: 'Prestação de serviços', subs: [] },
+    ]},
+    rendimentos: { group: 'Rendimentos', categories: [
       { name: 'Dividendos', subs: [] },
       { name: 'Juros', subs: [] },
+      { name: 'Rendimento de fundos', subs: [] },
+    ]},
+    aluguel: { group: 'Rendimentos', categories: [
       { name: 'Aluguel recebido', subs: [] },
     ]},
-    { group: 'Outros', categories: [
-      { name: 'Presentes', subs: [] },
-      { name: 'Reembolsos', subs: [] },
-    ]},
-  ],
-  investimento: [
-    { group: 'Renda Fixa', categories: [
+  },
+  investimento: {
+    renda_fixa: { group: 'Renda Fixa', categories: [
       { name: 'Tesouro Direto', subs: [] },
       { name: 'CDB', subs: [] },
       { name: 'LCI/LCA', subs: [] },
     ]},
-    { group: 'Renda Variável', categories: [
+    renda_variavel: { group: 'Renda Variável', categories: [
       { name: 'Ações', subs: [] },
       { name: 'Fundos Imobiliários', subs: [] },
       { name: 'ETFs', subs: [] },
     ]},
-    { group: 'Reserva', categories: [
+    reserva: { group: 'Reserva', categories: [
       { name: 'Poupança', subs: [] },
       { name: 'Reserva de emergência', subs: [] },
     ]},
-  ],
+    cripto: { group: 'Cripto', categories: [
+      { name: 'Bitcoin', subs: [] },
+      { name: 'Altcoins', subs: [] },
+    ]},
+  },
 };
 
 function switchCatsTab(tipo) {
@@ -466,79 +510,64 @@ function closeSmartGroupsModal() {
 }
 
 function renderSmartGroupsModal() {
-  var suggestions = SMART_GROUP_SUGGESTIONS[_catsTab] || [];
+  var traits = SMART_PROFILE_TRAITS[_catsTab] || [];
   var el = document.getElementById('smart-groups-body');
   if (!el) return;
-  if (!suggestions.length) {
+  if (!traits.length) {
     el.innerHTML = '<div class="text-muted small text-center py-4 fst-italic">Nenhuma sugestão disponível.</div>';
     return;
   }
-  el.innerHTML = suggestions.map(function(sg, gi) {
-    var catsHtml = sg.categories.map(function(cat, ci) {
-      var subsHtml = (cat.subs || []).map(function(sub, si) {
-        var id = 'sg-sub-' + gi + '-' + ci + '-' + si;
-        return '<div class="form-check ms-4">' +
-          '<input class="form-check-input" type="checkbox" id="' + id + '" data-g="' + gi + '" data-c="' + ci + '" disabled>' +
-          '<label class="form-check-label small" for="' + id + '">' + escapeHtml(sub) + '</label>' +
-          '</div>';
-      }).join('');
-      var catId = 'sg-cat-' + gi + '-' + ci;
-      return '<div class="mb-2">' +
-        '<div class="form-check">' +
-        '<input class="form-check-input" type="checkbox" id="' + catId + '" onchange="toggleSmartCatSubs(' + gi + ',' + ci + ')">' +
-        '<label class="form-check-label fw-semibold small" for="' + catId + '">' + escapeHtml(cat.name) + '</label>' +
-        '</div>' + subsHtml + '</div>';
-    }).join('');
-    return '<div class="mb-3">' +
-      '<div class="text-secondary text-uppercase fw-semibold mb-1" style="font-size:.7rem;letter-spacing:.03em">' + escapeHtml(sg.group) + '</div>' +
-      catsHtml + '</div>';
+  el.innerHTML = traits.map(function(t) {
+    var id = 'sg-trait-' + t.key;
+    return '<div class="form-check d-flex align-items-center gap-2 py-2" style="border-bottom:1px solid var(--md-sys-color-outline-variant)">' +
+      '<input class="form-check-input mt-0" type="checkbox" id="' + id + '" style="flex-shrink:0">' +
+      '<span class="material-symbols-outlined text-secondary" style="font-size:1.2rem">' + t.icon + '</span>' +
+      '<label class="form-check-label small" for="' + id + '">' + escapeHtml(t.label) + '</label>' +
+      '</div>';
   }).join('');
 }
 
-function toggleSmartCatSubs(gi, ci) {
-  var catChecked = document.getElementById('sg-cat-' + gi + '-' + ci).checked;
-  document.querySelectorAll('input[data-g="' + gi + '"][data-c="' + ci + '"]').forEach(function(cb) {
-    cb.disabled = !catChecked;
-    cb.checked = catChecked;
-  });
-}
-
 async function applySmartGroups() {
-  var suggestions = SMART_GROUP_SUGGESTIONS[_catsTab] || [];
+  var traits = SMART_PROFILE_TRAITS[_catsTab] || [];
+  var traitGroups = SMART_TRAIT_GROUPS[_catsTab] || {};
   var tipo = _catsTab;
-  var toCreate = [];
-  suggestions.forEach(function(sg, gi) {
-    var groupCats = [];
-    sg.categories.forEach(function(cat, ci) {
-      var catCb = document.getElementById('sg-cat-' + gi + '-' + ci);
-      if (!catCb || !catCb.checked) return;
-      var subs = [];
-      (cat.subs || []).forEach(function(sub, si) {
-        var subCb = document.getElementById('sg-sub-' + gi + '-' + ci + '-' + si);
-        if (subCb && subCb.checked) subs.push(sub);
-      });
-      groupCats.push({ name: cat.name, subs: subs });
+
+  var byGroupName = {};
+  traits.forEach(function(t) {
+    var cb = document.getElementById('sg-trait-' + t.key);
+    if (!cb || !cb.checked) return;
+    var def = traitGroups[t.key];
+    if (!def) return;
+    if (!byGroupName[def.group]) byGroupName[def.group] = [];
+    def.categories.forEach(function(cat) {
+      var existing = byGroupName[def.group].find(function(c) { return c.name.toLowerCase() === cat.name.toLowerCase(); });
+      if (existing) {
+        cat.subs.forEach(function(s) { if (existing.subs.indexOf(s) === -1) existing.subs.push(s); });
+      } else {
+        byGroupName[def.group].push({ name: cat.name, subs: cat.subs.slice() });
+      }
     });
-    if (groupCats.length) toCreate.push({ groupName: sg.group, categories: groupCats });
   });
 
-  if (!toCreate.length) { showToast('Selecione ao menos uma categoria.', 'error'); return; }
+  var groupNames = Object.keys(byGroupName);
+  if (!groupNames.length) { showToast('Marque ao menos uma opção para montar seus grupos.', 'error'); return; }
 
   try {
-    for (var gi2 = 0; gi2 < toCreate.length; gi2++) {
-      var item = toCreate[gi2];
-      var existingGroup = (catGroups[tipo] || []).find(function(g) { return g.name.toLowerCase() === item.groupName.toLowerCase(); });
+    for (var gi = 0; gi < groupNames.length; gi++) {
+      var groupName = groupNames[gi];
+      var groupCats = byGroupName[groupName];
+      var existingGroup = (catGroups[tipo] || []).find(function(g) { return g.name.toLowerCase() === groupName.toLowerCase(); });
       var groupId;
       if (existingGroup) {
         groupId = existingGroup.id;
       } else {
-        var gdata = await apiCreateGroup(tipo, item.groupName);
+        var gdata = await apiCreateGroup(tipo, groupName);
         if (!catGroups[tipo]) catGroups[tipo] = [];
         catGroups[tipo].push(gdata.group);
         groupId = gdata.group.id;
       }
-      for (var ci2 = 0; ci2 < item.categories.length; ci2++) {
-        var catItem = item.categories[ci2];
+      for (var ci = 0; ci < groupCats.length; ci++) {
+        var catItem = groupCats[ci];
         var existingCat = (categories[tipo] || []).find(function(c) { return c.groupId === groupId && c.name.toLowerCase() === catItem.name.toLowerCase(); });
         if (existingCat) {
           var mergedSubs = existingCat.subs.slice();
