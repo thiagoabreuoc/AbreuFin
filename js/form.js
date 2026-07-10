@@ -155,6 +155,7 @@ function onCatChange() {
   if (!isOutros) document.getElementById('f-categoria-custom').value = '';
   const tipo = document.getElementById('f-tipo').value;
   populateSubCatFromCat(tipo, val);
+  hideAiSuggestion();
 }
 
 function populateSubCatFromCat(tipo, catName) {
@@ -289,6 +290,7 @@ function clearForm() {
   document.getElementById('f-mm').value='';
   document.getElementById('f-yyyy').value='';
   renderStatusPills('');
+  hideAiSuggestion();
 }
 
 function onDataInput(el) {

@@ -94,7 +94,14 @@
     <!-- Observação -->
     <fieldset class="form-box">
       <legend class="form-box-lbl">Observação</legend>
-      <textarea class="form-control form-control-borderless" id="f-obs" style="height:72px" placeholder="Opcional"></textarea>
+      <textarea class="form-control form-control-borderless" id="f-obs" style="height:72px" placeholder="Opcional" oninput="onObsInputAi()"></textarea>
+      <div id="ai-suggest-row" class="d-none align-items-center justify-content-between mt-2 p-2 rounded-3" style="background:var(--md-sys-color-primary-container);gap:8px">
+        <div class="d-flex align-items-center gap-2 small" style="color:var(--md-sys-color-on-primary-container)">
+          <span class="material-symbols-outlined" style="font-size:1.1rem">auto_awesome</span>
+          <span id="ai-suggest-text">Sugestão</span>
+        </div>
+        <button type="button" class="btn btn-sm btn-primary flex-shrink-0" onclick="applyAiSuggestion()" style="padding:4px 12px">Aplicar</button>
+      </div>
     </fieldset>
 
     <!-- Status -->
