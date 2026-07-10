@@ -18,7 +18,7 @@
     <div class="text-danger small" id="change-password-err"></div>
   </div>
   <div class="d-flex gap-2 p-3 border-top flex-shrink-0">
-    <button class="btn btn-outline-primary flex-fill" onclick="goBack()">Cancelar</button>
-    <button class="btn btn-primary flex-fill" onclick="doChangePassword()">Salvar</button>
+    <button class="btn btn-outline-primary flex-fill" style="padding-top:10px;padding-bottom:10px" onclick="goBack()">Cancelar</button>
+    <button class="btn btn-primary flex-fill" style="padding-top:10px;padding-bottom:10px" onclick="doChangePassword()">Salvar</button>
   </div>
 </div>

@@ -175,7 +175,7 @@ function renderListing() {
   document.getElementById('sort-btn-neutro').style.display   = hasNeutro   ? 'inline-flex' : 'none';
   document.getElementById('sort-urgency-sep').style.display  = (hasVencido || hasVencendo || hasNeutro) ? 'inline' : 'none';
   const el=document.getElementById('listing-entries');
-  if (!list.length){el.innerHTML=`<li class="list-group-item text-center text-secondary small py-5 border-0" style="border-radius:12px">Nenhum lançamento neste período.</li>`;return;}
+  if (!list.length){el.innerHTML=`<li class="list-group-item text-center text-secondary small py-5 border-0" style="border-radius:var(--md-sys-shape-corner-medium)">Nenhum lançamento neste período.</li>`;return;}
   const visible=list.slice(0,listingLimit);
   el.innerHTML=visible.map(e=>{
     const es=entryStatus(e);
@@ -183,7 +183,7 @@ function renderListing() {
     const title = cap(escapeHtml(e.subcategoria||e.categoria));
     const sub   = cap(escapeHtml(e.categoria));
     const rep   = e.repetir ? `<div class="text-secondary small" style="margin-top:6px"><span class="material-symbols-outlined me-1" style="font-size:.9rem;vertical-align:-2px">repeat</span>${cap(escapeHtml(e.repetir))}</div>` : '';
-    return `<li class="list-group-item d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer;border-radius:12px;border:1px solid var(--md-sys-color-outline-variant);padding:14px 16px">
+    return `<li class="list-group-item cat-row-card d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer">
       <div>
         <div class="fw-semibold small">${title}</div>
         <div class="text-secondary small" style="margin-top:6px">${sub}</div>

@@ -9,7 +9,7 @@
 
     <p class="text-muted small mb-3">Receba avisos de despesas vencidas ou a vencer direto neste dispositivo.</p>
 
-    <div class="card mb-3" style="border-radius:12px">
+    <div class="card mb-3">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center">
           <div class="d-flex align-items-center gap-2">

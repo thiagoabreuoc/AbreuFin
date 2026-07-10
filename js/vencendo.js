@@ -60,12 +60,12 @@ function renderVencendo() {
 
   const el = document.getElementById('vencendo-entries');
   if (!list.length) {
-    el.innerHTML = `<li class="list-group-item text-center text-secondary small py-5 border-0" style="border-radius:12px">Nenhuma despesa vencida ou a vencer. Tudo em dia!</li>`;
+    el.innerHTML = `<li class="list-group-item text-center text-secondary small py-5 border-0" style="border-radius:var(--md-sys-shape-corner-medium)">Nenhuma despesa vencida ou a vencer. Tudo em dia!</li>`;
     return;
   }
   const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
   el.innerHTML = list.map(e => `
-    <li class="list-group-item d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer;border-radius:12px;border:1px solid var(--md-sys-color-outline-variant)">
+    <li class="list-group-item cat-row-card d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer">
       <div>
         <div class="fw-semibold small">${cap(escapeHtml(e.subcategoria||e.categoria))}</div>
         <div class="text-secondary small" style="margin-top:4px">${cap(escapeHtml(e.categoria))}</div>

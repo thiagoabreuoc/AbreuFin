@@ -485,14 +485,14 @@ function renderHome() {
   const chart = homeTab==='meses' ? buildBarChart(d) : buildAreaChart(chartData, chartLabels);
 
   const summary =
-    `<div class="card" style="border-radius:8px!important;margin-bottom:24px">
+    `<div class="card" style="border-radius:var(--md-sys-shape-corner-small)!important;margin-bottom:24px">
       <div class="card-body py-3 px-3">
         <div class="small text-center mb-3" id="home-periodo" style="font-weight:400">${periodoLabel}</div>
         <div class="mb-3">${chart}</div>
         <div id="home-legend" style="display:flex;justify-content:space-around">${buildLegendHtml(d)}</div>
       </div>
     </div>` +
-    (homeTab==='meses' ? `<div class="card mb-2" style="border-radius:10px!important">
+    (homeTab==='meses' ? `<div class="card mb-2" style="border-radius:var(--md-sys-shape-corner-small)!important">
       <div class="card-body d-flex justify-content-between align-items-center py-2">
         <b>Saldo</b>
         <b id="home-saldo-val">${fmt(saldo)}</b>
@@ -510,8 +510,8 @@ function renderInsightsScreen() {
     return;
   }
   el.innerHTML = '<div class="d-flex flex-column" style="gap:12px">' + insights.map(function(ins) {
-    return `<div class="card" style="border-radius:14px">
-      <div class="card-body d-flex gap-3 align-items-start">
+    return `<div class="card cat-row-card">
+      <div class="d-flex gap-3 align-items-start">
         <div class="d-inline-flex align-items-center justify-content-center flex-shrink-0" style="width:40px;height:40px;border-radius:50%;background:var(--md-sys-color-primary-container)">
           <span class="material-symbols-outlined" style="font-size:1.3rem;color:var(--md-sys-color-on-primary-container)">tips_and_updates</span>
         </div>

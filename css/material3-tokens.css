@@ -76,6 +76,21 @@
   --md-extended-color-aviso-color-container:#ffdcc5;
   --md-extended-color-aviso-on-color-container:#301400;
 
+  --md-extended-color-success-color:#146C34;
+  --md-extended-color-success-on-color:#ffffff;
+  --md-extended-color-success-color-container:#D7F3E0;
+  --md-extended-color-success-on-color-container:#146C34;
+
+  --md-extended-color-info-color:#3498DB;
+  --md-extended-color-info-on-color:#ffffff;
+  --md-extended-color-info-color-container:#D6EAF8;
+  --md-extended-color-info-on-color-container:#3498DB;
+
+  --md-extended-color-lilac-color:#6A1B9A;
+  --md-extended-color-lilac-on-color:#ffffff;
+  --md-extended-color-lilac-color-container:#EDE0F8;
+  --md-extended-color-lilac-on-color-container:#6A1B9A;
+
   /* ── Forma (shape scale) — igual nos dois temas ── */
   --md-sys-shape-corner-none:0px;
   --md-sys-shape-corner-extra-small:4px;
@@ -216,4 +231,19 @@
   --md-extended-color-aviso-on-color:#4f2500;
   --md-extended-color-aviso-color-container:#713700;
   --md-extended-color-aviso-on-color-container:#ffdcc5;
+
+  --md-extended-color-success-color:#8BD9A0;
+  --md-extended-color-success-on-color:#00391C;
+  --md-extended-color-success-color-container:#0F5132;
+  --md-extended-color-success-on-color-container:#B8F0C8;
+
+  --md-extended-color-info-color:#8ECDF5;
+  --md-extended-color-info-on-color:#003653;
+  --md-extended-color-info-color-container:#1B4A63;
+  --md-extended-color-info-on-color-container:#C5E7FB;
+
+  --md-extended-color-lilac-color:#D8B4F5;
+  --md-extended-color-lilac-on-color:#3D1A5C;
+  --md-extended-color-lilac-color-container:#54348A;
+  --md-extended-color-lilac-on-color-container:#EDE0F8;
 }
