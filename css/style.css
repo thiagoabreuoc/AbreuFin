@@ -228,6 +228,8 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .card{border:1px solid var(--md-sys-color-outline-variant)!important;border-radius:var(--md-sys-shape-corner-large)!important;background-color:var(--md-sys-color-surface);box-shadow:var(--md-sys-elevation-level0);transition:background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
 .card:active{background-color:var(--md-sys-color-surface-container)}
 .list-group-item{background-color:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);border-color:var(--md-sys-color-outline-variant)}
+.cat-row-list{display:flex;flex-direction:column;gap:8px}
+.cat-row-card{border-radius:12px!important;border:1px solid var(--md-sys-color-outline-variant)!important;padding:14px 16px}
 
 /* Toast — role "inverse-surface" (spec M3 pra snackbar) */
 .toast{background-color:var(--md-sys-color-inverse-surface)!important;color:var(--md-sys-color-inverse-on-surface)!important;border-radius:var(--md-sys-shape-corner-extra-small);box-shadow:var(--md-sys-elevation-level3)}

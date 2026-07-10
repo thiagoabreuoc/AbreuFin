@@ -64,7 +64,7 @@ function renderCats() {
     html += '<div class="text-muted small text-center py-4 fst-italic">Nenhum grupo encontrado.</div>';
   } else {
     html += renderAlphaSortRow(_groupsSortDir, "sortGroups('asc')", "sortGroups('desc')");
-    html += '<div class="list-group">';
+    html += '<div class="list-group cat-row-list">';
     html += groups.map(function(g) {
       var count = allCats.filter(function(c) { return c.groupId === g.id; }).length;
       return renderGroupRow(g.id, g.name, count, true);
@@ -84,7 +84,7 @@ function renderGroupRow(id, name, count, editable) {
     ? '<button class="btn btn-link text-primary p-0" onclick="event.stopPropagation();startRenameGroup(' + id + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
       '<button class="btn btn-link text-danger p-0" onclick="event.stopPropagation();confirmDeleteGroup(' + id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>'
     : '';
-  return '<div class="list-group-item d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openGroup(' + idArg + ')">' +
+  return '<div class="list-group-item cat-row-card d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openGroup(' + idArg + ')">' +
     '<div class="d-flex align-items-center gap-2">' +
     '<span class="badge status-cell bg-info-subtle text-info">Grupo</span>' +
     '<span class="fw-normal small">' + escapeHtml(name) + '</span>' +
@@ -190,7 +190,7 @@ function renderCatGroupScreen() {
     html += '<div class="text-muted small text-center py-4 fst-italic">Nenhuma categoria neste grupo ainda.</div>';
   } else {
     html += renderAlphaSortRow(_catsSortDir, "sortCatsInGroup('asc')", "sortCatsInGroup('desc')");
-    html += '<div class="list-group">' + cats.map(renderCatRow).join('') + '</div>';
+    html += '<div class="list-group cat-row-list">' + cats.map(renderCatRow).join('') + '</div>';
   }
 
   html += '<div class="mt-3 text-center"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewCat()">+ Nova categoria</button></div>';
@@ -198,7 +198,7 @@ function renderCatGroupScreen() {
 }
 
 function renderCatRow(c) {
-  return '<div class="list-group-item d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openCatDetail(' + c.id + ')">' +
+  return '<div class="list-group-item cat-row-card d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openCatDetail(' + c.id + ')">' +
     '<div class="d-flex align-items-center gap-2">' +
     '<span class="badge status-cell bg-info-subtle text-info">Cat</span>' +
     '<span class="fw-normal small">' + escapeHtml(c.name) + '</span>' +
@@ -307,8 +307,8 @@ function renderCatDetailScreen() {
     var subsIndexed = cat.subs.map(function(s, i) { return { name: s, idx: i }; })
       .sort(function(a, b) { return byNameAlpha(_subsSortDir)(a.name, b.name); });
     html += renderAlphaSortRow(_subsSortDir, "sortSubs('asc')", "sortSubs('desc')");
-    html += '<div class="list-group">' + subsIndexed.map(function(item) {
-      return '<div class="list-group-item d-flex align-items-center justify-content-between">' +
+    html += '<div class="list-group cat-row-list">' + subsIndexed.map(function(item) {
+      return '<div class="list-group-item cat-row-card d-flex align-items-center justify-content-between">' +
         '<div class="d-flex align-items-center gap-2">' +
         '<span class="badge status-cell bg-info-subtle text-info">Sub</span>' +
         '<span class="small">' + escapeHtml(item.name) + '</span>' +
