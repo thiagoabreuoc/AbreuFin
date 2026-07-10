@@ -19,6 +19,74 @@ const CATS_TABS = [
   { key: 'investimento', label: 'Investimentos', colorClass: 'status-cell-investimento' },
 ];
 
+const SMART_GROUP_SUGGESTIONS = {
+  despesa: [
+    { group: 'Moradia', categories: [
+      { name: 'Aluguel/Financiamento', subs: ['Condomínio', 'IPTU'] },
+      { name: 'Contas de casa', subs: ['Água', 'Luz', 'Internet', 'Gás'] },
+    ]},
+    { group: 'Transporte', categories: [
+      { name: 'Combustível', subs: [] },
+      { name: 'Aplicativos', subs: ['Uber', '99'] },
+      { name: 'Manutenção', subs: ['Revisão', 'Pneus', 'Estacionamento'] },
+    ]},
+    { group: 'Alimentação', categories: [
+      { name: 'Supermercado', subs: [] },
+      { name: 'Restaurantes', subs: ['Delivery'] },
+    ]},
+    { group: 'Saúde', categories: [
+      { name: 'Plano de saúde', subs: [] },
+      { name: 'Farmácia', subs: [] },
+      { name: 'Consultas e exames', subs: [] },
+    ]},
+    { group: 'Lazer', categories: [
+      { name: 'Streaming', subs: ['Netflix', 'Spotify'] },
+      { name: 'Viagens', subs: [] },
+    ]},
+    { group: 'Educação', categories: [
+      { name: 'Cursos', subs: [] },
+      { name: 'Mensalidade', subs: [] },
+      { name: 'Livros', subs: [] },
+    ]},
+    { group: 'Pessoais', categories: [
+      { name: 'Vestuário', subs: [] },
+      { name: 'Cuidados pessoais', subs: [] },
+    ]},
+  ],
+  receita: [
+    { group: 'Trabalho', categories: [
+      { name: 'Salário', subs: [] },
+      { name: 'Freelance', subs: [] },
+      { name: 'Bônus/13º', subs: [] },
+    ]},
+    { group: 'Rendimentos', categories: [
+      { name: 'Dividendos', subs: [] },
+      { name: 'Juros', subs: [] },
+      { name: 'Aluguel recebido', subs: [] },
+    ]},
+    { group: 'Outros', categories: [
+      { name: 'Presentes', subs: [] },
+      { name: 'Reembolsos', subs: [] },
+    ]},
+  ],
+  investimento: [
+    { group: 'Renda Fixa', categories: [
+      { name: 'Tesouro Direto', subs: [] },
+      { name: 'CDB', subs: [] },
+      { name: 'LCI/LCA', subs: [] },
+    ]},
+    { group: 'Renda Variável', categories: [
+      { name: 'Ações', subs: [] },
+      { name: 'Fundos Imobiliários', subs: [] },
+      { name: 'ETFs', subs: [] },
+    ]},
+    { group: 'Reserva', categories: [
+      { name: 'Poupança', subs: [] },
+      { name: 'Reserva de emergência', subs: [] },
+    ]},
+  ],
+};
+
 function switchCatsTab(tipo) {
   _catsTab = tipo;
   renderCats();
@@ -60,6 +128,9 @@ function renderCats() {
   var ungrouped = allCats.filter(function(c) { return !c.groupId; });
 
   var html = '';
+  html += '<div class="text-center" style="margin-bottom:16px">' +
+    '<button class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-2" type="button" onclick="openSmartGroupsModal()" style="padding:10px 24px">' +
+    '<span class="material-symbols-outlined" style="font-size:1.1rem">auto_awesome</span>Grupos inteligentes</button></div>';
   if (!groups.length && !ungrouped.length) {
     html += '<div class="text-muted small text-center py-4 fst-italic">Nenhum grupo encontrado.</div>';
   } else {
@@ -380,5 +451,115 @@ async function deleteSub(idx) {
     cat.subs = newSubs;
     renderCatDetailScreen();
     showToast('Sub-categoria removida.', 'success');
+  } catch (e) { showToast(e.message, 'error'); }
+}
+
+/* ─────────────── GRUPOS INTELIGENTES ─────────────── */
+function openSmartGroupsModal() {
+  renderSmartGroupsModal();
+  document.getElementById('smart-groups-overlay').classList.add('open');
+  document.getElementById('smart-groups-sheet').classList.add('open');
+}
+function closeSmartGroupsModal() {
+  document.getElementById('smart-groups-overlay').classList.remove('open');
+  document.getElementById('smart-groups-sheet').classList.remove('open');
+}
+
+function renderSmartGroupsModal() {
+  var suggestions = SMART_GROUP_SUGGESTIONS[_catsTab] || [];
+  var el = document.getElementById('smart-groups-body');
+  if (!el) return;
+  if (!suggestions.length) {
+    el.innerHTML = '<div class="text-muted small text-center py-4 fst-italic">Nenhuma sugestão disponível.</div>';
+    return;
+  }
+  el.innerHTML = suggestions.map(function(sg, gi) {
+    var catsHtml = sg.categories.map(function(cat, ci) {
+      var subsHtml = (cat.subs || []).map(function(sub, si) {
+        var id = 'sg-sub-' + gi + '-' + ci + '-' + si;
+        return '<div class="form-check ms-4">' +
+          '<input class="form-check-input" type="checkbox" id="' + id + '" data-g="' + gi + '" data-c="' + ci + '" disabled>' +
+          '<label class="form-check-label small" for="' + id + '">' + escapeHtml(sub) + '</label>' +
+          '</div>';
+      }).join('');
+      var catId = 'sg-cat-' + gi + '-' + ci;
+      return '<div class="mb-2">' +
+        '<div class="form-check">' +
+        '<input class="form-check-input" type="checkbox" id="' + catId + '" onchange="toggleSmartCatSubs(' + gi + ',' + ci + ')">' +
+        '<label class="form-check-label fw-semibold small" for="' + catId + '">' + escapeHtml(cat.name) + '</label>' +
+        '</div>' + subsHtml + '</div>';
+    }).join('');
+    return '<div class="mb-3">' +
+      '<div class="text-secondary text-uppercase fw-semibold mb-1" style="font-size:.7rem;letter-spacing:.03em">' + escapeHtml(sg.group) + '</div>' +
+      catsHtml + '</div>';
+  }).join('');
+}
+
+function toggleSmartCatSubs(gi, ci) {
+  var catChecked = document.getElementById('sg-cat-' + gi + '-' + ci).checked;
+  document.querySelectorAll('input[data-g="' + gi + '"][data-c="' + ci + '"]').forEach(function(cb) {
+    cb.disabled = !catChecked;
+    cb.checked = catChecked;
+  });
+}
+
+async function applySmartGroups() {
+  var suggestions = SMART_GROUP_SUGGESTIONS[_catsTab] || [];
+  var tipo = _catsTab;
+  var toCreate = [];
+  suggestions.forEach(function(sg, gi) {
+    var groupCats = [];
+    sg.categories.forEach(function(cat, ci) {
+      var catCb = document.getElementById('sg-cat-' + gi + '-' + ci);
+      if (!catCb || !catCb.checked) return;
+      var subs = [];
+      (cat.subs || []).forEach(function(sub, si) {
+        var subCb = document.getElementById('sg-sub-' + gi + '-' + ci + '-' + si);
+        if (subCb && subCb.checked) subs.push(sub);
+      });
+      groupCats.push({ name: cat.name, subs: subs });
+    });
+    if (groupCats.length) toCreate.push({ groupName: sg.group, categories: groupCats });
+  });
+
+  if (!toCreate.length) { showToast('Selecione ao menos uma categoria.', 'error'); return; }
+
+  try {
+    for (var gi2 = 0; gi2 < toCreate.length; gi2++) {
+      var item = toCreate[gi2];
+      var existingGroup = (catGroups[tipo] || []).find(function(g) { return g.name.toLowerCase() === item.groupName.toLowerCase(); });
+      var groupId;
+      if (existingGroup) {
+        groupId = existingGroup.id;
+      } else {
+        var gdata = await apiCreateGroup(tipo, item.groupName);
+        if (!catGroups[tipo]) catGroups[tipo] = [];
+        catGroups[tipo].push(gdata.group);
+        groupId = gdata.group.id;
+      }
+      for (var ci2 = 0; ci2 < item.categories.length; ci2++) {
+        var catItem = item.categories[ci2];
+        var existingCat = (categories[tipo] || []).find(function(c) { return c.groupId === groupId && c.name.toLowerCase() === catItem.name.toLowerCase(); });
+        if (existingCat) {
+          var mergedSubs = existingCat.subs.slice();
+          catItem.subs.forEach(function(s) { if (mergedSubs.indexOf(s) === -1) mergedSubs.push(s); });
+          if (mergedSubs.length !== existingCat.subs.length) {
+            await apiUpdateCategory(existingCat.id, { subs: mergedSubs });
+            existingCat.subs = mergedSubs;
+          }
+        } else {
+          var cdata = await apiCreateCategory(tipo, catItem.name, '📌', groupId);
+          if (catItem.subs.length) {
+            await apiUpdateCategory(cdata.category.id, { subs: catItem.subs });
+            cdata.category.subs = catItem.subs;
+          }
+          if (!categories[tipo]) categories[tipo] = [];
+          categories[tipo].push(cdata.category);
+        }
+      }
+    }
+    closeSmartGroupsModal();
+    renderCats();
+    showToast('Grupos inteligentes criados!', 'success');
   } catch (e) { showToast(e.message, 'error'); }
 }
