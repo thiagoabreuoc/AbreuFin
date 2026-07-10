@@ -87,7 +87,7 @@ function renderGroupRow(id, name, count, editable) {
   return '<div class="list-group-item d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openGroup(' + idArg + ')">' +
     '<div class="d-flex align-items-center gap-2">' +
     '<span class="badge status-cell bg-info-subtle text-info">Grupo</span>' +
-    '<span class="fw-semibold">' + escapeHtml(name) + '</span>' +
+    '<span class="fw-semibold small">' + escapeHtml(name) + '</span>' +
     '</div>' +
     '<div class="d-flex align-items-center" style="gap:12px">' +
     '<span class="m3-count-badge">' + count + '</span>' + actions +
@@ -201,7 +201,7 @@ function renderCatRow(c) {
   return '<div class="list-group-item d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openCatDetail(' + c.id + ')">' +
     '<div class="d-flex align-items-center gap-2">' +
     '<span class="badge status-cell bg-info-subtle text-info">Cat</span>' +
-    '<span class="fw-semibold">' + escapeHtml(c.name) + '</span>' +
+    '<span class="fw-semibold small">' + escapeHtml(c.name) + '</span>' +
     '</div>' +
     '<div class="d-flex align-items-center" style="gap:12px">' +
     '<span class="m3-count-badge">' + c.subs.length + '</span>' +
