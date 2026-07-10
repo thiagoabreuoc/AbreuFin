@@ -296,10 +296,24 @@ function closeNewGroupModal() {
   _groupModalEditId = null;
 }
 
+let _savingGroup = false;
+function groupNameExists(tipo, name, excludeId) {
+  var norm = name.trim().toLowerCase();
+  return (catGroups[tipo] || []).some(function(g) {
+    return g.id !== excludeId && g.name.trim().toLowerCase() === norm;
+  });
+}
+
 async function saveNewGroup() {
+  if (_savingGroup) return;
   var inp  = document.getElementById('new-group-input');
   var name = inp ? inp.value.trim() : '';
   if (!name) { if (inp) inp.focus(); return; }
+  if (groupNameExists(_catsTab, name, _groupModalEditId)) {
+    showToast('Já existe um grupo com esse nome.', 'error');
+    return;
+  }
+  _savingGroup = true;
   if (_groupModalEditId !== null) {
     var editId = _groupModalEditId;
     try {
@@ -310,6 +324,7 @@ async function saveNewGroup() {
       renderCats();
       showToast('Grupo renomeado.', 'success');
     } catch (e) { showToast(e.message, 'error'); }
+    _savingGroup = false;
     return;
   }
   try {
@@ -320,6 +335,7 @@ async function saveNewGroup() {
     renderCats();
     showToast('Grupo criado!', 'success');
   } catch (e) { showToast(e.message, 'error'); }
+  _savingGroup = false;
 }
 
 function confirmDeleteGroup(id, tipo) {
@@ -585,7 +601,10 @@ function renderSmartGroupsModal() {
   }).join('');
 }
 
+let _savingSmartGroups = false;
+
 async function applySmartGroups() {
+  if (_savingSmartGroups) return;
   var traits = SMART_PROFILE_TRAITS[_catsTab] || [];
   var traitGroups = SMART_TRAIT_GROUPS[_catsTab] || {};
   var tipo = _catsTab;
@@ -596,13 +615,14 @@ async function applySmartGroups() {
     if (!cb || !cb.checked) return;
     var def = traitGroups[t.key];
     if (!def) return;
-    if (!byGroupName[def.group]) byGroupName[def.group] = [];
+    var groupKey = def.group.trim();
+    if (!byGroupName[groupKey]) byGroupName[groupKey] = [];
     def.categories.forEach(function(cat) {
-      var existing = byGroupName[def.group].find(function(c) { return c.name.toLowerCase() === cat.name.toLowerCase(); });
+      var existing = byGroupName[groupKey].find(function(c) { return c.name.toLowerCase() === cat.name.toLowerCase(); });
       if (existing) {
         cat.subs.forEach(function(s) { if (existing.subs.indexOf(s) === -1) existing.subs.push(s); });
       } else {
-        byGroupName[def.group].push({ name: cat.name, subs: cat.subs.slice() });
+        byGroupName[groupKey].push({ name: cat.name, subs: cat.subs.slice() });
       }
     });
   });
@@ -610,11 +630,17 @@ async function applySmartGroups() {
   var groupNames = Object.keys(byGroupName);
   if (!groupNames.length) { showToast('Marque ao menos uma opção para montar seus grupos.', 'error'); return; }
 
+  _savingSmartGroups = true;
+  var saveBtn = document.getElementById('smart-groups-save-btn');
+  var cancelBtn = document.getElementById('smart-groups-cancel-btn');
+  if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = 'Criando...'; }
+  if (cancelBtn) cancelBtn.disabled = true;
+
   try {
     for (var gi = 0; gi < groupNames.length; gi++) {
       var groupName = groupNames[gi];
       var groupCats = byGroupName[groupName];
-      var existingGroup = (catGroups[tipo] || []).find(function(g) { return g.name.toLowerCase() === groupName.toLowerCase(); });
+      var existingGroup = (catGroups[tipo] || []).find(function(g) { return g.name.trim().toLowerCase() === groupName.toLowerCase(); });
       var groupId;
       if (existingGroup) {
         groupId = existingGroup.id;
@@ -649,4 +675,8 @@ async function applySmartGroups() {
     renderCats();
     showToast('Grupos inteligentes criados!', 'success');
   } catch (e) { showToast(e.message, 'error'); }
+
+  _savingSmartGroups = false;
+  if (saveBtn) { saveBtn.disabled = false; saveBtn.textContent = 'Criar grupos'; }
+  if (cancelBtn) cancelBtn.disabled = false;
 }
