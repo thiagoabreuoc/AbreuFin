@@ -26,8 +26,11 @@ const AI_CATEGORY_KEYWORDS = {
     onibus: K('Transporte público', 'Ônibus'), metro: K('Transporte público', 'Metrô'),
     oficina: K('Manutenção'), mecanico: K('Manutenção'), pneu: K('Manutenção', 'Pneus'), revisao: K('Manutenção', 'Revisão'),
     'lava jato': K('Manutenção', 'Lavagem'), lavajato: K('Manutenção', 'Lavagem'), 'lava rapido': K('Manutenção', 'Lavagem'), lavagem: K('Manutenção', 'Lavagem'),
+    alcool: K('Combustível'), etanol: K('Combustível'), 'troca de oleo': K('Manutenção', 'Revisão'), oleo: K('Manutenção', 'Revisão'),
+    'corrida de app': K('Aplicativos'),
     // Alimentação
     mercado: K('Supermercado'), supermercado: K('Supermercado'), feira: K('Supermercado', 'Feira'), acougue: K('Supermercado', 'Açougue'), hortifruti: K('Supermercado', 'Hortifruti'),
+    'compras do mes': K('Supermercado'),
     ifood: K('Restaurantes', 'Delivery'), delivery: K('Restaurantes', 'Delivery'), lanchonete: K('Restaurantes', 'Lanches'),
     restaurante: K('Restaurantes'), pizza: K('Restaurantes'), hamburguer: K('Restaurantes'),
     padaria: K('Padaria e conveniência'), acai: K('Padaria e conveniência'), sorvete: K('Padaria e conveniência'), cafe: K('Padaria e conveniência', 'Café'),
@@ -38,15 +41,21 @@ const AI_CATEGORY_KEYWORDS = {
     gas: K('Contas de casa', 'Gás'), internet: K('Contas de casa', 'Internet'), wifi: K('Contas de casa', 'Internet'),
     faxina: K('Manutenção do lar', 'Diarista/Faxina'), diarista: K('Manutenção do lar', 'Diarista/Faxina'),
     encanador: K('Manutenção do lar', 'Reparos'), eletricista: K('Manutenção do lar', 'Reparos'), jardinagem: K('Manutenção do lar', 'Jardinagem'),
+    'produtos de limpeza': K('Produtos de limpeza e higiene'), limpeza: K('Produtos de limpeza e higiene'),
     // Saúde
     farmacia: K('Farmácia'), remedio: K('Farmácia', 'Medicamentos'), suplemento: K('Farmácia', 'Suplementos'),
     medico: K('Consultas e exames', 'Médico'), consulta: K('Consultas e exames'), exame: K('Consultas e exames'),
     dentista: K('Consultas e exames', 'Dentista'), hospital: K('Consultas e exames'), psicologo: K('Consultas e exames', 'Psicólogo'),
     academia: K('Academia e bem-estar'),
+    'plano de saude': K('Plano de saúde'),
+    oculos: K('Consultas e exames'), 'oculos de grau': K('Consultas e exames'),
+    manicure: K('Cuidados pessoais'), pedicure: K('Cuidados pessoais'), cabeleireiro: K('Cuidados pessoais'),
+    barbearia: K('Cuidados pessoais'), 'salao de beleza': K('Cuidados pessoais'), estetica: K('Cuidados pessoais'), depilacao: K('Cuidados pessoais'),
     // Lazer / Viagens
     netflix: K('Streaming', 'Netflix'), spotify: K('Streaming', 'Spotify'), streaming: K('Streaming'),
-    cinema: K('Saídas', 'Cinema'), show: K('Saídas', 'Shows'), bar: K('Saídas', 'Bares'), passeio: K('Saídas'),
-    jogo: K('Hobbies', 'Jogos'),
+    'prime video': K('Streaming', 'Prime Video'), 'amazon prime': K('Streaming', 'Prime Video'), disney: K('Streaming'), 'disney plus': K('Streaming'), hbo: K('Streaming'),
+    cinema: K('Saídas', 'Cinema'), show: K('Saídas', 'Shows'), bar: K('Saídas', 'Bares'), 'happy hour': K('Saídas', 'Bares'), passeio: K('Saídas'),
+    jogo: K('Hobbies', 'Jogos'), videogame: K('Hobbies', 'Jogos'), 'video game': K('Hobbies', 'Jogos'),
     viagem: K('Passagens'), passagem: K('Passagens'), hospedagem: K('Hospedagem'), hotel: K('Hospedagem'),
     // Educação
     curso: K('Cursos'), idioma: K('Cursos', 'Idiomas'), faculdade: K('Mensalidade'), mensalidade: K('Mensalidade'), escola: K('Mensalidade'),
@@ -54,25 +63,29 @@ const AI_CATEGORY_KEYWORDS = {
     // Pets / Presentes / Compras / Seguros
     veterinario: K('Veterinário'), racao: K('Alimentação pet'), petshop: K('Higiene e acessórios'), 'banho e tosa': K('Higiene e acessórios'),
     presente: K('Presentes'), lembranca: K('Presentes'), aniversario: K('Festas e comemorações'), festa: K('Festas e comemorações'),
-    roupa: K('Vestuário e calçados'), vestuario: K('Vestuário e calçados'), calcado: K('Vestuário e calçados'),
-    eletronico: K('Eletrônicos'), celular: K('Eletrônicos'),
+    roupa: K('Vestuário e calçados'), vestuario: K('Vestuário e calçados'), calcado: K('Vestuário e calçados'), tenis: K('Vestuário e calçados'), mochila: K('Vestuário e calçados'),
+    eletronico: K('Eletrônicos'), celular: K('Eletrônicos'), iphone: K('Eletrônicos'), notebook: K('Eletrônicos'), computador: K('Eletrônicos'), tablet: K('Eletrônicos'), 'fone de ouvido': K('Eletrônicos'),
     seguro: K('Seguro de vida'),
+    revista: K('Publicações', 'Jornais e revistas'), jornal: K('Publicações', 'Jornais e revistas'),
   },
   receita: {
     salario: K('Salário'), pagamento: K('Salário'),
     'vale alimentacao': K('Salário', 'Vale-alimentação'), 'vale transporte': K('Salário', 'Vale-transporte'),
     freelance: K('Freelance'), 'prestacao de servico': K('Prestação de serviços'), consultoria: K('Consultoria'),
-    bonus: K('Bônus/13º'), decimoterceiro: K('Bônus/13º'), ferias: K('Bônus/13º', 'Férias'), plr: K('Bônus/13º', 'PLR'),
+    bonus: K('Bônus/13º'), decimoterceiro: K('Bônus/13º'), 'decimo terceiro': K('Bônus/13º'), ferias: K('Bônus/13º', 'Férias'), plr: K('Bônus/13º', 'PLR'),
     dividendo: K('Dividendos'), juros: K('Juros'), rendimento: K('Rendimento de fundos'),
     'aluguel recebido': K('Aluguel recebido'), inquilino: K('Aluguel recebido'),
     venda: K('Vendas online'), bico: K('Bicos/Freelas extras'),
-    reembolso: K('Reembolsos'), restituicao: K('Restituição de IR'), 'imposto de renda': K('Restituição de IR'),
+    reembolso: K('Reembolsos'), cashback: K('Reembolsos'), restituicao: K('Restituição de IR'), 'imposto de renda': K('Restituição de IR'),
     presente: K('Presentes recebidos'),
+    premio: K('Outros recebimentos', 'Prêmio'), heranca: K('Outros recebimentos', 'Herança'),
+    doacao: K('Outros recebimentos', 'Doação'), 'doacao recebida': K('Outros recebimentos', 'Doação'),
+    'pix recebido': K('Outros recebimentos', 'Pix'),
   },
   investimento: {
     tesouro: K('Tesouro Direto'), cdb: K('CDB'), lci: K('LCI/LCA'), lca: K('LCI/LCA'),
-    acao: K('Ações'), acoes: K('Ações'), fii: K('Fundos Imobiliários'), etf: K('ETFs'), bdr: K('ETFs', 'BDRs'),
-    bitcoin: K('Bitcoin'), altcoin: K('Altcoins'), cripto: K('Bitcoin'), criptomoeda: K('Bitcoin'),
+    acao: K('Ações'), acoes: K('Ações'), fii: K('Fundos Imobiliários'), 'fundo imobiliario': K('Fundos Imobiliários'), etf: K('ETFs'), bdr: K('ETFs', 'BDRs'),
+    bitcoin: K('Bitcoin'), altcoin: K('Altcoins'), ethereum: K('Altcoins'), cripto: K('Bitcoin'), criptomoeda: K('Bitcoin'),
     poupanca: K('Poupança'), reserva: K('Reserva de emergência'),
     pgbl: K('PGBL'), vgbl: K('VGBL'), previdencia: K('PGBL'),
   },
@@ -108,6 +121,30 @@ function aiMatches(normText, normName) {
 const AI_STOPWORDS = ['a', 'o', 'as', 'os', 'de', 'do', 'da', 'dos', 'das', 'em', 'no', 'na', 'com', 'e', 'ao', 'um', 'uma'];
 function aiStripStopwords(norm) {
   return norm.split(' ').filter(function(w) { return w && AI_STOPWORDS.indexOf(w) === -1; }).join(' ');
+}
+
+// Casa uma chave do dicionário (já sem stopwords) contra o texto (já sem
+// stopwords). Se não bater como substring exata — o que falha em variações
+// de gênero/plural/conjugação, ex. "faxina" (chave) vs "faxineira" (digitado)
+// — cai pro fallback de radical: pra chaves de uma palavra só, considera
+// bate se o radical comum entre a chave e alguma palavra do texto for longo
+// o bastante pra não ser coincidência (ex. "jardin" em "jardinagem"/"jardineiro").
+function aiKeyMatches(compactText, key) {
+  const strippedKey = aiStripStopwords(key);
+  if (compactText.includes(strippedKey)) return true;
+  if (strippedKey.indexOf(' ') !== -1) return false; // radical só pra chave de 1 palavra
+  const words = compactText.split(' ');
+  for (const w of words) {
+    const commonLen = aiCommonPrefixLength(w, strippedKey);
+    if (commonLen >= 5 && commonLen >= Math.min(w.length, strippedKey.length) - 4) return true;
+  }
+  return false;
+}
+
+function aiCommonPrefixLength(a, b) {
+  let i = 0;
+  while (i < a.length && i < b.length && a[i] === b[i]) i++;
+  return i;
 }
 
 function suggestCategoriesFromText(text, tipo) {
@@ -151,7 +188,7 @@ function suggestCategoriesFromText(text, tipo) {
     const keys = Object.keys(dict).sort((a, b) => b.length - a.length);
     let concept = null;
     for (const key of keys) {
-      if (compact.includes(key)) { concept = dict[key]; break; }
+      if (aiKeyMatches(compact, key)) { concept = dict[key]; break; }
     }
     if (concept) {
       const existing = cats.filter(c => aiMatches(aiNormalize(c.name), aiNormalize(concept.categoria)) || aiMatches(aiNormalize(concept.categoria), aiNormalize(c.name)));
@@ -169,6 +206,14 @@ function suggestCategoriesFromText(text, tipo) {
         add(concept.categoria, concept.subcategoria, true, !!concept.subcategoria);
       }
     }
+  }
+  // 4) fallback universal: nada bateu nas categorias do usuário nem no
+  // dicionário (é impossível prever toda palavra possível) — sugere criar
+  // uma categoria nova com o próprio texto digitado, garantindo que toda
+  // palavra digitada gere ao menos uma opção em vez de nada aparecer.
+  if (!results.length) {
+    const label = text.trim().replace(/\s+/g, ' ');
+    add(label.charAt(0).toUpperCase() + label.slice(1), null, true, false);
   }
   return results.slice(0, 4);
 }
