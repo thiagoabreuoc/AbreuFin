@@ -17,31 +17,23 @@
     </div>
 
     <div class="mb-4">
-      <div class="list-group">
-        <div class="list-group-item d-flex justify-content-between align-items-center" onclick="showScreen('personalizacao');initThemeToggle()" style="cursor:pointer">
-          <span>Personalização</span>
-          <span class="material-symbols-outlined text-secondary">chevron_right</span>
-        </div>
-        <div class="list-group-item d-flex justify-content-between align-items-center" onclick="navigate('cats')" style="cursor:pointer">
-          <span>Categorias</span>
-          <span class="material-symbols-outlined text-secondary">chevron_right</span>
-        </div>
-        <div class="list-group-item d-flex justify-content-between align-items-center" onclick="openExport()" style="cursor:pointer">
-          <span>Exportar dados</span>
-          <span class="material-symbols-outlined text-secondary">chevron_right</span>
-        </div>
-        <div class="list-group-item d-flex justify-content-between align-items-center" onclick="showScreen('change-password')" style="cursor:pointer">
-          <span>Alterar senha</span>
-          <span class="material-symbols-outlined text-secondary">chevron_right</span>
-        </div>
-        <div class="list-group-item d-flex justify-content-between align-items-center" onclick="showScreen('notifications');loadNotifSettings()" style="cursor:pointer">
-          <span>Notificações</span>
-          <span class="material-symbols-outlined text-secondary">chevron_right</span>
-        </div>
-        <div class="list-group-item d-flex justify-content-between align-items-center" onclick="showScreen('privacy')" style="cursor:pointer">
-          <span>Privacidade e LGPD</span>
-          <span class="material-symbols-outlined text-secondary">chevron_right</span>
-        </div>
+      <div class="profile-item" onclick="showScreen('personalizacao');initThemeToggle()">
+        <span class="fw-semibold text-primary small">Personalização</span>
+      </div>
+      <div class="profile-item" onclick="navigate('cats')">
+        <span class="fw-semibold text-primary small">Categorias</span>
+      </div>
+      <div class="profile-item" onclick="openExport()">
+        <span class="fw-semibold text-primary small">Exportar dados</span>
+      </div>
+      <div class="profile-item" onclick="showScreen('change-password')">
+        <span class="fw-semibold text-primary small">Alterar senha</span>
+      </div>
+      <div class="profile-item" onclick="showScreen('notifications');loadNotifSettings()">
+        <span class="fw-semibold text-primary small">Notificações</span>
+      </div>
+      <div class="profile-item" onclick="showScreen('privacy')">
+        <span class="fw-semibold text-primary small">Privacidade e LGPD</span>
       </div>
     </div>
 

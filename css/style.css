@@ -252,11 +252,15 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 .cat-row-list{display:flex;flex-direction:column;gap:8px}
 .cat-row-card{border-radius:var(--md-sys-shape-corner-medium)!important;border:1px solid var(--md-sys-color-outline-variant)!important;padding:14px 16px}
 
+.profile-item{background-color:var(--md-sys-color-surface);border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--md-sys-shape-corner-medium);padding:14px 16px;margin:8px 0;cursor:pointer;transition:background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.profile-item:hover{background-color:var(--md-sys-color-surface-container-low)}
+.profile-item:active{background-color:var(--md-sys-color-surface-container)}
+
 /* Toast — role "inverse-surface" (spec M3 pra snackbar) */
 .toast{background-color:var(--md-sys-color-inverse-surface)!important;color:var(--md-sys-color-inverse-on-surface)!important;border-radius:var(--md-sys-shape-corner-extra-small);box-shadow:var(--md-sys-elevation-level3)}
 
 /* ── Ripple M3 — feedback tátil em elementos interativos (ver js/ripple.js) ── */
-.btn,.list-group-item,.cs-item{position:relative;overflow:hidden}
+.btn,.list-group-item,.profile-item,.cs-item{position:relative;overflow:hidden}
 .md-ripple{position:absolute;border-radius:50%;background:currentColor;opacity:.16;transform:scale(0);pointer-events:none;animation:md-ripple-anim var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard-decelerate) forwards}
 @keyframes md-ripple-anim{to{transform:scale(1);opacity:0}}
 
