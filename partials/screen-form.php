@@ -18,16 +18,19 @@
     <div id="form-fields">
 
     <!-- Categorização inteligente -->
-    <fieldset class="form-box">
+    <fieldset class="form-box" style="margin-bottom:4px">
       <legend class="form-box-lbl">Categorização inteligente</legend>
       <input type="text" class="form-control form-control-borderless" id="f-ai-input" placeholder="Ex: lava jato, ifood, salário..." autocomplete="off" oninput="onAiFieldInput()">
     </fieldset>
     <div id="ai-suggest-row" class="d-none mb-3"></div>
 
     <!-- Acordeon: Categoria / Sub-categoria -->
-    <div class="mb-3">
-      <button type="button" class="btn btn-link text-decoration-none d-flex align-items-center justify-content-between w-100 p-0" id="cat-accordion-toggle" onclick="toggleCatAccordion()" style="color:var(--md-sys-color-on-surface-variant)">
-        <span class="small fw-semibold">Categoria e sub-categoria</span>
+    <div style="margin-bottom:28px">
+      <button type="button" class="btn btn-link btn-sm fw-semibold text-primary text-decoration-none d-flex align-items-center justify-content-between w-100 p-0" id="cat-accordion-toggle" onclick="toggleCatAccordion()">
+        <span class="d-flex align-items-center gap-1">
+          <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">category</span>
+          Categoria e sub-categoria
+        </span>
         <span class="material-symbols-outlined" id="cat-accordion-chevron" style="transition:transform var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)">expand_more</span>
       </button>
       <div id="cat-accordion-body" class="d-none" style="margin-top:12px">
