@@ -17,56 +17,33 @@
 
     <div id="form-fields">
 
-    <!-- Categorização inteligente -->
-    <fieldset class="form-box" style="margin-bottom:4px">
-      <legend class="form-box-lbl">Categorização inteligente</legend>
-      <input type="text" class="form-control form-control-borderless" id="f-ai-input" placeholder="Ex: lava jato, ifood, salário..." autocomplete="off" oninput="onAiFieldInput()">
-    </fieldset>
-    <div id="ai-suggest-row" class="d-none mb-3"></div>
-
-    <!-- Acordeon: Categoria / Sub-categoria -->
-    <div style="margin-bottom:28px">
-      <button type="button" class="btn btn-link btn-sm fw-semibold text-primary text-decoration-none d-flex align-items-center justify-content-between w-100 p-0" id="cat-accordion-toggle" onclick="toggleCatAccordion()">
-        <span class="d-flex align-items-center gap-1">
-          <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">category</span>
-          Categoria e sub-categoria
-        </span>
-        <span class="material-symbols-outlined" id="cat-accordion-chevron" style="transition:transform var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)">expand_more</span>
-      </button>
-      <div id="cat-accordion-body" class="d-none" style="margin-top:12px">
-
-        <!-- Categoria -->
-        <fieldset class="form-box" id="categoria-wrap" style="position:relative">
-          <span class="ai-fill-badge d-none" id="f-categoria-ai-badge"><span class="material-symbols-outlined">auto_awesome</span>IA</span>
-          <legend class="form-box-lbl">Categoria</legend>
-          <select class="form-select form-select-borderless" id="f-categoria" onchange="onCatChange()"><option value="">Selecione</option></select>
-          <div id="f-categoria-custom-wrap" style="display:none" class="mt-2">
-            <input type="text" class="form-control" id="f-categoria-custom" placeholder="Digite a categoria">
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox" id="f-categoria-save" checked>
-              <label class="form-check-label small text-secondary" for="f-categoria-save">Salvar na lista de categorias</label>
-            </div>
-          </div>
-        </fieldset>
-
-        <!-- Sub-categoria (condicional) -->
-        <fieldset class="form-box" id="subcategoria-wrap" style="display:none;position:relative">
-          <span class="ai-fill-badge d-none" id="f-subcategoria-ai-badge"><span class="material-symbols-outlined">auto_awesome</span>IA</span>
-          <legend class="form-box-lbl">Sub-categoria</legend>
-          <select class="form-select form-select-borderless" id="f-subcategoria" onchange="onSubCatChange()">
-            <option value="">Selecione</option>
-          </select>
-          <div id="f-subcategoria-custom-wrap" style="display:none" class="mt-2">
-            <input type="text" class="form-control" id="f-subcategoria-custom" placeholder="Digite a sub-categoria">
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox" id="f-subcategoria-save" checked>
-              <label class="form-check-label small text-secondary" for="f-subcategoria-save">Salvar na lista de sub-categorias</label>
-            </div>
-          </div>
-        </fieldset>
-
+    <!-- Categoria -->
+    <fieldset class="form-box">
+      <legend class="form-box-lbl">Categoria</legend>
+      <select class="form-select form-select-borderless" id="f-categoria" onchange="onCatChange()"><option value="">Selecione</option></select>
+      <div id="f-categoria-custom-wrap" style="display:none" class="mt-2">
+        <input type="text" class="form-control" id="f-categoria-custom" placeholder="Digite a categoria">
+        <div class="form-check mt-2">
+          <input class="form-check-input" type="checkbox" id="f-categoria-save" checked>
+          <label class="form-check-label small text-secondary" for="f-categoria-save">Salvar na lista de categorias</label>
+        </div>
       </div>
-    </div>
+    </fieldset>
+
+    <!-- Sub-categoria (condicional) -->
+    <fieldset class="form-box" id="subcategoria-wrap" style="display:none">
+      <legend class="form-box-lbl">Sub-categoria</legend>
+      <select class="form-select form-select-borderless" id="f-subcategoria" onchange="onSubCatChange()">
+        <option value="">Selecione</option>
+      </select>
+      <div id="f-subcategoria-custom-wrap" style="display:none" class="mt-2">
+        <input type="text" class="form-control" id="f-subcategoria-custom" placeholder="Digite a sub-categoria">
+        <div class="form-check mt-2">
+          <input class="form-check-input" type="checkbox" id="f-subcategoria-save" checked>
+          <label class="form-check-label small text-secondary" for="f-subcategoria-save">Salvar na lista de sub-categorias</label>
+        </div>
+      </div>
+    </fieldset>
 
     <!-- Valor + Data (lado a lado) -->
     <div class="d-flex gap-2">

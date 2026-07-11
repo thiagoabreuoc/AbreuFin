@@ -87,8 +87,6 @@ function csPickItem(el) {
   sel.value = value;
   if (display) { display.textContent = label || 'Selecione'; display.classList.toggle('text-muted', !value); }
   sel.dispatchEvent(new Event('change'));
-  // escolha manual do usuário: não é mais o valor sugerido pela IA
-  if (typeof aiMarkField === 'function') aiMarkField(_csActive, false);
   csClose();
 }
 
@@ -157,10 +155,6 @@ function onCatChange() {
   if (!isOutros) document.getElementById('f-categoria-custom').value = '';
   const tipo = document.getElementById('f-tipo').value;
   populateSubCatFromCat(tipo, val);
-  // a troca de categoria sempre zera a sub-categoria selecionada — se ela
-  // tinha o selo de sugestão da IA, não faz mais sentido mantê-lo
-  if (typeof aiMarkField === 'function') aiMarkField('f-subcategoria', false);
-  hideAiSuggestion();
 }
 
 function populateSubCatFromCat(tipo, catName) {
@@ -266,13 +260,12 @@ function openEdit(id) {
     subcatWrap.style.display='none';
     customInp.value='';
   }
-  openCatAccordion(); // editando um lançamento existente: mostra a categoria/sub-categoria já definidas
   showScreen('form');
 }
 
 const TIPO_TAB_COLOR_CLASS = {receita:'status-cell-receita', despesa:'status-cell-despesa', investimento:'status-cell-investimento'};
 function clearForm() {
-  ['f-tipo','f-categoria','f-subcategoria','f-obs','f-ai-input'].forEach(id=>{ document.getElementById(id).value=''; });
+  ['f-tipo','f-categoria','f-subcategoria','f-obs'].forEach(id=>{ document.getElementById(id).value=''; });
   TIPO_TABS.forEach(t => {
     const btn = document.getElementById('tab-tipo-' + t);
     if (btn) btn.className = 'badge status-cell status-cell-white d-inline-flex align-items-center';
@@ -281,7 +274,6 @@ function clearForm() {
   csReset('f-categoria');
   csReset('f-subcategoria');
   csSetDisabled('f-subcategoria', true);
-  if (typeof aiMarkField === 'function') { aiMarkField('f-categoria', false); aiMarkField('f-subcategoria', false); }
   const _swrap = document.getElementById('subcategoria-wrap');
   if (_swrap) { _swrap.style.opacity = '0.45'; _swrap.style.pointerEvents = 'none'; }
   document.getElementById('f-categoria-custom').value='';
@@ -297,8 +289,6 @@ function clearForm() {
   document.getElementById('f-mm').value='';
   document.getElementById('f-yyyy').value='';
   renderStatusPills('');
-  hideAiSuggestion();
-  closeCatAccordion();
 }
 
 function onDataInput(el) {
