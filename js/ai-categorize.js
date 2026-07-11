@@ -4,7 +4,12 @@
    frases de duas palavras, ex. "lava jato") do texto da Observação
    contra as categorias/sub-categorias que o usuário já tem cadastradas.
 
-   Cada palavra-chave aponta pra um conceito {categoria, subcategoria}.
+   Cada palavra-chave aponta pra um conceito {categoria, subcategoria} —
+   sempre o nome de uma CATEGORIA concreta (o mesmo padrão criado pelo
+   "Grupos inteligentes"), nunca o nome de um grupo. O dicionário é
+   separado por tipo (despesa/receita/investimento) pra "aluguel" em
+   despesa não colidir com "aluguel" (recebido) em receita, por exemplo.
+
    Toda sub-categoria sugerida precisa necessariamente estar vinculada a
    uma categoria: se existir uma categoria que já sirva pro conceito, a
    sub é anexada a ela; se nenhuma servir, a categoria é criada junto.
@@ -12,59 +17,65 @@
 function K(categoria, subcategoria) { return { categoria: categoria, subcategoria: subcategoria || null }; }
 
 const AI_CATEGORY_KEYWORDS = {
-  // despesa — transporte
-  uber: K('transporte', 'Aplicativos'), '99': K('transporte', 'Aplicativos'),
-  combustivel: K('transporte', 'Combustível'), gasolina: K('transporte', 'Combustível'), posto: K('transporte', 'Combustível'),
-  estacionamento: K('transporte', 'Estacionamento'), pedagio: K('transporte', 'Pedágio'),
-  onibus: K('transporte', 'Transporte público'), metro: K('transporte', 'Transporte público'),
-  oficina: K('transporte', 'Manutenção'), mecanico: K('transporte', 'Manutenção'), pneu: K('transporte', 'Manutenção'),
-  'lava jato': K('transporte', 'Lavagem'), lavajato: K('transporte', 'Lavagem'), 'lava rapido': K('transporte', 'Lavagem'),
-  ipva: K('transporte', 'IPVA'), multa: K('transporte', 'Multas'),
-  // despesa — alimentação
-  mercado: K('alimentacao', 'Supermercado'), supermercado: K('alimentacao', 'Supermercado'), feira: K('alimentacao', 'Supermercado'), acougue: K('alimentacao', 'Supermercado'),
-  ifood: K('alimentacao', 'Delivery'), delivery: K('alimentacao', 'Delivery'),
-  restaurante: K('alimentacao', 'Restaurantes'), lanchonete: K('alimentacao', 'Restaurantes'), pizza: K('alimentacao', 'Restaurantes'), hamburguer: K('alimentacao', 'Restaurantes'),
-  padaria: K('alimentacao', 'Padaria'), acai: K('alimentacao', 'Padaria'), sorvete: K('alimentacao', 'Padaria'),
-  // despesa — moradia
-  aluguel: K('moradia', 'Aluguel/Financiamento'), financiamento: K('moradia', 'Aluguel/Financiamento'),
-  condominio: K('moradia', 'Aluguel/Financiamento'), iptu: K('moradia', 'Aluguel/Financiamento'),
-  luz: K('moradia', 'Contas de casa'), energia: K('moradia', 'Contas de casa'), agua: K('moradia', 'Contas de casa'),
-  gas: K('moradia', 'Contas de casa'), internet: K('moradia', 'Contas de casa'), wifi: K('moradia', 'Contas de casa'),
-  faxina: K('moradia', 'Manutenção do lar'), diarista: K('moradia', 'Manutenção do lar'),
-  encanador: K('moradia', 'Manutenção do lar'), eletricista: K('moradia', 'Manutenção do lar'),
-  // despesa — saúde
-  farmacia: K('saude', 'Farmácia'), remedio: K('saude', 'Farmácia'),
-  medico: K('saude', 'Consultas e exames'), consulta: K('saude', 'Consultas e exames'), exame: K('saude', 'Consultas e exames'),
-  dentista: K('saude', 'Consultas e exames'), hospital: K('saude', 'Consultas e exames'), psicologo: K('saude', 'Consultas e exames'),
-  academia: K('saude', 'Academia e bem-estar'),
-  // despesa — lazer / viagens
-  netflix: K('lazer', 'Streaming'), spotify: K('lazer', 'Streaming'), streaming: K('lazer', 'Streaming'),
-  cinema: K('lazer', 'Saídas'), show: K('lazer', 'Saídas'), bar: K('lazer', 'Saídas'), passeio: K('lazer', 'Saídas'),
-  viagem: K('viagens', null), passagem: K('viagens', 'Passagens'), hospedagem: K('viagens', 'Hospedagem'), hotel: K('viagens', 'Hospedagem'),
-  // despesa — educação
-  curso: K('educacao', 'Cursos'), faculdade: K('educacao', 'Mensalidade'), mensalidade: K('educacao', 'Mensalidade'),
-  escola: K('educacao', 'Mensalidade'), livro: K('educacao', 'Livros e material'), material: K('educacao', 'Livros e material'),
-  // despesa — pessoais / pets / presentes / seguros
-  roupa: K('pessoais', 'Vestuário'), vestuario: K('pessoais', 'Vestuário'),
-  cabeleireiro: K('pessoais', 'Cuidados pessoais'), salao: K('pessoais', 'Cuidados pessoais'), manicure: K('pessoais', 'Cuidados pessoais'), barbeiro: K('pessoais', 'Cuidados pessoais'),
-  pet: K('pets', null), veterinario: K('pets', 'Veterinário'), racao: K('pets', 'Alimentação pet'), petshop: K('pets', 'Higiene e acessórios'),
-  'banho e tosa': K('pets', 'Higiene e acessórios'),
-  presente: K('presentes', 'Presentes'), aniversario: K('presentes', 'Festas e comemorações'), lembranca: K('presentes', 'Presentes'),
-  seguro: K('seguros', null),
-  // receita
-  salario: K('trabalho', 'Salário'), pagamento: K('trabalho', null), freelance: K('trabalho', 'Freelance'), bonus: K('trabalho', 'Bônus/13º'),
-  dividendo: K('rendimentos', 'Dividendos'), juros: K('rendimentos', 'Juros'), rendimento: K('rendimentos', 'Rendimento de fundos'),
-  // investimento
-  tesouro: K('renda fixa', 'Tesouro Direto'), cdb: K('renda fixa', 'CDB'), lci: K('renda fixa', 'LCI/LCA'), lca: K('renda fixa', 'LCI/LCA'),
-  acao: K('renda variavel', 'Ações'), acoes: K('renda variavel', 'Ações'), fii: K('renda variavel', 'Fundos Imobiliários'), etf: K('renda variavel', 'ETFs'),
-  bitcoin: K('cripto', 'Bitcoin'), cripto: K('cripto', null),
-};
-
-const AI_CONCEPT_LABELS = {
-  transporte: 'Transporte', alimentacao: 'Alimentação', moradia: 'Moradia', saude: 'Saúde',
-  lazer: 'Lazer', viagens: 'Viagens', educacao: 'Educação', pessoais: 'Pessoais', pets: 'Pets', presentes: 'Presentes',
-  seguros: 'Seguros', trabalho: 'Trabalho', rendimentos: 'Rendimentos',
-  'renda fixa': 'Renda Fixa', 'renda variavel': 'Renda Variável', cripto: 'Cripto',
+  despesa: {
+    // Transporte
+    uber: K('Aplicativos', 'Uber'), '99': K('Aplicativos', '99'),
+    combustivel: K('Combustível'), gasolina: K('Combustível'), posto: K('Combustível'),
+    pedagio: K('Documentação do veículo', 'Pedágio'), estacionamento: K('Documentação do veículo', 'Estacionamento'),
+    ipva: K('Documentação do veículo', 'IPVA'), multa: K('Documentação do veículo', 'Multas'), licenciamento: K('Documentação do veículo', 'Licenciamento'),
+    onibus: K('Transporte público', 'Ônibus'), metro: K('Transporte público', 'Metrô'),
+    oficina: K('Manutenção'), mecanico: K('Manutenção'), pneu: K('Manutenção', 'Pneus'), revisao: K('Manutenção', 'Revisão'),
+    'lava jato': K('Manutenção', 'Lavagem'), lavajato: K('Manutenção', 'Lavagem'), 'lava rapido': K('Manutenção', 'Lavagem'), lavagem: K('Manutenção', 'Lavagem'),
+    // Alimentação
+    mercado: K('Supermercado'), supermercado: K('Supermercado'), feira: K('Supermercado', 'Feira'), acougue: K('Supermercado', 'Açougue'), hortifruti: K('Supermercado', 'Hortifruti'),
+    ifood: K('Restaurantes', 'Delivery'), delivery: K('Restaurantes', 'Delivery'), lanchonete: K('Restaurantes', 'Lanches'),
+    restaurante: K('Restaurantes'), pizza: K('Restaurantes'), hamburguer: K('Restaurantes'),
+    padaria: K('Padaria e conveniência'), acai: K('Padaria e conveniência'), sorvete: K('Padaria e conveniência'), cafe: K('Padaria e conveniência', 'Café'),
+    // Moradia
+    aluguel: K('Aluguel/Financiamento'), financiamento: K('Aluguel/Financiamento'),
+    condominio: K('Aluguel/Financiamento', 'Condomínio'), iptu: K('Aluguel/Financiamento', 'IPTU'),
+    luz: K('Contas de casa', 'Luz'), energia: K('Contas de casa', 'Luz'), agua: K('Contas de casa', 'Água'),
+    gas: K('Contas de casa', 'Gás'), internet: K('Contas de casa', 'Internet'), wifi: K('Contas de casa', 'Internet'),
+    faxina: K('Manutenção do lar', 'Diarista/Faxina'), diarista: K('Manutenção do lar', 'Diarista/Faxina'),
+    encanador: K('Manutenção do lar', 'Reparos'), eletricista: K('Manutenção do lar', 'Reparos'), jardinagem: K('Manutenção do lar', 'Jardinagem'),
+    // Saúde
+    farmacia: K('Farmácia'), remedio: K('Farmácia', 'Medicamentos'), suplemento: K('Farmácia', 'Suplementos'),
+    medico: K('Consultas e exames', 'Médico'), consulta: K('Consultas e exames'), exame: K('Consultas e exames'),
+    dentista: K('Consultas e exames', 'Dentista'), hospital: K('Consultas e exames'), psicologo: K('Consultas e exames', 'Psicólogo'),
+    academia: K('Academia e bem-estar'),
+    // Lazer / Viagens
+    netflix: K('Streaming', 'Netflix'), spotify: K('Streaming', 'Spotify'), streaming: K('Streaming'),
+    cinema: K('Saídas', 'Cinema'), show: K('Saídas', 'Shows'), bar: K('Saídas', 'Bares'), passeio: K('Saídas'),
+    jogo: K('Hobbies', 'Jogos'),
+    viagem: K('Passagens'), passagem: K('Passagens'), hospedagem: K('Hospedagem'), hotel: K('Hospedagem'),
+    // Educação
+    curso: K('Cursos'), idioma: K('Cursos', 'Idiomas'), faculdade: K('Mensalidade'), mensalidade: K('Mensalidade'), escola: K('Mensalidade'),
+    livro: K('Livros e material'), material: K('Livros e material'),
+    // Pets / Presentes / Compras / Seguros
+    veterinario: K('Veterinário'), racao: K('Alimentação pet'), petshop: K('Higiene e acessórios'), 'banho e tosa': K('Higiene e acessórios'),
+    presente: K('Presentes'), lembranca: K('Presentes'), aniversario: K('Festas e comemorações'), festa: K('Festas e comemorações'),
+    roupa: K('Vestuário e calçados'), vestuario: K('Vestuário e calçados'), calcado: K('Vestuário e calçados'),
+    eletronico: K('Eletrônicos'), celular: K('Eletrônicos'),
+    seguro: K('Seguro de vida'),
+  },
+  receita: {
+    salario: K('Salário'), pagamento: K('Salário'),
+    'vale alimentacao': K('Salário', 'Vale-alimentação'), 'vale transporte': K('Salário', 'Vale-transporte'),
+    freelance: K('Freelance'), 'prestacao de servico': K('Prestação de serviços'), consultoria: K('Consultoria'),
+    bonus: K('Bônus/13º'), decimoterceiro: K('Bônus/13º'), ferias: K('Bônus/13º', 'Férias'), plr: K('Bônus/13º', 'PLR'),
+    dividendo: K('Dividendos'), juros: K('Juros'), rendimento: K('Rendimento de fundos'),
+    'aluguel recebido': K('Aluguel recebido'), inquilino: K('Aluguel recebido'),
+    venda: K('Vendas online'), bico: K('Bicos/Freelas extras'),
+    reembolso: K('Reembolsos'), restituicao: K('Restituição de IR'), 'imposto de renda': K('Restituição de IR'),
+    presente: K('Presentes recebidos'),
+  },
+  investimento: {
+    tesouro: K('Tesouro Direto'), cdb: K('CDB'), lci: K('LCI/LCA'), lca: K('LCI/LCA'),
+    acao: K('Ações'), acoes: K('Ações'), fii: K('Fundos Imobiliários'), etf: K('ETFs'), bdr: K('ETFs', 'BDRs'),
+    bitcoin: K('Bitcoin'), altcoin: K('Altcoins'), cripto: K('Bitcoin'), criptomoeda: K('Bitcoin'),
+    poupanca: K('Poupança'), reserva: K('Reserva de emergência'),
+    pgbl: K('PGBL'), vgbl: K('VGBL'), previdencia: K('PGBL'),
+  },
 };
 
 let _aiSuggestTimer = null;
@@ -80,6 +91,14 @@ function aiNormalize(str) {
     }).join('')
     .replace(/[-_]/g, ' ') // "lava-a-jato" -> "lava a jato", pra casar frases do dicionário
     .trim();
+}
+
+// Compara com inclusão nos dois sentidos: cobre tanto "digitei mais do que
+// o nome" (ex. "pagamento da restituicao") quanto "o nome é mais longo/no
+// plural do que eu digitei" (ex. digitei "reembolso", categoria é "Reembolsos").
+function aiMatches(normText, normName) {
+  if (normName.length < 3) return false;
+  return normText.includes(normName) || normName.includes(normText);
 }
 
 // Palavras de ligação removidas só na hora de casar frases do dicionário
@@ -114,32 +133,28 @@ function suggestCategoriesFromText(text, tipo) {
   // então TODAS as combinações que baterem viram opções.
   for (const c of cats) {
     for (const s of (c.subs || [])) {
-      const sNorm = aiNormalize(s);
-      if (sNorm.length >= 3 && norm.includes(sNorm)) add(c.name, s, false, false);
+      if (aiMatches(norm, aiNormalize(s))) add(c.name, s, false, false);
     }
   }
   // 2) casa direto contra nomes de categorias que o usuário já tem
   for (const c of cats) {
-    const cNorm = aiNormalize(c.name);
-    if (cNorm.length >= 3 && norm.includes(cNorm)) add(c.name, null, false, false);
+    if (aiMatches(norm, aiNormalize(c.name))) add(c.name, null, false, false);
   }
   // 3) dicionário de palavras-chave (inclui frases de 2 palavras) -> conceito
   // {categoria, subcategoria}, só entra em jogo se nada acima bateu. Ordena
   // as chaves da mais longa pra mais curta, pra "lava jato" vencer antes de
-  // qualquer palavra isolada mais genérica.
+  // qualquer palavra isolada mais genérica. Dicionário é específico do tipo
+  // (evita "aluguel" de despesa colidir com "aluguel recebido" de receita).
   if (!results.length) {
+    const dict = AI_CATEGORY_KEYWORDS[tipo] || {};
     const compact = aiStripStopwords(norm);
-    const keys = Object.keys(AI_CATEGORY_KEYWORDS).sort((a, b) => b.length - a.length);
+    const keys = Object.keys(dict).sort((a, b) => b.length - a.length);
     let concept = null;
     for (const key of keys) {
-      if (compact.includes(key)) { concept = AI_CATEGORY_KEYWORDS[key]; break; }
+      if (compact.includes(key)) { concept = dict[key]; break; }
     }
     if (concept) {
-      const existing = cats.filter(c => {
-        const cNorm = aiNormalize(c.name);
-        return cNorm.includes(concept.categoria) || concept.categoria.includes(cNorm);
-      });
-      const label = AI_CONCEPT_LABELS[concept.categoria] || (concept.categoria.charAt(0).toUpperCase() + concept.categoria.slice(1));
+      const existing = cats.filter(c => aiMatches(aiNormalize(c.name), aiNormalize(concept.categoria)) || aiMatches(aiNormalize(concept.categoria), aiNormalize(c.name)));
 
       if (existing.length) {
         // já existe categoria pro conceito: a sub-categoria (se houver) é
@@ -151,7 +166,7 @@ function suggestCategoriesFromText(text, tipo) {
         });
       } else {
         // nenhuma categoria serve: cria a categoria pra receber a sub-categoria.
-        add(label, concept.subcategoria, true, !!concept.subcategoria);
+        add(concept.categoria, concept.subcategoria, true, !!concept.subcategoria);
       }
     }
   }
