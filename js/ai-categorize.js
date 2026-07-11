@@ -78,9 +78,9 @@ const AI_CATEGORY_KEYWORDS = {
     venda: K('Vendas online'), bico: K('Bicos/Freelas extras'),
     reembolso: K('Reembolsos'), cashback: K('Reembolsos'), restituicao: K('Restituição de IR'), 'imposto de renda': K('Restituição de IR'),
     presente: K('Presentes recebidos'),
-    premio: K('Outros recebimentos', 'Prêmio'), heranca: K('Outros recebimentos', 'Herança'),
-    doacao: K('Outros recebimentos', 'Doação'), 'doacao recebida': K('Outros recebimentos', 'Doação'),
-    'pix recebido': K('Outros recebimentos', 'Pix'),
+    premio: K('Recebimentos diversos', 'Prêmio'), heranca: K('Recebimentos diversos', 'Herança'),
+    doacao: K('Recebimentos diversos', 'Doação'), 'doacao recebida': K('Recebimentos diversos', 'Doação'),
+    'pix recebido': K('Recebimentos diversos', 'Pix'),
   },
   investimento: {
     tesouro: K('Tesouro Direto'), cdb: K('CDB'), lci: K('LCI/LCA'), lca: K('LCI/LCA'),
@@ -311,6 +311,36 @@ function hideAiSuggestion() {
   if (row) { row.classList.add('d-none'); row.innerHTML = ''; }
 }
 
+// Categorias e sub-categorias, mesmo as criadas via sugestão de IA, sempre
+// precisam pertencer a um grupo — nunca ficam soltas. O nome do grupo é
+// descoberto a partir da mesma taxonomia usada pelos "Grupos inteligentes"
+// (SMART_TRAIT_GROUPS); pra categorias inventadas fora dela (ex. quando
+// nada no dicionário bate e a sugestão usa o próprio texto digitado),
+// cai num grupo de recolhimento por tipo.
+const AI_GROUP_FALLBACK_OVERRIDES = {
+  'cuidados pessoais': 'Saúde',
+  'recebimentos diversos': 'Outros recebimentos',
+};
+function aiGroupNameForCategoria(tipo, categoriaName) {
+  const traitGroups = SMART_TRAIT_GROUPS[tipo] || {};
+  const normName = aiNormalize(categoriaName);
+  for (const key of Object.keys(traitGroups)) {
+    const def = traitGroups[key];
+    for (const c of def.categories) {
+      if (aiNormalize(c.name) === normName) return def.group;
+    }
+  }
+  return AI_GROUP_FALLBACK_OVERRIDES[normName] || 'Outros';
+}
+async function aiEnsureGroup(tipo, groupName) {
+  if (!catGroups[tipo]) catGroups[tipo] = [];
+  const existing = catGroups[tipo].find(g => g.name.trim().toLowerCase() === groupName.toLowerCase());
+  if (existing) return existing.id;
+  const data = await apiCreateGroup(tipo, groupName);
+  catGroups[tipo].push(data.group);
+  return data.group.id;
+}
+
 async function applyAiSuggestion(idx, btnEl) {
   const suggestion = _aiSuggestions[idx];
   if (!suggestion) return;
@@ -322,7 +352,9 @@ async function applyAiSuggestion(idx, btnEl) {
       let catObj;
       if (suggestion.isNewCategoria) {
         const initialSubs = suggestion.subcategoria ? [suggestion.subcategoria] : [];
-        const data = await apiCreateCategory(tipo, suggestion.categoria, '📌');
+        const groupName = aiGroupNameForCategoria(tipo, suggestion.categoria);
+        const groupId = await aiEnsureGroup(tipo, groupName);
+        const data = await apiCreateCategory(tipo, suggestion.categoria, '📌', groupId);
         catObj = data.category;
         if (initialSubs.length) {
           await apiUpdateCategory(catObj.id, { subs: initialSubs });
