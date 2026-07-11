@@ -601,6 +601,7 @@ async function saveEntry() {
     if (editingId) {
       await apiUpdateEntry(editingId, entry);
       showToast('Lançamento atualizado.','success');
+      newId = editingId; // fixa o card editado na primeira posição da listagem, igual ao criado
     } else {
       // recorrências mensal/anual são geradas no servidor (api/entries.php)
       const res = await apiCreateEntry(entry);
