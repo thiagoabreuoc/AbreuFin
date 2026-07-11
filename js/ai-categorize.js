@@ -173,9 +173,30 @@ function suggestCategoriesFromText(text, tipo) {
   return results.slice(0, 4);
 }
 
-function onObsInputAi() {
+function onAiFieldInput() {
   clearTimeout(_aiSuggestTimer);
   _aiSuggestTimer = setTimeout(runAiSuggestion, 500);
+}
+
+/* ─────────────── Acordeon Categoria/Sub-categoria ─────────────── */
+let _catAccordionOpen = false;
+function applyCatAccordionState() {
+  const body = document.getElementById('cat-accordion-body');
+  const chevron = document.getElementById('cat-accordion-chevron');
+  if (body) body.classList.toggle('d-none', !_catAccordionOpen);
+  if (chevron) chevron.style.transform = _catAccordionOpen ? 'rotate(180deg)' : '';
+}
+function toggleCatAccordion() {
+  _catAccordionOpen = !_catAccordionOpen;
+  applyCatAccordionState();
+}
+function openCatAccordion() {
+  _catAccordionOpen = true;
+  applyCatAccordionState();
+}
+function closeCatAccordion() {
+  _catAccordionOpen = false;
+  applyCatAccordionState();
 }
 
 function aiSuggestionLabel(s) {
@@ -191,10 +212,10 @@ function aiSuggestionActionText(s) {
 
 function runAiSuggestion() {
   const tipo = document.getElementById('f-tipo').value;
-  const obs = document.getElementById('f-obs').value;
+  const aiText = document.getElementById('f-ai-input').value;
   const row = document.getElementById('ai-suggest-row');
   if (!tipo) { hideAiSuggestion(); return; }
-  let suggestions = suggestCategoriesFromText(obs, tipo);
+  let suggestions = suggestCategoriesFromText(aiText, tipo);
   if (!suggestions.length) { hideAiSuggestion(); return; }
 
   // não repete uma sugestão idêntica ao que já está selecionado no
@@ -271,6 +292,10 @@ async function applyAiSuggestion(idx, btnEl) {
       return;
     }
     setBtnLoading(btnEl, false);
+  } else {
+    // categoria/sub já existiam desde antes: garante que o select reflete
+    // o estado atual de categories[tipo] mesmo assim, por segurança.
+    populateCatOptions(tipo);
   }
 
   csSetValue('f-categoria', suggestion.categoria);
@@ -279,4 +304,8 @@ async function applyAiSuggestion(idx, btnEl) {
     csSetValue('f-subcategoria', suggestion.subcategoria);
     onSubCatChange();
   }
+
+  // sugestão pré-estabelecida: não precisa abrir o acordeon. Categoria ou
+  // sub-categoria nova: abre pra mostrar o que foi criado.
+  if (suggestion.isNewCategoria || suggestion.isNewSub) openCatAccordion();
 }

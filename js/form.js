@@ -261,12 +261,13 @@ function openEdit(id) {
     subcatWrap.style.display='none';
     customInp.value='';
   }
+  openCatAccordion(); // editando um lançamento existente: mostra a categoria/sub-categoria já definidas
   showScreen('form');
 }
 
 const TIPO_TAB_COLOR_CLASS = {receita:'status-cell-receita', despesa:'status-cell-despesa', investimento:'status-cell-investimento'};
 function clearForm() {
-  ['f-tipo','f-categoria','f-subcategoria','f-obs'].forEach(id=>{ document.getElementById(id).value=''; });
+  ['f-tipo','f-categoria','f-subcategoria','f-obs','f-ai-input'].forEach(id=>{ document.getElementById(id).value=''; });
   TIPO_TABS.forEach(t => {
     const btn = document.getElementById('tab-tipo-' + t);
     if (btn) btn.className = 'badge status-cell status-cell-white d-inline-flex align-items-center';
@@ -291,6 +292,7 @@ function clearForm() {
   document.getElementById('f-yyyy').value='';
   renderStatusPills('');
   hideAiSuggestion();
+  closeCatAccordion();
 }
 
 function onDataInput(el) {
