@@ -215,6 +215,15 @@ function runAiSuggestion() {
   const aiText = document.getElementById('f-ai-input').value;
   const row = document.getElementById('ai-suggest-row');
   if (!tipo) { hideAiSuggestion(); return; }
+
+  // campo de categorização inteligente vazio: desmarca categoria/sub-categoria
+  // pra permitir que uma nova palavra digitada gere uma sugestão do zero.
+  if (!aiText.trim()) {
+    csReset('f-categoria');
+    onCatChange();
+    return;
+  }
+
   let suggestions = suggestCategoriesFromText(aiText, tipo);
   if (!suggestions.length) { hideAiSuggestion(); return; }
 
