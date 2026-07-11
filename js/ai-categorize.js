@@ -391,7 +391,23 @@ async function applyAiSuggestion(idx, btnEl) {
     onSubCatChange();
   }
 
+  // marca visualmente qual campo recebeu a palavra digitada: a categoria
+  // é sempre preenchida, a sub-categoria só quando a sugestão trouxe uma —
+  // deixa claro em qual dos dois campos a IA encaixou o que foi digitado.
+  aiMarkField('f-categoria', true);
+  aiMarkField('f-subcategoria', !!suggestion.subcategoria);
+
   // sugestão pré-estabelecida: não precisa abrir o acordeon. Categoria ou
   // sub-categoria nova: abre pra mostrar o que foi criado.
   if (suggestion.isNewCategoria || suggestion.isNewSub) openCatAccordion();
+}
+
+// Destaca (ou remove o destaque de) o campo Categoria/Sub-categoria que
+// acabou de ser preenchido por uma sugestão de IA, pra deixar claro em qual
+// dos dois a palavra digitada foi encaixada.
+function aiMarkField(fieldId, on) {
+  const fieldset = document.getElementById(fieldId === 'f-categoria' ? 'categoria-wrap' : 'subcategoria-wrap');
+  const badge = document.getElementById(fieldId + '-ai-badge');
+  if (fieldset) fieldset.classList.toggle('ai-filled', !!on);
+  if (badge) badge.classList.toggle('d-none', !on);
 }

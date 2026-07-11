@@ -87,6 +87,8 @@ function csPickItem(el) {
   sel.value = value;
   if (display) { display.textContent = label || 'Selecione'; display.classList.toggle('text-muted', !value); }
   sel.dispatchEvent(new Event('change'));
+  // escolha manual do usuário: não é mais o valor sugerido pela IA
+  if (typeof aiMarkField === 'function') aiMarkField(_csActive, false);
   csClose();
 }
 
@@ -155,6 +157,9 @@ function onCatChange() {
   if (!isOutros) document.getElementById('f-categoria-custom').value = '';
   const tipo = document.getElementById('f-tipo').value;
   populateSubCatFromCat(tipo, val);
+  // a troca de categoria sempre zera a sub-categoria selecionada — se ela
+  // tinha o selo de sugestão da IA, não faz mais sentido mantê-lo
+  if (typeof aiMarkField === 'function') aiMarkField('f-subcategoria', false);
   hideAiSuggestion();
 }
 
@@ -276,6 +281,7 @@ function clearForm() {
   csReset('f-categoria');
   csReset('f-subcategoria');
   csSetDisabled('f-subcategoria', true);
+  if (typeof aiMarkField === 'function') { aiMarkField('f-categoria', false); aiMarkField('f-subcategoria', false); }
   const _swrap = document.getElementById('subcategoria-wrap');
   if (_swrap) { _swrap.style.opacity = '0.45'; _swrap.style.pointerEvents = 'none'; }
   document.getElementById('f-categoria-custom').value='';

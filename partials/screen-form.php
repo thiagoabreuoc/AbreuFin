@@ -36,7 +36,8 @@
       <div id="cat-accordion-body" class="d-none" style="margin-top:12px">
 
         <!-- Categoria -->
-        <fieldset class="form-box">
+        <fieldset class="form-box" id="categoria-wrap" style="position:relative">
+          <span class="ai-fill-badge d-none" id="f-categoria-ai-badge"><span class="material-symbols-outlined">auto_awesome</span>IA</span>
           <legend class="form-box-lbl">Categoria</legend>
           <select class="form-select form-select-borderless" id="f-categoria" onchange="onCatChange()"><option value="">Selecione</option></select>
           <div id="f-categoria-custom-wrap" style="display:none" class="mt-2">
@@ -49,7 +50,8 @@
         </fieldset>
 
         <!-- Sub-categoria (condicional) -->
-        <fieldset class="form-box" id="subcategoria-wrap" style="display:none">
+        <fieldset class="form-box" id="subcategoria-wrap" style="display:none;position:relative">
+          <span class="ai-fill-badge d-none" id="f-subcategoria-ai-badge"><span class="material-symbols-outlined">auto_awesome</span>IA</span>
           <legend class="form-box-lbl">Sub-categoria</legend>
           <select class="form-select form-select-borderless" id="f-subcategoria" onchange="onSubCatChange()">
             <option value="">Selecione</option>
