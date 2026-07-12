@@ -2,12 +2,14 @@
 <div class="screen hidden" id="screen-listing">
   <div class="d-flex align-items-center p-3 border-bottom flex-shrink-0">
     <button class="btn btn-link text-dark p-0" onclick="goBack()"><span class="material-symbols-outlined">arrow_back</span></button>
-    <div class="flex-grow-1 d-flex align-items-center justify-content-center" style="gap:6px;min-width:0">
-      <span class="badge bg-success-subtle text-success fw-semibold flex-shrink-0" id="listing-title">Receitas</span>
-      <span class="fw-semibold text-truncate" style="font-size:0.95rem" id="listing-date">JAN 26</span>
-      <button class="btn btn-link btn-sm fw-semibold text-primary p-0 flex-shrink-0" onclick="openPeriodPicker()">
-        <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">edit</span> Alterar
-      </button>
+    <div class="flex-grow-1 d-flex flex-column align-items-center" style="gap:8px;min-width:0">
+      <span class="badge bg-success-subtle text-success fw-semibold" id="listing-title">Receitas</span>
+      <div class="d-flex align-items-center justify-content-center" style="gap:6px;min-width:0">
+        <span class="fw-semibold text-truncate" style="font-size:0.95rem" id="listing-date">JAN 26</span>
+        <button class="btn btn-link btn-sm fw-semibold text-primary p-0 flex-shrink-0" onclick="openPeriodPicker()">
+          <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">edit</span> Alterar
+        </button>
+      </div>
     </div>
     <div style="width:24px"></div>
   </div>
