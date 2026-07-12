@@ -97,7 +97,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
    para status confirmados (Recebido/A receber) */
 .status-cell{font-weight:400!important;font-size:.75rem;padding:4px 12px!important;border-radius:var(--md-sys-shape-corner-full)!important;border:none}
 /* Tabs de tipo/status logo abaixo do header (Novo, Receitas/Despesas/Investimentos) */
-#listing-status-tabs button.status-cell, #tab-tipo-receita, #tab-tipo-despesa, #tab-tipo-investimento, #status-pills .status-cell, #listing-title, #cats-tab-receita, #cats-tab-despesa, #cats-tab-investimento{padding-top:8px!important;padding-bottom:8px!important}
+#listing-status-tabs button.status-cell, #tab-tipo-receita, #tab-tipo-despesa, #tab-tipo-investimento, #status-pills .status-cell, #listing-title, #cats-tab-receita, #cats-tab-despesa, #cats-tab-investimento, #cat-detail-breadcrumb, #cat-group-breadcrumb{padding-top:8px!important;padding-bottom:8px!important}
 .status-cell-success{background:var(--md-extended-color-success-color-container)!important;color:var(--md-extended-color-success-on-color-container)!important}
 .status-cell-neutral{background:var(--md-sys-color-surface-variant)!important;color:var(--md-sys-color-on-surface-variant)!important}
 .status-cell-white{background:var(--md-sys-color-surface-container-lowest)!important;color:var(--md-sys-color-on-surface-variant)!important}
