@@ -297,6 +297,8 @@ function clearForm() {
   document.getElementById('f-subcategoria-custom-wrap').style.display='none';
   document.getElementById('f-subcategoria-save').checked=true;
   document.getElementById('repetir-none').checked = true;
+  document.getElementById('f-repetir-count').value = 3;
+  onRepetirChange();
   document.getElementById('f-valor').value='';
   document.getElementById('f-data').value='';
   document.getElementById('f-dd').value='';
@@ -568,6 +570,22 @@ function setRepetirField(val) {
   const r = document.querySelector(`#repetir-pills input[value="${CSS.escape(val)}"]`);
   if (r) r.checked = true;
   else document.getElementById('repetir-none').checked = true;
+  onRepetirChange();
+}
+
+const REPETIR_COUNT_UNIT = { semanal: 'semanas', quinzenal: 'quinzenas', mensal: 'meses' };
+function onRepetirChange() {
+  const val = getActiveRepetir();
+  const wrap = document.getElementById('repetir-count-wrap');
+  // só faz sentido escolher quantas vezes repetir na criação — editar um
+  // lançamento existente não gera novas ocorrências futuras
+  wrap.classList.toggle('d-none', !val || !!editingId);
+  document.getElementById('repetir-count-unit').textContent = REPETIR_COUNT_UNIT[val] || 'vezes';
+}
+
+function getRepetirCount() {
+  const n = parseInt(document.getElementById('f-repetir-count').value, 10);
+  return Math.min(36, Math.max(1, n || 3));
 }
 
 function getActivePill() {
@@ -608,7 +626,8 @@ async function saveEntry() {
       categories[tipo].push(data.category);
     } catch(_) {}
   }
-  const entry={tipo,categoria,subcategoria,valor,dd,mm,yyyy,status,obs:document.getElementById('f-obs').value,repetir,notif:false};
+  const repeatCount = (repetir && !editingId) ? getRepetirCount() : undefined;
+  const entry={tipo,categoria,subcategoria,valor,dd,mm,yyyy,status,obs:document.getElementById('f-obs').value,repetir,repeat_count:repeatCount,notif:false};
 
   try {
     let newId = null;

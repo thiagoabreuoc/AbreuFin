@@ -74,21 +74,26 @@
       <legend class="form-box-lbl">Repetir a cada</legend>
       <div class="d-flex gap-3 flex-wrap" id="repetir-pills">
         <div class="form-check form-check-inline m-0">
-          <input class="form-check-input" type="radio" name="f-repetir" id="repetir-none" value="" autocomplete="off" checked>
+          <input class="form-check-input" type="radio" name="f-repetir" id="repetir-none" value="" autocomplete="off" checked onchange="onRepetirChange()">
           <label class="form-check-label small" for="repetir-none">Nunca</label>
         </div>
         <div class="form-check form-check-inline m-0">
-          <input class="form-check-input" type="radio" name="f-repetir" id="repetir-semanal" value="semanal" autocomplete="off">
+          <input class="form-check-input" type="radio" name="f-repetir" id="repetir-semanal" value="semanal" autocomplete="off" onchange="onRepetirChange()">
           <label class="form-check-label small" for="repetir-semanal">Semana</label>
         </div>
         <div class="form-check form-check-inline m-0">
-          <input class="form-check-input" type="radio" name="f-repetir" id="repetir-quinzenal" value="quinzenal" autocomplete="off">
+          <input class="form-check-input" type="radio" name="f-repetir" id="repetir-quinzenal" value="quinzenal" autocomplete="off" onchange="onRepetirChange()">
           <label class="form-check-label small" for="repetir-quinzenal">Quinzena</label>
         </div>
         <div class="form-check form-check-inline m-0">
-          <input class="form-check-input" type="radio" name="f-repetir" id="repetir-mensal" value="mensal" autocomplete="off">
+          <input class="form-check-input" type="radio" name="f-repetir" id="repetir-mensal" value="mensal" autocomplete="off" onchange="onRepetirChange()">
           <label class="form-check-label small" for="repetir-mensal">Mês</label>
         </div>
+      </div>
+      <div class="d-flex align-items-center gap-2 mt-3 d-none" id="repetir-count-wrap">
+        <label class="small text-secondary mb-0" for="f-repetir-count">Repetir por mais</label>
+        <input type="number" class="form-control form-control-sm text-center" id="f-repetir-count" min="1" max="36" value="3" style="width:60px">
+        <span class="small text-secondary" id="repetir-count-unit">meses</span>
       </div>
     </fieldset>
 

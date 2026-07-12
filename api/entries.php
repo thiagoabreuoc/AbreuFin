@@ -34,18 +34,22 @@ function insertEntry(PDO $pdo, int $userId, array $e): int {
     return (int)$pdo->lastInsertId();
 }
 
+$REPETIR_INTERVALS = ['semanal' => 'P7D', 'quinzenal' => 'P14D', 'mensal' => 'P1M', 'anual' => 'P1Y'];
+
 if ($method === 'POST') {
     $body = readJsonBody();
     $entry = validateEntryBody($body);
     $createdIds = [insertEntry($pdo, $userId, $entry)];
 
-    if ($entry['repetir'] === 'mensal' || $entry['repetir'] === 'anual') {
-        $inc = $entry['repetir'] === 'mensal' ? 1 : 12;
-        $curMM = $entry['mm']; $curYYYY = $entry['yyyy'];
-        for ($i = 0; $i < 3; $i++) {
-            $curMM += $inc;
-            if ($curMM > 12) { $curMM -= 12; $curYYYY++; }
-            $next = $entry; $next['mm'] = $curMM; $next['yyyy'] = $curYYYY; $next['status'] = 'pendente';
+    if (isset($REPETIR_INTERVALS[$entry['repetir']])) {
+        $count = max(1, min(36, (int)($body['repeat_count'] ?? 3)));
+        $interval = new DateInterval($REPETIR_INTERVALS[$entry['repetir']]);
+        $dt = new DateTime(sprintf('%04d-%02d-%02d', $entry['yyyy'], $entry['mm'], $entry['dd']));
+        for ($i = 0; $i < $count; $i++) {
+            $dt->add($interval);
+            $next = $entry;
+            $next['dd'] = (int)$dt->format('d'); $next['mm'] = (int)$dt->format('m'); $next['yyyy'] = (int)$dt->format('Y');
+            $next['status'] = 'pendente';
             $createdIds[] = insertEntry($pdo, $userId, $next);
         }
     }
