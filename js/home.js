@@ -4,7 +4,7 @@
 let homeTab = 'anos';
 let homeMonth = new Date().getMonth();
 let homeYear = new Date().getFullYear();
-let dismissedBanners = { vencido: false, vencendo: false };
+let dismissedBanners = { vencido: false, vencendo: false, insights: false };
 
 let _areaYs  = null;
 let _areaXs  = null;
@@ -443,10 +443,10 @@ function renderBanners() {
   }).length;
 
   let banners = '';
-  if (insights && insights.length)
+  if (insights && insights.length && !dismissedBanners.insights)
     banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-insights" style="background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);max-height:60px;cursor:pointer" onclick="navigate('insights')">
       <span class="small d-flex align-items-center gap-2"><span class="material-symbols-outlined" style="font-size:1.1rem;flex-shrink:0">tips_and_updates</span>Novos insights financeiros.</span>
-      <span class="material-symbols-outlined flex-shrink-0" style="font-size:1.1rem">chevron_right</span>
+      <button type="button" class="btn btn-link p-0" style="color:inherit;line-height:0" onclick="event.stopPropagation();dismissBanner('insights')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
     </div>`;
   if (vencidoCount > 0 && !dismissedBanners.vencido)
     banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-vencido" style="background:var(--md-sys-color-error-container);color:var(--md-sys-color-on-error-container)">
