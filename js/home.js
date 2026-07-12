@@ -447,7 +447,7 @@ function buildLegendHtml(d) {
   ).join('');
 }
 
-function renderBanners() {
+function getAlertCounts() {
   const today = new Date(); today.setHours(0,0,0,0);
   const in3 = new Date(today); in3.setDate(today.getDate()+3);
   const isPending = e => ['a_pagar','a_receber','a_investir'].includes(entryStatus(e));
@@ -461,6 +461,20 @@ function renderBanners() {
     const d2 = new Date(e.yyyy,e.mm-1,e.dd); d2.setHours(0,0,0,0);
     return d2 < today;
   }).length;
+  return { vencendoCount, vencidoCount };
+}
+
+function updateNotifBell() {
+  const dot = document.getElementById('notif-bell-dot');
+  if (!dot) return;
+  const { vencendoCount, vencidoCount } = getAlertCounts();
+  const hasAlert = vencendoCount > 0 || vencidoCount > 0 || hasUndismissedInsight();
+  dot.style.display = hasAlert ? '' : 'none';
+}
+
+function renderBanners() {
+  const { vencendoCount, vencidoCount } = getAlertCounts();
+  updateNotifBell();
 
   let banners = '';
   if (hasUndismissedInsight())
@@ -519,6 +533,47 @@ function renderHome() {
       </div>
     </div>` : '');
   document.getElementById('home-summary').innerHTML = summary;
+}
+
+/* ─────────────── CENTRAL DE NOTIFICAÇÕES ─────────────── */
+function notifCenterRow(icon, iconBg, iconColor, title, subtitle, onclick) {
+  return `<div class="list-group-item cat-row-card" style="cursor:pointer" onclick="${onclick}">
+    <div class="d-flex gap-3 align-items-start">
+      <div class="d-inline-flex align-items-center justify-content-center flex-shrink-0" style="width:40px;height:40px;border-radius:50%;background:${iconBg}">
+        <span class="material-symbols-outlined" style="font-size:1.3rem;color:${iconColor}">${icon}</span>
+      </div>
+      <div>
+        <div class="fw-semibold mb-1">${escapeHtml(title)}</div>
+        <div class="text-secondary small">${escapeHtml(subtitle)}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderNotifCenter() {
+  const el = document.getElementById('notif-center-body');
+  if (!el) return;
+  const { vencendoCount, vencidoCount } = getAlertCounts();
+  const rows = [];
+
+  if (vencidoCount > 0)
+    rows.push(notifCenterRow('error', 'var(--md-sys-color-error-container)', 'var(--md-sys-color-on-error-container)',
+      `${vencidoCount} lançamento${vencidoCount>1?'s':''} vencido${vencidoCount>1?'s':''}`,
+      'Toque pra ver e resolver.', "goToVencendo('vencido')"));
+
+  if (vencendoCount > 0)
+    rows.push(notifCenterRow('event_upcoming', 'var(--md-extended-color-aviso-color-container)', 'var(--md-extended-color-aviso-on-color-container)',
+      `${vencendoCount} lançamento${vencendoCount>1?'s':''} vencendo em 3 dias`,
+      'Toque pra ver os detalhes.', "goToVencendo('vencendo')"));
+
+  (insights || []).forEach(function(ins) {
+    rows.push(notifCenterRow('tips_and_updates', 'var(--md-sys-color-primary-container)', 'var(--md-sys-color-on-primary-container)',
+      ins.title, ins.message + (ins.date ? ' · ' + ins.date : ''), "navigate('insights')"));
+  });
+
+  el.innerHTML = rows.length
+    ? '<div class="d-flex flex-column" style="gap:12px">' + rows.join('') + '</div>'
+    : '<div class="text-muted small text-center py-5 fst-italic">Nenhuma notificação no momento.</div>';
 }
 
 /* ─────────────── TELA DE INSIGHTS ─────────────── */

@@ -47,6 +47,7 @@ $csrfToken = csrfToken();
     <?php include 'partials/screen-listing.php'; ?>
     <?php include 'partials/screen-vencendo.php'; ?>
     <?php include 'partials/screen-insights.php'; ?>
+    <?php include 'partials/screen-notif-center.php'; ?>
     <?php include 'partials/screen-form.php'; ?>
     <?php include 'partials/screen-cats.php'; ?>
     <?php include 'partials/screen-cat-group.php'; ?>
