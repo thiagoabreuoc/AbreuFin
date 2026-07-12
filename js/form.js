@@ -592,7 +592,7 @@ function onRepetirChange() {
 
 function getRepetirCount() {
   const n = parseInt(document.getElementById('f-repetir-count').value, 10);
-  return Math.min(36, Math.max(1, n || 3));
+  return Math.min(60, Math.max(1, n || 3));
 }
 
 function getActivePill() {

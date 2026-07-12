@@ -92,7 +92,7 @@
       </div>
       <div class="d-flex align-items-center gap-2 mt-3 d-none" id="repetir-count-wrap">
         <label class="small text-secondary mb-0" for="f-repetir-count">Repetir por</label>
-        <input type="number" class="form-control form-control-sm text-center" id="f-repetir-count" min="1" max="36" value="3" style="width:60px">
+        <input type="number" class="form-control form-control-sm text-center" id="f-repetir-count" min="1" max="60" value="3" style="width:60px">
         <span class="small text-secondary" id="repetir-count-unit">meses</span>
       </div>
     </fieldset>

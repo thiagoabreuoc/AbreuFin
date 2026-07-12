@@ -44,7 +44,7 @@ if ($method === 'POST') {
     if (isset($REPETIR_INTERVALS[$entry['repetir']])) {
         // repeat_count é o TOTAL de ocorrências (já contando a primeira/atual),
         // não "quantas a mais" — daí gerar total-1 lançamentos adicionais.
-        $total = max(1, min(36, (int)($body['repeat_count'] ?? 3)));
+        $total = max(1, min(60, (int)($body['repeat_count'] ?? 3)));
         $additional = $total - 1;
         $firstId = insertEntry($pdo, $userId, $entry, 1, $total);
         $pdo->prepare('UPDATE entries SET repeat_group_id=? WHERE id=?')->execute([$firstId, $firstId]);
@@ -86,7 +86,7 @@ if ($method === 'PUT') {
 
     if ($groupId && isset($body['repeat_count']) && isset($REPETIR_INTERVALS[$entry['repetir']])) {
         $oldTotal = (int)$current['repeat_total'];
-        $newTotal = max(1, min(36, (int)$body['repeat_count']));
+        $newTotal = max(1, min(60, (int)$body['repeat_count']));
 
         if ($newTotal > $oldTotal) {
             $lastStmt = $pdo->prepare('SELECT dd, mm, yyyy FROM entries WHERE repeat_group_id=? AND user_id=? ORDER BY repeat_index DESC LIMIT 1');
