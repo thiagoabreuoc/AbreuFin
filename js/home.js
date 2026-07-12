@@ -4,14 +4,33 @@
 let homeTab = 'anos';
 let homeMonth = new Date().getMonth();
 let homeYear = new Date().getFullYear();
-let dismissedBanners = { vencido: false, vencendo: false, insights: false };
+let dismissedBanners = { vencido: false, vencendo: false };
 
 let _areaYs  = null;
 let _areaXs  = null;
 let _areaRaf = null;
 
+// Insights dispensados ficam guardados no localStorage (por conteúdo, não só
+// por sessão) — o banner só reaparece se surgir um insight com conteúdo novo,
+// nunca visto antes, mesmo depois de recarregar a página.
+function insightSignature(ins) { return ins.key + '|' + ins.message; }
+function getDismissedInsightSignatures() {
+  try { return JSON.parse(localStorage.getItem('dismissedInsightSignatures') || '[]'); } catch (e) { return []; }
+}
+function hasUndismissedInsight() {
+  if (!insights || !insights.length) return false;
+  const dismissed = getDismissedInsightSignatures();
+  return insights.some(ins => !dismissed.includes(insightSignature(ins)));
+}
+
 function dismissBanner(kind) {
-  dismissedBanners[kind] = true;
+  if (kind === 'insights') {
+    const dismissed = getDismissedInsightSignatures();
+    const merged = Array.from(new Set(dismissed.concat(insights.map(insightSignature))));
+    localStorage.setItem('dismissedInsightSignatures', JSON.stringify(merged));
+  } else {
+    dismissedBanners[kind] = true;
+  }
   const el = document.getElementById('banner-'+kind);
   if (el) el.remove();
 }
@@ -443,7 +462,7 @@ function renderBanners() {
   }).length;
 
   let banners = '';
-  if (insights && insights.length && !dismissedBanners.insights)
+  if (hasUndismissedInsight())
     banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-insights" style="background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);max-height:60px;cursor:pointer" onclick="navigate('insights')">
       <span class="small d-flex align-items-center gap-2"><span class="material-symbols-outlined" style="font-size:1.1rem;flex-shrink:0">tips_and_updates</span>Novos insights financeiros.</span>
       <button type="button" class="btn btn-link p-0" style="color:inherit;line-height:0" onclick="event.stopPropagation();dismissBanner('insights')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
@@ -518,6 +537,7 @@ function renderInsightsScreen() {
         <div>
           <div class="fw-semibold mb-1">${escapeHtml(ins.title)}</div>
           <div class="text-secondary small">${escapeHtml(ins.message)}</div>
+          ${ins.date ? `<div class="text-secondary small mt-1" style="opacity:.7">${escapeHtml(ins.date)}</div>` : ''}
         </div>
       </div>
     </div>`;

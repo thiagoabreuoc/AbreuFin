@@ -88,6 +88,10 @@ function computeInsights(array $entries): array {
         }
     }
 
+    $todayLabel = $today->format('d/m/Y');
+    foreach ($insights as &$ins) { $ins['date'] = $todayLabel; }
+    unset($ins);
+
     return $insights;
 }
 

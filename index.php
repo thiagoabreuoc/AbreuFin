@@ -223,6 +223,7 @@ $csrfToken = csrfToken();
     <a href="#" class="drawer-item" onclick="openListing('receita');closeDrawer();return false;"><span class="material-symbols-outlined">arrow_downward</span>Receitas</a>
     <a href="#" class="drawer-item" onclick="openListing('despesa');closeDrawer();return false;"><span class="material-symbols-outlined">arrow_upward</span>Despesas</a>
     <a href="#" class="drawer-item" onclick="openListing('investimento');closeDrawer();return false;"><span class="material-symbols-outlined">trending_up</span>Investimentos</a>
+    <a href="#" class="drawer-item" onclick="navigate('insights');closeDrawer();return false;"><span class="material-symbols-outlined">tips_and_updates</span>Insights financeiros</a>
   </div>
 
 </div><!-- /.app -->
