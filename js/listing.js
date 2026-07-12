@@ -183,9 +183,10 @@ function renderListing() {
     const title = cap(escapeHtml(e.subcategoria||e.categoria));
     const sub   = cap(escapeHtml(e.categoria));
     const rep   = e.repetir ? `<div class="text-secondary small" style="margin-top:6px"><span class="material-symbols-outlined me-1" style="font-size:.9rem;vertical-align:-2px">repeat</span>${cap(escapeHtml(e.repetir))}</div>` : '';
+    const repeatCount = e.repeat_total > 0 ? ` <span class="text-secondary fw-normal" style="font-size:.65rem">${e.repeat_index}/${e.repeat_total}</span>` : '';
     return `<li class="list-group-item cat-row-card d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer">
       <div>
-        <div class="fw-semibold small">${title}</div>
+        <div class="fw-semibold small">${title}${repeatCount}</div>
         <div class="text-secondary small" style="margin-top:6px">${sub}</div>
         ${rep}
       </div>

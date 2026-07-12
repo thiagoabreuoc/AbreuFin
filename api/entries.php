@@ -28,9 +28,9 @@ function validateEntryBody(array $body): array {
     ];
 }
 
-function insertEntry(PDO $pdo, int $userId, array $e): int {
-    $stmt = $pdo->prepare('INSERT INTO entries (user_id, tipo, categoria, subcategoria, valor, dd, mm, yyyy, status, obs, repetir, notif) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
-    $stmt->execute([$userId, $e['tipo'], $e['categoria'], $e['subcategoria'], $e['valor'], $e['dd'], $e['mm'], $e['yyyy'], $e['status'], $e['obs'], $e['repetir'], $e['notif']]);
+function insertEntry(PDO $pdo, int $userId, array $e, int $repeatIndex = 0, int $repeatTotal = 0): int {
+    $stmt = $pdo->prepare('INSERT INTO entries (user_id, tipo, categoria, subcategoria, valor, dd, mm, yyyy, status, obs, repetir, notif, repeat_index, repeat_total) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
+    $stmt->execute([$userId, $e['tipo'], $e['categoria'], $e['subcategoria'], $e['valor'], $e['dd'], $e['mm'], $e['yyyy'], $e['status'], $e['obs'], $e['repetir'], $e['notif'], $repeatIndex, $repeatTotal]);
     return (int)$pdo->lastInsertId();
 }
 
@@ -39,10 +39,12 @@ $REPETIR_INTERVALS = ['semanal' => 'P7D', 'quinzenal' => 'P14D', 'mensal' => 'P1
 if ($method === 'POST') {
     $body = readJsonBody();
     $entry = validateEntryBody($body);
-    $createdIds = [insertEntry($pdo, $userId, $entry)];
 
     if (isset($REPETIR_INTERVALS[$entry['repetir']])) {
         $count = max(1, min(36, (int)($body['repeat_count'] ?? 3)));
+        $total = $count + 1;
+        $createdIds = [insertEntry($pdo, $userId, $entry, 1, $total)];
+
         $interval = new DateInterval($REPETIR_INTERVALS[$entry['repetir']]);
         $dt = new DateTime(sprintf('%04d-%02d-%02d', $entry['yyyy'], $entry['mm'], $entry['dd']));
         for ($i = 0; $i < $count; $i++) {
@@ -50,8 +52,10 @@ if ($method === 'POST') {
             $next = $entry;
             $next['dd'] = (int)$dt->format('d'); $next['mm'] = (int)$dt->format('m'); $next['yyyy'] = (int)$dt->format('Y');
             $next['status'] = 'pendente';
-            $createdIds[] = insertEntry($pdo, $userId, $next);
+            $createdIds[] = insertEntry($pdo, $userId, $next, $i + 2, $total);
         }
+    } else {
+        $createdIds = [insertEntry($pdo, $userId, $entry)];
     }
 
     jsonResponse(['ok' => true, 'ids' => $createdIds]);

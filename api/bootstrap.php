@@ -39,7 +39,7 @@ foreach ($stmt->fetchAll() as $row) {
     ];
 }
 
-$stmt = $pdo->prepare('SELECT id, tipo, categoria, subcategoria, valor, dd, mm, yyyy, status, obs, repetir, notif FROM entries WHERE user_id = ? ORDER BY yyyy, mm, dd');
+$stmt = $pdo->prepare('SELECT id, tipo, categoria, subcategoria, valor, dd, mm, yyyy, status, obs, repetir, notif, repeat_index, repeat_total FROM entries WHERE user_id = ? ORDER BY yyyy, mm, dd');
 $stmt->execute([$userId]);
 $entries = array_map(function ($e) {
     $e['id'] = (int)$e['id'];
@@ -48,6 +48,8 @@ $entries = array_map(function ($e) {
     $e['mm'] = (int)$e['mm'];
     $e['yyyy'] = (int)$e['yyyy'];
     $e['notif'] = (bool)$e['notif'];
+    $e['repeat_index'] = (int)$e['repeat_index'];
+    $e['repeat_total'] = (int)$e['repeat_total'];
     return $e;
 }, $stmt->fetchAll());
 

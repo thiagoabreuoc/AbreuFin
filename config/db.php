@@ -63,8 +63,16 @@ function migrate(PDO $pdo): void {
         status TEXT NOT NULL,
         obs TEXT NOT NULL DEFAULT '',
         repetir TEXT NOT NULL DEFAULT '',
-        notif INTEGER NOT NULL DEFAULT 0
+        notif INTEGER NOT NULL DEFAULT 0,
+        repeat_index INTEGER NOT NULL DEFAULT 0,
+        repeat_total INTEGER NOT NULL DEFAULT 0
     )");
+
+    $entryCols = array_column($pdo->query("PRAGMA table_info(entries)")->fetchAll(), 'name');
+    if (!in_array('repeat_index', $entryCols, true))
+        $pdo->exec("ALTER TABLE entries ADD COLUMN repeat_index INTEGER NOT NULL DEFAULT 0");
+    if (!in_array('repeat_total', $entryCols, true))
+        $pdo->exec("ALTER TABLE entries ADD COLUMN repeat_total INTEGER NOT NULL DEFAULT 0");
 
     $pdo->exec("CREATE TABLE IF NOT EXISTS rate_limits (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
