@@ -41,18 +41,22 @@ if ($method === 'POST') {
     $entry = validateEntryBody($body);
 
     if (isset($REPETIR_INTERVALS[$entry['repetir']])) {
-        $count = max(1, min(36, (int)($body['repeat_count'] ?? 3)));
-        $total = $count + 1;
+        // repeat_count é o TOTAL de ocorrências (já contando a primeira/atual),
+        // não "quantas a mais" — daí gerar total-1 lançamentos adicionais.
+        $total = max(1, min(36, (int)($body['repeat_count'] ?? 3)));
+        $additional = $total - 1;
         $createdIds = [insertEntry($pdo, $userId, $entry, 1, $total)];
 
-        $interval = new DateInterval($REPETIR_INTERVALS[$entry['repetir']]);
-        $dt = new DateTime(sprintf('%04d-%02d-%02d', $entry['yyyy'], $entry['mm'], $entry['dd']));
-        for ($i = 0; $i < $count; $i++) {
-            $dt->add($interval);
-            $next = $entry;
-            $next['dd'] = (int)$dt->format('d'); $next['mm'] = (int)$dt->format('m'); $next['yyyy'] = (int)$dt->format('Y');
-            $next['status'] = 'pendente';
-            $createdIds[] = insertEntry($pdo, $userId, $next, $i + 2, $total);
+        if ($additional > 0) {
+            $interval = new DateInterval($REPETIR_INTERVALS[$entry['repetir']]);
+            $dt = new DateTime(sprintf('%04d-%02d-%02d', $entry['yyyy'], $entry['mm'], $entry['dd']));
+            for ($i = 0; $i < $additional; $i++) {
+                $dt->add($interval);
+                $next = $entry;
+                $next['dd'] = (int)$dt->format('d'); $next['mm'] = (int)$dt->format('m'); $next['yyyy'] = (int)$dt->format('Y');
+                $next['status'] = 'pendente';
+                $createdIds[] = insertEntry($pdo, $userId, $next, $i + 2, $total);
+            }
         }
     } else {
         $createdIds = [insertEntry($pdo, $userId, $entry)];
