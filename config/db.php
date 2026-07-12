@@ -65,7 +65,8 @@ function migrate(PDO $pdo): void {
         repetir TEXT NOT NULL DEFAULT '',
         notif INTEGER NOT NULL DEFAULT 0,
         repeat_index INTEGER NOT NULL DEFAULT 0,
-        repeat_total INTEGER NOT NULL DEFAULT 0
+        repeat_total INTEGER NOT NULL DEFAULT 0,
+        repeat_group_id INTEGER NOT NULL DEFAULT 0
     )");
 
     $entryCols = array_column($pdo->query("PRAGMA table_info(entries)")->fetchAll(), 'name');
@@ -73,6 +74,8 @@ function migrate(PDO $pdo): void {
         $pdo->exec("ALTER TABLE entries ADD COLUMN repeat_index INTEGER NOT NULL DEFAULT 0");
     if (!in_array('repeat_total', $entryCols, true))
         $pdo->exec("ALTER TABLE entries ADD COLUMN repeat_total INTEGER NOT NULL DEFAULT 0");
+    if (!in_array('repeat_group_id', $entryCols, true))
+        $pdo->exec("ALTER TABLE entries ADD COLUMN repeat_group_id INTEGER NOT NULL DEFAULT 0");
 
     $pdo->exec("CREATE TABLE IF NOT EXISTS rate_limits (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -237,6 +237,7 @@ function openEdit(id) {
   setDataField(String(e.dd).padStart(2,'0'), String(e.mm).padStart(2,'0'), e.yyyy);
   document.getElementById('f-obs').value=e.obs;
   setRepetirField(e.repetir);
+  if (e.repeat_total > 0) document.getElementById('f-repetir-count').value = e.repeat_total;
   const pill=document.getElementById('status-'+e.status);
   if (pill) pill.checked=true;
   else { const first=document.querySelector('#status-pills input'); if (first) first.checked=true; }
@@ -577,9 +578,15 @@ const REPETIR_COUNT_UNIT = { semanal: 'semanas', quinzenal: 'quinzenas', mensal:
 function onRepetirChange() {
   const val = getActiveRepetir();
   const wrap = document.getElementById('repetir-count-wrap');
-  // só faz sentido escolher quantas vezes repetir na criação — editar um
-  // lançamento existente não gera novas ocorrências futuras
-  wrap.classList.toggle('d-none', !val || !!editingId);
+  // ao criar, sempre pode escolher quantas vezes repetir. Ao editar, só faz
+  // sentido mexer na quantidade se o lançamento já fizer parte de uma série
+  // recorrente (tem repeat_group_id) — senão não há série pra ajustar.
+  let showCount = !!val;
+  if (editingId) {
+    const e = entries.find(x => x.id === editingId);
+    showCount = showCount && !!(e && e.repeat_group_id);
+  }
+  wrap.classList.toggle('d-none', !showCount);
   document.getElementById('repetir-count-unit').textContent = REPETIR_COUNT_UNIT[val] || 'vezes';
 }
 
@@ -626,14 +633,20 @@ async function saveEntry() {
       categories[tipo].push(data.category);
     } catch(_) {}
   }
-  const repeatCount = (repetir && !editingId) ? getRepetirCount() : undefined;
+  const editingEntry = editingId ? entries.find(x => x.id === editingId) : null;
+  const isGroupEdit = !!(editingEntry && editingEntry.repeat_group_id);
+  const repeatCount = repetir && (!editingId || isGroupEdit) ? getRepetirCount() : undefined;
   const entry={tipo,categoria,subcategoria,valor,dd,mm,yyyy,status,obs:document.getElementById('f-obs').value,repetir,repeat_count:repeatCount,notif:false};
 
   try {
     let newId = null;
     if (editingId) {
-      await apiUpdateEntry(editingId, entry);
-      showToast('Lançamento atualizado.','success');
+      const res = await apiUpdateEntry(editingId, entry);
+      if (isGroupEdit && res.repeat_adjust_blocked) {
+        showToast(`Lançamento atualizado, mas só foi possível reduzir para ${res.repeat_total}x (as demais ocorrências já estão confirmadas).`, 'error');
+      } else {
+        showToast('Lançamento atualizado.','success');
+      }
       newId = editingId; // fixa o card editado na primeira posição da listagem, igual ao criado
     } else {
       // recorrências mensal/anual são geradas no servidor (api/entries.php)
