@@ -88,6 +88,23 @@ function computeInsights(array $entries): array {
         }
     }
 
+    // Regra 4: boa economia no mês — saldo positivo relevante frente à receita
+    // (contraponto "positivo" à regra 1, que só alerta quando o saldo é ruim).
+    if ($curReceitaTotal >= 100 && $curReceitaTotal > $curDespesaTotal) {
+        $saldo = $curReceitaTotal - $curDespesaTotal;
+        $pct = $saldo / $curReceitaTotal;
+        if ($pct >= 0.2) {
+            $insights[] = [
+                'key'     => 'good_savings',
+                'title'   => 'Boa economia',
+                'message' => sprintf(
+                    'Você guardou %d%% da sua renda confirmada este mês (R$ %s de R$ %s). Continue assim!',
+                    (int)round($pct * 100), insightFmt($saldo), insightFmt($curReceitaTotal)
+                ),
+            ];
+        }
+    }
+
     $todayLabel = $today->format('d/m/Y');
     foreach ($insights as &$ins) { $ins['date'] = $todayLabel; }
     unset($ins);
