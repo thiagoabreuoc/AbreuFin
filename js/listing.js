@@ -160,7 +160,7 @@ function getListingEntries() {
 
 const DUE_RANK_CLASS = {vencido:'m3-badge-small-error', vencendo:'m3-badge-small-warning', neutro:'m3-badge-small-neutral'};
 function dueBadge(e) {
-  if (!['a_pagar','a_receber'].includes(entryStatus(e))) return '';
+  if (!['a_pagar','a_receber','a_investir'].includes(entryStatus(e))) return '';
   const r = dueRank(e);
   return `<span class="m3-badge-small ${DUE_RANK_CLASS[r]}" style="margin-left:4px"></span>`;
 }

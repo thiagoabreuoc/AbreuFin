@@ -6,22 +6,23 @@ function goToVencendo(mode='vencendo') {
   const sub = document.getElementById('vencendo-subtitle');
   const badge = document.getElementById('vencendo-badge');
   const today2 = new Date(); today2.setHours(0,0,0,0);
+  const isPending = e => ['a_pagar','a_receber','a_investir'].includes(entryStatus(e));
   if (mode === 'vencido') {
     if (badge) { badge.className = 'badge status-cell status-cell-despesa'; badge.textContent = 'Vencidas'; }
     const count = entries.filter(e => {
-      if (e.tipo!=='despesa'||e.status!=='pendente') return false;
+      if (!isPending(e)) return false;
       const d=new Date(e.yyyy,e.mm-1,e.dd); d.setHours(0,0,0,0);
       return d < today2;
     }).length;
-    if (sub) sub.textContent = count > 0 ? `${count} despesa${count!==1?'s':''}` : '0 despesas';
+    if (sub) sub.textContent = count > 0 ? `${count} lançamento${count!==1?'s':''}` : '0 lançamentos';
   } else {
     if (badge) { badge.className = 'badge status-cell status-cell-warning'; badge.textContent = 'Vencendo'; }
     const count = entries.filter(e => {
-      if (e.tipo!=='despesa'||e.status!=='pendente') return false;
+      if (!isPending(e)) return false;
       const d=new Date(e.yyyy,e.mm-1,e.dd); d.setHours(0,0,0,0);
       return d >= today2 && d <= new Date(today2.getTime()+3*86400000);
     }).length;
-    if (sub) sub.textContent = count > 0 ? `${count} despesa${count!==1?'s':''}` : '0 despesas';
+    if (sub) sub.textContent = count > 0 ? `${count} lançamento${count!==1?'s':''}` : '0 lançamentos';
   }
   showScreen('vencendo');
   updateVencendoSortBtns();
@@ -47,7 +48,7 @@ function renderVencendo() {
   const in3   = new Date(today); in3.setDate(today.getDate()+3);
   const mode  = window._vMode || 'vencendo';
   const list  = entries.filter(e => {
-    if (e.tipo !== 'despesa' || e.status !== 'pendente') return false;
+    if (!['a_pagar','a_receber','a_investir'].includes(entryStatus(e))) return false;
     const d = new Date(e.yyyy, e.mm-1, e.dd); d.setHours(0,0,0,0);
     return mode === 'vencido' ? d < today : d >= today && d <= in3;
   }).sort((a,b) => {
@@ -60,7 +61,7 @@ function renderVencendo() {
 
   const el = document.getElementById('vencendo-entries');
   if (!list.length) {
-    el.innerHTML = `<li class="list-group-item text-center text-secondary small py-5 border-0" style="border-radius:var(--md-sys-shape-corner-medium)">Nenhuma despesa vencida ou a vencer. Tudo em dia!</li>`;
+    el.innerHTML = `<li class="list-group-item text-center text-secondary small py-5 border-0" style="border-radius:var(--md-sys-shape-corner-medium)">Nenhum lançamento vencido ou a vencer. Tudo em dia!</li>`;
     return;
   }
   const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
@@ -71,7 +72,7 @@ function renderVencendo() {
         <div class="text-secondary small" style="margin-top:4px">${cap(escapeHtml(e.categoria))}</div>
       </div>
       <div class="text-end">
-        <span class="badge status-cell status-cell-neutral mb-1">A pagar</span>
+        <span class="badge status-cell status-cell-neutral mb-1">${statusLabel(entryStatus(e))}</span>
         <div class="fw-semibold small">${fmt(e.valor)}</div>
         <div class="text-secondary small">${String(e.dd).padStart(2,'0')}/${String(e.mm).padStart(2,'0')}/${e.yyyy}${dueBadge(e)}</div>
       </div></li>`).join('');

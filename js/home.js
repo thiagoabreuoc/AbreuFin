@@ -450,13 +450,14 @@ function buildLegendHtml(d) {
 function renderBanners() {
   const today = new Date(); today.setHours(0,0,0,0);
   const in3 = new Date(today); in3.setDate(today.getDate()+3);
+  const isPending = e => ['a_pagar','a_receber','a_investir'].includes(entryStatus(e));
   const vencendoCount = entries.filter(e => {
-    if (e.tipo!=='despesa'||e.status!=='pendente') return false;
+    if (!isPending(e)) return false;
     const d2 = new Date(e.yyyy,e.mm-1,e.dd); d2.setHours(0,0,0,0);
     return d2 >= today && d2 <= in3;
   }).length;
   const vencidoCount = entries.filter(e => {
-    if (e.tipo!=='despesa'||e.status!=='pendente') return false;
+    if (!isPending(e)) return false;
     const d2 = new Date(e.yyyy,e.mm-1,e.dd); d2.setHours(0,0,0,0);
     return d2 < today;
   }).length;
@@ -469,12 +470,12 @@ function renderBanners() {
     </div>`;
   if (vencidoCount > 0 && !dismissedBanners.vencido)
     banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-vencido" style="background:var(--md-sys-color-error-container);color:var(--md-sys-color-on-error-container)">
-      <span class="small" onclick="goToVencendo('vencido')" style="cursor:pointer">${vencidoCount} despesa${vencidoCount>1?'s':''} vencida${vencidoCount>1?'s':''}. <u>Resolver</u></span>
+      <span class="small" onclick="goToVencendo('vencido')" style="cursor:pointer">${vencidoCount} lançamento${vencidoCount>1?'s':''} vencido${vencidoCount>1?'s':''}. <u>Resolver</u></span>
       <button type="button" class="btn btn-link p-0" style="color:inherit;line-height:0" onclick="dismissBanner('vencido')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
     </div>`;
   if (vencendoCount > 0 && !dismissedBanners.vencendo)
     banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-vencendo" style="background:var(--md-extended-color-aviso-color-container);color:var(--md-extended-color-aviso-on-color-container)">
-      <span class="small" onclick="goToVencendo('vencendo')" style="cursor:pointer">${vencendoCount} despesa${vencendoCount>1?'s':''} vencendo em 3 dias. <u>Ver</u></span>
+      <span class="small" onclick="goToVencendo('vencendo')" style="cursor:pointer">${vencendoCount} lançamento${vencendoCount>1?'s':''} vencendo em 3 dias. <u>Ver</u></span>
       <button type="button" class="btn btn-link p-0" style="color:inherit;line-height:0" onclick="dismissBanner('vencendo')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
     </div>`;
   const bannersEl = document.getElementById('home-banners');
