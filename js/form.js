@@ -169,7 +169,9 @@ function populateSubCatFromCat(tipo, catName) {
   const opts = hasCategory ? [...subs, 'outros'] : ['outros'];
   sel.innerHTML = '<option value="">Selecione</option>' +
     opts.map(v => `<option value="${escapeHtml(v)}">${escapeHtml(v === 'outros' ? 'Outros' : v)}</option>`).join('');
-  csStoreOptions('f-subcategoria', opts.map(v => ({value: v, label: v === 'outros' ? 'Outros' : v})));
+  // inclui uma opção em branco na lista pra permitir desmarcar a sub-categoria
+  // depois de escolhida — ela não é obrigatória, o lançamento pode ficar sem.
+  csStoreOptions('f-subcategoria', [{value: '', label: 'Nenhuma'}, ...opts.map(v => ({value: v, label: v === 'outros' ? 'Outros' : v}))]);
   csReset('f-subcategoria');
   document.getElementById('f-subcategoria-custom-wrap').style.display = 'none';
   document.getElementById('f-subcategoria-custom').value = '';
