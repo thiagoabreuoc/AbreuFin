@@ -537,7 +537,9 @@ function renderHome() {
 
 /* ─────────────── CENTRAL DE NOTIFICAÇÕES ─────────────── */
 function notifCenterRow(icon, iconBg, iconColor, title, subtitle, onclick) {
-  return `<div class="list-group-item cat-row-card" style="cursor:pointer" onclick="${onclick}">
+  const cls = onclick ? 'list-group-item cat-row-card' : 'card cat-row-card';
+  const attrs = onclick ? ` style="cursor:pointer" onclick="${onclick}"` : '';
+  return `<div class="${cls}"${attrs}>
     <div class="d-flex gap-3 align-items-start">
       <div class="d-inline-flex align-items-center justify-content-center flex-shrink-0" style="width:40px;height:40px;border-radius:50%;background:${iconBg}">
         <span class="material-symbols-outlined" style="font-size:1.3rem;color:${iconColor}">${icon}</span>
@@ -568,7 +570,7 @@ function renderNotifCenter() {
 
   (insights || []).forEach(function(ins) {
     rows.push(notifCenterRow('tips_and_updates', 'var(--md-sys-color-primary-container)', 'var(--md-sys-color-on-primary-container)',
-      ins.title, ins.message + (ins.date ? ' · ' + ins.date : ''), "navigate('insights')"));
+      ins.title, ins.message + (ins.date ? ' · ' + ins.date : ''), null));
   });
 
   el.innerHTML = rows.length
