@@ -155,6 +155,16 @@ function onCatChange() {
   if (!isOutros) document.getElementById('f-categoria-custom').value = '';
   const tipo = document.getElementById('f-tipo').value;
   populateSubCatFromCat(tipo, val);
+  updateCategoriaGroupHint(tipo, val);
+}
+
+function updateCategoriaGroupHint(tipo, catName) {
+  const el = document.getElementById('f-categoria-group');
+  if (!el) return;
+  const cat = (categories[tipo] || []).find(c => c.name === catName);
+  const group = cat && cat.groupId ? (catGroups[tipo] || []).find(g => g.id === cat.groupId) : null;
+  el.textContent = group ? 'Grupo: ' + group.name : '';
+  el.classList.toggle('d-none', !group);
 }
 
 function populateSubCatFromCat(tipo, catName) {
@@ -247,6 +257,7 @@ function openEdit(id) {
   // populate subcategoria options then restore value
   const resolvedCat=(e.categoria && knownCats.includes(e.categoria)) ? e.categoria : null;
   populateSubCatFromCat(e.tipo, resolvedCat);
+  updateCategoriaGroupHint(e.tipo, resolvedCat);
   const subSel=document.getElementById('f-subcategoria');
   const knownValues=Array.from(subSel.options).map(o=>o.value);
   const subcatWrap=document.getElementById('f-subcategoria-custom-wrap');
@@ -281,6 +292,7 @@ function clearForm() {
   document.getElementById('f-categoria-custom').value='';
   document.getElementById('f-categoria-custom-wrap').style.display='none';
   document.getElementById('f-categoria-save').checked=true;
+  document.getElementById('f-categoria-group').classList.add('d-none');
   document.getElementById('f-subcategoria-custom').value='';
   document.getElementById('f-subcategoria-custom-wrap').style.display='none';
   document.getElementById('f-subcategoria-save').checked=true;

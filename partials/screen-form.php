@@ -21,6 +21,7 @@
     <fieldset class="form-box">
       <legend class="form-box-lbl">Categoria</legend>
       <select class="form-select form-select-borderless" id="f-categoria" onchange="onCatChange()"><option value="">Selecione</option></select>
+      <div class="text-secondary small mt-1 d-none" id="f-categoria-group" style="opacity:.8"></div>
       <div id="f-categoria-custom-wrap" style="display:none" class="mt-2">
         <input type="text" class="form-control" id="f-categoria-custom" placeholder="Digite a categoria">
         <div class="form-check mt-2">
