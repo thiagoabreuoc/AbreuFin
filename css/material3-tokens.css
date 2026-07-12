@@ -16,6 +16,13 @@
 :root{
   color-scheme: light;
 
+  /* Cores fixas e bem saturadas pros indicadores de urgência (bolinha de
+     "vencendo"/"vencido") — os roles error/aviso do M3 são ajustados pra
+     contraste de texto, o que os deixa escurecidos/dessaturados demais
+     pra uma bolinha decorativa pequena. Não variam por tema/seed. */
+  --md-status-dot-warning:#FFC107;
+  --md-status-dot-error:#E53935;
+
   /* ── Cor — tema claro (default) ── */
   --md-sys-color-primary:#415F91;
   --md-sys-color-on-primary:#FFFFFF;

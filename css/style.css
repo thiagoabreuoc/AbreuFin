@@ -117,8 +117,8 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 /* Small badge — https://m3.material.io/components/badges (variante "small",
    só o indicador, sem conteúdo) */
 .m3-badge-small{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;flex-shrink:0}
-.m3-badge-small-error{background:var(--md-sys-color-error)}
-.m3-badge-small-warning{background:var(--md-extended-color-aviso-color)}
+.m3-badge-small-error{background:var(--md-status-dot-error)}
+.m3-badge-small-warning{background:var(--md-status-dot-warning)}
 .m3-badge-small-neutral{background:var(--md-sys-color-outline)}
 
 /* Date picker (M3) — https://m3.material.io/components/date-pickers/overview */
