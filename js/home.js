@@ -552,22 +552,21 @@ function notifCenterRow(icon, iconBg, iconColor, title, subtitle, onclick) {
   </div>`;
 }
 
-let _notifTab = 'vencidas';
+let _notifTab = 'vencimentos';
 function switchNotifTab(tab) {
   _notifTab = tab;
-  ['vencidas','vencendo','insights'].forEach(t => setTabActive(document.getElementById('notif-tab-'+t), t===tab));
+  ['vencimentos','insights'].forEach(t => setTabActive(document.getElementById('notif-tab-'+t), t===tab));
   renderNotifCenter();
 }
 
 function openNotifCenter() {
-  _notifTab = 'vencidas';
-  ['vencidas','vencendo','insights'].forEach(t => setTabActive(document.getElementById('notif-tab-'+t), t==='vencidas'));
+  _notifTab = 'vencimentos';
+  ['vencimentos','insights'].forEach(t => setTabActive(document.getElementById('notif-tab-'+t), t==='vencimentos'));
   renderNotifCenter();
 }
 
 const NOTIF_TAB_EMPTY = {
-  vencidas: 'Nenhum lançamento vencido. Tudo em dia!',
-  vencendo: 'Nenhum lançamento vencendo nos próximos 3 dias.',
+  vencimentos: 'Nenhum lançamento vencido ou a vencer. Tudo em dia!',
   insights: 'Nenhum insight no momento.',
 };
 
@@ -577,15 +576,17 @@ function renderNotifCenter() {
   const { vencendoCount, vencidoCount } = getAlertCounts();
   const rows = [];
 
-  if (_notifTab === 'vencidas' && vencidoCount > 0)
-    rows.push(notifCenterRow('error', 'var(--md-sys-color-error-container)', 'var(--md-sys-color-on-error-container)',
-      `${vencidoCount} lançamento${vencidoCount>1?'s':''} vencido${vencidoCount>1?'s':''}`,
-      'Toque pra ver e resolver.', "goToVencendo('vencido')"));
+  if (_notifTab === 'vencimentos') {
+    if (vencidoCount > 0)
+      rows.push(notifCenterRow('error', 'var(--md-sys-color-error-container)', 'var(--md-sys-color-on-error-container)',
+        `${vencidoCount} lançamento${vencidoCount>1?'s':''} vencido${vencidoCount>1?'s':''}`,
+        'Toque pra ver e resolver.', "goToVencendo('vencido')"));
 
-  if (_notifTab === 'vencendo' && vencendoCount > 0)
-    rows.push(notifCenterRow('event_upcoming', 'var(--md-extended-color-aviso-color-container)', 'var(--md-extended-color-aviso-on-color-container)',
-      `${vencendoCount} lançamento${vencendoCount>1?'s':''} vencendo em 3 dias`,
-      'Toque pra ver os detalhes.', "goToVencendo('vencendo')"));
+    if (vencendoCount > 0)
+      rows.push(notifCenterRow('event_upcoming', 'var(--md-extended-color-aviso-color-container)', 'var(--md-extended-color-aviso-on-color-container)',
+        `${vencendoCount} lançamento${vencendoCount>1?'s':''} vencendo em 3 dias`,
+        'Toque pra ver os detalhes.', "goToVencendo('vencendo')"));
+  }
 
   if (_notifTab === 'insights')
     (insights || []).forEach(function(ins) {

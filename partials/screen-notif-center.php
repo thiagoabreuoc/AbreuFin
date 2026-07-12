@@ -7,8 +7,7 @@
   </div>
   <div class="screen-body p-3">
     <div class="m3-tabs mb-3">
-      <button class="m3-tab active" id="notif-tab-vencidas" onclick="switchNotifTab('vencidas')">Vencidas</button>
-      <button class="m3-tab" id="notif-tab-vencendo" onclick="switchNotifTab('vencendo')">Vencendo</button>
+      <button class="m3-tab active" id="notif-tab-vencimentos" onclick="switchNotifTab('vencimentos')">Vencimentos</button>
       <button class="m3-tab" id="notif-tab-insights" onclick="switchNotifTab('insights')">Insights</button>
     </div>
     <div id="notif-center-body">
