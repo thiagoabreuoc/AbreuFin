@@ -163,7 +163,7 @@ function updateCategoriaGroupHint(tipo, catName) {
   if (!el) return;
   const cat = (categories[tipo] || []).find(c => c.name === catName);
   const group = cat && cat.groupId ? (catGroups[tipo] || []).find(g => g.id === cat.groupId) : null;
-  el.textContent = group ? 'Grupo: ' + group.name : '';
+  el.textContent = group ? group.name : '';
   el.classList.toggle('d-none', !group);
 }
 
