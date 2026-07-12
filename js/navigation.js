@@ -62,6 +62,6 @@ function navigate(id) {
   if (id === 'home') renderHome();
   if (id === 'cats') renderCats();
   if (id === 'insights') renderInsightsScreen();
-  if (id === 'notif-center') renderNotifCenter();
+  if (id === 'notif-center') openNotifCenter();
   if (id === 'profile') { renderProfile(); initThemeToggle(); }
 }

@@ -552,30 +552,50 @@ function notifCenterRow(icon, iconBg, iconColor, title, subtitle, onclick) {
   </div>`;
 }
 
+let _notifTab = 'vencidas';
+function switchNotifTab(tab) {
+  _notifTab = tab;
+  ['vencidas','vencendo','insights'].forEach(t => setTabActive(document.getElementById('notif-tab-'+t), t===tab));
+  renderNotifCenter();
+}
+
+function openNotifCenter() {
+  _notifTab = 'vencidas';
+  ['vencidas','vencendo','insights'].forEach(t => setTabActive(document.getElementById('notif-tab-'+t), t==='vencidas'));
+  renderNotifCenter();
+}
+
+const NOTIF_TAB_EMPTY = {
+  vencidas: 'Nenhum lançamento vencido. Tudo em dia!',
+  vencendo: 'Nenhum lançamento vencendo nos próximos 3 dias.',
+  insights: 'Nenhum insight no momento.',
+};
+
 function renderNotifCenter() {
   const el = document.getElementById('notif-center-body');
   if (!el) return;
   const { vencendoCount, vencidoCount } = getAlertCounts();
   const rows = [];
 
-  if (vencidoCount > 0)
+  if (_notifTab === 'vencidas' && vencidoCount > 0)
     rows.push(notifCenterRow('error', 'var(--md-sys-color-error-container)', 'var(--md-sys-color-on-error-container)',
       `${vencidoCount} lançamento${vencidoCount>1?'s':''} vencido${vencidoCount>1?'s':''}`,
       'Toque pra ver e resolver.', "goToVencendo('vencido')"));
 
-  if (vencendoCount > 0)
+  if (_notifTab === 'vencendo' && vencendoCount > 0)
     rows.push(notifCenterRow('event_upcoming', 'var(--md-extended-color-aviso-color-container)', 'var(--md-extended-color-aviso-on-color-container)',
       `${vencendoCount} lançamento${vencendoCount>1?'s':''} vencendo em 3 dias`,
       'Toque pra ver os detalhes.', "goToVencendo('vencendo')"));
 
-  (insights || []).forEach(function(ins) {
-    rows.push(notifCenterRow('tips_and_updates', 'var(--md-sys-color-primary-container)', 'var(--md-sys-color-on-primary-container)',
-      ins.title, ins.message + (ins.date ? ' · ' + ins.date : ''), null));
-  });
+  if (_notifTab === 'insights')
+    (insights || []).forEach(function(ins) {
+      rows.push(notifCenterRow('tips_and_updates', 'var(--md-sys-color-primary-container)', 'var(--md-sys-color-on-primary-container)',
+        ins.title, ins.message + (ins.date ? ' · ' + ins.date : ''), null));
+    });
 
   el.innerHTML = rows.length
     ? '<div class="d-flex flex-column" style="gap:12px">' + rows.join('') + '</div>'
-    : '<div class="text-muted small text-center py-5 fst-italic">Nenhuma notificação no momento.</div>';
+    : `<div class="text-muted small text-center py-5 fst-italic">${NOTIF_TAB_EMPTY[_notifTab]}</div>`;
 }
 
 /* ─────────────── TELA DE INSIGHTS ─────────────── */
