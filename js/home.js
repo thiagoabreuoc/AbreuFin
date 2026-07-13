@@ -167,11 +167,11 @@ function selectMonth(i) {
   });
   updateNovoBtn();
   if (homeTab === 'meses' && document.getElementById('chart-bars-svg')) {
-    const d = getMonthTotals(homeMonth);
-    renderBanners();
-    animateBarsTo(d);
-    document.getElementById('home-legend').innerHTML = buildLegendHtml(d);
+    // gráfico de barras só considera lançamentos confirmados, igual ao saldo
     const dc = getConfirmedTotals(homeMonth);
+    renderBanners();
+    animateBarsTo(dc);
+    document.getElementById('home-legend').innerHTML = buildLegendHtml(dc);
     const saldo = dc.receita - dc.despesa - dc.investimento;
     const sv = document.getElementById('home-saldo-val');
     if (sv) sv.textContent = fmt(saldo);
@@ -398,7 +398,7 @@ function buildSubLabels(d) {
   if (homeTab === 'meses') {
     const prevMonth = homeMonth === 0 ? 11 : homeMonth - 1;
     const prevYear  = homeMonth === 0 ? homeYear - 1 : homeYear;
-    const prev = getMonthTotals(prevMonth, prevYear);
+    const prev = getConfirmedTotals(prevMonth, prevYear);
     const faint = cssVar('--md-sys-color-outline');
     if (prev.receita > 0) {
       const pct = ((d.receita - prev.receita) / prev.receita) * 100;
@@ -500,7 +500,9 @@ function renderBanners() {
 
 function renderHome() {
   const yr = homeTab==='anos' ? homeYear : new Date().getFullYear();
-  const d = homeTab==='meses' ? getMonthTotals(homeMonth) : getYearTotals(yr);
+  const dc = homeTab==='meses' ? getConfirmedTotals(homeMonth) : getConfirmedYearTotals(yr);
+  // gráfico de barras (mensal) só considera lançamentos confirmados, igual ao saldo
+  const d = homeTab==='meses' ? dc : getYearTotals(yr);
   renderBanners();
 
   let chartData, chartLabels;
@@ -513,7 +515,6 @@ function renderHome() {
     chartLabels = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
   }
 
-  const dc = homeTab==='meses' ? getConfirmedTotals(homeMonth) : getConfirmedYearTotals(yr);
   const saldo = dc.receita - dc.despesa - dc.investimento;
   const periodoLabel = homeTab==='meses' ? `${MONTHS_FULL[homeMonth]} ${homeYear}` : String(homeYear);
   const chart = homeTab==='meses' ? buildBarChart(d) : buildAreaChart(chartData, chartLabels);
