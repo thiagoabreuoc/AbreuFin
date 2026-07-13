@@ -21,6 +21,14 @@
     <div class="no-scrollbar" style="display:none;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px;margin-left:8px;margin-right:8px;justify-content:center" id="year-strip"></div>
     <div class="no-scrollbar" style="display:none;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px;margin-left:8px;margin-right:8px" id="month-strip"></div>
 
+    <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+      <span class="small" id="value-mode-label-off">Confirmado</span>
+      <div class="form-check form-switch mb-0">
+        <input class="form-check-input" type="checkbox" id="home-value-mode-toggle" role="switch" onchange="onHomeValueModeChange()">
+      </div>
+      <span class="small text-secondary" id="value-mode-label-on">Todos</span>
+    </div>
+
     <div id="home-summary"></div>
 
   </div>

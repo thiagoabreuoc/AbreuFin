@@ -6,6 +6,21 @@ let homeMonth = new Date().getMonth();
 let homeYear = new Date().getFullYear();
 let dismissedBanners = { vencido: false, vencendo: false };
 
+// Modo de entendimento dos valores da Home: "confirmado" (padrão) só soma
+// o que já foi pago/recebido/investido; "todos" soma tudo, independente
+// do status. Afeta saldo, gráficos (mensal e anual) e comparações.
+let homeValueMode = 'confirmado';
+function onHomeValueModeChange() {
+  homeValueMode = document.getElementById('home-value-mode-toggle').checked ? 'todos' : 'confirmado';
+  renderHome();
+}
+function homeMonthTotals(month, year) {
+  return homeValueMode === 'todos' ? getMonthTotals(month, year) : getConfirmedTotals(month, year);
+}
+function homeYearTotals(year) {
+  return homeValueMode === 'todos' ? getYearTotals(year) : getConfirmedYearTotals(year);
+}
+
 let _areaYs  = null;
 let _areaXs  = null;
 let _areaRaf = null;
@@ -167,8 +182,7 @@ function selectMonth(i) {
   });
   updateNovoBtn();
   if (homeTab === 'meses' && document.getElementById('chart-bars-svg')) {
-    // gráfico de barras só considera lançamentos confirmados, igual ao saldo
-    const dc = getConfirmedTotals(homeMonth);
+    const dc = homeMonthTotals(homeMonth);
     renderBanners();
     animateBarsTo(dc);
     document.getElementById('home-legend').innerHTML = buildLegendHtml(dc);
@@ -317,11 +331,8 @@ function animateAreaTo(targetData) {
 
 function updateYearView() {
   const yr = homeYear;
-  const chartData = Array.from({length:12}, (_, m) =>
-    entries.filter(e => e.mm-1===m && e.yyyy===yr)
-      .reduce((a,e)=>{ a[e.tipo]=(a[e.tipo]||0)+e.valor; return a; },{receita:0,despesa:0,investimento:0})
-  );
-  const d = getYearTotals(yr);
+  const chartData = Array.from({length:12}, (_, m) => homeMonthTotals(m, yr));
+  const d = homeYearTotals(yr);
   renderBanners();
   animateAreaTo(chartData);
   document.getElementById('home-legend').innerHTML = buildLegendHtml(d);
@@ -398,7 +409,7 @@ function buildSubLabels(d) {
   if (homeTab === 'meses') {
     const prevMonth = homeMonth === 0 ? 11 : homeMonth - 1;
     const prevYear  = homeMonth === 0 ? homeYear - 1 : homeYear;
-    const prev = getConfirmedTotals(prevMonth, prevYear);
+    const prev = homeMonthTotals(prevMonth, prevYear);
     const faint = cssVar('--md-sys-color-outline');
     if (prev.receita > 0) {
       const pct = ((d.receita - prev.receita) / prev.receita) * 100;
@@ -413,7 +424,7 @@ function buildSubLabels(d) {
     }
   } else if (homeTab === 'anos') {
     const faint = cssVar('--md-sys-color-outline');
-    const prev = getYearTotals(homeYear - 1);
+    const prev = homeYearTotals(homeYear - 1);
     const hasPrev = prev.receita + prev.despesa + prev.investimento > 0;
     TIPOS.forEach(tipo => {
       if (prev[tipo] > 0) {
@@ -500,18 +511,14 @@ function renderBanners() {
 
 function renderHome() {
   const yr = homeTab==='anos' ? homeYear : new Date().getFullYear();
-  const dc = homeTab==='meses' ? getConfirmedTotals(homeMonth) : getConfirmedYearTotals(yr);
-  // gráfico de barras (mensal) só considera lançamentos confirmados, igual ao saldo
-  const d = homeTab==='meses' ? dc : getYearTotals(yr);
+  const dc = homeTab==='meses' ? homeMonthTotals(homeMonth) : homeYearTotals(yr);
+  const d = dc;
   renderBanners();
 
   let chartData, chartLabels;
   if (homeTab === 'anos') {
     const yr = homeYear;
-    chartData = Array.from({length:12}, (_, m) =>
-      entries.filter(e => e.mm-1===m && e.yyyy===yr)
-        .reduce((a,e)=>{ a[e.tipo]=(a[e.tipo]||0)+e.valor; return a; },{receita:0,despesa:0,investimento:0})
-    );
+    chartData = Array.from({length:12}, (_, m) => homeMonthTotals(m, yr));
     chartLabels = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
   }
 
