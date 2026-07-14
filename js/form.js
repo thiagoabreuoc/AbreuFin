@@ -146,13 +146,15 @@ function populateCatOptions(tipo) {
   const outros=document.createElement('option'); outros.value='Outros'; outros.textContent='Outros'; catSel.appendChild(outros);
   csStoreOptions('f-categoria', [...cats.map(c=>({value:c.name, label:c.name})), {value:'Outros', label:'Outros'}]);
   csReset('f-categoria');
+  const groupOpts = document.getElementById('f-categoria-group-options');
+  if (groupOpts) groupOpts.innerHTML = (catGroups[tipo]||[]).map(g => `<option value="${escapeHtml(g.name)}">`).join('');
 }
 
 function onCatChange() {
   const val = document.getElementById('f-categoria').value;
   const isOutros = val === 'Outros';
   document.getElementById('f-categoria-custom-wrap').style.display = isOutros ? 'block' : 'none';
-  if (!isOutros) document.getElementById('f-categoria-custom').value = '';
+  if (!isOutros) { document.getElementById('f-categoria-custom').value = ''; document.getElementById('f-categoria-custom-group').value = ''; }
   const tipo = document.getElementById('f-tipo').value;
   populateSubCatFromCat(tipo, val);
   updateCategoriaGroupHint(tipo, val);
@@ -274,12 +276,13 @@ function openEdit(id) {
     subcatWrap.style.display='none';
     customInp.value='';
   }
+  openCatAccordion(); // editando um lançamento existente: mostra a categoria/sub-categoria já definidas
   showScreen('form');
 }
 
 const TIPO_TAB_COLOR_CLASS = {receita:'status-cell-receita', despesa:'status-cell-despesa', investimento:'status-cell-investimento'};
 function clearForm() {
-  ['f-tipo','f-categoria','f-subcategoria','f-obs'].forEach(id=>{ document.getElementById(id).value=''; });
+  ['f-tipo','f-categoria','f-subcategoria','f-obs','f-ai-input'].forEach(id=>{ document.getElementById(id).value=''; });
   TIPO_TABS.forEach(t => {
     const btn = document.getElementById('tab-tipo-' + t);
     if (btn) btn.className = 'badge status-cell status-cell-white d-inline-flex align-items-center';
@@ -291,6 +294,7 @@ function clearForm() {
   const _swrap = document.getElementById('subcategoria-wrap');
   if (_swrap) { _swrap.style.opacity = '0.45'; _swrap.style.pointerEvents = 'none'; }
   document.getElementById('f-categoria-custom').value='';
+  document.getElementById('f-categoria-custom-group').value='';
   document.getElementById('f-categoria-custom-wrap').style.display='none';
   document.getElementById('f-categoria-save').checked=true;
   document.getElementById('f-categoria-group').classList.add('d-none');
@@ -306,6 +310,8 @@ function clearForm() {
   document.getElementById('f-mm').value='';
   document.getElementById('f-yyyy').value='';
   renderStatusPills('');
+  hideAiSuggestion();
+  closeCatAccordion();
 }
 
 function onDataInput(el) {
@@ -629,7 +635,9 @@ async function saveEntry() {
   const categoria=rawCat==='Outros' ? (customCat||'Outros') : rawCat;
   if (rawCat==='Outros' && customCat && document.getElementById('f-categoria-save').checked) {
     try {
-      const data=await apiCreateCategory(tipo, customCat, '📌');
+      const customGroup = document.getElementById('f-categoria-custom-group').value.trim();
+      const groupId = customGroup ? await aiEnsureGroup(tipo, customGroup) : await aiEnsureGroup(tipo, 'Outros');
+      const data=await apiCreateCategory(tipo, customCat, '📌', groupId);
       categories[tipo].push(data.category);
     } catch(_) {}
   }
