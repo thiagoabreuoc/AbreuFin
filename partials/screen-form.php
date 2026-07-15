@@ -8,7 +8,7 @@
   <div class="screen-body p-3">
 
     <!-- Tipo: tabs -->
-    <div class="d-flex justify-content-center gap-2 mb-3">
+    <div class="d-flex justify-content-center gap-2" style="margin-bottom:28px">
       <button class="badge status-cell status-cell-white d-inline-flex align-items-center" style="gap:8px" id="tab-tipo-receita"      onclick="setTipo('receita')"      ><span class="material-symbols-outlined" style="font-size:1rem">arrow_upward</span>Receita</button>
       <button class="badge status-cell status-cell-white d-inline-flex align-items-center" style="gap:8px" id="tab-tipo-despesa"      onclick="setTipo('despesa')"      ><span class="material-symbols-outlined" style="font-size:1rem">arrow_downward</span>Despesa</button>
       <button class="badge status-cell status-cell-white d-inline-flex align-items-center" style="gap:8px" id="tab-tipo-investimento" onclick="setTipo('investimento')" ><span class="material-symbols-outlined" style="font-size:1rem">trending_up</span>Investimento</button>
