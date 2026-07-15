@@ -15,6 +15,7 @@
   direction:ltr;
   -webkit-font-smoothing:antialiased;
   vertical-align:middle;
+  font-variation-settings:'opsz' 24,'wght' 400,'FILL' 0,'GRAD' 0;
 }
 
 /* ── Remapeamento das CSS vars do Bootstrap para os tokens M3 ── */
@@ -176,6 +177,7 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 .fab-main-btn:active{box-shadow:var(--md-sys-elevation-level4)}
 #btn-novo-wrap.fab-open .fab-main-btn{transform:rotate(45deg);background:var(--md-sys-color-primary);color:var(--md-sys-color-on-primary)}
 #btn-novo-wrap.fab-open{background:none!important}
+.fab-main-btn .material-symbols-outlined{font-variation-settings:'opsz' 24,'wght' 500,'FILL' 1,'GRAD' 0;font-weight:500}
 
 /* FAB Menu (M3) — https://m3.material.io/components/fab-menu/overview
    Lista vertical de ações ancorada no canto inferior direito, acima do FAB
