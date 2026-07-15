@@ -18,17 +18,26 @@ function applyTheme(theme) {
 
 function toggleTheme(checked) {
   applyTheme(checked ? 'dark' : 'light');
+  updateThemeModeButtons();
+}
+
+function updateThemeModeButtons() {
+  const isDark = getTheme() === 'dark';
+  const lightBtn = document.getElementById('theme-mode-light');
+  const darkBtn  = document.getElementById('theme-mode-dark');
+  if (lightBtn) lightBtn.style.boxShadow = isDark ? 'none' : 'inset 0 0 0 2px currentColor';
+  if (darkBtn)  darkBtn.style.boxShadow  = isDark ? 'inset 0 0 0 2px currentColor' : 'none';
 }
 
 function initThemeToggle() {
-  const el = document.getElementById('theme-toggle');
-  if (el) el.checked = getTheme() === 'dark';
+  updateThemeModeButtons();
+  renderThemeCarousel();
 }
 
 /* ── Paletas M3 (cor semente diferente cada uma) ── */
 const MATERIAL_THEMES = {
   azul: {
-    label: 'Azul', swatch: '#415F91',
+    label: 'Azul', funName: 'Sr. Azulejo', swatch: '#415F91',
     light: {
       '--md-sys-color-primary':'#415F91','--md-sys-color-on-primary':'#FFFFFF',
       '--md-sys-color-primary-container':'#D6E3FF','--md-sys-color-on-primary-container':'#284777',
@@ -85,7 +94,7 @@ const MATERIAL_THEMES = {
     },
   },
   roxo: {
-    label: 'Roxo', swatch: '#65558f',
+    label: 'Roxo', funName: 'Uva Passa', swatch: '#65558f',
     light: {
       '--md-sys-color-primary':'#65558f','--md-sys-color-on-primary':'#ffffff',
       '--md-sys-color-primary-container':'#e9ddff','--md-sys-color-on-primary-container':'#4d3d75',
@@ -142,7 +151,7 @@ const MATERIAL_THEMES = {
     },
   },
   oliva: {
-    label: 'Oliva', swatch: '#566238',
+    label: 'Oliva', funName: 'Zé Oliveira', swatch: '#566238',
     light: {
       '--md-sys-color-primary':'#566238','--md-sys-color-on-primary':'#ffffff',
       '--md-sys-color-primary-container':'#6e7b4f','--md-sys-color-on-primary-container':'#ffffff',
@@ -199,7 +208,7 @@ const MATERIAL_THEMES = {
     },
   },
   marinho: {
-    label: 'Marinho', swatch: '#162839',
+    label: 'Marinho', funName: 'Capitão Marinho', swatch: '#162839',
     light: {
       '--md-sys-color-primary':'#162839','--md-sys-color-on-primary':'#ffffff',
       '--md-sys-color-primary-container':'#2c3e50','--md-sys-color-on-primary-container':'#96a9be',
@@ -268,17 +277,24 @@ function applyMaterialTheme(name) {
   const root = document.documentElement.style;
   Object.entries(tokens).forEach(([k, v]) => root.setProperty(k, v));
   localStorage.setItem('md-theme', name);
-  updateMaterialThemeSwatches(name);
+  renderThemeCarousel();
   if (typeof renderHome === 'function' && document.getElementById('screen-home') &&
       document.getElementById('screen-home').classList.contains('active')) {
     renderHome();
   }
 }
 
-function updateMaterialThemeSwatches(name) {
-  document.querySelectorAll('.md-theme-swatch').forEach(el => {
-    el.classList.toggle('active', el.dataset.themeName === name);
-  });
+function renderThemeCarousel() {
+  const el = document.getElementById('theme-carousel');
+  if (!el) return;
+  const current = getMaterialTheme();
+  el.innerHTML = Object.entries(MATERIAL_THEMES).map(([key, t]) => {
+    const active = key === current;
+    return `<div class="theme-carousel-item" onclick="applyMaterialTheme('${key}')">
+      <div class="theme-carousel-swatch${active ? ' active' : ''}" style="background:${t.swatch}">${active ? '<span class="material-symbols-outlined">check</span>' : ''}</div>
+      <div class="theme-carousel-name${active ? ' active' : ''}">${t.funName}</div>
+    </div>`;
+  }).join('');
 }
 
 function initMaterialTheme() {

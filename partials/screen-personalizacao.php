@@ -6,21 +6,21 @@
     <div style="width:24px"></div>
   </div>
   <div class="screen-body p-3">
-    <div class="list-group">
-      <div class="list-group-item d-flex justify-content-between align-items-center">
-        <span>Tema escuro</span>
-        <div class="form-check form-switch mb-0">
-          <input class="form-check-input" type="checkbox" id="theme-toggle" role="switch" onchange="toggleTheme(this.checked)">
+    <div class="list-group cat-row-list">
+      <div class="list-group-item cat-row-card">
+        <div class="mb-2 text-secondary small">Tema</div>
+        <div class="d-flex gap-2">
+          <button class="badge status-cell status-cell-white d-inline-flex align-items-center justify-content-center gap-1" id="theme-mode-light" style="flex:1;padding:10px!important" onclick="toggleTheme(false)">
+            <span class="material-symbols-outlined" style="font-size:1.1rem">light_mode</span> Tema claro
+          </button>
+          <button class="badge status-cell status-cell-white d-inline-flex align-items-center justify-content-center gap-1" id="theme-mode-dark" style="flex:1;padding:10px!important" onclick="toggleTheme(true)">
+            <span class="material-symbols-outlined" style="font-size:1.1rem">dark_mode</span> Tema escuro
+          </button>
         </div>
       </div>
-      <div class="list-group-item">
-        <div class="mb-2">Cor do tema</div>
-        <div class="d-flex gap-3">
-          <button class="md-theme-swatch" data-theme-name="azul" style="background:#415F91" aria-label="Azul" onclick="applyMaterialTheme('azul')"></button>
-          <button class="md-theme-swatch" data-theme-name="roxo" style="background:#65558f" aria-label="Roxo" onclick="applyMaterialTheme('roxo')"></button>
-          <button class="md-theme-swatch" data-theme-name="oliva" style="background:#566238" aria-label="Oliva" onclick="applyMaterialTheme('oliva')"></button>
-          <button class="md-theme-swatch" data-theme-name="marinho" style="background:#162839" aria-label="Marinho" onclick="applyMaterialTheme('marinho')"></button>
-        </div>
+      <div class="list-group-item cat-row-card">
+        <div class="mb-2 text-secondary small">Cor do tema</div>
+        <div class="theme-carousel" id="theme-carousel"></div>
       </div>
     </div>
   </div>
