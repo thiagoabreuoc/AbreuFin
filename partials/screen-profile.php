@@ -17,22 +17,28 @@
     </div>
 
     <div class="mb-4">
-      <div class="profile-item" onclick="showScreen('personalizacao');initThemeToggle()">
+      <div class="profile-item d-flex align-items-center gap-3" onclick="showScreen('personalizacao');initThemeToggle()">
+        <span class="material-symbols-outlined text-primary" style="font-size:1.4rem">palette</span>
         <span class="fw-semibold text-primary small">Personalização</span>
       </div>
-      <div class="profile-item" onclick="navigate('cats')">
+      <div class="profile-item d-flex align-items-center gap-3" onclick="navigate('cats')">
+        <span class="material-symbols-outlined text-primary" style="font-size:1.4rem">category</span>
         <span class="fw-semibold text-primary small">Categorias</span>
       </div>
-      <div class="profile-item" onclick="openExport()">
+      <div class="profile-item d-flex align-items-center gap-3" onclick="openExport()">
+        <span class="material-symbols-outlined text-primary" style="font-size:1.4rem">file_download</span>
         <span class="fw-semibold text-primary small">Exportar dados</span>
       </div>
-      <div class="profile-item" onclick="showScreen('change-password')">
+      <div class="profile-item d-flex align-items-center gap-3" onclick="showScreen('change-password')">
+        <span class="material-symbols-outlined text-primary" style="font-size:1.4rem">lock</span>
         <span class="fw-semibold text-primary small">Alterar senha</span>
       </div>
-      <div class="profile-item" onclick="showScreen('notifications');loadNotifSettings()">
+      <div class="profile-item d-flex align-items-center gap-3" onclick="showScreen('notifications');loadNotifSettings()">
+        <span class="material-symbols-outlined text-primary" style="font-size:1.4rem">notifications</span>
         <span class="fw-semibold text-primary small">Notificações</span>
       </div>
-      <div class="profile-item" onclick="showScreen('privacy')">
+      <div class="profile-item d-flex align-items-center gap-3" onclick="showScreen('privacy')">
+        <span class="material-symbols-outlined text-primary" style="font-size:1.4rem">privacy_tip</span>
         <span class="fw-semibold text-primary small">Privacidade e LGPD</span>
       </div>
     </div>
