@@ -17,13 +17,11 @@
     <div style="display:flex;justify-content:center;align-items:center;gap:8px;margin-bottom:16px" id="listing-status-tabs">
       <!-- preenchido dinamicamente por openListing() -->
     </div>
-    <div class="mb-3">
-      <div class="text-center">
-        <button class="btn btn-link btn-sm fw-semibold text-primary p-0" type="button" onclick="openFilterPanel()">
-          <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">filter_alt</span> Mais filtros<span id="filter-count" class="m3-badge-large" style="display:none">0</span>
-        </button>
-      </div>
-      <div style="margin-top:16px;display:flex;justify-content:center;align-items:center;gap:16px">
+    <div class="mb-3" style="display:flex;justify-content:space-between;align-items:center;gap:16px">
+      <button class="btn btn-link text-primary p-0 d-inline-flex align-items-center" type="button" onclick="openFilterPanel()" aria-label="Mais filtros">
+        <span class="material-symbols-outlined" style="font-size:1.1rem">filter_alt</span><span id="filter-count" class="m3-badge-large" style="display:none">0</span>
+      </button>
+      <div style="display:flex;align-items:center;gap:16px">
         <a href="#" id="sort-btn-desc"      class="text-primary  text-decoration-none d-inline-flex align-items-center gap-1" onclick="sortEntries('valor','desc');return false;"><span class="material-symbols-outlined" style="font-size:.8rem">arrow_upward</span><span class="material-symbols-outlined" style="font-size:.9rem">attach_money</span></a>
         <a href="#" id="sort-btn-asc"       class="text-secondary text-decoration-none d-inline-flex align-items-center gap-1" onclick="sortEntries('valor','asc');return false;"><span class="material-symbols-outlined" style="font-size:.8rem">arrow_downward</span><span class="material-symbols-outlined" style="font-size:.9rem">attach_money</span></a>
         <span class="text-secondary" style="opacity:.35;font-size:.75rem;user-select:none">|</span>
