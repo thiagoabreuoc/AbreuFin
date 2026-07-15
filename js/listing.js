@@ -184,8 +184,8 @@ function updateListingTotals() {
     else pendingTotal += e.valor;
   });
   el.innerHTML =
-    `<span class="badge status-cell status-cell-success" style="font-size:.68rem">${labels.confirmed}: ${fmt(confirmedTotal)}</span>` +
-    `<span class="badge status-cell status-cell-neutral" style="font-size:.68rem">${labels.pending}: ${fmt(pendingTotal)}</span>`;
+    `<span class="d-inline-flex align-items-center gap-1"><span class="material-symbols-outlined" style="font-size:.9rem">check_circle</span><span class="fw-normal small">${labels.confirmed}: ${fmt(confirmedTotal)}</span></span>` +
+    `<span class="d-inline-flex align-items-center gap-1"><span class="material-symbols-outlined" style="font-size:.9rem">schedule</span><span class="fw-normal small">${labels.pending}: ${fmt(pendingTotal)}</span></span>`;
 }
 
 function renderListing() {
