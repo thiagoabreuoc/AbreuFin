@@ -8,7 +8,8 @@ $token = trim($body['token'] ?? '');
 $password = (string)($body['password'] ?? '');
 
 if ($token === '') jsonError('Token inválido.');
-if (strlen($password) < 8) jsonError('Senha deve ter ao menos 8 caracteres.');
+$strengthError = validatePasswordStrength($password);
+if ($strengthError) jsonError($strengthError);
 
 $pdo = db();
 $stmt = $pdo->prepare('SELECT id, user_id, expires_at, used FROM password_resets WHERE token = ?');

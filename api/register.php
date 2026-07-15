@@ -13,7 +13,8 @@ $password = (string)($body['password'] ?? '');
 
 if ($name === '') jsonError('Informe seu nome.');
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) jsonError('E-mail inválido.');
-if (strlen($password) < 8) jsonError('Senha deve ter ao menos 8 caracteres.');
+$strengthError = validatePasswordStrength($password);
+if ($strengthError) jsonError($strengthError);
 
 recordAttempt('register_ip', rateLimitIdentifier());
 

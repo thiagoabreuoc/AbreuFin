@@ -29,7 +29,7 @@
         <span class="material-symbols-outlined" style="font-size:1.3rem">file_download</span>
         <span class="fw-normal small">Exportar dados</span>
       </div>
-      <div class="profile-item d-flex align-items-center gap-3" onclick="showScreen('change-password')">
+      <div class="profile-item d-flex align-items-center gap-3" onclick="showScreen('change-password');initChangePasswordScreen()">
         <span class="material-symbols-outlined" style="font-size:1.3rem">lock</span>
         <span class="fw-normal small">Alterar senha</span>
       </div>

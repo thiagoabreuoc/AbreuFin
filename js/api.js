@@ -31,7 +31,7 @@ const apiLogout = () => apiCall('api/logout.php', 'POST', {});
 const apiBootstrap = () => apiCall('api/bootstrap.php');
 const apiForgotPassword = (email) => apiCall('api/forgot_password.php', 'POST', { email });
 const apiResetPassword = (token, password) => apiCall('api/reset_password.php', 'POST', { token, password });
-const apiChangePassword = (newPassword) => apiCall('api/change_password.php', 'POST', { newPassword });
+const apiChangePassword = (currentPassword, newPassword) => apiCall('api/change_password.php', 'POST', { currentPassword, newPassword });
 const apiCreateCategory = (tipo, name, emoji, groupId) => apiCall('api/categories.php', 'POST', { tipo, name, emoji, group_id: groupId || null });
 const apiCreateGroup  = (tipo, name) => apiCall('api/category_groups.php', 'POST', { tipo, name });
 const apiRenameGroup  = (id, name)   => apiCall('api/category_groups.php?id=' + id, 'PUT', { name });

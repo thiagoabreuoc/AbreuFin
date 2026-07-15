@@ -65,12 +65,22 @@ function requireLogin(): int {
 function currentUserRow(): ?array {
     $id = currentUserId();
     if (!$id) return null;
-    $stmt = db()->prepare('SELECT id, name, email, google_id, google_photo FROM users WHERE id = ?');
+    $stmt = db()->prepare('SELECT id, name, email, google_id, google_photo, password_hash FROM users WHERE id = ?');
     $stmt->execute([$id]);
     $user = $stmt->fetch();
     if (!$user) return null;
     $user['viaGoogle']    = $user['google_id'] !== null;
     $user['googlePhoto']  = $user['google_photo'] ?? '';
-    unset($user['google_id'], $user['google_photo']);
+    $user['hasPassword']  = $user['password_hash'] !== '';
+    unset($user['google_id'], $user['google_photo'], $user['password_hash']);
     return $user;
+}
+
+/* Regra mínima de força de senha, compartilhada por cadastro, troca e
+   redefinição de senha: pelo menos 8 caracteres, com letra e número. */
+function validatePasswordStrength(string $pwd): ?string {
+    if (strlen($pwd) < 8) return 'A senha deve ter ao menos 8 caracteres.';
+    if (!preg_match('/[A-Za-z]/', $pwd)) return 'A senha deve conter pelo menos uma letra.';
+    if (!preg_match('/[0-9]/', $pwd)) return 'A senha deve conter pelo menos um número.';
+    return null;
 }
