@@ -289,7 +289,8 @@ function openNovo(tipo) {
   editingId=null;
   document.getElementById('form-title').textContent='Novo';
   document.getElementById('remove-row').style.display='none';
-  document.getElementById('form-actions-row').style.display='flex';
+  document.getElementById('form-actions-row').classList.remove('d-none');
+  document.getElementById('form-actions-row').classList.add('d-flex');
   clearForm();
   const t=new Date();
   setDataField(String(t.getDate()).padStart(2,'0'), String(t.getMonth()+1).padStart(2,'0'), t.getFullYear());
@@ -304,7 +305,8 @@ function openEdit(id) {
   editingId=id;
   const e=entries.find(x=>x.id===id); if (!e) { _formInitializing=false; return; }
   document.getElementById('form-title').textContent='Editar';
-  document.getElementById('form-actions-row').style.display='none';
+  document.getElementById('form-actions-row').classList.remove('d-flex');
+  document.getElementById('form-actions-row').classList.add('d-none');
   clearForm();
   document.getElementById('remove-row').style.display='block';
   setTipo(e.tipo);
