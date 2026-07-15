@@ -166,18 +166,24 @@ function dueBadge(e) {
   return `<span class="m3-badge-small ${DUE_RANK_CLASS[r]}" style="margin-left:4px"></span>`;
 }
 
+const LISTING_TOTALS_LABELS = {
+  receita:      { confirmed: 'Recebido',  pending: 'A receber',  all: 'Total' },
+  despesa:      { confirmed: 'Pago',      pending: 'A pagar',    all: 'Total' },
+  investimento: { confirmed: 'Investido', pending: 'A investir', all: 'Total' },
+};
 function updateListingTotals(list) {
   const el = document.getElementById('listing-totals');
   if (!el) return;
   const confirmedStatus = CONFIRMED_STATUS[currentListingType];
-  if (!confirmedStatus) { el.innerHTML = ''; return; }
+  const labels = LISTING_TOTALS_LABELS[currentListingType];
+  if (!confirmedStatus || !labels) { el.innerHTML = ''; return; }
   const total = list.reduce((sum, e) => sum + e.valor, 0);
-  let icon = '', colorClass = '';
-  if (listingStatusFilter === confirmedStatus) { icon = 'check_circle'; colorClass = 'text-success'; }
-  else if (listingStatusFilter) { icon = 'schedule'; colorClass = 'text-secondary'; }
+  let title = labels.all;
+  if (listingStatusFilter === confirmedStatus) title = labels.confirmed;
+  else if (listingStatusFilter) title = labels.pending;
   el.innerHTML =
-    (icon ? `<span class="material-symbols-outlined ${colorClass}" style="font-size:1rem;vertical-align:-3px;margin-right:4px">${icon}</span>` : '') +
-    `<span class="fw-semibold" style="font-size:1.15rem">${fmt(total)}</span>`;
+    `<div class="text-secondary small">${title}</div>` +
+    `<div class="fw-semibold" style="font-size:1.15rem">${fmt(total)}</div>`;
 }
 
 function renderListing() {
