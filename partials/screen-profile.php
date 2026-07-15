@@ -21,7 +21,7 @@
         <span class="material-symbols-outlined" style="font-size:1.75rem">palette</span>
         <span class="fw-normal small">Personalização</span>
       </div>
-      <div class="profile-item d-flex align-items-center gap-3" onclick="navigate('cats')">
+      <div class="profile-item d-flex align-items-center gap-3" onclick="showScreen('cats');renderCats()">
         <span class="material-symbols-outlined" style="font-size:1.75rem">category</span>
         <span class="fw-normal small">Categorias</span>
       </div>
