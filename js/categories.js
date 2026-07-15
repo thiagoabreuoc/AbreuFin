@@ -109,6 +109,9 @@ function renderDraggableUngroupedCatRow(c) {
     '<span class="fw-normal small">' + escapeHtml(c.name) + '</span>' +
     '</div>' +
     '<div class="d-flex align-items-center" style="gap:12px">' +
+    '<span class="m3-count-badge">' + c.subs.length + '</span>' +
+    '<button class="btn btn-link text-primary p-0" onclick="event.stopPropagation();startRenameCat(' + c.id + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
+    '<button class="btn btn-link text-danger p-0" onclick="event.stopPropagation();confirmDeleteCat(' + c.id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
     '<span class="material-symbols-outlined text-secondary" style="font-size:1.2rem">drag_indicator</span>' +
     '</div></div>';
 }
