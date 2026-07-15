@@ -40,9 +40,9 @@ function applyCurrentUser(user) {
       el.textContent = '';
       el.appendChild(img);
     } else {
-      el.className = 'avatar-sm rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center overflow-hidden';
+      el.className = 'avatar-sm rounded-circle bg-primary-subtle text-primary fw-bold d-flex align-items-center justify-content-center overflow-hidden';
       el.style.background = '';
-      el.innerHTML = '<span class="material-symbols-outlined" style="font-size:1.1rem">person</span>';
+      el.textContent = initial;
     }
   });
 
