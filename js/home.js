@@ -474,17 +474,27 @@ function getAlertCounts() {
   const today = new Date(); today.setHours(0,0,0,0);
   const in3 = new Date(today); in3.setDate(today.getDate()+3);
   const isPending = e => ['a_pagar','a_receber','a_investir'].includes(entryStatus(e));
+  let minVencendoDays = null;
   const vencendoCount = entries.filter(e => {
     if (!isPending(e)) return false;
     const d2 = new Date(e.yyyy,e.mm-1,e.dd); d2.setHours(0,0,0,0);
-    return d2 >= today && d2 <= in3;
+    if (d2 < today || d2 > in3) return false;
+    const days = Math.round((d2 - today) / 86400000);
+    if (minVencendoDays === null || days < minVencendoDays) minVencendoDays = days;
+    return true;
   }).length;
   const vencidoCount = entries.filter(e => {
     if (!isPending(e)) return false;
     const d2 = new Date(e.yyyy,e.mm-1,e.dd); d2.setHours(0,0,0,0);
     return d2 < today;
   }).length;
-  return { vencendoCount, vencidoCount };
+  return { vencendoCount, vencidoCount, minVencendoDays };
+}
+
+function vencendoLabel(minDays) {
+  if (minDays === 0) return 'vencendo hoje';
+  if (minDays === 1) return 'vencendo amanhã';
+  return `vencendo em ${minDays} dias`;
 }
 
 function updateNotifBell() {
@@ -496,7 +506,7 @@ function updateNotifBell() {
 }
 
 function renderBanners() {
-  const { vencendoCount, vencidoCount } = getAlertCounts();
+  const { vencendoCount, vencidoCount, minVencendoDays } = getAlertCounts();
   updateNotifBell();
 
   let banners = '';
@@ -512,7 +522,7 @@ function renderBanners() {
     </div>`;
   if (vencendoCount > 0 && !dismissedBanners.vencendo)
     banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-vencendo" style="background:var(--md-extended-color-aviso-color-container);color:var(--md-extended-color-aviso-on-color-container)">
-      <span class="small" onclick="goToVencendo('vencendo')" style="cursor:pointer">${vencendoCount} lançamento${vencendoCount>1?'s':''} vencendo em 3 dias. <u>Ver</u></span>
+      <span class="small" onclick="goToVencendo('vencendo')" style="cursor:pointer">${vencendoCount} lançamento${vencendoCount>1?'s':''} ${vencendoLabel(minVencendoDays)}. <u>Ver</u></span>
       <button type="button" class="btn btn-link p-0" style="color:inherit;line-height:0" onclick="dismissBanner('vencendo')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
     </div>`;
   const bannersEl = document.getElementById('home-banners');
@@ -594,7 +604,7 @@ const NOTIF_TAB_EMPTY = {
 function renderNotifCenter() {
   const el = document.getElementById('notif-center-body');
   if (!el) return;
-  const { vencendoCount, vencidoCount } = getAlertCounts();
+  const { vencendoCount, vencidoCount, minVencendoDays } = getAlertCounts();
   const rows = [];
 
   if (_notifTab === 'vencimentos') {
@@ -605,7 +615,7 @@ function renderNotifCenter() {
 
     if (vencendoCount > 0)
       rows.push(notifCenterRow('event_upcoming', 'var(--md-extended-color-aviso-color-container)', 'var(--md-extended-color-aviso-on-color-container)',
-        `${vencendoCount} lançamento${vencendoCount>1?'s':''} vencendo em 3 dias`,
+        `${vencendoCount} lançamento${vencendoCount>1?'s':''} ${vencendoLabel(minVencendoDays)}`,
         'Toque pra ver os detalhes.', "goToVencendo('vencendo')"));
   }
 
