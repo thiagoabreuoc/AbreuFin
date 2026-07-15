@@ -178,8 +178,9 @@ function updateListingTotals() {
     else pendingTotal += e.valor;
   });
   el.innerHTML =
-    `<span class="d-inline-flex align-items-center gap-1"><span class="material-symbols-outlined" style="font-size:.9rem">check_circle</span><span class="fw-normal small">${fmt(confirmedTotal)}</span></span>` +
-    `<span class="d-inline-flex align-items-center gap-1"><span class="material-symbols-outlined" style="font-size:.9rem">schedule</span><span class="fw-normal small">${fmt(pendingTotal)}</span></span>`;
+    `<span class="d-inline-flex align-items-center gap-1"><span class="material-symbols-outlined text-success" style="font-size:.9rem">check_circle</span><span class="fw-normal small">${fmt(confirmedTotal)}</span></span>` +
+    `<span class="text-secondary" style="opacity:.6;font-size:.9rem;user-select:none">|</span>` +
+    `<span class="d-inline-flex align-items-center gap-1"><span class="material-symbols-outlined text-secondary" style="font-size:.9rem">schedule</span><span class="fw-normal small">${fmt(pendingTotal)}</span></span>`;
 }
 
 function renderListing() {
