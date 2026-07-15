@@ -160,23 +160,6 @@ $csrfToken = csrfToken();
       </div>
     </div>
 
-    <!-- Grupos inteligentes -->
-    <div class="sheet-overlay" id="smart-groups-overlay" onclick="closeSmartGroupsModal()"></div>
-    <div class="sheet-card" id="smart-groups-sheet">
-      <div class="text-center py-3" style="position:relative;flex-shrink:0">
-        <span class="fw-semibold">Criando categorias</span>
-        <button class="btn btn-link text-secondary p-0" onclick="closeSmartGroupsModal()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%)"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
-      </div>
-      <div class="text-secondary small" style="padding:0 16px 8px;flex-shrink:0">Marque o que combina com você e a gente monta os grupos pra você.</div>
-      <div style="padding:0 16px;overflow-y:auto;flex:1" id="smart-groups-body">
-        <!-- preenchido por JS -->
-      </div>
-      <div class="d-flex justify-content-center gap-2" style="padding:12px 16px 16px;flex-shrink:0">
-        <button class="btn btn-outline-primary btn-sm" type="button" id="smart-groups-cancel-btn" onclick="closeSmartGroupsModal()">Cancelar</button>
-        <button class="btn btn-primary btn-sm" type="button" id="smart-groups-save-btn" onclick="applySmartGroups()" style="padding:10px 24px">Criar grupos</button>
-      </div>
-    </div>
-
     <!-- Date Picker (M3) -->
     <div class="sheet-overlay" id="datepicker-overlay" onclick="closeDatePicker()"></div>
     <div class="sheet-card" id="datepicker-sheet">

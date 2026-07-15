@@ -49,13 +49,33 @@ async function autoSaveEntry() {
   if (!tipo || !valor || valor<=0 || !dd || !mm || !yyyy || !status) return;
 
   const repetir=getActiveRepetir();
-  const rawSubcat=document.getElementById('f-subcategoria').value;
-  const customSubcat=document.getElementById('f-subcategoria-custom').value.trim();
-  const subcategoria=rawSubcat==='outros' ? (customSubcat||'Outros') : rawSubcat;
   const rawCat=document.getElementById('f-categoria').value;
   const customCat=document.getElementById('f-categoria-custom').value.trim();
   const categoria=rawCat==='Outros' ? (customCat||'Outros') : rawCat;
+  const rawSubcat=document.getElementById('f-subcategoria').value;
+  const customSubcat=document.getElementById('f-subcategoria-custom').value.trim();
+  const subcategoria=rawSubcat==='outros' ? (customSubcat||'Outros') : rawSubcat;
   if (!categoria) return;
+
+  const shouldSaveCat = rawCat==='Outros' && customCat && document.getElementById('f-categoria-save').checked;
+  const shouldSaveSub = rawSubcat==='outros' && customSubcat && document.getElementById('f-subcategoria-save').checked;
+
+  if (!categories[tipo]) categories[tipo] = [];
+  let catObj = categories[tipo].find(c => c.name === categoria);
+  if (!catObj && shouldSaveCat) {
+    try {
+      const data = await apiCreateCategory(tipo, customCat, '📌');
+      catObj = data.category;
+      categories[tipo].push(catObj);
+    } catch (_) { /* segue sem cadastrar a categoria; o lançamento ainda salva com o texto digitado */ }
+  }
+  if (catObj && shouldSaveSub && !(catObj.subs||[]).includes(customSubcat)) {
+    try {
+      const newSubs = catObj.subs.concat([customSubcat]);
+      await apiUpdateCategory(catObj.id, { subs: newSubs });
+      catObj.subs = newSubs;
+    } catch (_) {}
+  }
 
   const idx = entries.findIndex(x => x.id === editingId);
   if (idx === -1) return;
@@ -68,9 +88,6 @@ async function autoSaveEntry() {
   Object.assign(editingEntry, entry);
   try {
     const res = await apiUpdateEntry(editingId, entry);
-    if (rawSubcat==='outros' && customSubcat && document.getElementById('f-subcategoria-save').checked) {
-      saveCustomSubcat(tipo, customSubcat);
-    }
     if (isGroupEdit && res.repeat_total) editingEntry.repeat_total = res.repeat_total;
     if (isGroupEdit && res.repeat_adjust_blocked) {
       showToast(`Só foi possível reduzir para ${res.repeat_total}x (as demais ocorrências já estão confirmadas).`, 'error');
@@ -271,18 +288,6 @@ function onSubCatChange() {
   scheduleAutoSave();
 }
 
-function getCustomSubcats(tipo) {
-  try { return JSON.parse(localStorage.getItem('ff_custom_subcats_' + tipo) || '[]'); } catch { return []; }
-}
-
-function saveCustomSubcat(tipo, val) {
-  const list = getCustomSubcats(tipo);
-  if (list.includes(val)) return;
-  list.push(val);
-  localStorage.setItem('ff_custom_subcats_' + tipo, JSON.stringify(list));
-  const idx = SUBCAT_MAP[tipo]?.indexOf('outros');
-  if (idx != null && idx >= 0) SUBCAT_MAP[tipo].splice(idx, 0, val);
-}
 
 function openNovo(tipo) {
   ensureCSInit();
@@ -499,95 +504,6 @@ function parseValor() {
   return parseFloat(v) || 0;
 }
 
-const SUBCAT_MAP = {
-  investimento: [
-    'Ações',
-    'CDB',
-    'COE',
-    'Criptomoedas',
-    'Debêntures',
-    'ETFs',
-    'FIIs',
-    'Fundos de Investimento',
-    'LCI / LCA',
-    'Poupança',
-    'Previdência (PGBL/VGBL)',
-    'Tesouro Direto',
-    'outros',
-  ],
-  receita: [
-    '13º Salário',
-    'Adiantamento de Salário',
-    'Aluguel Recebido',
-    'Benefício',
-    'Bonificação',
-    'Cashback',
-    'Comissão',
-    'Dividendos',
-    'Doação Recebida',
-    'Férias – 1/3 Constitucional',
-    'Férias – Adiantamento',
-    'Freelance',
-    'Pagamento de Serviço',
-    'Participação nos Lucros (PL)',
-    'Reembolso',
-    'Rendimento de Aplicação',
-    'Resgate de Investimento',
-    'Retorno de Investimento',
-    'Salário',
-    'Venda de Bem',
-    'outros',
-  ],
-  despesa: [
-    'Alimentação',
-    'Aposta',
-    'Assinatura',
-    'Beleza',
-    'Cartão de crédito',
-    'Casa',
-    'Combustível',
-    'Compras',
-    'Conveniência',
-    'Doação',
-    'Educação',
-    'Empréstimo',
-    'Farmácia',
-    'Financiamento',
-    'Freelance',
-    'Hospedagem',
-    'Imposto/Juros',
-    'Internet/Telefone',
-    'Investimento',
-    'Lazer',
-    'Manutenção',
-    'Moradia',
-    'Pessoal',
-    'Pet',
-    'Restaurante',
-    'Saúde',
-    'Seguro',
-    'Transporte',
-    'Vestuário',
-    'Viagem',
-    'outros',
-  ],
-};
-
-function populateSubCatOptions(tipo) {
-  const sel = document.getElementById('f-subcategoria');
-  const base = SUBCAT_MAP[tipo] || [];
-  const custom = getCustomSubcats(tipo);
-  const othersIdx = base.indexOf('outros');
-  const merged = [...base];
-  custom.forEach(v => { if (!merged.includes(v)) merged.splice(othersIdx >= 0 ? othersIdx : merged.length, 0, v); });
-  sel.innerHTML = '<option value="">Selecione</option>' +
-    merged.map(v => `<option value="${v}">${v === 'outros' ? 'Outros' : v}</option>`).join('');
-  csStoreOptions('f-subcategoria', merged.map(v=>({value:v, label: v==='outros'?'Outros':v})));
-  csReset('f-subcategoria');
-  document.getElementById('f-subcategoria-custom-wrap').style.display = 'none';
-  document.getElementById('f-subcategoria-custom').value = '';
-}
-
 const STATUS_MAP = {
   receita:      [{value:'a_receber',  label:'A receber'}, {value:'recebido',   label:'Recebido'}],
   despesa:      [{value:'pendente',   label:'A pagar'},   {value:'pago',       label:'Pago'}],
@@ -697,20 +613,34 @@ async function saveEntry() {
   setBtnLoading(saveBtn, true);
 
   const repetir=getActiveRepetir();
-  const rawSubcat=document.getElementById('f-subcategoria').value;
-  const customSubcat=document.getElementById('f-subcategoria-custom').value.trim();
-  const subcategoria=rawSubcat==='outros' ? (customSubcat||'Outros') : rawSubcat;
-  if (rawSubcat==='outros' && customSubcat && document.getElementById('f-subcategoria-save').checked) {
-    saveCustomSubcat(tipo, customSubcat);
-  }
   const rawCat=document.getElementById('f-categoria').value;
   const customCat=document.getElementById('f-categoria-custom').value.trim();
   const categoria=rawCat==='Outros' ? (customCat||'Outros') : rawCat;
+  const rawSubcat=document.getElementById('f-subcategoria').value;
+  const customSubcat=document.getElementById('f-subcategoria-custom').value.trim();
+  const subcategoria=rawSubcat==='outros' ? (customSubcat||'Outros') : rawSubcat;
+  const shouldSaveSub = rawSubcat==='outros' && customSubcat && document.getElementById('f-subcategoria-save').checked;
+
   if (rawCat==='Outros' && customCat && document.getElementById('f-categoria-save').checked) {
     try {
       const data=await apiCreateCategory(tipo, customCat, '📌');
-      categories[tipo].push(data.category);
+      const catObj=data.category;
+      if (shouldSaveSub) {
+        await apiUpdateCategory(catObj.id, { subs: [customSubcat] });
+        catObj.subs = [customSubcat];
+      }
+      categories[tipo].push(catObj);
     } catch(_) {}
+  } else if (shouldSaveSub) {
+    // categoria já existia: anexa a sub-categoria nova a ela, se ainda não tiver
+    const catObj = categories[tipo].find(c => c.name === categoria);
+    if (catObj && !(catObj.subs||[]).includes(customSubcat)) {
+      try {
+        const newSubs = catObj.subs.concat([customSubcat]);
+        await apiUpdateCategory(catObj.id, { subs: newSubs });
+        catObj.subs = newSubs;
+      } catch(_) {}
+    }
   }
   const editingEntry = editingId ? entries.find(x => x.id === editingId) : null;
   const isGroupEdit = !!(editingEntry && editingEntry.repeat_group_id);
