@@ -166,16 +166,10 @@ function dueBadge(e) {
   return `<span class="m3-badge-small ${DUE_RANK_CLASS[r]}" style="margin-left:4px"></span>`;
 }
 
-const LISTING_TOTALS_LABELS = {
-  receita:      { confirmed: 'Recebido',  pending: 'A receber' },
-  despesa:      { confirmed: 'Pago',      pending: 'A pagar'   },
-  investimento: { confirmed: 'Investido', pending: 'A investir'},
-};
 function updateListingTotals() {
   const el = document.getElementById('listing-totals');
   if (!el) return;
-  const labels = LISTING_TOTALS_LABELS[currentListingType];
-  if (!labels) { el.innerHTML = ''; return; }
+  if (!CONFIRMED_STATUS[currentListingType]) { el.innerHTML = ''; return; }
   const confirmedStatus = CONFIRMED_STATUS[currentListingType];
   const all = getListingEntries(true);
   let confirmedTotal = 0, pendingTotal = 0;
@@ -184,8 +178,8 @@ function updateListingTotals() {
     else pendingTotal += e.valor;
   });
   el.innerHTML =
-    `<span class="d-inline-flex align-items-center gap-1"><span class="material-symbols-outlined" style="font-size:.9rem">check_circle</span><span class="fw-normal small">${labels.confirmed}: ${fmt(confirmedTotal)}</span></span>` +
-    `<span class="d-inline-flex align-items-center gap-1"><span class="material-symbols-outlined" style="font-size:.9rem">schedule</span><span class="fw-normal small">${labels.pending}: ${fmt(pendingTotal)}</span></span>`;
+    `<span class="d-inline-flex align-items-center gap-1"><span class="material-symbols-outlined" style="font-size:.9rem">check_circle</span><span class="fw-normal small">${fmt(confirmedTotal)}</span></span>` +
+    `<span class="d-inline-flex align-items-center gap-1"><span class="material-symbols-outlined" style="font-size:.9rem">schedule</span><span class="fw-normal small">${fmt(pendingTotal)}</span></span>`;
 }
 
 function renderListing() {
