@@ -239,8 +239,14 @@ function renderCats() {
       var count = allCats.filter(function(c) { return c.groupId === g.id; }).length;
       return renderGroupRow(g.id, g.name, count, true);
     }).join('');
-    if (ungrouped.length) html += renderGroupRow(null, 'Sem grupo', ungrouped.length, false);
     html += '</div>';
+    if (ungrouped.length) {
+      html += '<div class="small text-secondary fw-semibold" style="margin:20px 0 8px">Sem grupo</div>';
+      html += '<div class="text-secondary" style="font-size:.72rem;margin-bottom:8px">Arraste um card pra cima de um grupo pra atribuir.</div>';
+      html += '<div class="list-group cat-row-list">';
+      html += ungrouped.map(renderDraggableUngroupedCatRow).join('');
+      html += '</div>';
+    }
   }
 
   html += '<div class="mt-3 text-center"><button class="btn btn-link btn-sm fw-semibold text-primary" onclick="startNewGroup()">+ Novo grupo</button></div>';
@@ -249,6 +255,7 @@ function renderCats() {
     '<span class="material-symbols-outlined" style="font-size:1.1rem">auto_awesome</span>Grupos inteligentes</button></div>';
 
   el.innerHTML = html;
+  initCatDragDrop(el);
 }
 
 function renderGroupRow(id, name, count, editable) {
@@ -257,7 +264,8 @@ function renderGroupRow(id, name, count, editable) {
     ? '<button class="btn btn-link text-primary p-0" onclick="event.stopPropagation();startRenameGroup(' + id + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
       '<button class="btn btn-link text-danger p-0" onclick="event.stopPropagation();confirmDeleteGroup(' + id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>'
     : '';
-  return '<div class="list-group-item cat-row-card d-flex align-items-center justify-content-between" style="cursor:pointer" onclick="openGroup(' + idArg + ')">' +
+  var dropAttrs = editable ? ' data-drop-group-id="' + id + '"' : '';
+  return '<div class="list-group-item cat-row-card d-flex align-items-center justify-content-between' + (editable ? ' drop-target-group' : '') + '"' + dropAttrs + ' style="cursor:pointer" onclick="openGroup(' + idArg + ')">' +
     '<div class="d-flex align-items-center gap-2">' +
     '<span class="badge status-cell bg-info-subtle text-info">Grupo</span>' +
     '<span class="fw-normal small">' + escapeHtml(name) + '</span>' +
@@ -265,6 +273,114 @@ function renderGroupRow(id, name, count, editable) {
     '<div class="d-flex align-items-center" style="gap:12px">' +
     '<span class="m3-count-badge">' + count + '</span>' + actions +
     '</div></div>';
+}
+
+function renderDraggableUngroupedCatRow(c) {
+  return '<div class="list-group-item cat-row-card d-flex align-items-center justify-content-between draggable-cat-card" data-cat-id="' + c.id + '" style="cursor:grab" onclick="openCatDetail(' + c.id + ')">' +
+    '<div class="d-flex align-items-center gap-2">' +
+    '<span class="badge status-cell status-cell-lilac">Cat</span>' +
+    '<span class="fw-normal small">' + escapeHtml(c.name) + '</span>' +
+    '</div>' +
+    '<div class="d-flex align-items-center" style="gap:12px">' +
+    '<span class="material-symbols-outlined text-secondary" style="font-size:1.2rem">drag_indicator</span>' +
+    '</div></div>';
+}
+
+/* ─────────────── Arrastar categoria sem grupo pra dentro de um grupo ───────────────
+   Baseado em pointer events (funciona com mouse e touch) — segue o mesmo
+   padrão do swipe dos cards de lançamento em listing.js. */
+let _catDrag = null;
+const CAT_DRAG_THRESHOLD = 10;
+
+function initCatDragDrop(container) {
+  if (!container || container._catDragInited) return;
+  container._catDragInited = true;
+  container.addEventListener('pointerdown', onCatDragStart);
+  container.addEventListener('pointermove', onCatDragMove);
+  container.addEventListener('pointerup', onCatDragEnd);
+  container.addEventListener('pointercancel', onCatDragEnd);
+}
+
+function onCatDragStart(e) {
+  if (e.button !== undefined && e.button !== 0) return;
+  const card = e.target.closest('.draggable-cat-card');
+  if (!card) return;
+  const rect = card.getBoundingClientRect();
+  _catDrag = {
+    card, catId: parseInt(card.dataset.catId, 10),
+    startX: e.clientX, startY: e.clientY,
+    offsetX: e.clientX - rect.left, offsetY: e.clientY - rect.top,
+    width: rect.width, height: rect.height,
+    pointerId: e.pointerId, moved: false, ghost: null, overGroup: null,
+  };
+}
+
+function onCatDragMove(e) {
+  if (!_catDrag || e.pointerId !== _catDrag.pointerId) return;
+  const dx = e.clientX - _catDrag.startX, dy = e.clientY - _catDrag.startY;
+  if (!_catDrag.moved && Math.hypot(dx, dy) > CAT_DRAG_THRESHOLD) {
+    _catDrag.moved = true;
+    _catDrag.card.style.opacity = '0.35';
+    const ghost = _catDrag.card.cloneNode(true);
+    ghost.style.position = 'fixed';
+    ghost.style.left = '0'; ghost.style.top = '0';
+    ghost.style.width = _catDrag.width + 'px';
+    ghost.style.pointerEvents = 'none';
+    ghost.style.zIndex = '2000';
+    ghost.style.boxShadow = 'var(--md-sys-elevation-level3)';
+    ghost.style.opacity = '0.95';
+    document.body.appendChild(ghost);
+    _catDrag.ghost = ghost;
+  }
+  if (!_catDrag.moved) return;
+  e.preventDefault();
+  const x = e.clientX - _catDrag.offsetX, y = e.clientY - _catDrag.offsetY;
+  _catDrag.ghost.style.transform = `translate(${x}px, ${y}px)`;
+
+  const under = document.elementFromPoint(e.clientX, e.clientY);
+  const groupEl = under ? under.closest('.drop-target-group') : null;
+  if (_catDrag.overGroup !== groupEl) {
+    if (_catDrag.overGroup) _catDrag.overGroup.classList.remove('drop-target-active');
+    if (groupEl) groupEl.classList.add('drop-target-active');
+    _catDrag.overGroup = groupEl;
+  }
+}
+
+async function onCatDragEnd(e) {
+  if (!_catDrag || e.pointerId !== _catDrag.pointerId) return;
+  const drag = _catDrag;
+  _catDrag = null;
+
+  if (!drag.moved) return; // tap simples: deixa o onclick abrir a categoria normalmente
+
+  drag.card.addEventListener('click', suppressNextCatClick, { once: true, capture: true });
+  drag.card.style.opacity = '';
+  if (drag.ghost) drag.ghost.remove();
+  if (drag.overGroup) drag.overGroup.classList.remove('drop-target-active');
+
+  const groupId = drag.overGroup ? parseInt(drag.overGroup.dataset.dropGroupId, 10) : null;
+  if (!groupId) return;
+
+  const tipo = _catsTab;
+  const cat = (categories[tipo] || []).find(c => c.id === drag.catId);
+  if (!cat) return;
+  const prevGroupId = cat.groupId;
+  cat.groupId = groupId;
+  renderCats();
+  try {
+    await apiUpdateCategory(drag.catId, { group_id: groupId });
+    const g = (catGroups[tipo] || []).find(x => x.id === groupId);
+    showToast('Categoria movida pra "' + (g ? g.name : 'grupo') + '".', 'success');
+  } catch (err) {
+    cat.groupId = prevGroupId;
+    renderCats();
+    showToast(err.message, 'error');
+  }
+}
+
+function suppressNextCatClick(e) {
+  e.preventDefault();
+  e.stopPropagation();
 }
 
 function startNewGroup() {

@@ -55,6 +55,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     if (isset($body['emoji'])) {
         $sets[] = 'emoji=?'; $params[] = trim($body['emoji']) ?: '📌';
     }
+    if (array_key_exists('group_id', $body)) {
+        $groupId = $body['group_id'] ? (int)$body['group_id'] : null;
+        if ($groupId) {
+            $gck = $pdo->prepare('SELECT id FROM category_groups WHERE id=? AND user_id=?');
+            $gck->execute([$groupId, $userId]);
+            if (!$gck->fetch()) $groupId = null;
+        }
+        $sets[] = 'group_id=?'; $params[] = $groupId;
+    }
     if (!$sets) jsonError('Nada para atualizar.');
     $params[] = $id;
     $pdo->prepare('UPDATE categories SET ' . implode(',', $sets) . ' WHERE id=?')->execute($params);
