@@ -212,6 +212,10 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 .form-select-borderless:focus{border:none;outline:none;box-shadow:none!important;background:transparent!important}
 .form-box .cs-btn{border:none!important;padding:0!important;min-height:auto;box-shadow:none!important;background:transparent}
 .form-check-input:checked{background-color:var(--md-sys-color-primary);border-color:var(--md-sys-color-primary)}
+/* Chavinha Atual/Previsto da Home — sempre com o visual "ligado" (trilho
+   azul, bolinha branca) nos dois estados; só a posição da bolinha (esquerda/
+   direita, nativa do :checked) indica qual lado está selecionado. */
+#home-value-mode-toggle{background-color:var(--md-sys-color-primary)!important;border-color:var(--md-sys-color-primary)!important;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e")!important}
 .form-check-input:focus{border-color:var(--md-sys-color-primary);box-shadow:0 0 0 .2rem color-mix(in srgb, var(--md-sys-color-primary) 25%, transparent)}
 
 /* Custom Searchable Select */
