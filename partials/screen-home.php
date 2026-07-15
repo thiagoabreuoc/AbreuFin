@@ -3,7 +3,7 @@
   <div class="d-flex align-items-center p-3 border-bottom flex-shrink-0" style="position:relative">
     <button class="btn btn-link text-dark p-0" id="hamburger-btn" onclick="openDrawer()" aria-label="Menu" style="width:32px;display:flex;align-items:center;justify-content:center"><span class="material-symbols-outlined">menu</span></button>
     <div class="flex-grow-1"></div>
-    <button class="btn btn-link text-dark p-0 position-relative" id="notif-bell-btn" onclick="navigate('notif-center')" aria-label="Notificações" style="width:32px;display:flex;align-items:center;justify-content:center;margin-right:8px">
+    <button class="btn btn-link text-dark p-0 position-relative" id="notif-bell-btn" onclick="navigate('notif-center')" aria-label="Notificações" style="width:32px;display:flex;align-items:center;justify-content:center;margin-right:16px">
       <span class="material-symbols-outlined">notifications</span>
       <span class="m3-badge-small m3-badge-small-warning position-absolute" id="notif-bell-dot" style="top:4px;right:4px;display:none"></span>
     </button>
