@@ -192,8 +192,7 @@ function confirmUnlinkGoogle() {
     try {
       await apiUnlinkGoogle();
       currentUser.viaGoogle = false;
-      const badge = document.getElementById('profile-google-badge');
-      if (badge) badge.style.display = 'none';
+      updateGoogleBadge(false);
       initAccountDataScreen();
       showToast('Conta desconectada do Google.', 'success');
     } catch (e) {

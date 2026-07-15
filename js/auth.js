@@ -46,8 +46,14 @@ function applyCurrentUser(user) {
     }
   });
 
+  updateGoogleBadge(user.viaGoogle);
+}
+
+function updateGoogleBadge(viaGoogle) {
   const badge = document.getElementById('profile-google-badge');
-  if (badge) badge.style.display = user.viaGoogle ? 'inline-flex' : 'none';
+  if (!badge) return;
+  badge.classList.toggle('d-none', !viaGoogle);
+  badge.classList.toggle('d-inline-flex', viaGoogle);
 }
 
 async function refreshData() {
