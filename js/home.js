@@ -14,6 +14,16 @@ function onHomeValueModeChange() {
   homeValueMode = document.getElementById('home-value-mode-toggle').checked ? 'todos' : 'confirmado';
   renderHome();
 }
+function homeValueModeToggleHtml() {
+  const isTodos = homeValueMode === 'todos';
+  return `<div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+    <span class="text-secondary" id="value-mode-label-off" style="font-size:.68rem;font-weight:${isTodos ? '400' : '700'}">Real</span>
+    <div class="form-check form-switch mb-0">
+      <input class="form-check-input" type="checkbox" id="home-value-mode-toggle" role="switch" onchange="onHomeValueModeChange()"${isTodos ? ' checked' : ''}>
+    </div>
+    <span class="text-secondary" id="value-mode-label-on" style="font-size:.68rem;font-weight:${isTodos ? '700' : '400'}">Previsto</span>
+  </div>`;
+}
 function homeMonthTotals(month, year) {
   return homeValueMode === 'todos' ? getMonthTotals(month, year) : getConfirmedTotals(month, year);
 }
@@ -147,8 +157,10 @@ function buildMonthStrip() {
 }
 
 function buildYearStrip() {
-  const years = [...new Set(entries.map(e => e.yyyy))].sort((a,b) => a-b);
-  if (!years.length) years.push(homeYear);
+  // só anos passados e o atual — lançamentos recorrentes podem gerar
+  // ocorrências futuras, mas elas não devem abrir um ano novo na aba Anual.
+  const curYear = new Date().getFullYear();
+  const years = [...new Set(entries.map(e => e.yyyy).filter(y => y <= curYear).concat([curYear]))].sort((a,b) => a-b);
   if (!years.includes(homeYear)) homeYear = years[years.length - 1];
   const strip = document.getElementById('year-strip');
   strip.innerHTML = years.map(y =>
@@ -529,7 +541,8 @@ function renderHome() {
   const summary =
     `<div class="card" style="border-radius:var(--md-sys-shape-corner-small)!important;margin-bottom:24px">
       <div class="card-body py-3 px-3">
-        <div class="small text-center mb-3" id="home-periodo" style="font-weight:400">${periodoLabel}</div>
+        <div class="small text-center mb-2" id="home-periodo" style="font-weight:400">${periodoLabel}</div>
+        ${homeValueModeToggleHtml()}
         <div class="mb-3">${chart}</div>
         <div id="home-legend" style="display:flex;justify-content:space-around">${buildLegendHtml(d)}</div>
       </div>
