@@ -290,13 +290,13 @@ async function saveNewGroup() {
 
 function confirmDeleteGroup(id, tipo) {
   document.getElementById('modal-title').textContent = 'Remover grupo?';
-  document.getElementById('modal-desc').textContent  = 'O grupo e todas as suas categorias e subcategorias serão removidos.';
+  document.getElementById('modal-desc').textContent  = 'O grupo será removido. As categorias dele serão mantidas em "Sem grupo".';
   document.getElementById('modal-confirm-btn').onclick = async function() {
     hideConfirmModal();
     try {
       await apiDeleteGroup(id);
       catGroups[tipo] = (catGroups[tipo] || []).filter(function(g) { return g.id !== id; });
-      categories[tipo] = (categories[tipo] || []).filter(function(c) { return c.groupId !== id; });
+      (categories[tipo] || []).forEach(function(c) { if (c.groupId === id) c.groupId = null; });
       renderCats();
       showToast('Grupo removido.', 'success');
     } catch (e) { showToast(e.message, 'error'); }

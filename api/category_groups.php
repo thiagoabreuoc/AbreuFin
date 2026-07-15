@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     $row->execute([$id, $userId]);
     if (!$row->fetch()) jsonError('Grupo não encontrado.', 404);
 
-    $pdo->prepare('DELETE FROM categories WHERE group_id=?')->execute([$id]);
+    $pdo->prepare('UPDATE categories SET group_id=NULL WHERE group_id=?')->execute([$id]);
     $pdo->prepare('DELETE FROM category_groups WHERE id=?')->execute([$id]);
     jsonResponse(['ok' => true]);
 }
