@@ -277,24 +277,54 @@ function applyMaterialTheme(name) {
   const root = document.documentElement.style;
   Object.entries(tokens).forEach(([k, v]) => root.setProperty(k, v));
   localStorage.setItem('md-theme', name);
-  renderThemeCarousel();
+  updateThemeCarouselActive();
   if (typeof renderHome === 'function' && document.getElementById('screen-home') &&
       document.getElementById('screen-home').classList.contains('active')) {
     renderHome();
   }
 }
 
+function themeCarouselItemHtml(key, t, active) {
+  return `<div class="theme-carousel-item" data-theme-name="${key}" onclick="applyMaterialTheme('${key}')">
+    <div class="theme-carousel-swatch${active ? ' active' : ''}" style="background:${t.swatch}">${active ? '<span class="material-symbols-outlined">check</span>' : ''}</div>
+    <div class="theme-carousel-name${active ? ' active' : ''}">${t.funName}</div>
+  </div>`;
+}
+
+/* Carrossel infinito: triplica os itens e recentra o scroll na cópia
+   do meio; onThemeCarouselScroll() pula silenciosamente pra cópia
+   equivalente quando o usuário se aproxima de uma ponta. */
 function renderThemeCarousel() {
   const el = document.getElementById('theme-carousel');
   if (!el) return;
   const current = getMaterialTheme();
-  el.innerHTML = Object.entries(MATERIAL_THEMES).map(([key, t]) => {
-    const active = key === current;
-    return `<div class="theme-carousel-item" onclick="applyMaterialTheme('${key}')">
-      <div class="theme-carousel-swatch${active ? ' active' : ''}" style="background:${t.swatch}">${active ? '<span class="material-symbols-outlined">check</span>' : ''}</div>
-      <div class="theme-carousel-name${active ? ' active' : ''}">${t.funName}</div>
-    </div>`;
-  }).join('');
+  const entries = Object.entries(MATERIAL_THEMES);
+  const oneSet = entries.map(([key, t]) => themeCarouselItemHtml(key, t, key === current)).join('');
+  el.innerHTML = oneSet + oneSet + oneSet;
+  el.scrollLeft = el.scrollWidth / 3;
+}
+
+function updateThemeCarouselActive() {
+  const el = document.getElementById('theme-carousel');
+  if (!el) return;
+  const current = getMaterialTheme();
+  el.querySelectorAll('.theme-carousel-item').forEach(item => {
+    const active = item.dataset.themeName === current;
+    const t = MATERIAL_THEMES[item.dataset.themeName];
+    const swatch = item.querySelector('.theme-carousel-swatch');
+    const nameEl = item.querySelector('.theme-carousel-name');
+    swatch.classList.toggle('active', active);
+    swatch.innerHTML = active ? '<span class="material-symbols-outlined">check</span>' : '';
+    nameEl.classList.toggle('active', active);
+  });
+}
+
+function onThemeCarouselScroll() {
+  const el = document.getElementById('theme-carousel');
+  if (!el) return;
+  const oneSetWidth = el.scrollWidth / 3;
+  if (el.scrollLeft < oneSetWidth * 0.5) el.scrollLeft += oneSetWidth;
+  else if (el.scrollLeft > oneSetWidth * 2.5) el.scrollLeft -= oneSetWidth;
 }
 
 function initMaterialTheme() {

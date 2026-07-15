@@ -299,9 +299,9 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 /* Seletor de paleta M3 (Perfil > Personalização) */
 .theme-carousel{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 6px;-webkit-overflow-scrolling:touch;-ms-overflow-style:none;scrollbar-width:none}
 .theme-carousel::-webkit-scrollbar{display:none}
-.theme-carousel-item{flex-shrink:0;width:72px;text-align:center;cursor:pointer;scroll-snap-align:start}
-.theme-carousel-swatch{width:56px;height:56px;border-radius:50%;border:2px solid transparent;margin:0 auto;position:relative}
+.theme-carousel-item{flex-shrink:0;width:auto;text-align:center;cursor:pointer;scroll-snap-align:start;padding:0 4px}
+.theme-carousel-swatch{width:40px;height:40px;border-radius:50%;border:2px solid transparent;margin:0 auto;position:relative}
 .theme-carousel-swatch.active{border-color:var(--md-sys-color-on-surface)}
-.theme-carousel-swatch.active .material-symbols-outlined{color:#fff;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-shadow:0 0 3px rgba(0,0,0,.5)}
-.theme-carousel-name{font-size:.72rem;color:var(--md-sys-color-on-surface-variant);margin-top:6px}
+.theme-carousel-swatch.active .material-symbols-outlined{color:#fff;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;text-shadow:0 0 3px rgba(0,0,0,.5)}
+.theme-carousel-name{font-size:.72rem;color:var(--md-sys-color-on-surface-variant);margin-top:6px;white-space:nowrap}
 .theme-carousel-name.active{color:var(--md-sys-color-on-surface);font-weight:600}
