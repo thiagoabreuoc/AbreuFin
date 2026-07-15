@@ -10,7 +10,6 @@
           <span class="material-symbols-outlined" style="font-size:1.2rem;vertical-align:-4px">edit_calendar</span>
         </button>
       </div>
-      <div class="d-flex align-items-center justify-content-center" style="gap:10px" id="listing-totals"></div>
     </div>
     <div style="width:24px"></div>
   </div>
@@ -34,6 +33,7 @@
         <a href="#" id="sort-btn-neutro" class="text-decoration-none d-inline-flex align-items-center" style="display:none" onclick="sortEntries('neutro','asc');return false;" aria-label="Ordenar por sem vencimento próximo"><span class="m3-badge-small m3-badge-small-neutral"></span></a>
       </div>
     </div>
+    <div class="text-center" id="listing-totals" style="padding:14px 0"></div>
     <ul class="list-group" id="listing-entries" style="display:flex;flex-direction:column;gap:8px;padding-bottom:72px"></ul>
   </div>
 </div>

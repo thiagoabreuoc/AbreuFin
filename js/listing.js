@@ -166,26 +166,23 @@ function dueBadge(e) {
   return `<span class="m3-badge-small ${DUE_RANK_CLASS[r]}" style="margin-left:4px"></span>`;
 }
 
-function updateListingTotals() {
+function updateListingTotals(list) {
   const el = document.getElementById('listing-totals');
   if (!el) return;
-  if (!CONFIRMED_STATUS[currentListingType]) { el.innerHTML = ''; return; }
   const confirmedStatus = CONFIRMED_STATUS[currentListingType];
-  const all = getListingEntries(true);
-  let confirmedTotal = 0, pendingTotal = 0;
-  all.forEach(e => {
-    if (entryStatus(e) === confirmedStatus) confirmedTotal += e.valor;
-    else pendingTotal += e.valor;
-  });
+  if (!confirmedStatus) { el.innerHTML = ''; return; }
+  const total = list.reduce((sum, e) => sum + e.valor, 0);
+  let icon = '', colorClass = '';
+  if (listingStatusFilter === confirmedStatus) { icon = 'check_circle'; colorClass = 'text-success'; }
+  else if (listingStatusFilter) { icon = 'schedule'; colorClass = 'text-secondary'; }
   el.innerHTML =
-    `<span class="d-inline-flex align-items-center gap-1"><span class="material-symbols-outlined text-success" style="font-size:.9rem">check_circle</span><span class="fw-normal small">${fmt(confirmedTotal)}</span></span>` +
-    `<span class="text-secondary" style="opacity:.6;font-size:.9rem;user-select:none">|</span>` +
-    `<span class="d-inline-flex align-items-center gap-1"><span class="material-symbols-outlined text-secondary" style="font-size:.9rem">schedule</span><span class="fw-normal small">${fmt(pendingTotal)}</span></span>`;
+    (icon ? `<span class="material-symbols-outlined ${colorClass}" style="font-size:1rem;vertical-align:-3px;margin-right:4px">${icon}</span>` : '') +
+    `<span class="fw-semibold" style="font-size:1.15rem">${fmt(total)}</span>`;
 }
 
 function renderListing() {
-  updateListingTotals();
   const list=getListingEntries();
+  updateListingTotals(list);
   const hasVencido  = list.some(e=>dueRank(e)==='vencido');
   const hasVencendo = list.some(e=>dueRank(e)==='vencendo');
   const hasNeutro   = list.some(e=>dueRank(e)==='neutro');
