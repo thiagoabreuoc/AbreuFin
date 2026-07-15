@@ -119,7 +119,7 @@ function overallPriority(e) {
   return 3; // confirmado (recebido/pago/investido)
 }
 
-function getListingEntries() {
+function getListingEntries(ignoreStatusFilter) {
   const cat=document.getElementById('f-cat').value;
   const sub=document.getElementById('f-subcat').value;
   const rep=document.getElementById('f-repeat').value;
@@ -129,7 +129,7 @@ function getListingEntries() {
     if (e.yyyy !== _yr) return false;
     if (listingMonth !== null && e.mm-1 !== listingMonth) return false;
     const es=entryStatus(e);
-    if (listingStatusFilter&&es!==listingStatusFilter) return false;
+    if (!ignoreStatusFilter&&listingStatusFilter&&es!==listingStatusFilter) return false;
     if (cat&&e.categoria!==cat) return false;
     if (sub&&e.subcategoria!==sub) return false;
     if (rep&&e.repetir!==rep) return false;
@@ -166,7 +166,30 @@ function dueBadge(e) {
   return `<span class="m3-badge-small ${DUE_RANK_CLASS[r]}" style="margin-left:4px"></span>`;
 }
 
+const LISTING_TOTALS_LABELS = {
+  receita:      { confirmed: 'Recebido',  pending: 'A receber' },
+  despesa:      { confirmed: 'Pago',      pending: 'A pagar'   },
+  investimento: { confirmed: 'Investido', pending: 'A investir'},
+};
+function updateListingTotals() {
+  const el = document.getElementById('listing-totals');
+  if (!el) return;
+  const labels = LISTING_TOTALS_LABELS[currentListingType];
+  if (!labels) { el.innerHTML = ''; return; }
+  const confirmedStatus = CONFIRMED_STATUS[currentListingType];
+  const all = getListingEntries(true);
+  let confirmedTotal = 0, pendingTotal = 0;
+  all.forEach(e => {
+    if (entryStatus(e) === confirmedStatus) confirmedTotal += e.valor;
+    else pendingTotal += e.valor;
+  });
+  el.innerHTML =
+    `<span class="badge status-cell status-cell-success" style="font-size:.68rem">${labels.confirmed}: ${fmt(confirmedTotal)}</span>` +
+    `<span class="badge status-cell status-cell-neutral" style="font-size:.68rem">${labels.pending}: ${fmt(pendingTotal)}</span>`;
+}
+
 function renderListing() {
+  updateListingTotals();
   const list=getListingEntries();
   const hasVencido  = list.some(e=>dueRank(e)==='vencido');
   const hasVencendo = list.some(e=>dueRank(e)==='vencendo');

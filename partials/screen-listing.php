@@ -10,6 +10,7 @@
           <span class="material-symbols-outlined" style="font-size:1.2rem;vertical-align:-4px">edit_calendar</span>
         </button>
       </div>
+      <div class="d-flex align-items-center justify-content-center" style="gap:10px" id="listing-totals"></div>
     </div>
     <div style="width:24px"></div>
   </div>
