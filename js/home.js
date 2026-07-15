@@ -539,7 +539,7 @@ function renderHome() {
   const chart = homeTab==='meses' ? buildBarChart(d) : buildAreaChart(chartData, chartLabels);
 
   const summary =
-    `<div class="card home-elevated-card" style="border-radius:var(--md-sys-shape-corner-small)!important;margin-bottom:24px">
+    `<div class="card" style="border-radius:var(--md-sys-shape-corner-small)!important;margin-bottom:24px">
       <div class="card-body py-3 px-3">
         <div class="small text-center mb-2" id="home-periodo" style="font-weight:400">${periodoLabel}</div>
         ${homeValueModeToggleHtml()}
