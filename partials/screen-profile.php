@@ -18,27 +18,27 @@
 
     <div class="mb-4">
       <div class="profile-item d-flex align-items-center gap-3" onclick="showScreen('personalizacao');initThemeToggle()">
-        <span class="material-symbols-outlined" style="font-size:1.75rem">palette</span>
+        <span class="material-symbols-outlined" style="font-size:1.3rem">palette</span>
         <span class="fw-normal small">Personalização</span>
       </div>
       <div class="profile-item d-flex align-items-center gap-3" onclick="showScreen('cats');renderCats()">
-        <span class="material-symbols-outlined" style="font-size:1.75rem">category</span>
+        <span class="material-symbols-outlined" style="font-size:1.3rem">category</span>
         <span class="fw-normal small">Categorias</span>
       </div>
       <div class="profile-item d-flex align-items-center gap-3" onclick="openExport()">
-        <span class="material-symbols-outlined" style="font-size:1.75rem">file_download</span>
+        <span class="material-symbols-outlined" style="font-size:1.3rem">file_download</span>
         <span class="fw-normal small">Exportar dados</span>
       </div>
       <div class="profile-item d-flex align-items-center gap-3" onclick="showScreen('change-password')">
-        <span class="material-symbols-outlined" style="font-size:1.75rem">lock</span>
+        <span class="material-symbols-outlined" style="font-size:1.3rem">lock</span>
         <span class="fw-normal small">Alterar senha</span>
       </div>
       <div class="profile-item d-flex align-items-center gap-3" onclick="showScreen('notifications');loadNotifSettings()">
-        <span class="material-symbols-outlined" style="font-size:1.75rem">notifications</span>
+        <span class="material-symbols-outlined" style="font-size:1.3rem">notifications</span>
         <span class="fw-normal small">Notificações</span>
       </div>
       <div class="profile-item d-flex align-items-center gap-3" onclick="showScreen('privacy')">
-        <span class="material-symbols-outlined" style="font-size:1.75rem">privacy_tip</span>
+        <span class="material-symbols-outlined" style="font-size:1.3rem">privacy_tip</span>
         <span class="fw-normal small">Privacidade e LGPD</span>
       </div>
     </div>

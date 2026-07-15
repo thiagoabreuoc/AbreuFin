@@ -8,15 +8,15 @@
   <div class="screen-body p-3">
     <div class="list-group cat-row-list">
       <div class="list-group-item cat-row-card d-flex align-items-center gap-3" onclick="exportCSV()" style="cursor:pointer">
-        <span class="material-symbols-outlined" style="font-size:1.75rem">table_chart</span>
+        <span class="material-symbols-outlined" style="font-size:1.3rem">table_chart</span>
         <div class="fw-normal small">Exportar CSV</div>
       </div>
       <div class="list-group-item cat-row-card d-flex align-items-center gap-3" onclick="exportJSON()" style="cursor:pointer">
-        <span class="material-symbols-outlined" style="font-size:1.75rem">code</span>
+        <span class="material-symbols-outlined" style="font-size:1.3rem">code</span>
         <div class="fw-normal small">Exportar JSON</div>
       </div>
       <div class="list-group-item cat-row-card d-flex align-items-center gap-3" onclick="exportTxt()" style="cursor:pointer">
-        <span class="material-symbols-outlined" style="font-size:1.75rem">description</span>
+        <span class="material-symbols-outlined" style="font-size:1.3rem">description</span>
         <div class="fw-normal small">Relatório texto</div>
       </div>
     </div>
