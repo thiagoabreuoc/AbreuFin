@@ -257,6 +257,16 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 .profile-item:hover{background-color:var(--md-sys-color-surface-container-low)}
 .profile-item:active{background-color:var(--md-sys-color-surface-container)}
 
+/* Swipe pra confirmar/desfazer status do lançamento — o card (.swipe-card-front)
+   desliza por cima de duas camadas de fundo fixas (esquerda = confirmar,
+   direita = voltar a pendente), reveladas conforme o arrasto. */
+.swipe-card-wrap{position:relative;overflow:hidden;border-radius:var(--md-sys-shape-corner-medium)}
+.swipe-bg{position:absolute;top:0;bottom:0;width:50%;display:flex;align-items:center;padding:0 20px}
+.swipe-bg .material-symbols-outlined{font-size:1.4rem}
+.swipe-bg-left{left:0;justify-content:flex-start;border-radius:var(--md-sys-shape-corner-medium) 0 0 var(--md-sys-shape-corner-medium);background:var(--md-extended-color-success-color-container);color:var(--md-extended-color-success-on-color-container)}
+.swipe-bg-right{right:0;justify-content:flex-end;border-radius:0 var(--md-sys-shape-corner-medium) var(--md-sys-shape-corner-medium) 0;background:var(--md-sys-color-surface-variant);color:var(--md-sys-color-on-surface-variant)}
+.swipe-card-front{position:relative;touch-action:pan-y;background-color:var(--md-sys-color-surface)}
+
 /* Toast — role "inverse-surface" (spec M3 pra snackbar) */
 .toast{background-color:var(--md-sys-color-inverse-surface)!important;color:var(--md-sys-color-inverse-on-surface)!important;border-radius:var(--md-sys-shape-corner-extra-small);box-shadow:var(--md-sys-elevation-level3)}
 

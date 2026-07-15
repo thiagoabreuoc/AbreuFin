@@ -86,6 +86,7 @@ function openListing(tipo, pinId) {
   showScreen('listing');
   renderListing();
   attachListingScroll();
+  initSwipeCards(document.getElementById('listing-entries'));
 }
 
 function entryStatus(e) {
@@ -184,18 +185,101 @@ function renderListing() {
     const sub   = cap(escapeHtml(e.categoria));
     const rep   = e.repetir ? `<div class="text-secondary small" style="margin-top:6px"><span class="material-symbols-outlined me-1" style="font-size:.9rem;vertical-align:-2px">repeat</span>${cap(escapeHtml(e.repetir))}</div>` : '';
     const repeatCount = e.repeat_total > 0 ? ` <span class="text-secondary fw-normal" style="font-size:.65rem">${e.repeat_index}/${e.repeat_total}</span>` : '';
-    return `<li class="list-group-item cat-row-card d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer">
-      <div>
-        <div class="fw-semibold small">${title}${repeatCount}</div>
-        <div class="text-secondary small" style="margin-top:6px">${sub}</div>
-        ${rep}
-      </div>
-      <div class="text-end">
-        <span class="badge ${STATUS_BADGE[es]}" style="margin-bottom:6px">${statusLabel(es)}</span>
-        <div class="fw-semibold small">${fmt(e.valor)}</div>
-        <div class="text-secondary small" style="margin-top:4px">${String(e.dd).padStart(2,'0')}/${String(e.mm).padStart(2,'0')}/${e.yyyy}${dueBadge(e)}</div>
+    return `<li class="swipe-card-wrap" data-entry-id="${e.id}">
+      <div class="swipe-bg swipe-bg-left"><span class="material-symbols-outlined">check_circle</span></div>
+      <div class="swipe-bg swipe-bg-right"><span class="material-symbols-outlined">schedule</span></div>
+      <div class="list-group-item cat-row-card swipe-card-front d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer">
+        <div>
+          <div class="fw-semibold small">${title}${repeatCount}</div>
+          <div class="text-secondary small" style="margin-top:6px">${sub}</div>
+          ${rep}
+        </div>
+        <div class="text-end">
+          <span class="badge ${STATUS_BADGE[es]}" style="margin-bottom:6px">${statusLabel(es)}</span>
+          <div class="fw-semibold small">${fmt(e.valor)}</div>
+          <div class="text-secondary small" style="margin-top:4px">${String(e.dd).padStart(2,'0')}/${String(e.mm).padStart(2,'0')}/${e.yyyy}${dueBadge(e)}</div>
+        </div>
       </div></li>`;
   }).join('');
+}
+
+/* ─────────────── Swipe pra confirmar/desfazer status ───────────────
+   Arrasta o card pra direita (revela o fundo esquerdo, ✓ verde) pra
+   marcar como confirmado (pago/recebido/investido); arrasta pra
+   esquerda (revela o fundo direito, ⏱) pra voltar a pendente. */
+const SWIPE_PENDING_STATUS = {receita:'a_receber', despesa:'pendente', investimento:'a_investir'};
+const SWIPE_THRESHOLD = 70;
+let _swipeState = null;
+
+function initSwipeCards(container) {
+  if (!container || container._swipeInited) return;
+  container._swipeInited = true;
+  container.addEventListener('pointerdown', onSwipePointerDown);
+  container.addEventListener('pointermove', onSwipePointerMove);
+  container.addEventListener('pointerup', onSwipePointerUp);
+  container.addEventListener('pointercancel', onSwipePointerUp);
+}
+
+function onSwipePointerDown(e) {
+  if (e.button !== undefined && e.button !== 0) return;
+  const front = e.target.closest('.swipe-card-front');
+  if (!front) return;
+  const wrap = front.closest('.swipe-card-wrap');
+  if (!wrap) return;
+  _swipeState = { front, wrap, startX: e.clientX, dx: 0, pointerId: e.pointerId, moved: false };
+  front.style.transition = 'none';
+}
+
+function onSwipePointerMove(e) {
+  if (!_swipeState || e.pointerId !== _swipeState.pointerId) return;
+  const dx = e.clientX - _swipeState.startX;
+  if (Math.abs(dx) > 6) _swipeState.moved = true;
+  _swipeState.dx = Math.max(-100, Math.min(100, dx));
+  _swipeState.front.style.transform = `translateX(${_swipeState.dx}px)`;
+}
+
+function onSwipePointerUp(e) {
+  if (!_swipeState || e.pointerId !== _swipeState.pointerId) return;
+  const { front, wrap, dx, moved } = _swipeState;
+  _swipeState = null;
+  front.style.transition = 'transform var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)';
+  front.style.transform = 'translateX(0)';
+
+  if (moved) {
+    // arrasto real: não deixa o tap subsequente abrir a tela de edição
+    front.addEventListener('click', suppressNextClick, { once: true, capture: true });
+  }
+  if (Math.abs(dx) < SWIPE_THRESHOLD) return;
+
+  const id = parseInt(wrap.dataset.entryId, 10);
+  const entry = entries.find(x => x.id === id);
+  if (!entry) return;
+  const newStatus = dx > 0 ? CONFIRMED_STATUS[entry.tipo] : SWIPE_PENDING_STATUS[entry.tipo];
+  if (entry.status === newStatus) return;
+  updateEntryStatusSwipe(entry, newStatus);
+}
+
+function suppressNextClick(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
+async function updateEntryStatusSwipe(entry, newStatus) {
+  const prevStatus = entry.status;
+  entry.status = newStatus;
+  renderListing();
+  try {
+    await apiUpdateEntry(entry.id, {
+      tipo: entry.tipo, categoria: entry.categoria, subcategoria: entry.subcategoria,
+      valor: entry.valor, dd: entry.dd, mm: entry.mm, yyyy: entry.yyyy,
+      status: newStatus, obs: entry.obs, repetir: entry.repetir, notif: entry.notif,
+    });
+    showToast('Status atualizado.', 'success');
+  } catch (err) {
+    entry.status = prevStatus;
+    renderListing();
+    showToast(err.message, 'error');
+  }
 }
 
 function statusLabel(s){return{a_pagar:'A pagar',a_receber:'A receber',a_investir:'A investir',pago:'Pago',investido:'Investido',recebido:'Recebido'}[s]||s}
