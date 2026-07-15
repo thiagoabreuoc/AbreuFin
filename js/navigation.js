@@ -44,7 +44,10 @@ function showConfirmModal() {
 function hideConfirmModal() {
   const el = document.getElementById('confirm-modal');
   el.style.opacity = '0';
-  setTimeout(() => { el.style.display = 'none'; }, 190);
+  setTimeout(() => {
+    el.style.display = 'none';
+    document.getElementById('modal-confirm-btn').textContent = 'Remover';
+  }, 190);
 }
 
 function openDrawer() {

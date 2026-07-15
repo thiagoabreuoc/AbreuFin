@@ -53,6 +53,7 @@ $csrfToken = csrfToken();
     <?php include 'partials/screen-cat-group.php'; ?>
     <?php include 'partials/screen-cat-detail.php'; ?>
     <?php include 'partials/screen-profile.php'; ?>
+    <?php include 'partials/screen-account-data.php'; ?>
     <?php include 'partials/screen-personalizacao.php'; ?>
     <?php include 'partials/screen-export.php'; ?>
     <?php include 'partials/screen-notifications.php'; ?>

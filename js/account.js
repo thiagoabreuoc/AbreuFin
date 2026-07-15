@@ -142,3 +142,63 @@ async function doChangePassword() {
     setBtnLoading(btn, false);
   }
 }
+
+/* ─────────────── Dados da conta (somente leitura) ─────────────── */
+function formatAccountDate(raw) {
+  if (!raw) return '—';
+  const iso = raw.indexOf('T') === -1 ? raw.replace(' ', 'T') + 'Z' : raw;
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return raw;
+  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+}
+
+function initAccountDataScreen() {
+  const u = currentUser || {};
+  document.getElementById('ad-name').textContent  = u.name  || '—';
+  document.getElementById('ad-email').textContent = u.email || '—';
+
+  let method = '—';
+  if (u.viaGoogle && u.hasPassword) method = 'Google e e-mail/senha';
+  else if (u.viaGoogle) method = 'Google';
+  else if (u.hasPassword) method = 'E-mail e senha';
+  document.getElementById('ad-login-method').textContent = method;
+  document.getElementById('ad-created-at').textContent = formatAccountDate(u.created_at);
+
+  const section = document.getElementById('ad-google-section');
+  const btn = document.getElementById('ad-unlink-btn');
+  const hint = document.getElementById('ad-unlink-hint');
+  if (!section || !btn || !hint) return;
+
+  if (!u.viaGoogle) { section.style.display = 'none'; return; }
+  section.style.display = '';
+
+  if (u.hasPassword) {
+    btn.textContent = 'Desconectar do Google';
+    btn.onclick = confirmUnlinkGoogle;
+    hint.textContent = 'Você continua podendo entrar com seu e-mail e senha.';
+  } else {
+    btn.textContent = 'Definir senha pra poder desconectar';
+    btn.onclick = function () { showScreen('change-password'); initChangePasswordScreen(); };
+    hint.textContent = 'Defina uma senha antes de desconectar do Google, senão você perde o acesso à conta.';
+  }
+}
+
+function confirmUnlinkGoogle() {
+  document.getElementById('modal-title').textContent = 'Desconectar do Google?';
+  document.getElementById('modal-desc').textContent  = 'Você continua podendo entrar com seu e-mail e senha.';
+  document.getElementById('modal-confirm-btn').textContent = 'Desconectar';
+  document.getElementById('modal-confirm-btn').onclick = async function () {
+    hideConfirmModal();
+    try {
+      await apiUnlinkGoogle();
+      currentUser.viaGoogle = false;
+      const badge = document.getElementById('profile-google-badge');
+      if (badge) badge.style.display = 'none';
+      initAccountDataScreen();
+      showToast('Conta desconectada do Google.', 'success');
+    } catch (e) {
+      showToast(e.message, 'error');
+    }
+  };
+  showConfirmModal();
+}

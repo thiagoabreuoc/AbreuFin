@@ -65,7 +65,7 @@ function requireLogin(): int {
 function currentUserRow(): ?array {
     $id = currentUserId();
     if (!$id) return null;
-    $stmt = db()->prepare('SELECT id, name, email, google_id, google_photo, password_hash FROM users WHERE id = ?');
+    $stmt = db()->prepare('SELECT id, name, email, google_id, google_photo, password_hash, created_at FROM users WHERE id = ?');
     $stmt->execute([$id]);
     $user = $stmt->fetch();
     if (!$user) return null;
