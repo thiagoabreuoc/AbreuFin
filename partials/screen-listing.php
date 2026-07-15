@@ -17,17 +17,17 @@
     <div style="display:flex;justify-content:center;align-items:center;gap:8px;margin-bottom:16px" id="listing-status-tabs">
       <!-- preenchido dinamicamente por openListing() -->
     </div>
-    <div class="mb-3" style="display:flex;justify-content:space-between;align-items:center;gap:16px">
+    <div class="mb-3" style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding-left:8px;padding-right:8px">
       <button class="btn btn-link text-primary p-0 d-inline-flex align-items-center" type="button" onclick="openFilterPanel()" aria-label="Mais filtros">
-        <span class="material-symbols-outlined" style="font-size:1.1rem">filter_alt</span><span id="filter-count" class="m3-badge-large" style="display:none">0</span>
+        <span class="material-symbols-outlined" style="font-size:1.4rem">filter_alt</span><span id="filter-count" class="m3-badge-large" style="display:none">0</span>
       </button>
       <div style="display:flex;align-items:center;gap:16px">
         <a href="#" id="sort-btn-desc"      class="text-primary  text-decoration-none d-inline-flex align-items-center gap-1" onclick="sortEntries('valor','desc');return false;"><span class="material-symbols-outlined" style="font-size:.8rem">arrow_upward</span><span class="material-symbols-outlined" style="font-size:.9rem">attach_money</span></a>
         <a href="#" id="sort-btn-asc"       class="text-secondary text-decoration-none d-inline-flex align-items-center gap-1" onclick="sortEntries('valor','asc');return false;"><span class="material-symbols-outlined" style="font-size:.8rem">arrow_downward</span><span class="material-symbols-outlined" style="font-size:.9rem">attach_money</span></a>
-        <span class="text-secondary" style="opacity:.35;font-size:.75rem;user-select:none">|</span>
+        <span class="text-secondary" style="opacity:.6;font-size:.9rem;user-select:none">|</span>
         <a href="#" id="sort-btn-date-desc" class="text-secondary text-decoration-none d-inline-flex align-items-center gap-1" onclick="sortEntries('data','desc');return false;"><span class="material-symbols-outlined" style="font-size:.8rem">arrow_upward</span><span class="material-symbols-outlined" style="font-size:.9rem">calendar_today</span></a>
         <a href="#" id="sort-btn-date-asc"  class="text-secondary text-decoration-none d-inline-flex align-items-center gap-1" onclick="sortEntries('data','asc');return false;"><span class="material-symbols-outlined" style="font-size:.8rem">arrow_downward</span><span class="material-symbols-outlined" style="font-size:.9rem">calendar_today</span></a>
-        <span class="text-secondary" id="sort-urgency-sep" style="opacity:.35;font-size:.75rem;user-select:none;display:none">|</span>
+        <span class="text-secondary" id="sort-urgency-sep" style="opacity:.6;font-size:.9rem;user-select:none;display:none">|</span>
         <a href="#" id="sort-btn-vencido" class="text-decoration-none d-inline-flex align-items-center" style="display:none" onclick="sortEntries('vencido','asc');return false;" aria-label="Ordenar por vencidos"><span class="m3-badge-small m3-badge-small-error"></span></a>
         <a href="#" id="sort-btn-vencendo" class="text-decoration-none d-inline-flex align-items-center" style="display:none" onclick="sortEntries('vencendo','asc');return false;" aria-label="Ordenar por a vencer"><span class="m3-badge-small m3-badge-small-warning"></span></a>
         <a href="#" id="sort-btn-neutro" class="text-decoration-none d-inline-flex align-items-center" style="display:none" onclick="sortEntries('neutro','asc');return false;" aria-label="Ordenar por sem vencimento próximo"><span class="m3-badge-small m3-badge-small-neutral"></span></a>
