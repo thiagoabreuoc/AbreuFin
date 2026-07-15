@@ -17,7 +17,7 @@ function onHomeValueModeChange() {
 function homeValueModeToggleHtml() {
   const isTodos = homeValueMode === 'todos';
   return `<div class="d-flex align-items-center justify-content-center gap-2 mb-3">
-    <span class="text-secondary" id="value-mode-label-off" style="font-size:.68rem;font-weight:${isTodos ? '400' : '700'}">Atual</span>
+    <span class="text-secondary" id="value-mode-label-off" style="font-size:.68rem;font-weight:${isTodos ? '400' : '700'}">Realizado</span>
     <div class="form-check form-switch mb-0">
       <input class="form-check-input" type="checkbox" id="home-value-mode-toggle" role="switch" onchange="onHomeValueModeChange()"${isTodos ? ' checked' : ''}>
     </div>
