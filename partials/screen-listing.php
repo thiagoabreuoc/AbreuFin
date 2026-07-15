@@ -13,7 +13,7 @@
     </div>
     <div style="width:24px"></div>
   </div>
-  <div class="screen-body" style="padding:24px 16px 16px;position:relative">
+  <div class="screen-body" style="padding:16px 16px 16px;position:relative">
     <div style="display:flex;justify-content:center;align-items:center;gap:8px;margin-bottom:16px" id="listing-status-tabs">
       <!-- preenchido dinamicamente por openListing() -->
     </div>
