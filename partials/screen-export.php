@@ -9,15 +9,15 @@
     <div class="list-group cat-row-list">
       <div class="list-group-item cat-row-card d-flex align-items-center gap-3" onclick="exportCSV()" style="cursor:pointer">
         <span class="material-symbols-outlined" style="font-size:1.75rem">table_chart</span>
-        <div class="fw-medium">Exportar CSV</div>
+        <div class="fw-medium small">Exportar CSV</div>
       </div>
       <div class="list-group-item cat-row-card d-flex align-items-center gap-3" onclick="exportJSON()" style="cursor:pointer">
         <span class="material-symbols-outlined" style="font-size:1.75rem">code</span>
-        <div class="fw-medium">Exportar JSON</div>
+        <div class="fw-medium small">Exportar JSON</div>
       </div>
       <div class="list-group-item cat-row-card d-flex align-items-center gap-3" onclick="exportTxt()" style="cursor:pointer">
         <span class="material-symbols-outlined" style="font-size:1.75rem">description</span>
-        <div class="fw-medium">Relatório texto</div>
+        <div class="fw-medium small">Relatório texto</div>
       </div>
     </div>
   </div>
