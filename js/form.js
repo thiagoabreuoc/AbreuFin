@@ -11,6 +11,76 @@ function ensureCSInit() {
   _csFormInited = true;
   csInit('f-categoria');
   csInit('f-subcategoria');
+  initAutoSaveDelegation();
+}
+
+// ─── Auto-save (modo edição) ────────────────────────────────
+// Editar um lançamento não usa os botões Salvar/Cancelar — cada
+// alteração salva sozinha (debounced). Só se aplica quando editingId
+// está definido; na criação de um novo lançamento nada muda.
+let _autoSaveTimer = null;
+let _formInitializing = false;
+
+function scheduleAutoSave() {
+  if (!editingId || _formInitializing) return;
+  clearTimeout(_autoSaveTimer);
+  _autoSaveTimer = setTimeout(autoSaveEntry, 600);
+}
+
+function initAutoSaveDelegation() {
+  const wrap = document.getElementById('form-fields');
+  if (!wrap || wrap._autoSaveInited) return;
+  wrap._autoSaveInited = true;
+  wrap.addEventListener('input', scheduleAutoSave);
+  wrap.addEventListener('change', scheduleAutoSave);
+}
+
+async function autoSaveEntry() {
+  if (!editingId) return;
+  const tipo=document.getElementById('f-tipo').value;
+  const valor=parseValor();
+  const dd=parseInt(document.getElementById('f-dd').value);
+  const mm=parseInt(document.getElementById('f-mm').value);
+  const yyyy=parseInt(document.getElementById('f-yyyy').value);
+  const status=getActivePill();
+  // validação silenciosa: se algo obrigatório ainda estiver incompleto
+  // (ex. no meio de digitar a data), simplesmente não salva agora —
+  // tenta de novo no próximo evento, quando o campo estiver completo.
+  if (!tipo || !valor || valor<=0 || !dd || !mm || !yyyy || !status) return;
+
+  const repetir=getActiveRepetir();
+  const rawSubcat=document.getElementById('f-subcategoria').value;
+  const customSubcat=document.getElementById('f-subcategoria-custom').value.trim();
+  const subcategoria=rawSubcat==='outros' ? (customSubcat||'Outros') : rawSubcat;
+  const rawCat=document.getElementById('f-categoria').value;
+  const customCat=document.getElementById('f-categoria-custom').value.trim();
+  const categoria=rawCat==='Outros' ? (customCat||'Outros') : rawCat;
+  if (!categoria) return;
+
+  const idx = entries.findIndex(x => x.id === editingId);
+  if (idx === -1) return;
+  const editingEntry = entries[idx];
+  const isGroupEdit = !!(editingEntry && editingEntry.repeat_group_id);
+  const repeatCount = repetir && isGroupEdit ? getRepetirCount() : undefined;
+  const entry={tipo,categoria,subcategoria,valor,dd,mm,yyyy,status,obs:document.getElementById('f-obs').value,repetir,repeat_count:repeatCount,notif:false};
+
+  const prev = { ...editingEntry };
+  Object.assign(editingEntry, entry);
+  try {
+    const res = await apiUpdateEntry(editingId, entry);
+    if (rawSubcat==='outros' && customSubcat && document.getElementById('f-subcategoria-save').checked) {
+      saveCustomSubcat(tipo, customSubcat);
+    }
+    if (isGroupEdit && res.repeat_total) editingEntry.repeat_total = res.repeat_total;
+    if (isGroupEdit && res.repeat_adjust_blocked) {
+      showToast(`Só foi possível reduzir para ${res.repeat_total}x (as demais ocorrências já estão confirmadas).`, 'error');
+    } else {
+      showToast('Alterações salvas.', 'success');
+    }
+  } catch (e) {
+    Object.assign(editingEntry, prev);
+    showToast(e.message, 'error');
+  }
 }
 
 function csInit(id) {
@@ -156,6 +226,7 @@ function onCatChange() {
   const tipo = document.getElementById('f-tipo').value;
   populateSubCatFromCat(tipo, val);
   updateCategoriaGroupHint(tipo, val);
+  scheduleAutoSave();
 }
 
 function updateCategoriaGroupHint(tipo, catName) {
@@ -197,6 +268,7 @@ function onSubCatChange() {
   const val = document.getElementById('f-subcategoria').value;
   document.getElementById('f-subcategoria-custom-wrap').style.display = val === 'outros' ? 'block' : 'none';
   if (val !== 'outros') document.getElementById('f-subcategoria-custom').value = '';
+  scheduleAutoSave();
 }
 
 function getCustomSubcats(tipo) {
@@ -217,6 +289,7 @@ function openNovo(tipo) {
   editingId=null;
   document.getElementById('form-title').textContent='Novo';
   document.getElementById('remove-row').style.display='none';
+  document.getElementById('form-actions-row').style.display='flex';
   clearForm();
   const t=new Date();
   setDataField(String(t.getDate()).padStart(2,'0'), String(t.getMonth()+1).padStart(2,'0'), t.getFullYear());
@@ -227,9 +300,11 @@ function openNovo(tipo) {
 
 function openEdit(id) {
   ensureCSInit();
+  _formInitializing = true;
   editingId=id;
-  const e=entries.find(x=>x.id===id); if (!e) return;
+  const e=entries.find(x=>x.id===id); if (!e) { _formInitializing=false; return; }
   document.getElementById('form-title').textContent='Editar';
+  document.getElementById('form-actions-row').style.display='none';
   clearForm();
   document.getElementById('remove-row').style.display='block';
   setTipo(e.tipo);
@@ -275,6 +350,7 @@ function openEdit(id) {
     customInp.value='';
   }
   showScreen('form');
+  setTimeout(() => { _formInitializing = false; }, 0);
 }
 
 const TIPO_TAB_COLOR_CLASS = {receita:'status-cell-receita', despesa:'status-cell-despesa', investimento:'status-cell-investimento'};
@@ -376,6 +452,7 @@ function dpConfirm() {
   if (!dpSelectedDay) { closeDatePicker(); return; }
   setDataField(String(dpSelectedDay).padStart(2,'0'), String(dpMonth+1).padStart(2,'0'), dpYear);
   closeDatePicker();
+  scheduleAutoSave();
 }
 
 function renderDatePicker() {
