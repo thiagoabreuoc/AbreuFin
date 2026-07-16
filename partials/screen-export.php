@@ -5,8 +5,8 @@
     <div class="flex-grow-1 text-center fw-bold">Exportar dados</div>
     <div style="width:24px"></div>
   </div>
-  <div class="screen-body p-3">
-    <div class="list-group cat-row-list">
+  <div class="screen-body p-3" style="padding-top:24px">
+    <div class="list-group cat-row-list" style="gap:20px">
       <div class="list-group-item cat-row-card d-flex align-items-center gap-3" onclick="exportCSV()" style="cursor:pointer">
         <span class="material-symbols-outlined" style="font-size:1.3rem">table_chart</span>
         <div class="fw-normal small">Exportar CSV</div>

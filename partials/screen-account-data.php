@@ -5,7 +5,7 @@
     <div class="flex-grow-1 text-center fw-bold">Dados da conta</div>
     <div style="width:24px"></div>
   </div>
-  <div class="screen-body p-3">
+  <div class="screen-body p-3" style="padding-top:24px">
     <div class="card" style="border-radius:var(--md-sys-shape-corner-large)!important">
       <div class="card-body d-flex flex-column" style="gap:20px;padding:20px">
         <div class="d-flex align-items-start gap-2">
