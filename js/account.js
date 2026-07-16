@@ -154,30 +154,31 @@ function formatAccountDate(raw) {
 
 function initAccountDataScreen() {
   const u = currentUser || {};
-  document.getElementById('ad-name').value  = u.name  || '—';
-  document.getElementById('ad-email').value = u.email || '—';
+  document.getElementById('ad-name').textContent  = u.name  || '—';
+  document.getElementById('ad-email').textContent = u.email || '—';
 
   let method = '—';
   if (u.viaGoogle && u.hasPassword) method = 'Google e e-mail/senha';
   else if (u.viaGoogle) method = 'Google';
   else if (u.hasPassword) method = 'E-mail e senha';
-  document.getElementById('ad-login-method').value = method;
-  document.getElementById('ad-created-at').value = formatAccountDate(u.created_at);
+  document.getElementById('ad-login-method').textContent = method;
+  document.getElementById('ad-created-at').textContent = formatAccountDate(u.created_at);
 
   const section = document.getElementById('ad-google-section');
   const btn = document.getElementById('ad-unlink-btn');
+  const btnLabel = document.getElementById('ad-unlink-btn-label');
   const hint = document.getElementById('ad-unlink-hint');
-  if (!section || !btn || !hint) return;
+  if (!section || !btn || !btnLabel || !hint) return;
 
   if (!u.viaGoogle) { section.style.display = 'none'; return; }
   section.style.display = '';
 
   if (u.hasPassword) {
-    btn.textContent = 'Desconectar do Google';
+    btnLabel.textContent = 'Desconectar do Google';
     btn.onclick = confirmUnlinkGoogle;
     hint.textContent = 'Você continua podendo entrar com seu e-mail e senha.';
   } else {
-    btn.textContent = 'Definir senha pra poder desconectar';
+    btnLabel.textContent = 'Definir senha pra poder desconectar';
     btn.onclick = function () { showScreen('change-password'); initChangePasswordScreen(); };
     hint.textContent = 'Defina uma senha antes de desconectar do Google, senão você perde o acesso à conta.';
   }
