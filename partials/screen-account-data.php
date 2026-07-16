@@ -6,24 +6,25 @@
     <div style="width:24px"></div>
   </div>
   <div class="screen-body p-3">
-    <div class="list-group cat-row-list">
-      <div class="list-group-item cat-row-card">
-        <div class="text-secondary small">Nome</div>
-        <div class="fw-medium" id="ad-name">—</div>
-      </div>
-      <div class="list-group-item cat-row-card">
-        <div class="text-secondary small">E-mail</div>
-        <div class="fw-medium" id="ad-email">—</div>
-      </div>
-      <div class="list-group-item cat-row-card">
-        <div class="text-secondary small">Método de login</div>
-        <div class="fw-medium" id="ad-login-method">—</div>
-      </div>
-      <div class="list-group-item cat-row-card">
-        <div class="text-secondary small">Membro desde</div>
-        <div class="fw-medium" id="ad-created-at">—</div>
-      </div>
-    </div>
+    <fieldset class="form-box">
+      <legend class="form-box-lbl">Nome</legend>
+      <input class="form-control form-control-borderless" type="text" id="ad-name" value="" readonly tabindex="-1" style="cursor:default">
+    </fieldset>
+
+    <fieldset class="form-box">
+      <legend class="form-box-lbl">E-mail</legend>
+      <input class="form-control form-control-borderless" type="text" id="ad-email" value="" readonly tabindex="-1" style="cursor:default">
+    </fieldset>
+
+    <fieldset class="form-box">
+      <legend class="form-box-lbl">Método de login</legend>
+      <input class="form-control form-control-borderless" type="text" id="ad-login-method" value="" readonly tabindex="-1" style="cursor:default">
+    </fieldset>
+
+    <fieldset class="form-box">
+      <legend class="form-box-lbl">Membro desde</legend>
+      <input class="form-control form-control-borderless" type="text" id="ad-created-at" value="" readonly tabindex="-1" style="cursor:default">
+    </fieldset>
 
     <div class="mt-4" id="ad-google-section" style="display:none">
       <button class="btn btn-outline-danger w-100" id="ad-unlink-btn">Desconectar do Google</button>

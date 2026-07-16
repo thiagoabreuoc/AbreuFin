@@ -154,15 +154,15 @@ function formatAccountDate(raw) {
 
 function initAccountDataScreen() {
   const u = currentUser || {};
-  document.getElementById('ad-name').textContent  = u.name  || '—';
-  document.getElementById('ad-email').textContent = u.email || '—';
+  document.getElementById('ad-name').value  = u.name  || '—';
+  document.getElementById('ad-email').value = u.email || '—';
 
   let method = '—';
   if (u.viaGoogle && u.hasPassword) method = 'Google e e-mail/senha';
   else if (u.viaGoogle) method = 'Google';
   else if (u.hasPassword) method = 'E-mail e senha';
-  document.getElementById('ad-login-method').textContent = method;
-  document.getElementById('ad-created-at').textContent = formatAccountDate(u.created_at);
+  document.getElementById('ad-login-method').value = method;
+  document.getElementById('ad-created-at').value = formatAccountDate(u.created_at);
 
   const section = document.getElementById('ad-google-section');
   const btn = document.getElementById('ad-unlink-btn');
