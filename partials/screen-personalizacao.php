@@ -5,8 +5,8 @@
     <div class="flex-grow-1 text-center fw-bold">Personalização</div>
     <div style="width:24px"></div>
   </div>
-  <div class="screen-body p-3" style="padding-top:24px">
-    <div class="list-group cat-row-list" style="gap:20px">
+  <div class="screen-body p-3">
+    <div class="list-group cat-row-list">
       <div class="list-group-item cat-row-card">
         <div class="mb-2 text-secondary small fw-semibold">Tema</div>
         <div class="d-flex gap-2">
