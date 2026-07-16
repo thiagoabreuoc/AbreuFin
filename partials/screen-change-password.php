@@ -10,7 +10,7 @@
     <fieldset class="form-box" id="cp-atual-wrap">
       <legend class="form-box-lbl">Senha atual</legend>
       <div style="display:flex;align-items:center">
-        <input class="form-control form-control-borderless" type="password" id="cp-atual" autocomplete="current-password" style="flex:1">
+        <input class="form-control form-control-borderless" type="password" id="cp-atual" placeholder="Digite sua senha atual" autocomplete="current-password" style="flex:1">
         <button type="button" class="btn btn-link text-secondary p-0" onclick="togglePwVisibility('cp-atual', this)" aria-label="Mostrar senha atual" tabindex="-1">
           <span class="material-symbols-outlined" style="font-size:1.2rem">visibility</span>
         </button>
@@ -19,7 +19,7 @@
     <fieldset class="form-box" style="margin-bottom:8px">
       <legend class="form-box-lbl">Nova senha</legend>
       <div style="display:flex;align-items:center">
-        <input class="form-control form-control-borderless" type="password" id="cp-nova" autocomplete="new-password" style="flex:1" oninput="updatePwStrength()">
+        <input class="form-control form-control-borderless" type="password" id="cp-nova" placeholder="Mínimo 8 caracteres" autocomplete="new-password" style="flex:1" oninput="updatePwStrength()">
         <button type="button" class="btn btn-link text-secondary p-0" onclick="togglePwVisibility('cp-nova', this)" aria-label="Mostrar nova senha" tabindex="-1">
           <span class="material-symbols-outlined" style="font-size:1.2rem">visibility</span>
         </button>
@@ -34,7 +34,7 @@
     <fieldset class="form-box">
       <legend class="form-box-lbl">Confirmar nova senha</legend>
       <div style="display:flex;align-items:center">
-        <input class="form-control form-control-borderless" type="password" id="cp-nova2" autocomplete="new-password" style="flex:1">
+        <input class="form-control form-control-borderless" type="password" id="cp-nova2" placeholder="Repita a nova senha" autocomplete="new-password" style="flex:1">
         <button type="button" class="btn btn-link text-secondary p-0" onclick="togglePwVisibility('cp-nova2', this)" aria-label="Mostrar confirmação" tabindex="-1">
           <span class="material-symbols-outlined" style="font-size:1.2rem">visibility</span>
         </button>
