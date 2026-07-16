@@ -9,20 +9,20 @@
     <div class="card" style="border-radius:var(--md-sys-shape-corner-large)!important">
       <div class="card-body d-flex flex-column" style="gap:20px;padding:20px">
         <div>
-          <div class="fw-semibold small">Nome</div>
-          <div class="text-secondary mt-1" id="ad-name">—</div>
+          <div class="fw-semibold" style="font-size:.72rem">Nome</div>
+          <div class="text-secondary small mt-1" id="ad-name">—</div>
         </div>
         <div>
-          <div class="fw-semibold small">E-mail</div>
-          <div class="text-secondary mt-1" id="ad-email">—</div>
+          <div class="fw-semibold" style="font-size:.72rem">E-mail</div>
+          <div class="text-secondary small mt-1" id="ad-email">—</div>
         </div>
         <div>
-          <div class="fw-semibold small">Método de login</div>
-          <div class="text-secondary mt-1" id="ad-login-method">—</div>
+          <div class="fw-semibold" style="font-size:.72rem">Método de login</div>
+          <div class="text-secondary small mt-1" id="ad-login-method">—</div>
         </div>
         <div>
-          <div class="fw-semibold small">Membro desde</div>
-          <div class="text-secondary mt-1" id="ad-created-at">—</div>
+          <div class="fw-semibold" style="font-size:.72rem">Membro desde</div>
+          <div class="text-secondary small mt-1" id="ad-created-at">—</div>
         </div>
       </div>
     </div>

@@ -176,11 +176,11 @@ function initAccountDataScreen() {
   if (u.hasPassword) {
     btnLabel.textContent = 'Desconectar do Google';
     btn.onclick = confirmUnlinkGoogle;
-    hint.textContent = 'Você continua podendo entrar com seu e-mail e senha.';
+    hint.textContent = 'Você continua entrando com e-mail e senha.';
   } else {
     btnLabel.textContent = 'Definir senha pra poder desconectar';
     btn.onclick = function () { showScreen('change-password'); initChangePasswordScreen(); };
-    hint.textContent = 'Defina uma senha antes de desconectar do Google, senão você perde o acesso à conta.';
+    hint.textContent = 'Defina uma senha antes, senão perde o acesso à conta.';
   }
 }
 
