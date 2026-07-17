@@ -113,6 +113,8 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .auth-input-box::placeholder{color:rgba(255,255,255,.75)}
 .auth-input-box:focus{background:rgba(255,255,255,.22)!important;border-color:#fff!important;box-shadow:none!important;color:#fff!important}
 .auth-social-circle{width:52px;height:52px;border-radius:50%;background:#fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,.15)}
+.auth-spinner{width:32px;height:32px;border-radius:50%;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;margin:24px auto 0;animation:auth-spinner-spin .8s linear infinite}
+@keyframes auth-spinner-spin{to{transform:rotate(360deg)}}
 
 /* Texto branco padrão do Bootstrap tem baixo contraste sobre bg-warning (âmbar) */
 .badge.bg-warning,.text-bg-warning{color:#212529!important}
