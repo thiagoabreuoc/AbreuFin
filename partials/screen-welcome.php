@@ -10,9 +10,8 @@
     <div class="text-center small mt-4">
       <a href="#" class="auth-link" onclick="showScreen('login');return false;">Já tem uma conta? Entrar</a>
     </div>
-
-    <div class="text-center small" style="margin-top:auto;padding-top:32px;color:rgba(255,255,255,.6)">
-      Criado por Abreu Soluções.
-    </div>
+  </div>
+  <div class="text-center" style="position:absolute;left:0;right:0;bottom:24px;font-size:.7rem;color:rgba(255,255,255,.6)">
+    Criado por Abreu Soluções.
   </div>
 </div>

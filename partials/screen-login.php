@@ -1,5 +1,8 @@
 <!-- ═══════════════ LOGIN ═══════════════ -->
 <div class="screen hidden auth-screen" id="screen-login">
+  <button class="btn btn-link p-0" style="position:absolute;top:20px;left:20px;color:#fff;z-index:2" onclick="goBack()" aria-label="Voltar">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
   <div class="screen-body center-col">
     <h4 class="auth-title">Suas finanças,<br>sob controle.</h4>
     <p class="auth-subtitle">Entre e continue de onde parou.</p>
@@ -30,8 +33,8 @@
     <div class="text-center small mt-4">
       <a href="#" class="auth-link" onclick="showScreen('register');return false;">Não tem conta? Criar conta</a>
     </div>
-    <div class="text-center small" style="margin-top:auto;padding-top:32px">
-      <a href="#" class="auth-link text-muted" onclick="showScreen('privacy');return false;">Política de Privacidade e LGPD</a>
-    </div>
+  </div>
+  <div class="text-center small" style="position:absolute;left:0;right:0;bottom:24px">
+    <a href="#" class="auth-link text-muted" onclick="showScreen('privacy');return false;">Política de Privacidade e LGPD</a>
   </div>
 </div>
