@@ -6,16 +6,16 @@
     <div style="width:24px"></div>
   </div>
   <div class="screen-body p-3">
-    <div class="list-group cat-row-list" style="gap:4px">
-      <div class="list-group-item cat-row-card d-flex align-items-center gap-3" onclick="exportCSV()" style="cursor:pointer;padding:10px 16px">
+    <div class="list-group cat-row-list" style="gap:8px">
+      <div class="list-group-item cat-row-card d-flex align-items-center gap-3" onclick="exportCSV()" style="cursor:pointer;padding:14px 16px">
         <span class="material-symbols-outlined" style="font-size:1.3rem">table_chart</span>
         <div class="fw-normal small">Exportar CSV</div>
       </div>
-      <div class="list-group-item cat-row-card d-flex align-items-center gap-3" onclick="exportJSON()" style="cursor:pointer;padding:10px 16px">
+      <div class="list-group-item cat-row-card d-flex align-items-center gap-3" onclick="exportJSON()" style="cursor:pointer;padding:14px 16px">
         <span class="material-symbols-outlined" style="font-size:1.3rem">code</span>
         <div class="fw-normal small">Exportar JSON</div>
       </div>
-      <div class="list-group-item cat-row-card d-flex align-items-center gap-3" onclick="exportTxt()" style="cursor:pointer;padding:10px 16px">
+      <div class="list-group-item cat-row-card d-flex align-items-center gap-3" onclick="exportTxt()" style="cursor:pointer;padding:14px 16px">
         <span class="material-symbols-outlined" style="font-size:1.3rem">description</span>
         <div class="fw-normal small">Relatório texto</div>
       </div>
