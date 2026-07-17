@@ -38,6 +38,7 @@ $csrfToken = csrfToken();
   <!-- ── Conteúdo principal ── -->
   <div class="app-content" id="app-content">
 
+    <?php include 'partials/screen-welcome.php'; ?>
     <?php include 'partials/screen-login.php'; ?>
     <?php include 'partials/screen-register.php'; ?>
     <?php include 'partials/screen-forgot.php'; ?>

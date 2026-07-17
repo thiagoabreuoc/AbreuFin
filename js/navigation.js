@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════
    NAVIGATION
 ═══════════════════════════════════════ */
-let screenStack = ['login'];
+let screenStack = ['welcome'];
 let currentListingType = '';
 let listingStatusFilter = '';
 let sortDir = 'desc';

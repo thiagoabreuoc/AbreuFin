@@ -18,10 +18,12 @@ const GOOGLE_ERROR_MESSAGES = {
     await enterApp();
   } catch (e) {
     console.error('Falha ao entrar no app:', e);
-    showScreen('login', false);
     if (window.__GOOGLE_ERROR__) {
+      showScreen('login', false);
       document.getElementById('login-err').textContent =
         GOOGLE_ERROR_MESSAGES[window.__GOOGLE_ERROR__] || 'Não foi possível entrar com Google.';
+    } else {
+      showScreen('welcome', false);
     }
   }
 })();

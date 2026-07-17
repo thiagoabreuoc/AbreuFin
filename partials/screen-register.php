@@ -29,7 +29,7 @@
     </a>
 
     <div class="text-center small mt-4">
-      <a href="#" class="auth-link" onclick="goBack();return false;">Já tenho conta — entrar</a>
+      <a href="#" class="auth-link" onclick="showScreen('login');return false;">Já tenho conta — entrar</a>
     </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 <!-- ═══════════════ LOGIN ═══════════════ -->
-<div class="screen active auth-screen" id="screen-login">
+<div class="screen hidden auth-screen" id="screen-login">
   <div class="screen-body center-col">
     <div class="auth-icon-badge"><span class="material-symbols-outlined">account_balance_wallet</span></div>
     <h4 class="auth-title">Bem-vindo ao<br>AbreuFin</h4>
