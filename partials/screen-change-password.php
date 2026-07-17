@@ -44,9 +44,10 @@
       <span class="small">Use pelo menos 8 caracteres, com letras e números.</span>
     </div>
     <div class="text-danger small mt-2" id="change-password-err"></div>
-  </div>
-  <div class="d-flex gap-2 p-3 border-top flex-shrink-0">
-    <button class="btn btn-outline-primary flex-fill" style="padding-top:10px;padding-bottom:10px" onclick="goBack()">Cancelar</button>
-    <button class="btn btn-primary flex-fill" id="change-password-submit-btn" style="padding-top:10px;padding-bottom:10px" onclick="doChangePassword()">Salvar</button>
+
+    <div class="d-flex gap-2" style="margin-top:40px;margin-bottom:32px">
+      <button class="btn btn-outline-primary flex-fill" style="padding-top:10px;padding-bottom:10px" onclick="goBack()">Cancelar</button>
+      <button class="btn btn-primary flex-fill" id="change-password-submit-btn" style="padding-top:10px;padding-bottom:10px" onclick="doChangePassword()">Salvar</button>
+    </div>
   </div>
 </div>
