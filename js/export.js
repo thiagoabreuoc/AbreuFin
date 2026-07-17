@@ -23,7 +23,7 @@ function exportJSON() {
   showToast('JSON exportado!','success');
 }
 
-function exportTxt() {
+function buildAnnualReportText() {
   const anoAtual=new Date().getFullYear();
   const yr=getYearTotals(anoAtual);
   const lines=[`AbreuFin — Relatório Anual ${anoAtual}`,'='.repeat(40),''];
@@ -42,6 +42,23 @@ function exportTxt() {
   lines.push(`  Despesa:      ${fmt(yr.despesa)}`);
   lines.push(`  Investido:${fmt(yr.investimento)}`);
   lines.push(`  Saldo:        ${fmt(yr.receita-yr.despesa-yr.investimento)}`);
-  downloadFile(lines.join('\n'),`finflow_relatorio_${anoAtual}.txt`,'text/plain;charset=utf-8');
+  return { text: lines.join('\n'), anoAtual };
+}
+
+function exportTxt() {
+  const { text, anoAtual } = buildAnnualReportText();
+  downloadFile(text,`finflow_relatorio_${anoAtual}.txt`,'text/plain;charset=utf-8');
   showToast('Relatório exportado!','success');
+}
+
+function exportEmail() {
+  const { text, anoAtual } = buildAnnualReportText();
+  const subject = encodeURIComponent(`AbreuFin — Relatório Anual ${anoAtual}`);
+  const body = encodeURIComponent(text);
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+}
+
+function exportWhatsapp() {
+  const { text } = buildAnnualReportText();
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
 }
