@@ -5,7 +5,7 @@
     <div class="flex-grow-1 text-center fw-bold" id="form-title">Novo</div>
     <div style="width:24px"></div>
   </div>
-  <div class="screen-body p-3">
+  <div class="screen-body p-3 app-body-rounded">
 
     <!-- Tipo: tabs -->
     <div class="d-flex justify-content-center gap-2" style="margin-bottom:28px">

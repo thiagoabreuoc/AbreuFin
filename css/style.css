@@ -124,6 +124,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .app-header-gradient .btn-link{color:#fff!important}
 .app-header-gradient .text-primary{color:#fff!important}
 .app-header-gradient .avatar-sm{box-shadow:0 0 0 2px rgba(255,255,255,.8)!important}
+.app-body-rounded{background:var(--md-sys-color-surface);border-radius:24px 24px 0 0;margin-top:-16px;position:relative;z-index:1}
 
 /* Texto branco padrão do Bootstrap tem baixo contraste sobre bg-warning (âmbar) */
 .badge.bg-warning,.text-bg-warning{color:#212529!important}

@@ -5,7 +5,7 @@
     <div class="flex-grow-1 text-center fw-bold">Perfil</div>
     <div style="width:24px"></div>
   </div>
-  <div class="screen-body p-3">
+  <div class="screen-body p-3 app-body-rounded">
     <div class="text-center py-3">
       <div class="avatar-lg rounded-circle bg-primary-subtle text-primary fw-bold d-inline-flex align-items-center justify-content-center mb-2 overflow-hidden" id="profile-avatar">T</div>
       <div class="fs-5 fw-bold" id="profile-name">Usuário</div>
