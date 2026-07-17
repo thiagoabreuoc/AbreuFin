@@ -65,9 +65,15 @@ function initChangePasswordScreen() {
   const wrap = document.getElementById('cp-atual-wrap');
   const helper = document.getElementById('cp-helper');
   if (wrap) wrap.style.display = hasPassword ? '' : 'none';
-  if (helper) helper.textContent = hasPassword
-    ? 'Confirme sua senha atual e defina uma nova.'
-    : 'Você entrou com o Google e ainda não tem uma senha. Crie uma pra também poder entrar com e-mail e senha.';
+  if (helper) {
+    if (hasPassword) {
+      helper.textContent = '';
+      helper.style.display = 'none';
+    } else {
+      helper.textContent = 'Você entrou com o Google e ainda não tem uma senha. Crie uma pra também poder entrar com e-mail e senha.';
+      helper.style.display = '';
+    }
+  }
   ['cp-atual', 'cp-nova', 'cp-nova2'].forEach(function(id) {
     const el = document.getElementById(id);
     if (el) { el.value = ''; el.type = 'password'; }

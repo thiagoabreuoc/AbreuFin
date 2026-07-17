@@ -6,7 +6,7 @@
     <div style="width:24px"></div>
   </div>
   <div class="screen-body p-3">
-    <p class="text-secondary small mb-3" id="cp-helper">Confirme sua senha atual e defina uma nova.</p>
+    <p class="text-secondary small mb-3" id="cp-helper" style="display:none"></p>
     <fieldset class="form-box" id="cp-atual-wrap">
       <legend class="form-box-lbl">Senha atual</legend>
       <div style="display:flex;align-items:center">
@@ -16,7 +16,7 @@
         </button>
       </div>
     </fieldset>
-    <fieldset class="form-box" style="margin-bottom:8px">
+    <fieldset class="form-box">
       <legend class="form-box-lbl">Nova senha</legend>
       <div style="display:flex;align-items:center">
         <input class="form-control form-control-borderless" type="password" id="cp-nova" placeholder="Mínimo 8 caracteres" autocomplete="new-password" style="flex:1" oninput="updatePwStrength()">
@@ -25,7 +25,7 @@
         </button>
       </div>
     </fieldset>
-    <div id="cp-strength" class="mb-3" style="display:none">
+    <div id="cp-strength" style="display:none;margin-bottom:16px">
       <div style="height:4px;border-radius:2px;background:var(--md-sys-color-surface-variant);overflow:hidden">
         <div id="cp-strength-bar" style="height:100%;width:0%;border-radius:2px;transition:width .2s ease,background-color .2s ease"></div>
       </div>
@@ -40,8 +40,10 @@
         </button>
       </div>
     </fieldset>
-    <p class="text-secondary small">Use pelo menos 8 caracteres, com letras e números.</p>
-    <div class="text-danger small" id="change-password-err"></div>
+    <div class="px-3 py-2 text-center" style="background:#fffde7;color:#5c4d00;border-radius:var(--md-sys-shape-corner-medium)">
+      <span class="small">Use pelo menos 8 caracteres, com letras e números.</span>
+    </div>
+    <div class="text-danger small mt-2" id="change-password-err"></div>
   </div>
   <div class="d-flex gap-2 p-3 border-top flex-shrink-0">
     <button class="btn btn-outline-primary flex-fill" style="padding-top:10px;padding-bottom:10px" onclick="goBack()">Cancelar</button>
