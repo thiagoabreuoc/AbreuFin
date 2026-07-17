@@ -115,9 +115,9 @@
   --md-sys-elevation-level4:0 2px 3px 0 rgba(0,0,0,.30), 0 6px 10px 4px rgba(0,0,0,.15);
   --md-sys-elevation-level5:0 4px 4px 0 rgba(0,0,0,.30), 0 8px 12px 6px rgba(0,0,0,.15);
 
-  /* ── Tipografia — Roboto (já era a fonte do app) ── */
-  --md-ref-typeface-brand:'Roboto', sans-serif;
-  --md-ref-typeface-plain:'Roboto', sans-serif;
+  /* ── Tipografia — Poppins ── */
+  --md-ref-typeface-brand:'Poppins', sans-serif;
+  --md-ref-typeface-plain:'Poppins', sans-serif;
   --md-sys-typescale-display-large-size:57px;
   --md-sys-typescale-display-large-line-height:64px;
   --md-sys-typescale-display-medium-size:45px;

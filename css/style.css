@@ -50,21 +50,21 @@
   --bs-link-color-rgb:170,199,255;
 }
 
-/* ── Tipografia — typescale M3 (Display/Headline/Title/Body/Label), Roboto ──
+/* ── Tipografia — typescale M3 (Display/Headline/Title/Body/Label), Poppins ──
    Body Large (16/24) já bate com o default do Bootstrap, então só remapeamos
    os headings (títulos de tela) e o peso dos botões/labels. Títulos em
    SemiBold, como no exemplo Type.kt do guia Compose/M3. */
-h1,h2,h3,h4,h5,h6{font-family:'Roboto',sans-serif;font-weight:600}
+h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif;font-weight:600}
 h4{font-size:var(--md-sys-typescale-headline-small-size);line-height:var(--md-sys-typescale-headline-small-line-height)}
 h5{font-size:var(--md-sys-typescale-title-large-size);line-height:var(--md-sys-typescale-title-large-line-height)}
 h6{font-size:var(--md-sys-typescale-title-medium-size);line-height:var(--md-sys-typescale-title-medium-line-height)}
 /* Label Large (M3 typescale) — tipografia padrão de botão: Medium (500),
    14px/20px, tracking 0.1px */
-.btn{font-family:'Roboto',sans-serif;font-weight:500;font-size:var(--md-sys-typescale-label-large-size);line-height:var(--md-sys-typescale-label-large-line-height);letter-spacing:.1px}
+.btn{font-family:'Poppins',sans-serif;font-weight:500;font-size:var(--md-sys-typescale-label-large-size);line-height:var(--md-sys-typescale-label-large-line-height);letter-spacing:.1px}
 .fw-semibold{font-weight:600!important}
 
 /* ── Casca do app ── */
-body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;align-items:center;min-height:100dvh;overflow:hidden;font-family:'Roboto',sans-serif}
+body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;align-items:center;min-height:100dvh;overflow:hidden;font-family:'Poppins',sans-serif}
 .app{width:100%;max-width:390px;height:100dvh;background:var(--md-sys-color-surface);position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 24px color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent)}
 
 /* app-content: o container que hospeda todas as telas */
@@ -160,7 +160,7 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 
 /* Primary tabs (M3) — https://m3.material.io/components/tabs/overview */
 .m3-tabs{display:flex;justify-content:center;border-bottom:1px solid var(--md-sys-color-outline-variant)}
-.m3-tab{position:relative;overflow:hidden;flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:6px;background:none;border:none;padding:12px 20px;font-family:'Roboto',sans-serif;font-size:.875rem;font-weight:600;color:var(--md-sys-color-on-surface-variant);cursor:pointer;transition:color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.m3-tab{position:relative;overflow:hidden;flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:6px;background:none;border:none;padding:12px 20px;font-family:'Poppins',sans-serif;font-size:.875rem;font-weight:600;color:var(--md-sys-color-on-surface-variant);cursor:pointer;transition:color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
 .m3-tab .material-symbols-outlined{font-size:1.2rem}
 .m3-tab::after{content:'';position:absolute;left:50%;bottom:0;width:32px;margin-left:-16px;height:3px;background:var(--md-sys-color-primary);border-radius:var(--md-sys-shape-corner-full) var(--md-sys-shape-corner-full) 0 0;transform:scaleX(0);transition:transform var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized)}
 .m3-tab.active{color:var(--md-sys-color-primary)}
