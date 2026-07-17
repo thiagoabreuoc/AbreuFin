@@ -8,7 +8,7 @@ function db(): PDO {
     $dataDir = dirname(__DIR__, 2) . '/data';
     if (!is_dir($dataDir)) mkdir($dataDir, 0770, true);
 
-    $pdo = new PDO('sqlite:' . $dataDir . '/finflow.sqlite');
+    $pdo = new PDO('sqlite:' . $dataDir . '/abreufin.sqlite');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     $pdo->exec('PRAGMA foreign_keys = ON');
