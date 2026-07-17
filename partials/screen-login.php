@@ -1,8 +1,8 @@
 <!-- ═══════════════ LOGIN ═══════════════ -->
 <div class="screen hidden auth-screen" id="screen-login">
   <div class="screen-body center-col">
-    <h4 class="auth-title">Bem-vindo<br>de volta</h4>
-    <p class="auth-subtitle">Entre e continue no controle das suas finanças.</p>
+    <h4 class="auth-title">Suas finanças,<br>sob controle.</h4>
+    <p class="auth-subtitle">Entre e continue de onde parou.</p>
 
     <div class="mb-3">
       <input class="form-control auth-input-box" id="l-email" type="email" placeholder="E-mail" autocomplete="email">
@@ -30,7 +30,7 @@
     <div class="text-center small mt-4">
       <a href="#" class="auth-link" onclick="showScreen('register');return false;">Não tem conta? Criar conta</a>
     </div>
-    <div class="text-center small mt-2">
+    <div class="text-center small" style="margin-top:auto;padding-top:32px">
       <a href="#" class="auth-link text-muted" onclick="showScreen('privacy');return false;">Política de Privacidade e LGPD</a>
     </div>
   </div>
