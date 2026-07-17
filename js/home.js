@@ -462,7 +462,7 @@ function buildLegendHtml(d) {
     : '';
   return TIPOS.map(tipo =>
     `<div class="text-center" style="flex:1${clickable ? ';cursor:pointer' : ''}" ${clickable ? `onclick="openListing('${tipo}')"` : ''}>
-      <div class="small d-flex align-items-center justify-content-center gap-1"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${TIPO_META[tipo].cor};flex-shrink:0"></span>${TIPO_META[tipo].label}</div>
+      <div class="small d-flex align-items-center justify-content-center gap-2"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${TIPO_META[tipo].cor};flex-shrink:0"></span>${TIPO_META[tipo].label}</div>
       <div class="small">${fmt(d[tipo])}</div>
       ${sub[tipo]}
       ${detalheLbl}
