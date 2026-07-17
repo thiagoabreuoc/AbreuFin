@@ -7,8 +7,6 @@
   </div>
   <div class="screen-body p-3">
 
-    <p class="text-muted small mb-3">Receba avisos de despesas vencidas ou a vencer direto neste dispositivo.</p>
-
     <div class="card mb-3">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center">
@@ -36,8 +34,6 @@
         </div>
       </div>
     </div>
-
-    <p class="text-muted small text-center">Você recebe no máximo uma notificação por dia, com alertas de despesas vencidas ou a vencer e insights sobre seus gastos.</p>
 
   </div>
 </div>
