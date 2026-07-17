@@ -18,7 +18,7 @@
       <input class="form-control auth-input" id="r-senha2" type="password" placeholder="Confirmar senha" autocomplete="new-password">
     </div>
     <div class="text-center small auth-err" style="min-height:18px;margin:6px 0" id="register-err"></div>
-    <button class="btn auth-btn-primary w-100" id="register-submit-btn" onclick="doRegister()">Criar conta</button>
+    <button class="btn auth-btn-primary d-block mx-auto" id="register-submit-btn" onclick="doRegister()">Criar conta</button>
 
     <div class="text-center auth-divider my-3 d-flex align-items-center gap-2">
       <span class="flex-grow-1 border-top"></span>ou<span class="flex-grow-1 border-top"></span>

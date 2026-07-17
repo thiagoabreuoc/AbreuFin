@@ -94,7 +94,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .auth-input{background:rgba(255,255,255,.16)!important;border:1px solid rgba(255,255,255,.4)!important;border-radius:999px!important;color:#fff!important;padding:14px 20px!important;font-size:.95rem}
 .auth-input::placeholder{color:rgba(255,255,255,.75)}
 .auth-input:focus{background:rgba(255,255,255,.24)!important;border-color:#fff!important;box-shadow:none!important}
-.auth-btn-primary{background:#fff!important;color:#159957!important;border:none!important;border-radius:999px!important;font-weight:700!important;padding:14px!important}
+.auth-btn-primary{background:#fff!important;color:#159957!important;border:none!important;border-radius:999px!important;font-weight:700!important;padding:14px 48px!important}
 .auth-btn-primary:hover,.auth-btn-primary:active{background:#f0f0f0!important;color:#159957!important}
 .auth-btn-google{background:#fff!important;border-radius:999px!important;padding:12px!important;color:#3c4043!important;font-weight:600!important;text-decoration:none;border:none!important}
 .auth-divider{color:rgba(255,255,255,.75)}

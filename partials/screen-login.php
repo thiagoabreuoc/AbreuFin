@@ -1,8 +1,8 @@
 <!-- ═══════════════ LOGIN ═══════════════ -->
 <div class="screen hidden auth-screen" id="screen-login">
   <div class="screen-body center-col">
-    <h4 class="auth-title auth-title-left">Bem-vindo<br>de volta</h4>
-    <p class="auth-subtitle auth-subtitle-left">Entre e continue no controle das suas finanças.</p>
+    <h4 class="auth-title">Bem-vindo<br>de volta</h4>
+    <p class="auth-subtitle">Entre e continue no controle das suas finanças.</p>
 
     <div class="mb-3">
       <input class="form-control auth-input-box" id="l-email" type="email" placeholder="E-mail" autocomplete="email">
@@ -18,7 +18,7 @@
       <a href="#" class="auth-link small" style="text-decoration:none" onclick="showScreen('forgot');return false;">Esqueci a senha?</a>
     </div>
     <div class="text-center small auth-err" style="min-height:18px;margin:6px 0" id="login-err"></div>
-    <button class="btn auth-btn-primary w-100 mt-2" id="login-submit-btn" onclick="doLogin()">Entrar</button>
+    <button class="btn auth-btn-primary d-block mx-auto mt-2" id="login-submit-btn" onclick="doLogin()">Entrar</button>
 
     <p class="text-center auth-subtitle mt-4" style="margin-bottom:12px">ou continue com</p>
     <div class="text-center">
