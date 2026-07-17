@@ -84,6 +84,29 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .avatar-sm{width:32px;height:32px;font-size:14px;box-shadow:0 0 0 1px var(--md-sys-color-primary)}
 .center-col{display:flex;flex-direction:column;justify-content:center;padding:28px 24px}
 
+/* ── Telas de autenticação (Login/Criar conta) — visual dedicado com
+   gradiente, à parte do tema M3 do resto do app ── */
+.auth-screen{background:linear-gradient(160deg,#0f9b7e 0%,#4caf7d 100%)!important}
+.auth-icon-badge{width:72px;height:72px;border-radius:20px;background:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 20px rgba(0,0,0,.15)}
+.auth-icon-badge .material-symbols-outlined{font-size:36px;color:#159957}
+.auth-title{color:#fff;font-size:1.6rem;font-weight:700;text-align:center;line-height:1.25;margin-bottom:8px}
+.auth-subtitle{color:rgba(255,255,255,.85);text-align:center;font-size:.85rem;margin-bottom:28px}
+.auth-input{background:rgba(255,255,255,.16)!important;border:1px solid rgba(255,255,255,.4)!important;border-radius:999px!important;color:#fff!important;padding:14px 20px!important;font-size:.95rem}
+.auth-input::placeholder{color:rgba(255,255,255,.75)}
+.auth-input:focus{background:rgba(255,255,255,.24)!important;border-color:#fff!important;box-shadow:none!important}
+.auth-btn-primary{background:#fff!important;color:#159957!important;border:none!important;border-radius:999px!important;font-weight:700!important;padding:14px!important}
+.auth-btn-primary:hover,.auth-btn-primary:active{background:#f0f0f0!important;color:#159957!important}
+.auth-btn-google{background:#fff!important;border-radius:999px!important;padding:12px!important;color:#3c4043!important;font-weight:600!important;text-decoration:none;border:none!important}
+.auth-divider{color:rgba(255,255,255,.75)}
+.auth-divider .border-top{border-color:rgba(255,255,255,.35)!important}
+.auth-link{color:#fff!important;text-decoration:underline}
+.auth-link.text-muted{color:rgba(255,255,255,.7)!important}
+.auth-err{background:rgba(255,255,255,.92);color:#c62828;border-radius:10px;padding:6px 12px;font-weight:500}
+.auth-err:empty{background:transparent;padding:0}
+.auth-check .form-check-input{background-color:transparent;border-color:rgba(255,255,255,.6)}
+.auth-check .form-check-input:checked{background-color:#fff;border-color:#fff;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23159957'%3e%3cpath d='M7 11.5L4.5 9 3 10.5l4 4 9-9L14.5 4z'/%3e%3c/svg%3e")}
+.auth-check .form-check-label{color:rgba(255,255,255,.85)}
+
 /* Texto branco padrão do Bootstrap tem baixo contraste sobre bg-warning (âmbar) */
 .badge.bg-warning,.text-bg-warning{color:#212529!important}
 
