@@ -200,7 +200,7 @@ function selectMonth(i) {
     document.getElementById('home-legend').innerHTML = buildLegendHtml(dc);
     const saldo = dc.receita - dc.despesa - dc.investimento;
     const sv = document.getElementById('home-saldo-val');
-    if (sv) sv.textContent = fmt(saldo);
+    if (sv) sv.innerHTML = fmtBig(saldo);
     const sl = document.getElementById('home-periodo');
     if (sl) sl.textContent = `${MONTHS_FULL[homeMonth]} ${homeYear}`;
   } else {
@@ -559,8 +559,8 @@ function renderHome() {
     </div>` +
     (homeTab==='meses' ? `<div class="card mb-2" style="border-radius:var(--md-sys-shape-corner-small)!important">
       <div class="card-body d-flex justify-content-between align-items-center py-2">
-        <b>Saldo</b>
-        <b id="home-saldo-val">${fmt(saldo)}</b>
+        <span class="text-secondary small">Saldo</span>
+        <span class="fw-bold" style="font-size:1.3rem" id="home-saldo-val">${fmtBig(saldo)}</span>
       </div>
     </div>` : '');
   document.getElementById('home-summary').innerHTML = summary;

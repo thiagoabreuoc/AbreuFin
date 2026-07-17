@@ -4,6 +4,11 @@
 const MONTHS      = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 const MONTHS_FULL = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const fmt = v => 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+// Valor com os centavos menores/sobrescritos (ex.: "R$ 23.452," seguido de "34" menor), como em referências de apps bancários
+const fmtBig = v => {
+  const [intPart, centsPart] = v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}).split(',');
+  return `R$ ${intPart}<span style="font-size:.55em;vertical-align:top;position:relative;top:.1em">,${centsPart}</span>`;
+};
 const escapeHtml = str => String(str ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 const cssVar = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
