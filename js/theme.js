@@ -264,6 +264,63 @@ const MATERIAL_THEMES = {
       '--md-extended-color-aviso-color-container':'#5c4300','--md-extended-color-aviso-on-color-container':'#ffdea1',
     },
   },
+  verde: {
+    label: 'Verde', funName: 'Verde AbreuFin', swatch: '#278657',
+    light: {
+      '--md-sys-color-primary':'#278657','--md-sys-color-on-primary':'#ffffff',
+      '--md-sys-color-primary-container':'#d3eee0','--md-sys-color-on-primary-container':'#174f33',
+      '--md-sys-color-inverse-primary':'#aee0c7',
+      '--md-sys-color-secondary':'#517061','--md-sys-color-on-secondary':'#ffffff',
+      '--md-sys-color-secondary-container':'#e0ebe6','--md-sys-color-on-secondary-container':'#364940',
+      '--md-sys-color-tertiary':'#983e6b','--md-sys-color-on-tertiary':'#ffffff',
+      '--md-sys-color-tertiary-container':'#f1d0e0','--md-sys-color-on-tertiary-container':'#511f38',
+      '--md-sys-color-error':'#ba1a1a','--md-sys-color-on-error':'#ffffff',
+      '--md-sys-color-error-container':'#ffdad6','--md-sys-color-on-error-container':'#93000a',
+      '--md-sys-color-background':'#f9fafa','--md-sys-color-on-background':'#1a1e1c',
+      '--md-sys-color-surface':'#f9fafa','--md-sys-color-on-surface':'#1a1e1c',
+      '--md-sys-color-surface-variant':'#e3e8e6','--md-sys-color-on-surface-variant':'#424d47',
+      '--md-sys-color-surface-dim':'#d6dcd9','--md-sys-color-surface-bright':'#f9fafa',
+      '--md-sys-color-surface-container-lowest':'#ffffff','--md-sys-color-surface-container-low':'#f4f6f5',
+      '--md-sys-color-surface-container':'#eef1f0','--md-sys-color-surface-container-high':'#e9eceb',
+      '--md-sys-color-surface-container-highest':'#e3e8e6',
+      '--md-sys-color-outline':'#6c7f75','--md-sys-color-outline-variant':'#c2cbc7',
+      '--md-sys-color-inverse-surface':'#2a322e','--md-sys-color-inverse-on-surface':'#f1f3f2',
+      '--md-sys-color-surface-tint':'#278657',
+      '--md-extended-color-receita-color':'#006a66','--md-extended-color-receita-on-color':'#ffffff',
+      '--md-extended-color-receita-color-container':'#6bf8f0','--md-extended-color-receita-on-color-container':'#00201e',
+      '--md-extended-color-investimento-color':'#0061a4','--md-extended-color-investimento-on-color':'#ffffff',
+      '--md-extended-color-investimento-color-container':'#d1e4ff','--md-extended-color-investimento-on-color-container':'#001d36',
+      '--md-extended-color-aviso-color':'#944a00','--md-extended-color-aviso-on-color':'#ffffff',
+      '--md-extended-color-aviso-color-container':'#ffdcc5','--md-extended-color-aviso-on-color-container':'#301400',
+    },
+    dark: {
+      '--md-sys-color-primary':'#aee0c7','--md-sys-color-on-primary':'#1c4a33',
+      '--md-sys-color-primary-container':'#276847','--md-sys-color-on-primary-container':'#d3eee0',
+      '--md-sys-color-inverse-primary':'#278657',
+      '--md-sys-color-secondary':'#c6d2cc','--md-sys-color-on-secondary':'#2d3933',
+      '--md-sys-color-secondary-container':'#3b4f45','--md-sys-color-on-secondary-container':'#e0ebe6',
+      '--md-sys-color-tertiary':'#e6bcd1','--md-sys-color-on-tertiary':'#471f33',
+      '--md-sys-color-tertiary-container':'#6b2e4d','--md-sys-color-on-tertiary-container':'#f4d7e5',
+      '--md-sys-color-error':'#ffb4ab','--md-sys-color-on-error':'#690005',
+      '--md-sys-color-error-container':'#93000a','--md-sys-color-on-error-container':'#ffdad6',
+      '--md-sys-color-background':'#101312','--md-sys-color-on-background':'#e3e8e6',
+      '--md-sys-color-surface':'#101312','--md-sys-color-on-surface':'#e3e8e6',
+      '--md-sys-color-surface-variant':'#424d47','--md-sys-color-on-surface-variant':'#c2cbc7',
+      '--md-sys-color-surface-dim':'#101312','--md-sys-color-surface-bright':'#343d38',
+      '--md-sys-color-surface-container-lowest':'#0c0e0d','--md-sys-color-surface-container-low':'#171c1a',
+      '--md-sys-color-surface-container':'#1c211f','--md-sys-color-surface-container-high':'#262c29',
+      '--md-sys-color-surface-container-highest':'#2f3733',
+      '--md-sys-color-outline':'#899a91','--md-sys-color-outline-variant':'#424d47',
+      '--md-sys-color-inverse-surface':'#e3e8e6','--md-sys-color-inverse-on-surface':'#2a322e',
+      '--md-sys-color-surface-tint':'#aee0c7',
+      '--md-extended-color-receita-color':'#48dbd3','--md-extended-color-receita-on-color':'#003735',
+      '--md-extended-color-receita-color-container':'#00504d','--md-extended-color-receita-on-color-container':'#6bf8f0',
+      '--md-extended-color-investimento-color':'#9fcaff','--md-extended-color-investimento-on-color':'#003259',
+      '--md-extended-color-investimento-color-container':'#00497d','--md-extended-color-investimento-on-color-container':'#d1e4ff',
+      '--md-extended-color-aviso-color':'#ffb783','--md-extended-color-aviso-on-color':'#4f2500',
+      '--md-extended-color-aviso-color-container':'#713700','--md-extended-color-aviso-on-color-container':'#ffdcc5',
+    },
+  },
   vermelho: {
     label: 'Vermelho', funName: 'Dona Pimenta', swatch: '#86473c',
     light: {
@@ -438,7 +495,7 @@ const MATERIAL_THEMES = {
 };
 
 function getMaterialTheme() {
-  return localStorage.getItem('md-theme') || 'azul';
+  return localStorage.getItem('md-theme') || 'verde';
 }
 
 function applyMaterialTheme(name) {

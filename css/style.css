@@ -61,6 +61,7 @@ h6{font-size:var(--md-sys-typescale-title-medium-size);line-height:var(--md-sys-
 /* Label Large (M3 typescale) — tipografia padrão de botão: Medium (500),
    14px/20px, tracking 0.1px */
 .btn{font-family:'Poppins',sans-serif;font-weight:500;font-size:var(--md-sys-typescale-label-large-size);line-height:var(--md-sys-typescale-label-large-line-height);letter-spacing:.1px}
+.btn-primary,.btn-outline-primary,.btn-danger,.btn-outline-danger{border-radius:var(--md-sys-shape-corner-full)!important}
 .fw-semibold{font-weight:600!important}
 
 /* ── Casca do app ── */
@@ -115,6 +116,14 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .auth-social-circle{width:52px;height:52px;border-radius:50%;background:#fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,.15)}
 .auth-spinner{width:32px;height:32px;border-radius:50%;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;margin:24px auto 0;animation:auth-spinner-spin .8s linear infinite}
 @keyframes auth-spinner-spin{to{transform:rotate(360deg)}}
+
+/* ── Header em degradê (mesma paleta das telas de auth), usado no topo
+   das telas internas do app pra reforçar a identidade visual ── */
+.app-header-gradient{background:linear-gradient(135deg,#0f9b7e 0%,#4caf7d 100%)!important;border-bottom:none!important;color:#fff}
+.app-header-gradient .material-symbols-outlined{color:#fff}
+.app-header-gradient .btn-link{color:#fff!important}
+.app-header-gradient .text-primary{color:#fff!important}
+.app-header-gradient .avatar-sm{box-shadow:0 0 0 2px rgba(255,255,255,.8)!important}
 
 /* Texto branco padrão do Bootstrap tem baixo contraste sobre bg-warning (âmbar) */
 .badge.bg-warning,.text-bg-warning{color:#212529!important}

@@ -1,6 +1,6 @@
 <!-- ═══════════════ PROFILE ═══════════════ -->
 <div class="screen hidden" id="screen-profile">
-  <div class="d-flex align-items-center p-3 border-bottom flex-shrink-0">
+  <div class="d-flex align-items-center p-3 flex-shrink-0 app-header-gradient">
     <button class="btn btn-link text-dark p-0" onclick="goBack()"><span class="material-symbols-outlined">arrow_back</span></button>
     <div class="flex-grow-1 text-center fw-bold">Perfil</div>
     <div style="width:24px"></div>
