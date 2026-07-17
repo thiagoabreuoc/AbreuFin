@@ -373,8 +373,10 @@ function updateListingDateLabel() {
 }
 
 function openPeriodPicker() {
-  const years = [...new Set(entries.map(e => e.yyyy))].sort((a,b) => a-b);
-  if (!years.length) years.push(listingYear || homeYear);
+  // só anos passados e o atual — mesma regra da aba Anual da Home, já que
+  // lançamentos recorrentes podem gerar ocorrências futuras.
+  const curYear = new Date().getFullYear();
+  const years = [...new Set(entries.map(e => e.yyyy).filter(y => y <= curYear).concat([curYear]))].sort((a,b) => a-b);
   const yr = listingYear || homeYear;
 
   document.getElementById('period-year-strip').innerHTML = years.map(y =>
