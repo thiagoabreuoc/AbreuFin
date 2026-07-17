@@ -86,7 +86,8 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 
 /* ── Telas de autenticação (Login/Criar conta) — visual dedicado com
    gradiente, à parte do tema M3 do resto do app ── */
-.auth-screen{background:linear-gradient(160deg,#0f9b7e 0%,#4caf7d 100%)!important}
+.auth-screen{background:linear-gradient(160deg,#0f9b7e 0%,#4caf7d 100%)!important;background-size:200% 200%!important;animation:auth-gradient-move 8s ease-in-out infinite}
+@keyframes auth-gradient-move{0%{background-position:0% 0%}50%{background-position:100% 100%}100%{background-position:0% 0%}}
 .auth-icon-badge{width:72px;height:72px;border-radius:20px;background:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 20px rgba(0,0,0,.15)}
 .auth-icon-badge .material-symbols-outlined{font-size:36px;color:#159957}
 .auth-title{color:#fff;font-size:1.6rem;font-weight:700;text-align:center;line-height:1.25;margin-bottom:8px}
@@ -112,15 +113,6 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .auth-input-box::placeholder{color:rgba(255,255,255,.75)}
 .auth-input-box:focus{background:rgba(255,255,255,.22)!important;border-color:#fff!important;box-shadow:none!important;color:#fff!important}
 .auth-social-circle{width:52px;height:52px;border-radius:50%;background:#fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,.15)}
-
-/* Animação de entrada da tela de Welcome — fade-up escalonado */
-@keyframes welcome-fade-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-.welcome-anim{opacity:0;animation:welcome-fade-up .6s cubic-bezier(.22,1,.36,1) forwards}
-.welcome-anim-1{animation-delay:.05s}
-.welcome-anim-2{animation-delay:.18s}
-.welcome-anim-3{animation-delay:.3s}
-.welcome-anim-4{animation-delay:.42s}
-.welcome-anim-5{animation-delay:.54s}
 
 /* Texto branco padrão do Bootstrap tem baixo contraste sobre bg-warning (âmbar) */
 .badge.bg-warning,.text-bg-warning{color:#212529!important}
