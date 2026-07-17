@@ -263,6 +263,14 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 .profile-item:hover{background-color:var(--md-sys-color-surface-container-low)}
 .profile-item:active{background-color:var(--md-sys-color-surface-container)}
 
+/* Accordion de itens independentes (Privacidade/LGPD) — cada <details>
+   abre/fecha por conta própria, sem afetar os outros */
+.privacy-accordion-item{background-color:var(--md-sys-color-surface);border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--md-sys-shape-corner-medium);padding:14px 16px}
+.privacy-accordion-item summary{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;font-weight:600;font-size:.875rem;list-style:none}
+.privacy-accordion-item summary::-webkit-details-marker{display:none}
+.privacy-accordion-chevron{font-size:1.2rem;color:var(--md-sys-color-on-surface-variant);transition:transform var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);flex-shrink:0}
+.privacy-accordion-item[open] .privacy-accordion-chevron{transform:rotate(180deg)}
+
 /* Swipe pra confirmar/desfazer status do lançamento — o card (.swipe-card-front)
    desliza por cima de duas camadas de fundo fixas (esquerda = confirmar,
    direita = voltar a pendente), reveladas conforme o arrasto. */
