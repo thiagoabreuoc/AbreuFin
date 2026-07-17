@@ -6,7 +6,7 @@
     <div style="width:24px"></div>
   </div>
   <div class="screen-body p-3">
-    <p class="text-muted small">Última atualização: 29/06/2026</p>
+    <p class="text-muted small text-center">Última atualização: 29/06/2026</p>
 
     <div class="d-flex flex-column" style="gap:8px;margin-top:12px">
       <details class="privacy-accordion-item" open>
