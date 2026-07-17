@@ -14,12 +14,12 @@ function downloadFile(content, filename, type) {
 function exportCSV() {
   const headers='ID,Tipo,Categoria,Sub-categoria,Valor,DD,MM,AAAA,Status,Observação,Repetir,Notif';
   const rows=entries.map(e=>[e.id,e.tipo,e.categoria,e.subcategoria,e.valor.toFixed(2),e.dd,e.mm,e.yyyy,e.status,`"${e.obs}"`,e.repetir,e.notif].join(','));
-  downloadFile([headers,...rows].join('\n'),'finflow_export.csv','text/csv;charset=utf-8');
+  downloadFile([headers,...rows].join('\n'),'abreufin_export.csv','text/csv;charset=utf-8');
   showToast('CSV exportado!','success');
 }
 
 function exportJSON() {
-  downloadFile(JSON.stringify({entries,categories,exportedAt:new Date().toISOString()},null,2),'finflow_backup.json','application/json');
+  downloadFile(JSON.stringify({entries,categories,exportedAt:new Date().toISOString()},null,2),'abreufin_backup.json','application/json');
   showToast('JSON exportado!','success');
 }
 
@@ -47,7 +47,7 @@ function buildAnnualReportText() {
 
 function exportTxt() {
   const { text, anoAtual } = buildAnnualReportText();
-  downloadFile(text,`finflow_relatorio_${anoAtual}.txt`,'text/plain;charset=utf-8');
+  downloadFile(text,`abreufin_relatorio_${anoAtual}.txt`,'text/plain;charset=utf-8');
   showToast('Relatório exportado!','success');
 }
 
