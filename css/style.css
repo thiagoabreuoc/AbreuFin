@@ -211,7 +211,7 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 /* Navigation drawer (M3) — https://m3.material.io/components/navigation-drawer/overview
    item em formato "pill" (shape full), com ícone + label e margem lateral
    das bordas do drawer, no lugar de uma linha reta full-width */
-.drawer-item{position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;margin:4px 12px;padding:10px 16px;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--md-sys-shape-corner-full);text-decoration:none;color:var(--md-sys-color-on-surface-variant);font-weight:500;font-size:.875rem;transition:background var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-standard)}
+.drawer-item{position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;margin:4px 12px;padding:10px 16px;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--md-sys-shape-corner-medium);text-decoration:none;color:var(--md-sys-color-on-surface-variant);font-weight:500;font-size:.875rem;transition:background var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-standard)}
 .drawer-item:first-of-type{margin-top:12px}
 .drawer-item .material-symbols-outlined{font-size:1.35rem;color:var(--md-sys-color-on-surface-variant)}
 .drawer-item:active,.drawer-item:hover{background:var(--md-sys-color-surface-container-highest);color:var(--md-sys-color-on-surface)}
