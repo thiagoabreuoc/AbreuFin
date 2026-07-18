@@ -558,12 +558,10 @@ function renderHome() {
       </div>
     </div>` +
     (homeTab==='meses' ? `<div class="card mb-2" style="border-radius:var(--md-sys-shape-corner-small)!important">
-      <div class="card-body d-flex justify-content-between align-items-center py-3 px-3">
-        <div>
-          <div class="fw-bold" style="font-size:1.05rem">Olá, ${escapeHtml((currentUser && currentUser.name ? currentUser.name.split(' ')[0] : ''))},</div>
-          <div class="text-secondary small mt-1">Saldo</div>
-        </div>
-        <span class="fw-bold" style="font-size:1.5rem" id="home-saldo-val">${fmtBig(saldo)}</span>
+      <div class="card-body py-3 px-3">
+        <div style="font-size:.85rem;font-weight:600;color:var(--md-sys-color-on-surface-variant)">Olá, ${escapeHtml((currentUser && currentUser.name ? currentUser.name.split(' ')[0] : ''))},</div>
+        <div style="font-size:.72rem;color:var(--md-sys-color-outline);margin-top:1px">Saldo</div>
+        <div class="fw-bold" style="font-size:1.75rem;margin-top:6px;letter-spacing:-.5px" id="home-saldo-val">${fmtBig(saldo)}</div>
       </div>
     </div>` : '');
   document.getElementById('home-summary').innerHTML = summary;
