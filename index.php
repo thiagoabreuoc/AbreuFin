@@ -190,6 +190,10 @@ $csrfToken = csrfToken();
         <span class="material-symbols-outlined">home</span>
         <span class="bottom-nav-label">Home</span>
       </button>
+      <button class="bottom-nav-item" id="bn-listing" onclick="openListing(currentListingType || 'receita')" aria-label="Lançamentos">
+        <span class="material-symbols-outlined">receipt_long</span>
+        <span class="bottom-nav-label">Lançamentos</span>
+      </button>
       <div id="btn-novo-wrap" class="bottom-nav-fab-holder">
         <div class="fab-item-list" id="fab-item-list">
           <button class="fab-item fab-item-receita" onclick="selectFabAction('receita')" aria-label="Receita"><span class="material-symbols-outlined">arrow_upward</span></button>
