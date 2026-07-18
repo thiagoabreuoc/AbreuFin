@@ -363,12 +363,13 @@ let _barRaf = null;
 
 function buildBarChart(d) {
   if (d.receita + d.despesa + d.investimento === 0) return emptyChart();
-  const W = 320, H = 100, R = 6, GAP = 4, PAD_R = 8;
+  const W = 320, H = 100, R = 6, GAP = 4, PAD_R = 8, MARGIN_X = 4;
   const chartW = W - PAD_R;
+  const barsW = chartW - MARGIN_X * 2;
   const maxVal = niceCeil(Math.max(1, ...TIPOS.map(t => d[t])));
-  const barW = (chartW - GAP * (TIPOS.length - 1)) / TIPOS.length;
+  const barW = (barsW - GAP * (TIPOS.length - 1)) / TIPOS.length;
   const bars = TIPOS.map((tipo, i) => {
-    const x = i * (barW + GAP);
+    const x = MARGIN_X + i * (barW + GAP);
     const barH = Math.max((d[tipo] / maxVal) * H * 0.92, d[tipo] > 0 ? 4 : 0);
     const y = H - barH;
     const c = TIPO_META[tipo].cor;
