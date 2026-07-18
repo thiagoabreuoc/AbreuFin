@@ -183,18 +183,23 @@ $csrfToken = csrfToken();
       </div>
     </div>
 
-    <!-- FAB Menu — https://m3.material.io/components/fab-menu/overview -->
+    <!-- Bottom Nav + FAB Menu — https://m3.material.io/components/fab-menu/overview -->
     <div class="fab-scrim" id="fab-scrim" onclick="closeFabMenu()"></div>
-    <div id="btn-novo-wrap" style="position:absolute;bottom:0;left:0;right:0;padding:20px 20px 28px;background:linear-gradient(to bottom, transparent, var(--md-sys-color-surface));display:none;justify-content:center;pointer-events:none;z-index:210">
-      <div style="position:relative">
+    <div class="bottom-nav" id="bottom-nav" style="display:none">
+      <button class="bottom-nav-item" id="bn-home" onclick="navigate('home')" aria-label="Home">
+        <span class="material-symbols-outlined">home</span>
+        <span class="bottom-nav-label">Home</span>
+      </button>
+      <div id="btn-novo-wrap" class="bottom-nav-fab-holder">
         <div class="fab-item-list" id="fab-item-list">
           <button class="fab-item fab-item-receita" onclick="selectFabAction('receita')" aria-label="Receita"><span class="material-symbols-outlined">arrow_upward</span></button>
           <button class="fab-item fab-item-despesa" onclick="selectFabAction('despesa')" aria-label="Despesa"><span class="material-symbols-outlined">arrow_downward</span></button>
           <button class="fab-item fab-item-investimento" onclick="selectFabAction('investimento')" aria-label="Investimento"><span class="material-symbols-outlined">trending_up</span></button>
         </div>
-        <button class="fab-main-btn" onclick="toggleFabMenu()" id="fab-main" aria-label="Novo lançamento" aria-haspopup="true" aria-expanded="false" style="pointer-events:auto">
+        <button class="fab-main-btn" onclick="toggleFabMenu()" id="fab-main" aria-label="Novo lançamento" aria-haspopup="true" aria-expanded="false">
           <span class="material-symbols-outlined">add</span>
         </button>
+        <span class="bottom-nav-label">Novo</span>
       </div>
     </div>
 
