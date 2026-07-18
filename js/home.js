@@ -564,7 +564,7 @@ function renderHome() {
           <div style="font-size:1rem;color:var(--md-sys-color-on-surface-variant)"><span style="font-weight:300">Olá,</span> <span style="font-weight:600">${escapeHtml((currentUser && currentUser.name ? currentUser.name.split(' ')[0] : ''))}</span>,</div>
           <div style="font-size:.72rem;color:var(--md-sys-color-outline);margin-top:1px">Balanço total</div>
         </div>
-        <div class="fw-bold" style="font-size:1.4rem;letter-spacing:-.5px;color:var(--md-sys-color-primary)" id="home-saldo-val">${fmtBig(saldo)}</div>
+        <div style="font-size:1.4rem;font-weight:600;letter-spacing:-.5px;color:#4caf7d" id="home-saldo-val">${fmtBig(saldo)}</div>
       </div>
     </div>` : '');
   document.getElementById('home-summary').innerHTML = summary;
