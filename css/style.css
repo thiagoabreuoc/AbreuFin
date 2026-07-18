@@ -226,7 +226,7 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 .bottom-nav-label{font-size:.65rem;font-weight:600;margin-top:1px}
 .bottom-nav-fab-holder{position:relative;display:flex;flex-direction:column;align-items:center}
 
-.fab-menu-holder.fab-open .fab-trigger .material-symbols-outlined{transform:rotate(45deg)}
+#btn-novo-wrap.fab-open .fab-main-btn .material-symbols-outlined{transform:rotate(45deg)}
 
 /* FAB Menu (M3) — https://m3.material.io/components/fab-menu/overview
    Lista vertical de ações ancorada no canto inferior direito, acima do FAB
@@ -245,11 +245,11 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 .fab-item-despesa .material-symbols-outlined{color:var(--md-sys-color-error)!important}
 .fab-item-investimento{background:color-mix(in srgb, var(--md-extended-color-investimento-color) 18%, var(--md-sys-color-surface))!important;color:var(--md-extended-color-investimento-color)!important}
 .fab-item-investimento .material-symbols-outlined{color:var(--md-extended-color-investimento-color)!important}
-.fab-menu-holder.fab-open .fab-item-list{pointer-events:all}
-.fab-menu-holder.fab-open .fab-item{opacity:1;transform:translateY(0) scale(1)}
-.fab-menu-holder.fab-open .fab-item:nth-child(1){transition-delay:0s}
-.fab-menu-holder.fab-open .fab-item:nth-child(2){transition-delay:.04s}
-.fab-menu-holder.fab-open .fab-item:nth-child(3){transition-delay:.08s}
+#btn-novo-wrap.fab-open .fab-item-list{pointer-events:all}
+#btn-novo-wrap.fab-open .fab-item{opacity:1;transform:translateY(0) scale(1)}
+#btn-novo-wrap.fab-open .fab-item:nth-child(1){transition-delay:0s}
+#btn-novo-wrap.fab-open .fab-item:nth-child(2){transition-delay:.04s}
+#btn-novo-wrap.fab-open .fab-item:nth-child(3){transition-delay:.08s}
 
 /* Text field (M3) — outlined com label entalhado na borda (fieldset/
    legend nativos), igual ao print de referência */

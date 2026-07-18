@@ -184,32 +184,25 @@ $csrfToken = csrfToken();
     </div>
 
     <!-- Bottom Nav + FAB Menu — https://m3.material.io/components/fab-menu/overview -->
-    <div class="fab-scrim" id="fab-scrim" onclick="closeFabMenu();closeListingMenu()"></div>
+    <div class="fab-scrim" id="fab-scrim" onclick="closeFabMenu()"></div>
     <div class="bottom-nav" id="bottom-nav" style="display:none">
       <button class="bottom-nav-item" id="bn-home" onclick="navigate('home')" aria-label="Home">
         <span class="material-symbols-outlined">home</span>
         <span class="bottom-nav-label">Home</span>
       </button>
-      <div id="btn-novo-wrap" class="bottom-nav-fab-holder fab-menu-holder">
+      <button class="bottom-nav-item" id="bn-listing" onclick="openListing(currentListingType || 'receita')" aria-label="Lançamentos">
+        <span class="material-symbols-outlined">receipt_long</span>
+        <span class="bottom-nav-label">Lançamentos</span>
+      </button>
+      <div id="btn-novo-wrap" class="bottom-nav-fab-holder">
         <div class="fab-item-list" id="fab-item-list">
           <button class="fab-item fab-item-receita" onclick="selectFabAction('receita')" aria-label="Receita"><span class="material-symbols-outlined">arrow_upward</span></button>
           <button class="fab-item fab-item-despesa" onclick="selectFabAction('despesa')" aria-label="Despesa"><span class="material-symbols-outlined">arrow_downward</span></button>
           <button class="fab-item fab-item-investimento" onclick="selectFabAction('investimento')" aria-label="Investimento"><span class="material-symbols-outlined">trending_up</span></button>
         </div>
-        <button class="bottom-nav-item fab-main-btn fab-trigger" onclick="toggleFabMenu()" id="fab-main" aria-label="Novo lançamento" aria-haspopup="true" aria-expanded="false">
+        <button class="bottom-nav-item fab-main-btn" onclick="toggleFabMenu()" id="fab-main" aria-label="Novo lançamento" aria-haspopup="true" aria-expanded="false">
           <span class="material-symbols-outlined">add</span>
           <span class="bottom-nav-label">Novo</span>
-        </button>
-      </div>
-      <div id="btn-listing-wrap" class="bottom-nav-fab-holder fab-menu-holder">
-        <div class="fab-item-list" id="listing-item-list">
-          <button class="fab-item fab-item-receita" onclick="selectListingAction('receita')" aria-label="Receitas"><span class="material-symbols-outlined">arrow_upward</span></button>
-          <button class="fab-item fab-item-despesa" onclick="selectListingAction('despesa')" aria-label="Despesas"><span class="material-symbols-outlined">arrow_downward</span></button>
-          <button class="fab-item fab-item-investimento" onclick="selectListingAction('investimento')" aria-label="Investimentos"><span class="material-symbols-outlined">trending_up</span></button>
-        </div>
-        <button class="bottom-nav-item fab-trigger" onclick="toggleListingMenu()" id="bn-listing" aria-label="Lançamentos" aria-haspopup="true" aria-expanded="false">
-          <span class="material-symbols-outlined">receipt_long</span>
-          <span class="bottom-nav-label">Lançamentos</span>
         </button>
       </div>
     </div>

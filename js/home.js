@@ -86,7 +86,7 @@ function updateNovoBtn() {
     const show = onAllowed && allowed;
     wrap.style.visibility = show ? 'visible' : 'hidden';
     wrap.style.pointerEvents = show ? 'auto' : 'none';
-    if (!show) { closeFabMenu(); closeListingMenu(); }
+    if (!show) closeFabMenu();
   }
 }
 
@@ -98,9 +98,8 @@ function toggleFabMenu() {
     return;
   }
   const wrap = document.getElementById('btn-novo-wrap');
-  if (wrap && wrap.classList.contains('fab-open')) { closeFabMenu(); return; }
-  closeListingMenu();
-  openFabMenu();
+  if (wrap && wrap.classList.contains('fab-open')) closeFabMenu();
+  else openFabMenu();
 }
 function openFabMenu() {
   const wrap = document.getElementById('btn-novo-wrap');
@@ -113,48 +112,14 @@ function closeFabMenu() {
   const wrap = document.getElementById('btn-novo-wrap');
   if (!wrap) return;
   wrap.classList.remove('fab-open');
-  if (!isListingMenuOpen()) document.getElementById('fab-scrim').classList.remove('open');
+  const scrim = document.getElementById('fab-scrim');
+  if (scrim) scrim.classList.remove('open');
   const btn = document.getElementById('fab-main');
   if (btn) btn.setAttribute('aria-expanded', 'false');
 }
 function selectFabAction(tipo) {
   closeFabMenu();
   openNovo(tipo);
-}
-
-/* ── Menu de Lançamentos (M3 FAB Menu) ── */
-function isListingMenuOpen() {
-  const wrap = document.getElementById('btn-listing-wrap');
-  return !!(wrap && wrap.classList.contains('fab-open'));
-}
-function isNovoMenuOpen() {
-  const wrap = document.getElementById('btn-novo-wrap');
-  return !!(wrap && wrap.classList.contains('fab-open'));
-}
-function toggleListingMenu() {
-  const wrap = document.getElementById('btn-listing-wrap');
-  if (wrap && wrap.classList.contains('fab-open')) { closeListingMenu(); return; }
-  closeFabMenu();
-  openListingMenu();
-}
-function openListingMenu() {
-  const wrap = document.getElementById('btn-listing-wrap');
-  if (!wrap) return;
-  wrap.classList.add('fab-open');
-  document.getElementById('fab-scrim').classList.add('open');
-  document.getElementById('bn-listing').setAttribute('aria-expanded', 'true');
-}
-function closeListingMenu() {
-  const wrap = document.getElementById('btn-listing-wrap');
-  if (!wrap) return;
-  wrap.classList.remove('fab-open');
-  if (!isNovoMenuOpen()) document.getElementById('fab-scrim').classList.remove('open');
-  const btn = document.getElementById('bn-listing');
-  if (btn) btn.setAttribute('aria-expanded', 'false');
-}
-function selectListingAction(tipo) {
-  closeListingMenu();
-  openListing(tipo);
 }
 
 function switchHomeTab(tab) {
