@@ -1,11 +1,11 @@
 <!-- ═══════════════ DADOS DA CONTA (somente leitura) ═══════════════ -->
 <div class="screen hidden" id="screen-account-data">
-  <div class="d-flex align-items-center p-3 border-bottom flex-shrink-0">
+  <div class="d-flex align-items-center p-3 flex-shrink-0 app-header-gradient">
     <button class="btn btn-link text-dark p-0" onclick="goBack()"><span class="material-symbols-outlined">arrow_back</span></button>
     <div class="flex-grow-1 text-center fw-bold">Dados da conta</div>
     <div style="width:24px"></div>
   </div>
-  <div class="screen-body p-3">
+  <div class="screen-body p-3 app-body-rounded">
     <div class="card" style="border-radius:var(--md-sys-shape-corner-large)!important">
       <div class="card-body d-flex flex-column" style="gap:20px;padding:20px">
         <div class="d-flex align-items-start gap-2">
