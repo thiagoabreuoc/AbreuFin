@@ -89,7 +89,7 @@ function renderGroupRow(id, name, count, editable) {
   var idArg = id === null ? 'null' : id;
   var actions = editable
     ? '<button class="btn btn-link text-primary p-0" onclick="event.stopPropagation();startRenameGroup(' + id + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
-      '<button class="btn btn-link text-danger p-0" onclick="event.stopPropagation();confirmDeleteGroup(' + id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>'
+      '<button class="btn btn-link text-primary p-0" onclick="event.stopPropagation();confirmDeleteGroup(' + id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>'
     : '';
   var dropAttrs = editable ? ' data-drop-group-id="' + id + '"' : '';
   return '<div class="list-group-item cat-row-card d-flex align-items-center justify-content-between' + (editable ? ' drop-target-group' : '') + '"' + dropAttrs + ' style="cursor:pointer" onclick="openGroup(' + idArg + ')">' +
@@ -111,7 +111,7 @@ function renderDraggableUngroupedCatRow(c) {
     '<div class="d-flex align-items-center" style="gap:12px">' +
     '<span class="m3-count-badge">' + c.subs.length + '</span>' +
     '<button class="btn btn-link text-primary p-0" onclick="event.stopPropagation();startRenameCat(' + c.id + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
-    '<button class="btn btn-link text-danger p-0" onclick="event.stopPropagation();confirmDeleteCat(' + c.id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
+    '<button class="btn btn-link text-primary p-0" onclick="event.stopPropagation();confirmDeleteCat(' + c.id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
     '<span class="material-symbols-outlined text-secondary" style="font-size:1.2rem">drag_indicator</span>' +
     '</div></div>';
 }
@@ -345,7 +345,7 @@ function renderCatRow(c) {
     '<div class="d-flex align-items-center" style="gap:12px">' +
     '<span class="m3-count-badge">' + c.subs.length + '</span>' +
     '<button class="btn btn-link text-primary p-0" onclick="event.stopPropagation();startRenameCat(' + c.id + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
-    '<button class="btn btn-link text-danger p-0" onclick="event.stopPropagation();confirmDeleteCat(' + c.id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
+    '<button class="btn btn-link text-primary p-0" onclick="event.stopPropagation();confirmDeleteCat(' + c.id + ',\'' + _catsTab + '\')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
     '</div></div>';
 }
 
@@ -463,7 +463,7 @@ function renderCatDetailScreen() {
         '</div>' +
         '<div class="d-flex align-items-center" style="gap:12px">' +
         '<button class="btn btn-link text-primary p-0" onclick="startRenameSub(' + item.idx + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">edit</span></button>' +
-        '<button class="btn btn-link text-danger p-0" onclick="deleteSub(' + item.idx + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
+        '<button class="btn btn-link text-primary p-0" onclick="deleteSub(' + item.idx + ')"><span class="material-symbols-outlined" style="font-size:1.1rem">delete</span></button>' +
         '</div></div>';
     }).join('') + '</div>';
   }
