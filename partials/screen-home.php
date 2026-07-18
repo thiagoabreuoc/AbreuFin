@@ -8,6 +8,7 @@
       <span class="m3-badge-small m3-badge-small-warning position-absolute" id="notif-bell-dot" style="top:4px;right:4px;display:none"></span>
     </button>
     <div class="avatar-sm rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center overflow-hidden" id="home-nav-avatar" style="cursor:pointer" onclick="navigate('profile')"><span class="material-symbols-outlined" style="font-size:1.1rem">person</span></div>
+    <div class="app-header-watermark">AB</div>
   </div>
   <div class="screen-body app-body-rounded" id="home-body" style="padding:16px 16px 16px">
     <div id="home-banners"></div>
