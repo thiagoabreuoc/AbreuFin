@@ -148,7 +148,7 @@ function attachStripScroll(strip) {
 function buildMonthStrip() {
   const strip = document.getElementById('month-strip');
   strip.innerHTML =
-    MONTHS.map((m,i) => `<button class="btn btn-sm rounded-pill flex-shrink-0 ${i===homeMonth?'btn-primary':'tab-inactive text-primary'}" style="border:none" onclick="selectMonth(${i})">${m}</button>`).join('');
+    MONTHS.map((m,i) => `<button class="btn btn-sm rounded-pill flex-shrink-0 ${i===homeMonth?'btn-primary':'tab-inactive'}" style="border:none" onclick="selectMonth(${i})">${m}</button>`).join('');
   attachStripScroll(strip);
   setTimeout(function() {
     var active = strip.querySelector('.btn-primary');
@@ -190,7 +190,6 @@ function selectMonth(i) {
   document.querySelectorAll('#month-strip .btn').forEach((b,idx) => {
     b.classList.toggle('btn-primary', idx===i);
     b.classList.toggle('tab-inactive', idx!==i);
-    b.classList.toggle('text-primary', idx!==i);
   });
   updateNovoBtn();
   if (homeTab === 'meses' && document.getElementById('chart-bars-svg')) {
