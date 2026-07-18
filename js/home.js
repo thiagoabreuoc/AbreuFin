@@ -88,8 +88,6 @@ function updateNovoBtn() {
     wrap.style.pointerEvents = show ? 'auto' : 'none';
     if (!show) closeFabMenu();
   }
-  const homeBtn = document.getElementById('bn-home');
-  if (homeBtn) homeBtn.classList.toggle('active', screenId === 'screen-home');
 }
 
 /* ── FAB Menu (M3) ── */
