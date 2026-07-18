@@ -126,7 +126,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .app-header-gradient .avatar-sm{box-shadow:0 0 0 2px rgba(255,255,255,.8)!important}
 .app-header-gradient{padding-bottom:32px!important}
 .app-body-rounded{background:var(--md-sys-color-surface);border-radius:24px 24px 0 0;margin-top:-16px;position:relative;z-index:1}
-.app-header-watermark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:2.2rem;font-weight:800;color:rgba(255,255,255,.18);letter-spacing:2px;user-select:none;pointer-events:none;z-index:0}
+.app-header-watermark{position:absolute;left:50%;top:calc(50% + 10px);transform:translate(-50%,-50%);font-size:1.4rem;font-weight:800;color:rgba(255,255,255,.18);letter-spacing:-1px;user-select:none;pointer-events:none;z-index:0}
 
 /* Texto branco padrão do Bootstrap tem baixo contraste sobre bg-warning (âmbar) */
 .badge.bg-warning,.text-bg-warning{color:#212529!important}
