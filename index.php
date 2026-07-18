@@ -204,7 +204,7 @@ $csrfToken = csrfToken();
   <div id="drawer-overlay" onclick="closeDrawer()"></div>
   <div id="drawer">
     <div class="drawer-header">
-      <span class="fw-bold fs-5 text-primary">AbreuFin</span>
+      <span class="fw-bold fs-5 text-primary">AB</span>
       <button class="btn btn-link text-secondary p-0" onclick="closeDrawer()"><span class="material-symbols-outlined">close</span></button>
     </div>
     <a href="#" class="drawer-item" onclick="openListing('receita');closeDrawer();return false;"><span class="material-symbols-outlined">arrow_downward</span>Receitas</a>
