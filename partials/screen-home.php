@@ -10,7 +10,7 @@
     <div class="avatar-sm rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center overflow-hidden" id="home-nav-avatar" style="cursor:pointer" onclick="navigate('profile')"><span class="material-symbols-outlined" style="font-size:1.1rem">person</span></div>
     <div class="app-header-watermark">AB</div>
   </div>
-  <div class="screen-body app-body-rounded" id="home-body" style="padding:16px 16px 96px">
+  <div class="screen-body app-body-rounded" id="home-body" style="padding:16px 16px 16px">
     <div id="home-banners"></div>
 
     <div class="m3-tabs mb-3" style="margin-top:8px">

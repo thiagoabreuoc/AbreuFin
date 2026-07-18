@@ -79,17 +79,12 @@ function updateNovoBtn() {
     else if (homeYear === curYear) allowed = homeMonth >= curMonth;
     else allowed = true;
   }
-  const bar = document.getElementById('bottom-nav');
-  if (bar) bar.style.display = onAllowed ? 'flex' : 'none';
   const wrap = document.getElementById('btn-novo-wrap');
   if (wrap) {
     const show = onAllowed && allowed;
-    wrap.style.visibility = show ? 'visible' : 'hidden';
-    wrap.style.pointerEvents = show ? 'auto' : 'none';
+    wrap.style.display = show ? 'flex' : 'none';
     if (!show) closeFabMenu();
   }
-  const homeBtn = document.getElementById('bn-home');
-  if (homeBtn) homeBtn.classList.toggle('active', screenId === 'screen-home');
 }
 
 /* ── FAB Menu (M3) ── */
