@@ -363,7 +363,7 @@ let _barRaf = null;
 
 function buildBarChart(d) {
   if (d.receita + d.despesa + d.investimento === 0) return emptyChart();
-  const W = 320, H = 100, R = 6, GAP = 4, PAD_R = 8, MARGIN_X = 4;
+  const W = 320, H = 100, R = 6, GAP = 8, PAD_R = 8, MARGIN_X = 4;
   const chartW = W - PAD_R;
   const barsW = chartW - MARGIN_X * 2;
   const maxVal = niceCeil(Math.max(1, ...TIPOS.map(t => d[t])));
