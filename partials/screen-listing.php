@@ -17,7 +17,7 @@
     <div style="display:flex;justify-content:center;align-items:center;gap:8px;margin-bottom:16px" id="listing-status-tabs">
       <!-- preenchido dinamicamente por openListing() -->
     </div>
-    <div class="mb-3" id="listing-filter-sort-row" style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding-left:8px;padding-right:8px">
+    <div class="mb-2" id="listing-filter-sort-row" style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding-left:8px;padding-right:8px">
       <button class="btn btn-link text-primary p-0 d-inline-flex align-items-center" type="button" onclick="openFilterPanel()" aria-label="Mais filtros">
         <span class="material-symbols-outlined" style="font-size:1.4rem">filter_alt</span><span id="filter-count" class="m3-badge-large" style="display:none">0</span>
       </button>
@@ -33,7 +33,7 @@
         <a href="#" id="sort-btn-neutro" class="text-decoration-none d-inline-flex align-items-center" style="display:none" onclick="sortEntries('neutro','asc');return false;" aria-label="Ordenar por sem vencimento próximo"><span class="m3-badge-small m3-badge-small-neutral"></span></a>
       </div>
     </div>
-    <div class="text-center" id="listing-totals" style="padding:14px 0"></div>
+    <div class="text-center" id="listing-totals" style="padding:6px 0 14px"></div>
     <div id="listing-table-header" style="display:none">
       <div>Descrição</div>
       <div>Categoria</div>
