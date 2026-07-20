@@ -28,6 +28,8 @@ css/material3-tokens.css   # ÚNICA fonte de verdade dos tokens M3 (cor, forma,
                             # elevação, tipografia, movimento, state layer)
 css/style.css               # componentes e overrides — consome os tokens acima
                             # via var(--md-sys-*), nunca hardcoda cor/raio
+css/responsive.css          # única camada com @media — chrome de desktop
+                            # (sidebar, breakpoint); style.css fica mobile-first
 js/theme.js                  # só alterna claro/escuro ([data-theme="dark"]);
                             # não guarda nem aplica paleta de cor via JS
 js/ripple.js                 # feedback tátil (ripple) M3 — delegação de evento
@@ -130,7 +132,31 @@ Pontos já resolvidos e que devem ser mantidos em componentes novos:
   `role="listbox"`/`role="option"`, setas para navegar, Enter para
   selecionar, Esc para fechar.
 
-## 8. Como estender
+## 8. Desktop
+
+O app é mobile-first (`.app{max-width:390px}`) e continua assim — cada
+tela é uma coluna de conteúdo pensada pra largura de celular, mesmo
+quando aberta num monitor grande (o mesmo padrão de Linear/Notion/Slack:
+não esticar o conteúdo principal pra 1920px). O que muda em telas largas
+(`css/responsive.css`, breakpoint `min-width: 900px`) é só o **chrome**:
+
+- `#app-shell` (novo wrapper em `index.php`, envolve a `.sidebar-desktop`
+  e a `.app`) vira um flex row.
+- `.sidebar-desktop` — nav persistente (Home/Receitas/Despesas/
+  Investimentos/Categorias/Perfil, reaproveitando `.drawer-item`) —
+  substitui o hambúrguer/drawer, que só existia na Home. Some
+  automaticamente nas telas de autenticação via
+  `body:not(:has(#screen-login.active, ...))`, sem precisar de JS pra
+  saber "isso é uma tela de auth ou não" — `:has()` lê isso direto do
+  `.screen.active` que a navegação já mantém.
+- `#hamburger-btn` (Home) é escondido no breakpoint — vira redundante.
+
+Não há, por enquanto, um botão "Novo" na sidebar: o FAB continua só em
+Home/Listagem (regra existente em `updateNovoBtn()`, `js/home.js`). Dar
+um segundo ponto de entrada de qualquer tela é um passo futuro, não
+incluído aqui.
+
+## 9. Como estender
 
 - **Nova cor de domínio** (ex.: uma 4ª categoria financeira): adicionar
   o quarteto `--md-extended-color-<nome>-color/-on-color/-color-container/
