@@ -79,7 +79,6 @@ async function enterApp() {
   applyCurrentUser(data.user);
   screenStack = ['home'];
   showScreen('home', false);
-  buildMonthStrip();
   switchHomeTab('meses');
 }
 

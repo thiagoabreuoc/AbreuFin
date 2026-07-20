@@ -13,13 +13,10 @@
   <div class="screen-body app-body-rounded" id="home-body" style="padding:16px 16px 16px">
     <div id="home-banners"></div>
 
-    <div class="m3-tabs mb-3" style="margin-top:8px">
+    <div class="m3-tabs mb-3" style="margin-top:8px" id="home-tabs">
       <button class="m3-tab active" id="tab-anos" onclick="switchHomeTab('anos')">Anual</button>
       <button class="m3-tab" id="tab-meses" onclick="switchHomeTab('meses')">Mensal</button>
     </div>
-
-    <div class="no-scrollbar" style="display:none;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px;margin-left:8px;margin-right:8px;justify-content:center" id="year-strip"></div>
-    <div class="no-scrollbar" style="display:none;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px;margin-left:8px;margin-right:8px" id="month-strip"></div>
 
     <div id="home-summary"></div>
 

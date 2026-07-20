@@ -54,7 +54,9 @@
   /* Home — os dois gráficos (Anual/Mensal) ficam visíveis ao mesmo tempo,
      lado a lado, com o card de saldo abaixo ocupando a largura toda
      (renderHome(), js/home.js, sempre monta os 2 cards + o de saldo,
-     escondendo um deles via display inline só no mobile) */
+     escondendo um deles via display inline só no mobile). As abas
+     Anual/Mensal viram redundantes (os dois já aparecem sempre) */
+  #home-tabs{display:none}
   #home-summary{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
   #home-summary > *{margin:0!important}
   #home-value-toggle-wrap,#home-card-saldo{grid-column:1/-1}

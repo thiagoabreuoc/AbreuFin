@@ -16,7 +16,7 @@ function onHomeValueModeChange() {
 }
 function homeValueModeToggleHtml() {
   const isTodos = homeValueMode === 'todos';
-  return `<div class="d-flex align-items-center justify-content-center gap-2 mb-3" id="home-value-toggle-wrap">
+  return `<div class="d-flex align-items-center justify-content-start gap-2 mb-3" id="home-value-toggle-wrap">
     <span class="text-secondary" id="value-mode-label-off" style="font-size:.68rem;font-weight:${isTodos ? '400' : '700'}">Realizado</span>
     <div class="form-check form-switch mb-0">
       <input class="form-check-input" type="checkbox" id="home-value-mode-toggle" role="switch" onchange="onHomeValueModeChange()"${isTodos ? ' checked' : ''}>
@@ -122,9 +122,6 @@ function selectFabAction(tipo) {
 function switchHomeTab(tab) {
   homeTab = tab;
   ['anos','meses'].forEach(t => setTabActive(document.getElementById('tab-'+t), t===tab));
-  document.getElementById('year-strip').style.display  = tab==='anos'  ? 'flex' : 'none';
-  document.getElementById('month-strip').style.display = tab==='meses' ? 'flex' : 'none';
-  if (tab === 'anos') buildYearStrip();
   _areaYs  = null;
   updateNovoBtn();
   renderHome();
@@ -552,6 +549,7 @@ function renderHome() {
 
   const cardAnual = `<div class="card home-chart-card" id="home-card-anual" style="border-radius:var(--md-sys-shape-corner-small)!important;margin-bottom:12px${showAnos ? '' : ';display:none'}">
     <div class="card-body py-3 px-3">
+      <div class="no-scrollbar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px;justify-content:center" id="year-strip"></div>
       <div class="small text-center mb-2" id="home-periodo-anos" style="font-weight:400">${String(yrA)}</div>
       <div class="mb-3">${chartA}</div>
       <div id="home-legend-anos" style="display:flex;justify-content:space-around">${buildLegendHtml(dcA)}</div>
@@ -560,6 +558,7 @@ function renderHome() {
 
   const cardMensal = `<div class="card home-chart-card" id="home-card-mensal" style="border-radius:var(--md-sys-shape-corner-small)!important;margin-bottom:12px${showAnos ? ';display:none' : ''}">
     <div class="card-body py-3 px-3">
+      <div class="no-scrollbar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px" id="month-strip"></div>
       <div class="small text-center mb-2" id="home-periodo-meses" style="font-weight:400">${periodoLabelM}</div>
       <div class="mb-3">${chartM}</div>
       <div id="home-legend-meses" style="display:flex;justify-content:space-around">${buildLegendHtml(dcM)}</div>
@@ -577,6 +576,8 @@ function renderHome() {
   </div>`;
 
   document.getElementById('home-summary').innerHTML = homeValueModeToggleHtml() + cardAnual + cardMensal + cardSaldo;
+  buildYearStrip();
+  buildMonthStrip();
 }
 
 /* ─────────────── CENTRAL DE NOTIFICAÇÕES ─────────────── */
