@@ -18,10 +18,6 @@
           </button>
         </div>
       </div>
-      <div class="list-group-item cat-row-card">
-        <div class="mb-2 text-secondary small fw-semibold">Cor do tema</div>
-        <div class="theme-carousel" id="theme-carousel" onscroll="onThemeCarouselScroll()"></div>
-      </div>
     </div>
   </div>
 </div>
