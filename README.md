@@ -9,8 +9,10 @@ frontend, com PWA (service worker + push notifications).
 - **Backend:** PHP nativo, sem framework. Persistência em SQLite via PDO
   (`config/db.php`), com migrations simples aplicadas no boot (`ALTER TABLE`
   condicionais).
-- **Frontend:** HTML/CSS/JS vanilla, Bootstrap 5 (Bootswatch "flatly") +
-  Bootstrap Icons via CDN. Uma única página (`index.php`) que inclui todas as
+- **Frontend:** HTML/CSS/JS vanilla, Bootstrap 5 (Bootswatch "flatly") como
+  base de layout/utilitários, com uma camada própria de tokens e componentes
+  Material 3 por cima (veja [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)), e Material
+  Symbols (ícones) via CDN. Uma única página (`index.php`) que inclui todas as
   "telas" (`partials/screen-*.php`) e alterna visibilidade via JS
   (`js/navigation.js`).
 - **PWA:** `sw.js` (service worker) + Web Push (`lib/webpush.php`,
