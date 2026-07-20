@@ -1,11 +1,11 @@
 <!-- ═══════════════ CHANGE PASSWORD ═══════════════ -->
 <div class="screen hidden" id="screen-change-password">
-  <div class="d-flex align-items-center p-3 border-bottom flex-shrink-0">
+  <div class="d-flex align-items-center p-3 flex-shrink-0 app-header-gradient">
     <button class="btn btn-link text-dark p-0" onclick="goBack()"><span class="material-symbols-outlined">arrow_back</span></button>
     <span class="flex-grow-1 text-center fw-bold">Alterar senha</span>
     <div style="width:24px"></div>
   </div>
-  <div class="screen-body p-3">
+  <div class="screen-body p-3 app-body-rounded">
     <p class="text-secondary small mb-3" id="cp-helper" style="display:none"></p>
     <fieldset class="form-box" id="cp-atual-wrap">
       <legend class="form-box-lbl">Senha atual</legend>

@@ -1,11 +1,11 @@
 <!-- ═══════════════ PRIVACIDADE / LGPD ═══════════════ -->
 <div class="screen hidden" id="screen-privacy">
-  <div class="d-flex align-items-center p-3 border-bottom flex-shrink-0">
+  <div class="d-flex align-items-center p-3 flex-shrink-0 app-header-gradient">
     <button class="btn btn-link text-dark p-0" onclick="goBack()"><span class="material-symbols-outlined">arrow_back</span></button>
     <div class="flex-grow-1 text-center fw-bold">Privacidade e LGPD</div>
     <div style="width:24px"></div>
   </div>
-  <div class="screen-body p-3">
+  <div class="screen-body p-3 app-body-rounded">
     <p class="text-muted small text-center">Última atualização: 29/06/2026</p>
 
     <div class="d-flex flex-column" style="gap:8px;margin-top:12px">
