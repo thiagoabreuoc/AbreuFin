@@ -161,8 +161,14 @@ além do chrome, essas 4 telas reorganizam seus próprios elementos em
 grade no desktop — sempre reaproveitando o HTML/render que já existe,
 nunca duplicando lógica em JS:
 
-- Home (`#home-summary`) — grid 2 colunas; os 2 `<div class="card">`
-  irmãos que `renderHome()` já gera (gráfico e saldo) ficam lado a lado.
+- Home (`#home-summary`) — grid 2 colunas. `renderHome()` (`js/home.js`)
+  sempre monta os 3 cards (Anual, Mensal, Saldo), escondendo um dos
+  gráficos via `display:none` inline só quando a tela é estreita (aba
+  ativa); no desktop, `#home-card-anual/-mensal/-saldo{display:block!
+  important}` força os dois gráficos a aparecerem ao mesmo tempo, lado a
+  lado, com o saldo abaixo ocupando a largura toda. `selectMonth()`/
+  `updateYearView()` seguem atualizando cada gráfico com animação
+  (ids `home-legend-anos`/`-meses`, `home-periodo-anos`/`-meses`).
 - Listagem (`#listing-entries`) e Categorias/Grupo/Sub-categoria/
   Exportar dados/Personalização (`.cat-row-list`, classe reaproveitada
   em várias telas) — `grid-template-columns:repeat(auto-fill,

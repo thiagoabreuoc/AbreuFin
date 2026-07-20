@@ -16,7 +16,7 @@ function onHomeValueModeChange() {
 }
 function homeValueModeToggleHtml() {
   const isTodos = homeValueMode === 'todos';
-  return `<div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+  return `<div class="d-flex align-items-center justify-content-center gap-2 mb-3" id="home-value-toggle-wrap">
     <span class="text-secondary" id="value-mode-label-off" style="font-size:.68rem;font-weight:${isTodos ? '400' : '700'}">Realizado</span>
     <div class="form-check form-switch mb-0">
       <input class="form-check-input" type="checkbox" id="home-value-mode-toggle" role="switch" onchange="onHomeValueModeChange()"${isTodos ? ' checked' : ''}>
@@ -192,15 +192,15 @@ function selectMonth(i) {
     b.classList.toggle('tab-inactive', idx!==i);
   });
   updateNovoBtn();
-  if (homeTab === 'meses' && document.getElementById('chart-bars-svg')) {
+  if (document.getElementById('chart-bars-svg')) {
     const dc = homeMonthTotals(homeMonth);
     renderBanners();
     animateBarsTo(dc);
-    document.getElementById('home-legend').innerHTML = buildLegendHtml(dc);
+    document.getElementById('home-legend-meses').innerHTML = buildLegendHtml(dc);
     const saldo = dc.receita - dc.despesa - dc.investimento;
     const sv = document.getElementById('home-saldo-val');
     if (sv) sv.innerHTML = fmtBig(saldo);
-    const sl = document.getElementById('home-periodo');
+    const sl = document.getElementById('home-periodo-meses');
     if (sl) sl.textContent = `${MONTHS_FULL[homeMonth]} ${homeYear}`;
   } else {
     renderHome();
@@ -346,8 +346,8 @@ function updateYearView() {
   const d = homeYearTotals(yr);
   renderBanners();
   animateAreaTo(chartData);
-  document.getElementById('home-legend').innerHTML = buildLegendHtml(d);
-  const pl = document.getElementById('home-periodo');
+  document.getElementById('home-legend-anos').innerHTML = buildLegendHtml(d);
+  const pl = document.getElementById('home-periodo-anos');
   if (pl) pl.textContent = String(yr);
 }
 
@@ -532,41 +532,51 @@ function renderBanners() {
 }
 
 function renderHome() {
-  const yr = homeTab==='anos' ? homeYear : new Date().getFullYear();
-  const dc = homeTab==='meses' ? homeMonthTotals(homeMonth) : homeYearTotals(yr);
-  const d = dc;
   renderBanners();
 
-  let chartData, chartLabels;
-  if (homeTab === 'anos') {
-    const yr = homeYear;
-    chartData = Array.from({length:12}, (_, m) => homeMonthTotals(m, yr));
-    chartLabels = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-  }
+  // Ambos os gráficos são sempre calculados/renderizados: no mobile só um
+  // fica visível por vez (controlado pela aba, via display inline abaixo);
+  // no desktop css/responsive.css força os dois a aparecerem lado a lado.
+  const showAnos = homeTab === 'anos';
 
-  const saldo = dc.receita - dc.despesa - dc.investimento;
-  const periodoLabel = homeTab==='meses' ? `${MONTHS_FULL[homeMonth]} ${homeYear}` : String(homeYear);
-  const chart = homeTab==='meses' ? buildBarChart(d) : buildAreaChart(chartData, chartLabels);
+  const yrA = homeYear;
+  const dcA = homeYearTotals(yrA);
+  const chartDataA = Array.from({length:12}, (_, m) => homeMonthTotals(m, yrA));
+  const chartLabelsA = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  const chartA = buildAreaChart(chartDataA, chartLabelsA);
 
-  const summary =
-    `<div class="card" style="border-radius:var(--md-sys-shape-corner-small)!important;margin-bottom:12px">
-      <div class="card-body py-3 px-3">
-        <div class="small text-center mb-2" id="home-periodo" style="font-weight:400">${periodoLabel}</div>
-        ${homeValueModeToggleHtml()}
-        <div class="mb-3">${chart}</div>
-        <div id="home-legend" style="display:flex;justify-content:space-around">${buildLegendHtml(d)}</div>
+  const dcM = homeMonthTotals(homeMonth);
+  const chartM = buildBarChart(dcM);
+  const saldo = dcM.receita - dcM.despesa - dcM.investimento;
+  const periodoLabelM = `${MONTHS_FULL[homeMonth]} ${homeYear}`;
+
+  const cardAnual = `<div class="card home-chart-card" id="home-card-anual" style="border-radius:var(--md-sys-shape-corner-small)!important;margin-bottom:12px${showAnos ? '' : ';display:none'}">
+    <div class="card-body py-3 px-3">
+      <div class="small text-center mb-2" id="home-periodo-anos" style="font-weight:400">${String(yrA)}</div>
+      <div class="mb-3">${chartA}</div>
+      <div id="home-legend-anos" style="display:flex;justify-content:space-around">${buildLegendHtml(dcA)}</div>
+    </div>
+  </div>`;
+
+  const cardMensal = `<div class="card home-chart-card" id="home-card-mensal" style="border-radius:var(--md-sys-shape-corner-small)!important;margin-bottom:12px${showAnos ? ';display:none' : ''}">
+    <div class="card-body py-3 px-3">
+      <div class="small text-center mb-2" id="home-periodo-meses" style="font-weight:400">${periodoLabelM}</div>
+      <div class="mb-3">${chartM}</div>
+      <div id="home-legend-meses" style="display:flex;justify-content:space-around">${buildLegendHtml(dcM)}</div>
+    </div>
+  </div>`;
+
+  const cardSaldo = `<div class="card mb-2" id="home-card-saldo" style="border-radius:var(--md-sys-shape-corner-small)!important${showAnos ? ';display:none' : ''}">
+    <div class="card-body d-flex justify-content-between align-items-center py-3 px-3">
+      <div>
+        <div style="font-size:1rem;color:var(--md-sys-color-on-surface-variant)"><span style="font-weight:300">Olá,</span> <span style="font-weight:600">${escapeHtml((currentUser && currentUser.name ? currentUser.name.split(' ')[0] : ''))}</span>,</div>
+        <div style="font-size:.72rem;color:var(--md-sys-color-outline);margin-top:1px">Balanço total</div>
       </div>
-    </div>` +
-    (homeTab==='meses' ? `<div class="card mb-2" style="border-radius:var(--md-sys-shape-corner-small)!important">
-      <div class="card-body d-flex justify-content-between align-items-center py-3 px-3">
-        <div>
-          <div style="font-size:1rem;color:var(--md-sys-color-on-surface-variant)"><span style="font-weight:300">Olá,</span> <span style="font-weight:600">${escapeHtml((currentUser && currentUser.name ? currentUser.name.split(' ')[0] : ''))}</span>,</div>
-          <div style="font-size:.72rem;color:var(--md-sys-color-outline);margin-top:1px">Balanço total</div>
-        </div>
-        <div style="font-size:1.4rem;font-weight:600;letter-spacing:-.5px;color:#4caf7d" id="home-saldo-val">${fmtBig(saldo)}</div>
-      </div>
-    </div>` : '');
-  document.getElementById('home-summary').innerHTML = summary;
+      <div style="font-size:1.4rem;font-weight:600;letter-spacing:-.5px;color:#4caf7d" id="home-saldo-val">${fmtBig(saldo)}</div>
+    </div>
+  </div>`;
+
+  document.getElementById('home-summary').innerHTML = homeValueModeToggleHtml() + cardAnual + cardMensal + cardSaldo;
 }
 
 /* ─────────────── CENTRAL DE NOTIFICAÇÕES ─────────────── */
