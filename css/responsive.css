@@ -131,7 +131,6 @@
     overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
   }
   .cat-row-col-badge{justify-self:start}
-  .cat-row-col-amount,.cat-row-col-date{text-align:right}
 
   #listing-table-header{
     display:grid!important;
@@ -139,15 +138,13 @@
     column-gap:12px;
     padding:0 16px;
     margin-top:16px;
-    margin-bottom:8px;
+    margin-bottom:20px;
     font-size:.7rem;
     font-weight:600;
     color:var(--md-sys-color-outline);
     text-transform:uppercase;
     letter-spacing:.02em;
   }
-  #listing-table-header > div:nth-child(5),
-  #listing-table-header > div:nth-child(6){text-align:right}
 
   /* Categorias/Grupo/Sub-categoria, Exportar dados, Personalização —
      mesma classe reaproveitada em várias telas (css/style.css:297) */
