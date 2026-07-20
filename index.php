@@ -37,8 +37,19 @@ $csrfToken = csrfToken();
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/flatly/bootstrap.min.css">
 <link rel="stylesheet" href="css/material3-tokens.css?v=<?= filemtime(__DIR__.'/css/material3-tokens.css') ?>">
 <link rel="stylesheet" href="css/style.css?v=<?= filemtime(__DIR__.'/css/style.css') ?>">
+<link rel="stylesheet" href="css/responsive.css?v=<?= filemtime(__DIR__.'/css/responsive.css') ?>">
 </head>
 <body>
+<div id="app-shell">
+  <nav class="sidebar-desktop" id="sidebar-desktop">
+    <div class="drawer-header"><span class="fw-bold fs-5 text-primary">AB</span></div>
+    <a href="#" class="drawer-item" onclick="navigate('home');return false;"><span class="material-symbols-outlined">home</span>Home</a>
+    <a href="#" class="drawer-item" onclick="openListing('receita');return false;"><span class="material-symbols-outlined">arrow_upward</span>Receitas</a>
+    <a href="#" class="drawer-item" onclick="openListing('despesa');return false;"><span class="material-symbols-outlined">arrow_downward</span>Despesas</a>
+    <a href="#" class="drawer-item" onclick="openListing('investimento');return false;"><span class="material-symbols-outlined">trending_up</span>Investimentos</a>
+    <a href="#" class="drawer-item" onclick="navigate('cats');return false;"><span class="material-symbols-outlined">category</span>Categorias</a>
+    <a href="#" class="drawer-item" onclick="navigate('profile');return false;"><span class="material-symbols-outlined">person</span>Perfil</a>
+  </nav>
 <div class="app" id="app">
 
   <div class="m3-linear-progress" id="app-loading-bar"></div>
@@ -221,6 +232,7 @@ $csrfToken = csrfToken();
   </div>
 
 </div><!-- /.app -->
+</div><!-- /#app-shell -->
 
 <!-- custom searchable select (shared panel, outside .app to avoid stacking context) -->
 <div class="cs-backdrop" id="cs-backdrop" onclick="csClose()"></div>
