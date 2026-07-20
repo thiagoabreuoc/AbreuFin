@@ -94,10 +94,19 @@
      Anual/Mensal viram redundantes (os dois já aparecem sempre) */
   #home-tabs{display:none}
   #home-value-toggle-slot{margin-top:0}
-  #home-summary{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+  /* minmax(0,1fr) — sem o minmax, o conteúdo do year/month-strip (vários
+     botões de mês, largura mínima grande) força aquela coluna do grid a
+     crescer além da metade, desalinhando as duas colunas (mesma causa já
+     vista nos cards da Listagem) */
+  #home-summary{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:stretch}
   #home-summary > *{margin:0!important}
   #home-card-saldo{grid-column:1/-1}
-  #home-card-anual,#home-card-mensal,#home-card-saldo{display:block!important}
+  #home-card-saldo{display:block!important}
+  /* year-strip/month-strip ficam fora do card (irmãos, acima) — o bloco
+     vira flex column pra esticar o card até a altura da linha do grid
+     (align-items:stretch acima) mesmo sobrando o espaço da tira acima dele */
+  #home-block-anual,#home-block-mensal{display:flex!important;flex-direction:column}
+  .home-chart-card{flex:1}
 
   /* Listagem — cards ocupam a largura toda (100%) e as colunas (título,
      sub-categoria, recorrência, status, valor, data) ficam padronizadas
@@ -131,6 +140,10 @@
     overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
   }
   .cat-row-col-badge{justify-self:start}
+  /* .cat-row-info-right herda o .text-end (Bootstrap, !important) do
+     HTML mesmo virando display:contents — precisa de !important pra
+     vencer e ficar alinhado à esquerda como o resto das colunas */
+  .cat-row-col-amount,.cat-row-col-date{text-align:left!important}
 
   #listing-table-header{
     display:grid!important;

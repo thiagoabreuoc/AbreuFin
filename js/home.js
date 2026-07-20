@@ -88,18 +88,19 @@ function updateNovoBtn() {
   positionNovoBtnDesktop();
 }
 
-// No desktop, a Home costuma ter bem menos conteúdo que a altura da tela
+// Na Home, o conteúdo costuma ser bem menor que a altura da tela
 // (diferente da Listagem, rolável) — em vez de deixar o botão Novo fixo
 // no rodapé do viewport (longe do card de saldo), gruda ele logo abaixo
-// do card. Usa `top` (relativo ao .app-content, offsetParent do wrap) em
-// vez de `bottom`+altura da viewport — a conta antiga ignorava a altura
-// do próprio wrap e acabava sobrepondo o card de saldo.
+// do card, tanto no mobile quanto no desktop. Usa `top` (relativo ao
+// .app-content, offsetParent do wrap) em vez de `bottom`+altura da
+// viewport — a conta antiga ignorava a altura do próprio wrap e acabava
+// sobrepondo o card de saldo.
 function positionNovoBtnDesktop() {
   const wrap = document.getElementById('btn-novo-wrap');
   if (!wrap) return;
   const saldoCard = document.getElementById('home-card-saldo');
   const homeActive = document.querySelector('.screen.active') && document.querySelector('.screen.active').id === 'screen-home';
-  if (window.innerWidth < 900 || !homeActive || !saldoCard || getComputedStyle(saldoCard).display === 'none') {
+  if (!homeActive || !saldoCard || getComputedStyle(saldoCard).display === 'none') {
     // Mobile (e no fim de qualquer volta pro mobile): volta pro fixo no
     // rodapé do viewport, igual sempre foi — `wrap.style.bottom=''`
     // sozinho NÃO restaura isso, porque remove de vez o `bottom:0` que
@@ -582,21 +583,25 @@ function renderHome() {
   const saldo = dcM.receita - dcM.despesa - dcM.investimento;
   const periodoLabelM = `${MONTHS_FULL[homeMonth]} ${homeYear}`;
 
-  const cardAnual = `<div class="card home-chart-card" id="home-card-anual" style="border-radius:var(--md-sys-shape-corner-small)!important;margin-bottom:12px${showAnos ? '' : ';display:none'}">
-    <div class="card-body py-3 px-3">
-      <div class="no-scrollbar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px;justify-content:center" id="year-strip"></div>
-      <div class="small text-center mb-2" id="home-periodo-anos" style="font-weight:400">${String(yrA)}</div>
-      <div class="mb-3">${chartA}</div>
-      <div id="home-legend-anos" style="display:flex;justify-content:space-around">${buildLegendHtml(dcA, 'anos')}</div>
+  const cardAnual = `<div class="home-chart-block" id="home-block-anual" style="margin-bottom:12px${showAnos ? '' : ';display:none'}">
+    <div class="no-scrollbar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px;justify-content:center" id="year-strip"></div>
+    <div class="card home-chart-card" id="home-card-anual" style="border-radius:var(--md-sys-shape-corner-small)!important">
+      <div class="card-body py-3 px-3">
+        <div class="small text-center mb-2" id="home-periodo-anos" style="font-weight:400">${String(yrA)}</div>
+        <div class="mb-3">${chartA}</div>
+        <div id="home-legend-anos" style="display:flex;justify-content:space-around">${buildLegendHtml(dcA, 'anos')}</div>
+      </div>
     </div>
   </div>`;
 
-  const cardMensal = `<div class="card home-chart-card" id="home-card-mensal" style="border-radius:var(--md-sys-shape-corner-small)!important;margin-bottom:12px${showAnos ? ';display:none' : ''}">
-    <div class="card-body py-3 px-3">
-      <div class="no-scrollbar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px" id="month-strip"></div>
-      <div class="small text-center mb-2" id="home-periodo-meses" style="font-weight:400">${periodoLabelM}</div>
-      <div class="mb-3">${chartM}</div>
-      <div id="home-legend-meses" style="display:flex;justify-content:space-around">${buildLegendHtml(dcM, 'meses')}</div>
+  const cardMensal = `<div class="home-chart-block" id="home-block-mensal" style="margin-bottom:12px${showAnos ? ';display:none' : ''}">
+    <div class="no-scrollbar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px" id="month-strip"></div>
+    <div class="card home-chart-card" id="home-card-mensal" style="border-radius:var(--md-sys-shape-corner-small)!important">
+      <div class="card-body py-3 px-3">
+        <div class="small text-center mb-2" id="home-periodo-meses" style="font-weight:400">${periodoLabelM}</div>
+        <div class="mb-3">${chartM}</div>
+        <div id="home-legend-meses" style="display:flex;justify-content:space-around">${buildLegendHtml(dcM, 'meses')}</div>
+      </div>
     </div>
   </div>`;
 
