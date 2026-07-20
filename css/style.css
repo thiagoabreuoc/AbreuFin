@@ -297,6 +297,10 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 .cat-row-list{display:flex;flex-direction:column;gap:8px}
 .cat-row-card{border-radius:var(--md-sys-shape-corner-medium)!important;border:1px solid var(--md-sys-color-outline-variant)!important;padding:14px 16px}
 
+/* Filtro + ordenação (Listagem) — próximos e centralizados na tela, em
+   vez de espalhados nas pontas */
+#listing-filter-sort-row{justify-content:center!important;gap:32px!important}
+
 .profile-item{background-color:var(--md-sys-color-surface);border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--md-sys-shape-corner-medium);padding:14px 16px;margin:8px 0;cursor:pointer;transition:background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
 .profile-item:hover{background-color:var(--md-sys-color-surface-container-low)}
 .profile-item:active{background-color:var(--md-sys-color-surface-container)}

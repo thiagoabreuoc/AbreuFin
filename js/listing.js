@@ -40,7 +40,7 @@ function _setFilterDepDisabled(disabled) {
   if (wrap) wrap.style.opacity = disabled ? '0.45' : '';
 }
 
-function openListing(tipo, pinId) {
+function openListing(tipo, pinId, monthOverride) {
   currentListingType = tipo;
   listingStatusFilter = '';
   listingLimit = 10;
@@ -79,7 +79,11 @@ function openListing(tipo, pinId) {
   titleEl.className=(TIPO_HEADER_CLASS[tipo]||'badge bg-secondary fw-semibold')+' d-inline-flex align-items-center';
   titleEl.style.gap='6px';
   listingYear  = homeYear;
-  listingMonth = homeTab === 'meses' ? homeMonth : null;
+  // monthOverride explícito (chamado a partir da legenda de um gráfico
+  // específico) vence a inferência por homeTab — necessário porque Anual
+  // e Mensal agora ficam visíveis ao mesmo tempo, então "aba ativa" não é
+  // mais um jeito confiável de saber qual período o clique se refere.
+  listingMonth = monthOverride !== undefined ? monthOverride : (homeTab === 'meses' ? homeMonth : null);
   updateListingDateLabel();
   const catOpts = (categories[tipo]||[]).map(c=>({value:c.name, label:c.name}));
   csStoreOptions('f-cat', catOpts);

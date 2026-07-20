@@ -85,7 +85,27 @@ function updateNovoBtn() {
     wrap.style.display = show ? 'flex' : 'none';
     if (!show) closeFabMenu();
   }
+  positionNovoBtnDesktop();
 }
+
+// No desktop, a Home costuma ter bem menos conteúdo que a altura da tela
+// (diferente da Listagem, rolável) — em vez de deixar o botão Novo fixo
+// no rodapé do viewport (longe do card de saldo), aproxima ele do fim
+// do card quando sobra bastante espaço vazio abaixo.
+function positionNovoBtnDesktop() {
+  const wrap = document.getElementById('btn-novo-wrap');
+  if (!wrap) return;
+  const saldoCard = document.getElementById('home-card-saldo');
+  const homeActive = document.querySelector('.screen.active') && document.querySelector('.screen.active').id === 'screen-home';
+  if (window.innerWidth < 900 || !homeActive || !saldoCard || getComputedStyle(saldoCard).display === 'none') {
+    wrap.style.bottom = '';
+    return;
+  }
+  const rect = saldoCard.getBoundingClientRect();
+  const emptySpaceBelow = window.innerHeight - rect.bottom;
+  wrap.style.bottom = Math.max(20, emptySpaceBelow - 24) + 'px';
+}
+window.addEventListener('resize', positionNovoBtnDesktop);
 
 /* ── FAB Menu (M3) ── */
 function toggleFabMenu() {
@@ -193,7 +213,7 @@ function selectMonth(i) {
     const dc = homeMonthTotals(homeMonth);
     renderBanners();
     animateBarsTo(dc);
-    document.getElementById('home-legend-meses').innerHTML = buildLegendHtml(dc);
+    document.getElementById('home-legend-meses').innerHTML = buildLegendHtml(dc, 'meses');
     const saldo = dc.receita - dc.despesa - dc.investimento;
     const sv = document.getElementById('home-saldo-val');
     if (sv) sv.innerHTML = fmtBig(saldo);
@@ -343,7 +363,7 @@ function updateYearView() {
   const d = homeYearTotals(yr);
   renderBanners();
   animateAreaTo(chartData);
-  document.getElementById('home-legend-anos').innerHTML = buildLegendHtml(d);
+  document.getElementById('home-legend-anos').innerHTML = buildLegendHtml(d, 'anos');
   const pl = document.getElementById('home-periodo-anos');
   if (pl) pl.textContent = String(yr);
 }
@@ -412,10 +432,10 @@ function animateBarsTo(target) {
   _barRaf = requestAnimationFrame(frame);
 }
 
-function buildSubLabels(d) {
+function buildSubLabels(d, periodType) {
   const sub = {receita:'', despesa:'', investimento:''};
 
-  if (homeTab === 'meses') {
+  if (periodType === 'meses') {
     const prevMonth = homeMonth === 0 ? 11 : homeMonth - 1;
     const prevYear  = homeMonth === 0 ? homeYear - 1 : homeYear;
     const prev = homeMonthTotals(prevMonth, prevYear);
@@ -431,7 +451,7 @@ function buildSubLabels(d) {
       sub.despesa      = `<div class="smaller" style="color:${faint}">${((d.despesa / d.receita)*100).toFixed(1)}% da receita</div>`;
       sub.investimento = `<div class="smaller" style="color:${faint}">${((d.investimento / d.receita)*100).toFixed(1)}% da receita</div>`;
     }
-  } else if (homeTab === 'anos') {
+  } else if (periodType === 'anos') {
     const faint = cssVar('--md-sys-color-outline');
     const prev = homeYearTotals(homeYear - 1);
     const hasPrev = prev.receita + prev.despesa + prev.investimento > 0;
@@ -451,14 +471,17 @@ function buildSubLabels(d) {
   return sub;
 }
 
-function buildLegendHtml(d) {
-  const sub = (homeTab === 'meses' || homeTab === 'anos') ? buildSubLabels(d) : {receita:'', despesa:'', investimento:''};
-  const clickable = homeTab === 'meses';
+function buildLegendHtml(d, periodType) {
+  const sub = buildSubLabels(d, periodType);
+  // Só a legenda do gráfico Mensal é clicável (abre a listagem filtrada
+  // pelo mês); a do Anual é só leitura — título/valores/%/Detalhe não
+  // reagem a clique.
+  const clickable = periodType === 'meses';
   const detalheLbl = clickable
     ? `<div class="fw-semibold text-primary" style="font-size:.7rem;margin-top:8px">Detalhe</div>`
     : '';
   return TIPOS.map(tipo =>
-    `<div class="text-center" style="flex:1${clickable ? ';cursor:pointer' : ''}" ${clickable ? `onclick="openListing('${tipo}')"` : ''}>
+    `<div class="text-center" style="flex:1${clickable ? ';cursor:pointer' : ''}" ${clickable ? `onclick="openListing('${tipo}', null, ${homeMonth})"` : ''}>
       <div class="small d-flex align-items-center justify-content-center gap-2"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:color-mix(in srgb, ${TIPO_META[tipo].cor} 25%, var(--md-sys-color-surface));border:1.5px solid ${TIPO_META[tipo].cor};flex-shrink:0"></span>${TIPO_META[tipo].label}</div>
       <div class="small">${fmt(d[tipo])}</div>
       ${sub[tipo] || '<div class="smaller">&nbsp;</div>'}
@@ -552,7 +575,7 @@ function renderHome() {
       <div class="no-scrollbar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px;justify-content:center" id="year-strip"></div>
       <div class="small text-center mb-2" id="home-periodo-anos" style="font-weight:400">${String(yrA)}</div>
       <div class="mb-3">${chartA}</div>
-      <div id="home-legend-anos" style="display:flex;justify-content:space-around">${buildLegendHtml(dcA)}</div>
+      <div id="home-legend-anos" style="display:flex;justify-content:space-around">${buildLegendHtml(dcA, 'anos')}</div>
     </div>
   </div>`;
 
@@ -561,7 +584,7 @@ function renderHome() {
       <div class="no-scrollbar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px" id="month-strip"></div>
       <div class="small text-center mb-2" id="home-periodo-meses" style="font-weight:400">${periodoLabelM}</div>
       <div class="mb-3">${chartM}</div>
-      <div id="home-legend-meses" style="display:flex;justify-content:space-around">${buildLegendHtml(dcM)}</div>
+      <div id="home-legend-meses" style="display:flex;justify-content:space-around">${buildLegendHtml(dcM, 'meses')}</div>
     </div>
   </div>`;
 
@@ -578,6 +601,7 @@ function renderHome() {
   document.getElementById('home-summary').innerHTML = homeValueModeToggleHtml() + cardAnual + cardMensal + cardSaldo;
   buildYearStrip();
   buildMonthStrip();
+  positionNovoBtnDesktop();
 }
 
 /* ─────────────── CENTRAL DE NOTIFICAÇÕES ─────────────── */

@@ -43,12 +43,10 @@ $csrfToken = csrfToken();
 <div id="app-shell">
   <nav class="sidebar-desktop" id="sidebar-desktop">
     <div class="drawer-header"><span class="fw-bold fs-5 text-primary">AB</span></div>
-    <a href="#" class="drawer-item" onclick="navigate('home');return false;"><span class="material-symbols-outlined">home</span>Home</a>
-    <a href="#" class="drawer-item" onclick="openListing('receita');return false;"><span class="material-symbols-outlined">arrow_upward</span>Receitas</a>
-    <a href="#" class="drawer-item" onclick="openListing('despesa');return false;"><span class="material-symbols-outlined">arrow_downward</span>Despesas</a>
-    <a href="#" class="drawer-item" onclick="openListing('investimento');return false;"><span class="material-symbols-outlined">trending_up</span>Investimentos</a>
-    <a href="#" class="drawer-item" onclick="navigate('cats');return false;"><span class="material-symbols-outlined">category</span>Categorias</a>
-    <a href="#" class="drawer-item" onclick="navigate('profile');return false;"><span class="material-symbols-outlined">person</span>Perfil</a>
+    <a href="#" class="drawer-item" onclick="navigate('home');return false;"><span class="material-symbols-outlined">home</span><span class="drawer-item-label">Home</span></a>
+    <a href="#" class="drawer-item" onclick="openListing('receita');return false;"><span class="material-symbols-outlined">arrow_upward</span><span class="drawer-item-label">Receitas</span></a>
+    <a href="#" class="drawer-item" onclick="openListing('despesa');return false;"><span class="material-symbols-outlined">arrow_downward</span><span class="drawer-item-label">Despesas</span></a>
+    <a href="#" class="drawer-item" onclick="openListing('investimento');return false;"><span class="material-symbols-outlined">trending_up</span><span class="drawer-item-label">Investimentos</span></a>
   </nav>
 <div class="app" id="app">
 
