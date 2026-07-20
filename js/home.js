@@ -113,7 +113,7 @@ function positionNovoBtnDesktop() {
   const cardBottom = saldoCard.getBoundingClientRect().bottom;
   // Respiro visível entre o fim do card de saldo e o topo do botão
   // (20px é o padding-top do wrap antes do botão em si começar).
-  const gap = 24;
+  const gap = 40;
   wrap.style.bottom = 'auto';
   wrap.style.top = Math.round(cardBottom - containerTop + gap - 20) + 'px';
 }
@@ -610,7 +610,8 @@ function renderHome() {
     </div>
   </div>`;
 
-  document.getElementById('home-summary').innerHTML = homeValueModeToggleHtml() + cardAnual + cardMensal + cardSaldo;
+  document.getElementById('home-value-toggle-slot').innerHTML = homeValueModeToggleHtml();
+  document.getElementById('home-summary').innerHTML = cardAnual + cardMensal + cardSaldo;
   buildYearStrip();
   buildMonthStrip();
   positionNovoBtnDesktop();

@@ -13,7 +13,9 @@
   <div class="screen-body app-body-rounded" id="home-body" style="padding:16px 16px 16px">
     <div id="home-banners"></div>
 
-    <div class="m3-tabs mb-3" style="margin-top:8px" id="home-tabs">
+    <div id="home-value-toggle-slot" style="margin-top:8px"></div>
+
+    <div class="m3-tabs mb-3" id="home-tabs">
       <button class="m3-tab active" id="tab-anos" onclick="switchHomeTab('anos')">Anual</button>
       <button class="m3-tab" id="tab-meses" onclick="switchHomeTab('meses')">Mensal</button>
     </div>

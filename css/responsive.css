@@ -72,6 +72,13 @@
   /* redundante com a sidebar — o hambúrguer só existia pra abrir o
      drawer com os mesmos atalhos que a sidebar já deixa sempre visíveis */
   #hamburger-btn{display:none!important}
+  /* #drawer (menu mobile) fica escondido só por transform:translateX(-100%),
+     então continua no DOM e pintando seu próprio box-shadow — como sua
+     borda direita "escondida" cai bem em cima do início do .app (x=72px,
+     mesmo x do fim da sidebar colapsada), a sombra aparecia colada ali,
+     sem acompanhar a sidebar ao expandir (é de um elemento parado, não
+     dela). Inacessível no desktop de qualquer forma (hambúrguer escondido). */
+  #drawer, #drawer-overlay{display:none!important}
 
   /* No breakpoint desktop, o cartão cresce além do teto fluido de 560px
      (css/style.css) — é o espaço que as grades abaixo (Listagem,
@@ -84,9 +91,10 @@
      escondendo um deles via display inline só no mobile). As abas
      Anual/Mensal viram redundantes (os dois já aparecem sempre) */
   #home-tabs{display:none}
+  #home-value-toggle-slot{margin-top:0}
   #home-summary{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
   #home-summary > *{margin:0!important}
-  #home-value-toggle-wrap,#home-card-saldo{grid-column:1/-1}
+  #home-card-saldo{grid-column:1/-1}
   #home-card-anual,#home-card-mensal,#home-card-saldo{display:block!important}
 
   /* Listagem — cards ocupam a largura toda (100%) e as colunas (título,
