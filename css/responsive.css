@@ -74,6 +74,8 @@
   #hamburger-btn{display:none!important}
   /* idem pro "AB" d'água do header — a sidebar já tem o logo */
   .app-header-watermark{display:none}
+  /* no lugar do d'água, o nome da tela centralizado no header */
+  #home-header-title{display:block!important}
   /* #drawer (menu mobile) fica escondido só por transform:translateX(-100%),
      então continua no DOM e pintando seu próprio box-shadow — como sua
      borda direita "escondida" cai bem em cima do início do .app (x=72px,
