@@ -79,6 +79,7 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .screen.active{transform:none;opacity:1;will-change:auto}
 .screen-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;-ms-overflow-style:none;scrollbar-width:none}
 .screen-body::-webkit-scrollbar{display:none}
+.screen-body:not(.center-col){padding-bottom:32px!important}
 
 .icon-box{width:36px;height:36px;flex-shrink:0}
 .avatar-lg{width:56px;height:56px;font-size:22px}
