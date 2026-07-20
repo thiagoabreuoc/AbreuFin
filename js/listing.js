@@ -210,12 +210,12 @@ function renderListing() {
       <div class="swipe-bg swipe-bg-left"><span class="material-symbols-outlined">check_circle</span></div>
       <div class="swipe-bg swipe-bg-right"><span class="material-symbols-outlined">schedule</span></div>
       <div class="list-group-item cat-row-card swipe-card-front d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer">
-        <div>
+        <div class="cat-row-info-left">
           <div class="fw-semibold small">${title}${repeatCount}</div>
           <div class="text-secondary small" style="margin-top:6px">${sub}</div>
           ${rep}
         </div>
-        <div class="text-end">
+        <div class="text-end cat-row-info-right">
           <span class="badge ${STATUS_BADGE[es]}" style="margin-bottom:6px">${statusLabel(es)}</span>
           <div class="fw-semibold small">${fmt(e.valor)}</div>
           <div class="text-secondary small" style="margin-top:4px">${String(e.dd).padStart(2,'0')}/${String(e.mm).padStart(2,'0')}/${e.yyyy}${dueBadge(e)}</div>

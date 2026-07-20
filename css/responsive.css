@@ -57,14 +57,17 @@
      escondendo um deles via display inline só no mobile). As abas
      Anual/Mensal viram redundantes (os dois já aparecem sempre) */
   #home-tabs{display:none}
-  #home-summary{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  #home-summary{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
   #home-summary > *{margin:0!important}
   #home-value-toggle-wrap,#home-card-saldo{grid-column:1/-1}
   #home-card-anual,#home-card-mensal,#home-card-saldo{display:block!important}
 
-  /* Listagem — lançamentos em grade de cards em vez de pilha única
-     (style inline em screen-listing.php precisa de !important) */
-  #listing-entries{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px!important}
+  /* Listagem — cards ocupam a largura toda (100%), com as informações
+     (título/subtítulo à esquerda, badge/valor/data à direita) em linha
+     em vez de empilhadas — mais espaço horizontal disponível no desktop */
+  #listing-entries .cat-row-card.swipe-card-front{align-items:center!important}
+  .cat-row-info-left,.cat-row-info-right{display:flex;align-items:center;gap:10px}
+  .cat-row-info-left > *,.cat-row-info-right > *{margin:0!important}
 
   /* Categorias/Grupo/Sub-categoria, Exportar dados, Personalização —
      mesma classe reaproveitada em várias telas (css/style.css:297) */
