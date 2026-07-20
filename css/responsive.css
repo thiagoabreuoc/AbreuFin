@@ -64,7 +64,7 @@
   }
 
   .sidebar-desktop .drawer-header{border-bottom:none;padding:12px 0 12px 22px;text-align:left}
-  .sidebar-desktop .drawer-item{white-space:nowrap;padding-right:20px}
+  .sidebar-desktop .drawer-item{white-space:nowrap;padding-right:20px;padding-left:12px}
   .sidebar-desktop .drawer-item:first-of-type{margin-top:4px}
   .sidebar-desktop .drawer-item-label{opacity:0;transition:opacity var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
   .sidebar-desktop:hover .drawer-item-label{opacity:1}
