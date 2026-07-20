@@ -62,12 +62,28 @@
   #home-value-toggle-wrap,#home-card-saldo{grid-column:1/-1}
   #home-card-anual,#home-card-mensal,#home-card-saldo{display:block!important}
 
-  /* Listagem — cards ocupam a largura toda (100%), com as informações
-     (título/subtítulo à esquerda, badge/valor/data à direita) em linha
-     em vez de empilhadas — mais espaço horizontal disponível no desktop */
-  #listing-entries .cat-row-card.swipe-card-front{align-items:center!important}
-  .cat-row-info-left,.cat-row-info-right{display:flex;align-items:center;gap:10px}
-  .cat-row-info-left > *,.cat-row-info-right > *{margin:0!important}
+  /* Listagem — cards ocupam a largura toda (100%) e as colunas (título,
+     sub-categoria, recorrência, status, valor, data) ficam padronizadas
+     como numa tabela: mesma largura/alinhamento em todas as linhas.
+     .cat-row-info-left/-right viram "display:contents" (somem da caixa,
+     mas continuam no DOM) pra cada campo virar item direto do grid do
+     card, em vez de dois grupos flex agrupados. */
+  #listing-entries .cat-row-card.swipe-card-front{
+    display:grid;
+    grid-template-columns:2fr 1.3fr 1.1fr .8fr .9fr 1fr;
+    column-gap:12px;
+    align-items:center!important;
+  }
+  .cat-row-info-left,.cat-row-info-right{display:contents}
+  .cat-row-col-title,.cat-row-col-sub,.cat-row-col-repeat,
+  .cat-row-col-badge,.cat-row-col-amount,.cat-row-col-date{margin:0!important}
+  .cat-row-col-badge{justify-self:start}
+  .cat-row-col-amount,.cat-row-col-date{text-align:right}
+
+  /* Filtro + ordenação — mais próximos e centralizados na tela, em vez
+     de espalhados nas pontas (space-between ficava exagerado na largura
+     maior do desktop) */
+  #listing-filter-sort-row{justify-content:center!important;gap:32px!important}
 
   /* Categorias/Grupo/Sub-categoria, Exportar dados, Personalização —
      mesma classe reaproveitada em várias telas (css/style.css:297) */
