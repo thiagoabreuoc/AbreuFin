@@ -34,6 +34,14 @@
       </div>
     </div>
     <div class="text-center" id="listing-totals" style="padding:14px 0"></div>
+    <div id="listing-table-header" style="display:none">
+      <div>Descrição</div>
+      <div>Categoria</div>
+      <div>Recorrência</div>
+      <div>Status</div>
+      <div>Valor</div>
+      <div>Data</div>
+    </div>
     <ul class="list-group" id="listing-entries" style="display:flex;flex-direction:column;gap:8px;padding-bottom:72px"></ul>
   </div>
 </div>

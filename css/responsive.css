@@ -67,7 +67,12 @@
      como numa tabela: mesma largura/alinhamento em todas as linhas.
      .cat-row-info-left/-right viram "display:contents" (somem da caixa,
      mas continuam no DOM) pra cada campo virar item direto do grid do
-     card, em vez de dois grupos flex agrupados. */
+     card, em vez de dois grupos flex agrupados. O cabeçalho
+     (#listing-table-header) usa a mesma --cat-row-grid, pra alinhar
+     exatamente com as colunas dos cards abaixo. */
+  #listing-entries, #listing-table-header{
+    --cat-row-grid:minmax(0,2fr) minmax(0,1.3fr) minmax(0,1.1fr) minmax(0,.8fr) minmax(0,.9fr) minmax(0,1fr);
+  }
   #listing-entries .cat-row-card.swipe-card-front{
     /* !important pra vencer a classe Bootstrap ".d-flex" (que também
        usa !important) que ainda está no HTML do card */
@@ -78,7 +83,7 @@
        independente (não uma tabela real), desalinhando as colunas
        entre os cards. Travando o mínimo em 0, a largura fica sempre
        a mesma fração do card, igual em todas as linhas. */
-    grid-template-columns:minmax(0,2fr) minmax(0,1.3fr) minmax(0,1.1fr) minmax(0,.8fr) minmax(0,.9fr) minmax(0,1fr);
+    grid-template-columns:var(--cat-row-grid);
     column-gap:12px;
     align-items:center!important;
   }
@@ -90,6 +95,21 @@
   }
   .cat-row-col-badge{justify-self:start}
   .cat-row-col-amount,.cat-row-col-date{text-align:right}
+
+  #listing-table-header{
+    display:grid!important;
+    grid-template-columns:var(--cat-row-grid);
+    column-gap:12px;
+    padding:0 16px;
+    margin-bottom:8px;
+    font-size:.7rem;
+    font-weight:600;
+    color:var(--md-sys-color-outline);
+    text-transform:uppercase;
+    letter-spacing:.02em;
+  }
+  #listing-table-header > div:nth-child(5),
+  #listing-table-header > div:nth-child(6){text-align:right}
 
   /* Filtro + ordenação — mais próximos e centralizados na tela, em vez
      de espalhados nas pontas (space-between ficava exagerado na largura
