@@ -17,7 +17,7 @@
 @media (min-width: 900px) {
   body{background:var(--md-sys-color-surface-container-low)}
 
-  #app-shell{display:flex;justify-content:center;align-items:stretch;height:100dvh;padding-left:72px}
+  #app-shell{display:flex;justify-content:flex-start;align-items:stretch;height:100dvh;padding-left:72px}
 
   /* Sidebar fixa (fora do fluxo do flex) — reserva 72px permanentes via
      #app-shell{padding-left} pro .app nunca se mexer; ao expandir no
