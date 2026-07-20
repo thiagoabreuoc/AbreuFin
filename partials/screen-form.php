@@ -1,7 +1,7 @@
 <!-- ═══════════════ FORM ═══════════════ -->
 <div class="screen hidden" id="screen-form">
   <div class="d-flex align-items-center p-3 flex-shrink-0 app-header-gradient">
-    <button class="btn btn-link text-dark p-0" onclick="formBack()"><span class="material-symbols-outlined">arrow_back</span></button>
+    <button class="btn btn-link text-dark p-0" onclick="formBack()" aria-label="Voltar"><span class="material-symbols-outlined">arrow_back</span></button>
     <div class="flex-grow-1 text-center fw-bold" id="form-title">Novo</div>
     <div style="width:24px"></div>
   </div>

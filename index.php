@@ -219,9 +219,9 @@ $csrfToken = csrfToken();
 <div class="cs-panel" id="cs-panel">
   <div class="cs-header">
     <input class="cs-search" id="cs-search" type="text" inputmode="text" autocomplete="off"
-           placeholder="Buscar..." oninput="csFilter(this.value)">
+           placeholder="Buscar..." oninput="csFilter(this.value)" onkeydown="csSearchKeydown(event)">
   </div>
-  <div class="cs-list" id="cs-list"></div>
+  <div class="cs-list" id="cs-list" role="listbox"></div>
 </div>
 
 <script>

@@ -1,7 +1,7 @@
 <!-- ═══════════════ VENCENDO ═══════════════ -->
 <div class="screen hidden" id="screen-vencendo">
   <div class="d-flex align-items-center p-3 border-bottom flex-shrink-0">
-    <button class="btn btn-link text-dark p-0" onclick="goBack()"><span class="material-symbols-outlined">arrow_back</span></button>
+    <button class="btn btn-link text-dark p-0" onclick="goBack()" aria-label="Voltar"><span class="material-symbols-outlined">arrow_back</span></button>
     <div class="flex-grow-1 text-center">
       <span class="badge fw-semibold" id="vencendo-badge">Despesas vencendo</span>
       <div class="fw-semibold mt-1" style="font-size:0.95rem" id="vencendo-subtitle">Em 3 dias</div>

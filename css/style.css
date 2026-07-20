@@ -259,6 +259,7 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 .form-box:focus-within{border:2.5px solid var(--md-sys-color-primary);padding:13.5px 15.5px}
 .form-box-lbl{float:none;width:auto;max-width:calc(100% - 20px);padding:0 6px;margin:0 0 0 10px;font-size:.75rem;line-height:1rem;font-weight:400;color:var(--md-sys-color-on-surface-variant)}
 .form-box:focus-within>.form-box-lbl{color:var(--md-sys-color-primary)}
+.form-box:focus-within{border-color:var(--md-sys-color-primary);box-shadow:0 0 0 1px var(--md-sys-color-primary)}
 .form-control-borderless{border:none;padding:0;box-shadow:none!important;background:transparent;color:var(--md-sys-color-on-surface);font-size:.875rem;line-height:1.25rem}
 .form-control-borderless:focus{border:none;outline:none;background:transparent!important}
 .form-select-borderless{border:none;padding:0;box-shadow:none!important;background:transparent;color:var(--md-sys-color-on-surface);font-size:.875rem;line-height:1.25rem}
@@ -284,6 +285,7 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 .cs-list{overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
 .cs-item{padding:10px 14px;cursor:pointer;font-size:.875rem;border-bottom:1px solid var(--md-sys-color-outline-variant);color:var(--md-sys-color-on-surface)}
 .cs-item.selected{color:var(--md-sys-color-primary);font-weight:600;background:var(--md-sys-color-secondary-container)}
+.cs-item.highlighted{background:var(--md-sys-color-surface-container-highest)}
 .cs-item:active{background:var(--md-sys-color-surface-container-highest)}
 .cs-none{padding:14px;font-size:.875rem;color:var(--md-sys-color-outline);text-align:center}
 

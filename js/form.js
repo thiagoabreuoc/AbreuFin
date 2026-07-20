@@ -5,6 +5,7 @@
 // ─── Custom Searchable Select ────────────────────────────────
 let _csActive = null;
 let _csFormInited = false;
+let _csHighlight = -1;
 
 function ensureCSInit() {
   if (_csFormInited) return;
@@ -109,7 +110,14 @@ function csInit(id) {
   btn.className = 'form-control cs-btn';
   btn.id = id + '-btn';
   btn.innerHTML = `<span class="cs-display text-muted" id="${id}-display">Selecione</span><span class="material-symbols-outlined text-secondary ms-1 flex-shrink-0" style="font-size:1.2rem">expand_more</span>`;
+  btn.setAttribute('role', 'button');
+  btn.setAttribute('tabindex', '0');
+  btn.setAttribute('aria-haspopup', 'listbox');
+  btn.setAttribute('aria-expanded', 'false');
   btn.addEventListener('click', () => csOpen(id));
+  btn.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); csOpen(id); }
+  });
   sel.parentNode.insertBefore(btn, sel);
 }
 
@@ -118,6 +126,7 @@ function csOpen(id) {
   const btn = document.getElementById(id + '-btn');
   if (!sel || !btn || btn._csDisabled) return;
   _csActive = id;
+  btn.setAttribute('aria-expanded', 'true');
 
   // Position dropdown anchored to the form-box (or btn as fallback)
   const anchor = btn.closest('.form-box') || btn;
@@ -153,9 +162,10 @@ function csRenderItems(options, currentVal, query) {
   const list = document.getElementById('cs-list');
   const q = query.trim().toLowerCase();
   const filtered = q ? options.filter(o => o.label.toLowerCase().startsWith(q)) : options;
+  _csHighlight = filtered.length ? 0 : -1;
   if (!filtered.length) { list.innerHTML = '<div class="cs-none">Nenhum resultado</div>'; return; }
-  list.innerHTML = filtered.map(o =>
-    `<div class="cs-item${o.value === currentVal ? ' selected' : ''}" data-value="${escapeHtml(o.value)}" data-label="${escapeHtml(o.label)}" onclick="csPickItem(this)">${escapeHtml(o.label)}</div>`
+  list.innerHTML = filtered.map((o, i) =>
+    `<div class="cs-item${o.value === currentVal ? ' selected' : ''}${i === 0 ? ' highlighted' : ''}" role="option" data-value="${escapeHtml(o.value)}" data-label="${escapeHtml(o.label)}" onclick="csPickItem(this)">${escapeHtml(o.label)}</div>`
   ).join('');
 }
 
@@ -163,6 +173,29 @@ function csFilter(query) {
   if (!_csActive) return;
   const sel = document.getElementById(_csActive);
   csRenderItems(sel._csOptions || [], sel.value, query);
+}
+
+function csMoveHighlight(delta) {
+  const items = document.querySelectorAll('#cs-list .cs-item');
+  if (!items.length) return;
+  _csHighlight = (_csHighlight + delta + items.length) % items.length;
+  items.forEach((el, i) => el.classList.toggle('highlighted', i === _csHighlight));
+  items[_csHighlight].scrollIntoView({ block: 'nearest' });
+}
+
+function csSearchKeydown(e) {
+  if (e.key === 'ArrowDown') { e.preventDefault(); csMoveHighlight(1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); csMoveHighlight(-1); }
+  else if (e.key === 'Enter') {
+    e.preventDefault();
+    const items = document.querySelectorAll('#cs-list .cs-item');
+    if (_csHighlight >= 0 && items[_csHighlight]) csPickItem(items[_csHighlight]);
+  } else if (e.key === 'Escape') {
+    e.preventDefault();
+    csClose();
+    const btn = _csActive && document.getElementById(_csActive + '-btn');
+    if (btn) btn.focus();
+  }
 }
 
 function csPickItem(el) {
@@ -178,6 +211,10 @@ function csPickItem(el) {
 }
 
 function csClose() {
+  if (_csActive) {
+    const btn = document.getElementById(_csActive + '-btn');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  }
   document.getElementById('cs-backdrop').classList.remove('open');
   document.getElementById('cs-panel').classList.remove('open');
   _csActive = null;

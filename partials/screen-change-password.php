@@ -1,7 +1,7 @@
 <!-- ═══════════════ CHANGE PASSWORD ═══════════════ -->
 <div class="screen hidden" id="screen-change-password">
   <div class="d-flex align-items-center p-3 flex-shrink-0 app-header-gradient">
-    <button class="btn btn-link text-dark p-0" onclick="goBack()"><span class="material-symbols-outlined">arrow_back</span></button>
+    <button class="btn btn-link text-dark p-0" onclick="goBack()" aria-label="Voltar"><span class="material-symbols-outlined">arrow_back</span></button>
     <span class="flex-grow-1 text-center fw-bold">Alterar senha</span>
     <div style="width:24px"></div>
   </div>
