@@ -224,6 +224,7 @@ $csrfToken = csrfToken();
       <span class="fw-bold fs-5 text-primary">AB</span>
       <button class="btn btn-link text-secondary p-0" onclick="closeDrawer()"><span class="material-symbols-outlined">close</span></button>
     </div>
+    <a href="#" class="drawer-item" onclick="navigate('home');closeDrawer();return false;"><span class="material-symbols-outlined">home</span>Home</a>
     <a href="#" class="drawer-item" onclick="openListing('receita');closeDrawer();return false;"><span class="material-symbols-outlined">arrow_downward</span>Receitas</a>
     <a href="#" class="drawer-item" onclick="openListing('despesa');closeDrawer();return false;"><span class="material-symbols-outlined">arrow_upward</span>Despesas</a>
     <a href="#" class="drawer-item" onclick="openListing('investimento');closeDrawer();return false;"><span class="material-symbols-outlined">trending_up</span>Investimentos</a>
