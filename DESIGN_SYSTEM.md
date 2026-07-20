@@ -156,6 +156,27 @@ Home/Listagem (regra existente em `updateNovoBtn()`, `js/home.js`). Dar
 um segundo ponto de entrada de qualquer tela é um passo futuro, não
 incluído aqui.
 
+**Reposicionamento de conteúdo (Home, Listagem, Categorias, Formulário):**
+além do chrome, essas 4 telas reorganizam seus próprios elementos em
+grade no desktop — sempre reaproveitando o HTML/render que já existe,
+nunca duplicando lógica em JS:
+
+- Home (`#home-summary`) — grid 2 colunas; os 2 `<div class="card">`
+  irmãos que `renderHome()` já gera (gráfico e saldo) ficam lado a lado.
+- Listagem (`#listing-entries`) e Categorias/Grupo/Sub-categoria/
+  Exportar dados/Personalização (`.cat-row-list`, classe reaproveitada
+  em várias telas) — `grid-template-columns:repeat(auto-fill,
+  minmax(280px,1fr))`, uma grade de cards que se ajusta sozinha sem
+  precisar de mais breakpoints.
+- Formulário (`#form-fields`) — grid 2 colunas + `order` CSS pra parear
+  os campos certos (Categoria/Sub-categoria, Valor+Data, Repetir a
+  cada/Status). `order` só reorganiza a exibição em desktop; a ordem no
+  DOM (e portanto no mobile e na navegação por teclado) não muda.
+
+Padrão pra próxima tela que precisar disso: adicionar as regras dentro
+do `@media (min-width: 900px)` já existente em `css/responsive.css`,
+nunca criar um segundo `@media` nem duplicar a função de render em JS.
+
 ## 9. Como estender
 
 - **Nova cor de domínio** (ex.: uma 4ª categoria financeira): adicionar

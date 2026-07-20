@@ -46,5 +46,35 @@
      drawer com os mesmos atalhos que a sidebar já deixa sempre visíveis */
   #hamburger-btn{display:none!important}
 
-  .app{box-shadow:none;flex:0 0 390px}
+  /* No breakpoint desktop, o cartão cresce além do teto fluido de 560px
+     (css/style.css) — é o espaço que as grades abaixo (Listagem,
+     Categorias, Home) precisam pra realmente mostrar mais de 1 coluna */
+  .app{box-shadow:none;flex:0 1 auto;max-width:900px}
+
+  /* Home — card do gráfico/legenda e card de saldo lado a lado
+     (renderHome(), js/home.js, monta os 2 <div class="card"> irmãos) */
+  #home-summary{display:grid;grid-template-columns:2fr 1fr;gap:16px;align-items:start}
+  #home-summary > .card{margin:0!important}
+  #home-summary > .card:only-child{grid-column:1/-1}
+
+  /* Listagem — lançamentos em grade de cards em vez de pilha única
+     (style inline em screen-listing.php precisa de !important) */
+  #listing-entries{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px!important}
+
+  /* Categorias/Grupo/Sub-categoria, Exportar dados, Personalização —
+     mesma classe reaproveitada em várias telas (css/style.css:297) */
+  .cat-row-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+
+  /* Formulário (Novo lançamento) — grid 2 colunas; `order` reorganiza só
+     a visualização em desktop, sem tocar DOM/tab-order/mobile */
+  #form-fields{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;align-content:start}
+  .form-row-full{grid-column:1/-1}
+  #fieldset-categoria{order:1}
+  #subcategoria-wrap{order:2}
+  #fieldset-valor-data{order:3}
+  #fieldset-repetir{order:4}
+  #fieldset-status{order:5}
+  #fieldset-obs{order:6}
+  #remove-row{order:7}
+  #form-actions-row{order:8}
 }

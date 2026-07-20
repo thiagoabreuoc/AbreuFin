@@ -18,7 +18,7 @@
     <div id="form-fields">
 
     <!-- Categoria -->
-    <fieldset class="form-box">
+    <fieldset class="form-box" id="fieldset-categoria">
       <legend class="form-box-lbl">Categoria</legend>
       <select class="form-select form-select-borderless" id="f-categoria" onchange="onCatChange()"><option value="">Selecione</option></select>
       <div class="text-secondary mt-1 d-none" id="f-categoria-group" style="opacity:.8;font-size:.7rem"></div>
@@ -47,7 +47,7 @@
     </fieldset>
 
     <!-- Valor + Data (lado a lado) -->
-    <div class="d-flex gap-2">
+    <div class="d-flex gap-2 form-row-full" id="fieldset-valor-data">
       <fieldset class="form-box" style="flex:1;width:auto;min-width:0">
         <legend class="form-box-lbl">Valor (R$)</legend>
         <input class="form-control form-control-borderless" type="text" inputmode="numeric" id="f-valor" placeholder="0,00" autocomplete="off" oninput="onValorInput(this)">
@@ -70,7 +70,7 @@
     <input type="hidden" id="f-yyyy">
 
     <!-- Repetir a cada -->
-    <fieldset class="form-box">
+    <fieldset class="form-box" id="fieldset-repetir">
       <legend class="form-box-lbl">Repetir a cada</legend>
       <div class="d-flex gap-2 flex-nowrap justify-content-between" id="repetir-pills">
         <div class="form-check form-check-inline m-0">
@@ -98,26 +98,26 @@
     </fieldset>
 
     <!-- Observação -->
-    <fieldset class="form-box">
+    <fieldset class="form-box form-row-full" id="fieldset-obs">
       <legend class="form-box-lbl">Observação</legend>
       <textarea class="form-control form-control-borderless" id="f-obs" style="height:72px" placeholder="Opcional"></textarea>
     </fieldset>
 
     <!-- Status -->
-    <fieldset class="form-box">
+    <fieldset class="form-box" id="fieldset-status">
       <legend class="form-box-lbl">Status</legend>
       <div class="d-flex gap-2 flex-wrap" id="status-pills">
         <span class="text-muted small">Selecione o tipo primeiro</span>
       </div>
     </fieldset>
 
-    <div class="text-center mb-3" id="remove-row" style="display:none;margin-top:24px">
+    <div class="text-center mb-3 form-row-full" id="remove-row" style="display:none;margin-top:24px">
       <a href="#" class="text-danger small text-decoration-none" onclick="confirmRemove();return false;">
         <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">delete</span> Remover
       </a>
     </div>
 
-    <div class="d-flex gap-2" id="form-actions-row" style="margin-top:40px;margin-bottom:32px">
+    <div class="d-flex gap-2 form-row-full" id="form-actions-row" style="margin-top:40px;margin-bottom:32px">
       <button class="btn btn-outline-primary flex-fill" style="padding-top:10px;padding-bottom:10px" onclick="formBack()">Cancelar</button>
       <button class="btn btn-primary flex-fill" id="save-entry-btn" style="padding-top:10px;padding-bottom:10px" onclick="saveEntry()">Salvar</button>
     </div>
