@@ -90,20 +90,25 @@ function updateNovoBtn() {
 
 // No desktop, a Home costuma ter bem menos conteúdo que a altura da tela
 // (diferente da Listagem, rolável) — em vez de deixar o botão Novo fixo
-// no rodapé do viewport (longe do card de saldo), aproxima ele do fim
-// do card quando sobra bastante espaço vazio abaixo.
+// no rodapé do viewport (longe do card de saldo), gruda ele logo abaixo
+// do card. Usa `top` (relativo ao .app-content, offsetParent do wrap) em
+// vez de `bottom`+altura da viewport — a conta antiga ignorava a altura
+// do próprio wrap e acabava sobrepondo o card de saldo.
 function positionNovoBtnDesktop() {
   const wrap = document.getElementById('btn-novo-wrap');
   if (!wrap) return;
   const saldoCard = document.getElementById('home-card-saldo');
   const homeActive = document.querySelector('.screen.active') && document.querySelector('.screen.active').id === 'screen-home';
   if (window.innerWidth < 900 || !homeActive || !saldoCard || getComputedStyle(saldoCard).display === 'none') {
+    wrap.style.top = '';
     wrap.style.bottom = '';
     return;
   }
-  const rect = saldoCard.getBoundingClientRect();
-  const emptySpaceBelow = window.innerHeight - rect.bottom;
-  wrap.style.bottom = Math.max(20, emptySpaceBelow - 24) + 'px';
+  const container = wrap.offsetParent;
+  const containerTop = container ? container.getBoundingClientRect().top : 0;
+  const cardBottom = saldoCard.getBoundingClientRect().bottom;
+  wrap.style.bottom = 'auto';
+  wrap.style.top = Math.round(cardBottom - containerTop - 12) + 'px';
 }
 window.addEventListener('resize', positionNovoBtnDesktop);
 
