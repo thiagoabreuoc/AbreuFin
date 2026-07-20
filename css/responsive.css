@@ -40,7 +40,10 @@
     top:0;
     bottom:0;
     left:0;
-    z-index:300;
+    /* Abaixo do .fab-scrim (200, css/style.css) — com o menu do botão
+       Novo aberto, o scrim deve escurecer a tela toda, sidebar incluída,
+       em vez da sidebar ficar por cima brilhando sobre o fundo escurecido. */
+    z-index:150;
     width:72px;
     overflow:hidden;
     background:var(--md-sys-color-surface-container-low);

@@ -100,15 +100,22 @@ function positionNovoBtnDesktop() {
   const saldoCard = document.getElementById('home-card-saldo');
   const homeActive = document.querySelector('.screen.active') && document.querySelector('.screen.active').id === 'screen-home';
   if (window.innerWidth < 900 || !homeActive || !saldoCard || getComputedStyle(saldoCard).display === 'none') {
+    // Mobile (e no fim de qualquer volta pro mobile): volta pro fixo no
+    // rodapé do viewport, igual sempre foi — `wrap.style.bottom=''`
+    // sozinho NÃO restaura isso, porque remove de vez o `bottom:0` que
+    // só existia como style inline no HTML (não uma classe/regra CSS).
     wrap.style.top = '';
-    wrap.style.bottom = '';
+    wrap.style.bottom = '0';
     return;
   }
   const container = wrap.offsetParent;
   const containerTop = container ? container.getBoundingClientRect().top : 0;
   const cardBottom = saldoCard.getBoundingClientRect().bottom;
+  // Respiro visível entre o fim do card de saldo e o topo do botão
+  // (20px é o padding-top do wrap antes do botão em si começar).
+  const gap = 24;
   wrap.style.bottom = 'auto';
-  wrap.style.top = Math.round(cardBottom - containerTop - 12) + 'px';
+  wrap.style.top = Math.round(cardBottom - containerTop + gap - 20) + 'px';
 }
 window.addEventListener('resize', positionNovoBtnDesktop);
 
