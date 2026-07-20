@@ -150,6 +150,10 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .status-cell-receita{background:color-mix(in srgb, var(--md-extended-color-receita-color) 18%, var(--md-sys-color-surface))!important;color:var(--md-extended-color-receita-color)!important}
 .status-cell-despesa{background:color-mix(in srgb, var(--md-sys-color-error) 18%, var(--md-sys-color-surface))!important;color:var(--md-sys-color-error)!important}
 .status-cell-investimento{background:color-mix(in srgb, var(--md-extended-color-investimento-color) 18%, var(--md-sys-color-surface))!important;color:var(--md-extended-color-investimento-color)!important}
+/* Badge do título no header (opaco, sem transparência do gradiente por trás) */
+.status-cell-header-receita{background:var(--md-sys-color-surface-container-lowest)!important;color:var(--md-extended-color-receita-color)!important}
+.status-cell-header-despesa{background:var(--md-sys-color-surface-container-lowest)!important;color:var(--md-sys-color-error)!important}
+.status-cell-header-investimento{background:var(--md-sys-color-surface-container-lowest)!important;color:var(--md-extended-color-investimento-color)!important}
 .status-cell-warning{background:var(--md-extended-color-aviso-color-container)!important;color:var(--md-extended-color-aviso-on-color-container)!important}
 .status-cell-lilac{background:var(--md-extended-color-lilac-color-container)!important;color:var(--md-extended-color-lilac-on-color-container)!important}
 .btn-check:checked + .status-cell{box-shadow:inset 0 0 0 2px currentColor}
