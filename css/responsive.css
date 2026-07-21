@@ -190,10 +190,11 @@
   #remove-row{order:7}
   #form-actions-row{order:8}
   /* Cancelar/Salvar usam .flex-fill (Bootstrap, flex:1 1 auto!important)
-     esticando pela largura toda do grid (~900px) — precisa de !important
-     pra vencer e virar um tamanho fixo, centralizado, no desktop */
-  #form-actions-row{justify-content:center}
-  #form-actions-row button{flex:0 0 auto!important;width:200px!important}
+     esticando pela largura toda do container (~900px no form, ~560px em
+     Alterar senha) — precisa de !important pra vencer e virar um
+     tamanho fixo, centralizado, no desktop */
+  #form-actions-row,#change-password-actions{justify-content:center}
+  #form-actions-row button,#change-password-actions button{flex:0 0 auto!important;width:200px!important}
 
   /* Modais (sheet-card) — no mobile ocupam quase a largura toda do .app
      (left/right:16px); no desktop, com o .app chegando a 900px, isso
