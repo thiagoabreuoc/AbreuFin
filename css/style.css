@@ -216,7 +216,7 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
    deve sobrepor o botão Novo e seu degradê de fundo. Só sobe (acima do
    .fab-scrim, 200) quando o menu está de fato aberto, senão os itens do
    FAB ficariam escondidos atrás do próprio scrim que eles abrem */
-#btn-novo-wrap.fab-open{background:none!important;z-index:210}
+#btn-novo-wrap.fab-open{background:none!important;z-index:210!important}
 .fab-main-btn .material-symbols-outlined{font-variation-settings:'opsz' 24,'wght' 500,'FILL' 1,'GRAD' 0;font-weight:500}
 
 /* FAB Menu (M3) — https://m3.material.io/components/fab-menu/overview
