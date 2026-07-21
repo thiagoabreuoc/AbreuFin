@@ -176,9 +176,6 @@
     letter-spacing:.02em;
   }
 
-  /* Categorias/Grupo/Sub-categoria, Exportar dados, Personalização —
-     mesma classe reaproveitada em várias telas (css/style.css:297) */
-  .cat-row-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
 
   /* Formulário (Novo lançamento) — grid 2 colunas; `order` reorganiza só
      a visualização em desktop, sem tocar DOM/tab-order/mobile */
