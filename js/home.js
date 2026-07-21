@@ -219,8 +219,13 @@ function selectMonth(i) {
     b.classList.toggle('tab-inactive', idx!==i);
   });
   updateNovoBtn();
-  if (document.getElementById('chart-bars-svg')) {
-    const dc = homeMonthTotals(homeMonth, homeYear);
+  const dc = homeMonthTotals(homeMonth, homeYear);
+  const isEmpty = dc.receita + dc.despesa + dc.investimento === 0;
+  // Só anima em cima do SVG existente se ele já estava lá E o mês novo
+  // também tem dado — do contrário (virando vazio, ou saindo do vazio)
+  // precisa de um render completo pra trocar o SVG pelo emptyChart() (ou
+  // vice-versa), animateBarsTo() não dá conta dessa transição de estado.
+  if (document.getElementById('chart-bars-svg') && !isEmpty) {
     renderBanners();
     animateBarsTo(dc);
     document.getElementById('home-legend-meses').innerHTML = buildLegendHtml(dc, 'meses');
