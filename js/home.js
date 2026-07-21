@@ -203,18 +203,13 @@ function buildYearStrip() {
 
 function selectYear(y) {
   homeYear = y;
-  document.querySelectorAll('#year-strip .btn').forEach(b => {
-    const by = parseInt(b.textContent);
-    b.classList.toggle('btn-primary', by===y);
-    b.classList.toggle('tab-inactive', by!==y);
-    b.classList.toggle('text-primary', by!==y);
-  });
   updateNovoBtn();
-  if (document.getElementById('chart-area-svg')) {
-    updateYearView();
-  } else {
-    renderHome();
-  }
+  // Sempre um render completo (não só updateYearView/animateAreaTo): os
+  // dois gráficos ficam visíveis ao mesmo tempo, então trocar o ano
+  // também precisa atualizar o card Mensal (mesmo mês, ano novo) — e o
+  // "fast path" antigo só existe(ia) pra reaproveitar o SVG do gráfico
+  // Anual, que agora está sempre presente (checagem nunca cai no else).
+  renderHome();
 }
 
 function selectMonth(i) {
@@ -225,7 +220,7 @@ function selectMonth(i) {
   });
   updateNovoBtn();
   if (document.getElementById('chart-bars-svg')) {
-    const dc = homeMonthTotals(homeMonth);
+    const dc = homeMonthTotals(homeMonth, homeYear);
     renderBanners();
     animateBarsTo(dc);
     document.getElementById('home-legend-meses').innerHTML = buildLegendHtml(dc, 'meses');
@@ -580,7 +575,7 @@ function renderHome() {
   const chartLabelsA = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
   const chartA = buildAreaChart(chartDataA, chartLabelsA);
 
-  const dcM = homeMonthTotals(homeMonth);
+  const dcM = homeMonthTotals(homeMonth, homeYear);
   const chartM = buildBarChart(dcM);
   const saldo = dcM.receita - dcM.despesa - dcM.investimento;
   const periodoLabelM = `${MONTHS_FULL[homeMonth]} ${homeYear}`;
