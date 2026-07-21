@@ -90,7 +90,7 @@
      flex-grow-1, porque sino/avatar à direita sem contrapeso à esquerda
      (hamburguer escondido) deixavam o centro do flex deslocado do centro
      real do header */
-  #home-header-title{display:block!important;position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);pointer-events:none}
+  #home-header-title{display:block!important;position:absolute;left:0;right:0;top:calc(50% - 8px);transform:translateY(-50%);pointer-events:none}
   /* #drawer (menu mobile) fica escondido só por transform:translateX(-100%),
      então continua no DOM e pintando seu próprio box-shadow — como sua
      borda direita "escondida" cai bem em cima do início do .app (x=72px,
