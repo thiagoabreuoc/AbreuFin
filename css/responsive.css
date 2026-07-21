@@ -79,6 +79,10 @@
   /* redundante com a sidebar — o hambúrguer só existia pra abrir o
      drawer com os mesmos atalhos que a sidebar já deixa sempre visíveis */
   #hamburger-btn{display:none!important}
+  /* sem o hambúrguer e com o título fora do fluxo (position:absolute,
+     abaixo), nada mais empurra sino/avatar pra direita — sem isso eles
+     colapsam pro início do flex row */
+  #home-header{justify-content:flex-end}
   /* idem pro "AB" d'água do header — a sidebar já tem o logo */
   .app-header-watermark{display:none}
   /* no lugar do d'água, o nome da tela centralizado no header — position:
