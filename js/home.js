@@ -102,12 +102,12 @@ function positionNovoBtnDesktop() {
   const homeActive = document.querySelector('.screen.active') && document.querySelector('.screen.active').id === 'screen-home';
   if (!homeActive || !saldoCard || getComputedStyle(saldoCard).display === 'none') {
     // Listagem, ou Home sem card de saldo visível (aba Anual): volta pro
-    // fixo perto do rodapé do viewport, só que com um respiro (16px) em
-    // vez de colado — `wrap.style.bottom=''` sozinho NÃO bastaria aqui,
-    // porque remove de vez o `bottom:0` que só existia como style inline
-    // no HTML (não uma classe/regra CSS).
+    // fixo perto do rodapé do viewport, só que com um respiro em vez de
+    // colado — `wrap.style.bottom=''` sozinho NÃO bastaria aqui, porque
+    // remove de vez o `bottom:0` que só existia como style inline no
+    // HTML (não uma classe/regra CSS).
     wrap.style.top = '';
-    wrap.style.bottom = '16px';
+    wrap.style.bottom = '32px';
     return;
   }
   const container = wrap.offsetParent;
