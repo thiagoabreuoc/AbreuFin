@@ -40,6 +40,10 @@ document.addEventListener('mousemove', (e) => {
   if (!sidebar) return;
   const r = sidebar.getBoundingClientRect();
   if (r.width === 0 || r.height === 0) return;
-  const inside = e.clientX >= r.left && e.clientX < r.left + 260 && e.clientY >= r.top && e.clientY < r.bottom;
+  // r.right já reflete a largura REAL atual (72 colapsada, 260 expandida)
+  // — usar um valor fixo de 260 aqui fazia qualquer elemento de conteúdo
+  // nessa faixa horizontal (ex.: botão de voltar da Listagem) também
+  // disparar a expansão, mesmo com a sidebar colapsada em 72px.
+  const inside = e.clientX >= r.left && e.clientX < r.right && e.clientY >= r.top && e.clientY < r.bottom;
   sidebar.classList.toggle('expanded', inside);
 });
