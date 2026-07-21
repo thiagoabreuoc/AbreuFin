@@ -55,27 +55,26 @@
      ícone fica visível (o resto do item é cortado pelo overflow:hidden).
      Sem box-shadow no hover: como a sidebar sobrepõe o conteúdo (z-index),
      uma sombra ali lia como um resíduo "grudado" na tela em vez de dar
-     profundidade — a borda já basta pra separar do conteúdo. */
+     profundidade — a borda já basta pra separar do conteúdo.
+     Usa a classe .expanded (alternada via JS em main.js, por posição do
+     mouse) em vez de :hover puro — com o .fab-scrim cobrindo a tela
+     inteira (pointer-events:all quando o menu do botão Novo abre), ele
+     fica por cima da sidebar e :hover nunca dispararia nela. */
   body:not(:has(
     #screen-splash.active, #screen-welcome.active, #screen-login.active,
     #screen-register.active, #screen-forgot.active, #screen-reset.active
-  )) .sidebar-desktop:hover{
+  )) .sidebar-desktop.expanded{
     width:260px;
     /* expandida, fica acima de tudo (inclusive o menu aberto do botão
        Novo e o .fab-scrim, 200/210) */
     z-index:1000;
   }
-  /* o .fab-scrim (pointer-events:all quando aberto) cobria a coluna da
-     sidebar inteira, bloqueando o hover nela enquanto o menu do botão
-     Novo estava aberto — a sidebar nunca recebia o mouseenter pra
-     expandir. Exclui essa faixa (72px) da área do scrim. */
-  .fab-scrim{left:72px}
 
   .sidebar-desktop .drawer-header{border-bottom:none;padding:12px 0 12px 22px;text-align:left}
   .sidebar-desktop .drawer-item{white-space:nowrap;padding-right:20px;padding-left:12px}
   .sidebar-desktop .drawer-item:first-of-type{margin-top:4px}
   .sidebar-desktop .drawer-item-label{opacity:0;transition:opacity var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
-  .sidebar-desktop:hover .drawer-item-label{opacity:1}
+  .sidebar-desktop.expanded .drawer-item-label{opacity:1}
 
   /* redundante com a sidebar — o hambúrguer só existia pra abrir o
      drawer com os mesmos atalhos que a sidebar já deixa sempre visíveis */

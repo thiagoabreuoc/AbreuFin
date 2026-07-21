@@ -29,3 +29,17 @@ const GOOGLE_ERROR_MESSAGES = {
     }
   }
 })();
+
+/* Sidebar desktop: expande por posição do mouse (não :hover puro) — o
+   .fab-scrim cobre a tela inteira (pointer-events:all) quando o menu do
+   botão Novo abre, e ficaria por cima da sidebar, então :hover nunca
+   dispararia nela nesse estado. mousemove no document não depende de
+   quem é o elemento "por cima" no ponto do cursor. */
+document.addEventListener('mousemove', (e) => {
+  const sidebar = document.getElementById('sidebar-desktop');
+  if (!sidebar) return;
+  const r = sidebar.getBoundingClientRect();
+  if (r.width === 0 || r.height === 0) return;
+  const inside = e.clientX >= r.left && e.clientX < r.left + 260 && e.clientY >= r.top && e.clientY < r.bottom;
+  sidebar.classList.toggle('expanded', inside);
+});
