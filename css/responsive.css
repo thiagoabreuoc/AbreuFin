@@ -192,4 +192,16 @@
   #fieldset-obs{order:6}
   #remove-row{order:7}
   #form-actions-row{order:8}
+  /* Cancelar/Salvar eram flex-fill esticando pela largura toda do grid
+     (~900px) — no desktop ficam com um tamanho fixo, centralizados */
+  #form-actions-row{justify-content:center}
+  #form-actions-row button{flex:0 0 auto;width:200px}
+
+  /* Modais (sheet-card) — no mobile ocupam quase a largura toda do .app
+     (left/right:16px); no desktop, com o .app chegando a 900px, isso
+     ficava enorme/esticado. Fica com largura fixa, centralizado, em vez
+     de acompanhar a largura do .app. translateX(-50%) entra também no
+     .open pra não conflitar com a animação de abertura (scale/translateY). */
+  .sheet-card{left:50%;right:auto;width:420px;max-width:calc(100% - 32px);transform:translateX(-50%) scale(.93) translateY(-6px)}
+  .sheet-card.open{transform:translateX(-50%) scale(1) translateY(0)}
 }
