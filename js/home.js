@@ -187,11 +187,12 @@ function buildMonthStrip() {
 }
 
 function buildYearStrip() {
-  // só anos passados e o atual — lançamentos recorrentes podem gerar
-  // ocorrências futuras, mas elas não devem abrir um ano novo na aba Anual.
+  // Sequência fixa: ano anterior, atual e o próximo — nada de listar
+  // todo ano com lançamento (recorrências podem gerar ocorrências em
+  // qualquer ano futuro, o que bagunçaria a tira).
   const curYear = new Date().getFullYear();
-  const years = [...new Set(entries.map(e => e.yyyy).filter(y => y <= curYear).concat([curYear]))].sort((a,b) => a-b);
-  if (!years.includes(homeYear)) homeYear = years[years.length - 1];
+  const years = [curYear - 1, curYear, curYear + 1];
+  if (!years.includes(homeYear)) homeYear = curYear;
   const strip = document.getElementById('year-strip');
   strip.innerHTML = years.map(y =>
     `<button class="btn btn-sm rounded-pill flex-shrink-0 ${y===homeYear?'btn-primary':'tab-inactive text-primary'}" style="border:none" onclick="selectYear(${y})">${y}</button>`
