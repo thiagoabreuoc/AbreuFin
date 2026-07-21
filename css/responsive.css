@@ -61,7 +61,15 @@
     #screen-register.active, #screen-forgot.active, #screen-reset.active
   )) .sidebar-desktop:hover{
     width:260px;
+    /* expandida, fica acima de tudo (inclusive o menu aberto do botão
+       Novo e o .fab-scrim, 200/210) */
+    z-index:1000;
   }
+  /* o .fab-scrim (pointer-events:all quando aberto) cobria a coluna da
+     sidebar inteira, bloqueando o hover nela enquanto o menu do botão
+     Novo estava aberto — a sidebar nunca recebia o mouseenter pra
+     expandir. Exclui essa faixa (72px) da área do scrim. */
+  .fab-scrim{left:72px}
 
   .sidebar-desktop .drawer-header{border-bottom:none;padding:12px 0 12px 22px;text-align:left}
   .sidebar-desktop .drawer-item{white-space:nowrap;padding-right:20px;padding-left:12px}
@@ -74,8 +82,12 @@
   #hamburger-btn{display:none!important}
   /* idem pro "AB" d'água do header — a sidebar já tem o logo */
   .app-header-watermark{display:none}
-  /* no lugar do d'água, o nome da tela centralizado no header */
-  #home-header-title{display:block!important}
+  /* no lugar do d'água, o nome da tela centralizado no header — position:
+     absolute (o header já é position:relative) em vez de confiar no
+     flex-grow-1, porque sino/avatar à direita sem contrapeso à esquerda
+     (hamburguer escondido) deixavam o centro do flex deslocado do centro
+     real do header */
+  #home-header-title{display:block!important;position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);pointer-events:none}
   /* #drawer (menu mobile) fica escondido só por transform:translateX(-100%),
      então continua no DOM e pintando seu próprio box-shadow — como sua
      borda direita "escondida" cai bem em cima do início do .app (x=72px,
