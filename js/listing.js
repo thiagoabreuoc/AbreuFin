@@ -193,18 +193,14 @@ function updateListingTotals(list) {
 function renderListing() {
   const list=getListingEntries();
   updateListingTotals(list);
-  const hasVencido  = list.some(e=>dueRank(e)==='vencido');
-  const hasVencendo = list.some(e=>dueRank(e)==='vencendo');
-  const hasNeutro   = list.some(e=>dueRank(e)==='neutro');
-  // .d-inline-flex (Bootstrap, display:inline-flex!important) sempre
-  // vencia o style.display='none' via JS — os bullets de urgência
-  // ficavam visíveis mesmo sem nenhum item vencido/vencendo/neutro
-  // (ex.: lista vazia). setProperty com 'important' pra vencer de volta.
-  const setDisp = (id, shown, val) => document.getElementById(id).style.setProperty('display', shown ? val : 'none', 'important');
-  setDisp('sort-btn-vencido', hasVencido, 'inline-flex');
-  setDisp('sort-btn-vencendo', hasVencendo, 'inline-flex');
-  setDisp('sort-btn-neutro', hasNeutro, 'inline-flex');
-  setDisp('sort-urgency-sep', hasVencido || hasVencendo || hasNeutro, 'inline');
+  // Os 3 bullets de urgência (e o separador antes deles) sempre
+  // aparecem, mesmo sem nenhum item daquele status na lista atual —
+  // são um atalho de ordenação, não um resumo do que já está visível.
+  const setDisp = (id, val) => document.getElementById(id).style.setProperty('display', val, 'important');
+  setDisp('sort-btn-vencido', 'inline-flex');
+  setDisp('sort-btn-vencendo', 'inline-flex');
+  setDisp('sort-btn-neutro', 'inline-flex');
+  setDisp('sort-urgency-sep', 'inline');
   const el=document.getElementById('listing-entries');
   const tableHeader=document.getElementById('listing-table-header');
   if (!list.length){
