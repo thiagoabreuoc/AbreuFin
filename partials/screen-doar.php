@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <button class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2 mt-3" id="doar-copy-btn" style="padding-top:10px;padding-bottom:10px" onclick="copyPixKey()">
+    <button class="btn btn-primary d-flex align-items-center justify-content-center gap-2 mt-3 mx-auto" id="doar-copy-btn" style="padding:10px 32px" onclick="copyPixKey()">
       <span class="material-symbols-outlined" style="font-size:1.2rem">content_copy</span>
       <span id="doar-copy-btn-label">Copiar chave Pix</span>
     </button>
