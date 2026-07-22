@@ -207,15 +207,16 @@
     letter-spacing:.02em;
   }
 
-  /* Dados da conta — card, botão "Desconectar do Google" e o aviso
-     abaixo dele ficavam esticados 100% (herdando a largura do .app,
-     até 900px); compactos, alinhados à esquerda no desktop */
-  #account-data-card,#ad-google-section{max-width:480px;margin-left:0;margin-right:auto}
+  /* Dados da conta — o CARD continua 100% (como as demais telas); só o
+     conteúdo dentro dele (linhas Nome/E-mail/...) e o botão "Desconectar
+     do Google" + aviso (que ficam fora do card) é que ficam compactos,
+     alinhados à esquerda, em vez de esticar até a largura do .app (900px) */
+  #account-data-card .card-body{max-width:400px}
+  #ad-google-section{max-width:480px;margin-left:0;margin-right:auto}
 
-  /* Personalização — card "Tema" ficava esticado 100% (herdando
-     .cat-row-list, que no desktop volta a ser 100% pra Categorias/
-     Exportar dados); compacto, alinhado à esquerda */
-  #personalizacao-tema-card{max-width:480px;margin-left:0;margin-right:auto}
+  /* Personalização — o CARD "Tema" continua 100%; só o grupo de botões
+     Claro/Escuro dentro dele fica compacto */
+  #personalizacao-tema-card .d-flex.gap-2{max-width:320px}
 
   /* Formulário (Novo lançamento) — grid 2 colunas; `order` reorganiza só
      a visualização em desktop, sem tocar DOM/tab-order/mobile */
