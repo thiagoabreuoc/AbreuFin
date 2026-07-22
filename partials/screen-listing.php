@@ -26,10 +26,10 @@
         <span class="text-secondary" style="opacity:.6;font-size:.9rem;user-select:none">|</span>
         <a href="#" id="sort-btn-data" class="text-secondary text-decoration-none d-inline-flex align-items-center gap-1" onclick="toggleSort('data');return false;" aria-label="Ordenar por data"><span class="material-symbols-outlined" id="sort-data-arrow" style="font-size:.8rem">arrow_upward</span><span class="material-symbols-outlined" style="font-size:.9rem">calendar_today</span></a>
         <span class="text-secondary" id="sort-urgency-sep" style="opacity:.6;font-size:.9rem;user-select:none">|</span>
-        <div style="display:flex;align-items:center;gap:24px">
-          <a href="#" id="sort-btn-vencido" class="text-decoration-none d-inline-flex align-items-center" onclick="sortEntries('vencido','asc');return false;" aria-label="Ordenar por vencidos"><span class="m3-badge-small m3-badge-small-error"></span></a>
-          <a href="#" id="sort-btn-vencendo" class="text-decoration-none d-inline-flex align-items-center" onclick="sortEntries('vencendo','asc');return false;" aria-label="Ordenar por a vencer"><span class="m3-badge-small m3-badge-small-warning"></span></a>
-          <a href="#" id="sort-btn-neutro" class="text-decoration-none d-inline-flex align-items-center" onclick="sortEntries('neutro','asc');return false;" aria-label="Ordenar por sem vencimento próximo"><span class="m3-badge-small m3-badge-small-neutral"></span></a>
+        <div style="display:flex;align-items:center;gap:8px">
+          <a href="#" id="sort-btn-vencido" class="text-decoration-none d-inline-flex align-items-center justify-content-center" style="padding:10px" onclick="sortEntries('vencido','asc');return false;" aria-label="Ordenar por vencidos"><span class="m3-badge-small m3-badge-small-error"></span></a>
+          <a href="#" id="sort-btn-vencendo" class="text-decoration-none d-inline-flex align-items-center justify-content-center" style="padding:10px" onclick="sortEntries('vencendo','asc');return false;" aria-label="Ordenar por a vencer"><span class="m3-badge-small m3-badge-small-warning"></span></a>
+          <a href="#" id="sort-btn-neutro" class="text-decoration-none d-inline-flex align-items-center justify-content-center" style="padding:10px" onclick="sortEntries('neutro','asc');return false;" aria-label="Ordenar por sem vencimento próximo"><span class="m3-badge-small m3-badge-small-neutral"></span></a>
         </div>
       </div>
     </div>

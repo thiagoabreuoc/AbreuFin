@@ -356,13 +356,15 @@ function updateSortBtns(){
   document.getElementById('sort-btn-valor').className = active('valor');
   document.getElementById('sort-btn-data').className  = active('data');
   // A seta reflete a direção atual só quando o campo está ativo; parado
-  // (não é o campo de ordenação corrente), mostra a seta "padrão"
-  // (desc — maior valor / mais recente primeiro), que é o que o próximo
-  // clique nesse campo vai aplicar.
+  // (não é o campo de ordenação corrente), mostra a seta "padrão" (asc),
+  // que é o que o próximo clique nesse campo vai aplicar — precisa bater
+  // com o que toggleSort() faz no primeiro clique, senão a seta parada
+  // sugere uma direção e o clique aplica a oposta (sensação de precisar
+  // de 2 cliques pra "acertar").
   document.getElementById('sort-valor-arrow').textContent =
-    (sortField==='valor' && sortDir==='asc') ? 'arrow_downward' : 'arrow_upward';
+    (sortField==='valor' && sortDir==='desc') ? 'arrow_downward' : 'arrow_upward';
   document.getElementById('sort-data-arrow').textContent =
-    (sortField==='data' && sortDir==='asc') ? 'arrow_downward' : 'arrow_upward';
+    (sortField==='data' && sortDir==='desc') ? 'arrow_downward' : 'arrow_upward';
 }
 function sortEntries(field,dir){
   pinnedEntryId=null; sortField=field; sortDir=dir; listingLimit=10;
@@ -371,10 +373,11 @@ function sortEntries(field,dir){
 }
 // Um ícone só por campo (valor/data) em vez de dois (maior/menor,
 // mais recente/mais antigo) — clicar de novo no mesmo campo inverte a
-// direção; clicar num campo diferente troca pra ele com a direção
-// padrão (desc).
+// direção; clicar num campo diferente (ou vindo do padrão inicial,
+// "prioridade") troca pra ele com a direção padrão (asc), a mesma que
+// a seta em repouso já sugere.
 function toggleSort(field){
-  const dir = (sortField===field && sortDir==='desc') ? 'asc' : 'desc';
+  const dir = (sortField===field && sortDir==='asc') ? 'desc' : 'asc';
   sortEntries(field, dir);
 }
 function clearListingFilter(){
