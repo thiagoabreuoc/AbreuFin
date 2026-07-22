@@ -339,11 +339,15 @@ function selectStatus(btn,val){
   renderListing();
 }
 function updateSortBtns(){
-  const active = (id,f,d) => (sortField===f&&sortDir===d)?'text-primary text-decoration-none':'text-secondary text-decoration-none';
-  document.getElementById('sort-btn-desc').className      = active('sort-btn-desc','valor','desc');
-  document.getElementById('sort-btn-asc').className       = active('sort-btn-asc','valor','asc');
-  document.getElementById('sort-btn-date-desc').className = active('sort-btn-date-desc','data','desc');
-  document.getElementById('sort-btn-date-asc').className  = active('sort-btn-date-asc','data','asc');
+  // className = '...' substitui TUDO — precisa incluir as classes de
+  // layout (d-inline-flex etc.) também, senão o link perde o flex e os
+  // dois ícones internos (seta + símbolo) quebram em duas linhas.
+  const base = 'text-decoration-none d-inline-flex align-items-center gap-1';
+  const active = (f,d) => ((sortField===f&&sortDir===d)?'text-primary':'text-secondary') + ' ' + base;
+  document.getElementById('sort-btn-desc').className      = active('valor','desc');
+  document.getElementById('sort-btn-asc').className       = active('valor','asc');
+  document.getElementById('sort-btn-date-desc').className = active('data','desc');
+  document.getElementById('sort-btn-date-asc').className  = active('data','asc');
 }
 function sortEntries(field,dir){
   pinnedEntryId=null; sortField=field; sortDir=dir; listingLimit=10;
