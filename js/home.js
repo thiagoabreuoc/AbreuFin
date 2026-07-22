@@ -598,9 +598,15 @@ function renderBanners() {
       <button type="button" class="btn btn-link p-0" style="color:inherit;line-height:0" onclick="dismissBanner('vencendo')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
     </div>`;
   if (!dismissedBanners.doar)
-    banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-doar" style="background:linear-gradient(135deg,#0f9b7e 0%,#0b6e54 100%);max-height:60px;cursor:pointer" onclick="showScreen('doar')">
-      <span class="small text-white" style="line-height:1.3"><span class="fw-bold" style="color:#ffd54a">Curtindo o app?</span> Ajude a mantê-lo com uma doação via Pix.</span>
-      <button type="button" class="btn btn-sm fw-bold flex-shrink-0 ms-2" style="background:#f5820d;color:#fff;border:none;border-radius:999px;white-space:nowrap;padding:6px 16px" onclick="event.stopPropagation();showScreen('doar')">Doar agora</button>
+    banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-doar" style="background:linear-gradient(135deg,#0f9b7e 0%,#0b6e54 100%);cursor:pointer" onclick="showScreen('doar')">
+      <div style="min-width:0">
+        <div class="fw-bold" style="color:#ffd54a;font-size:.78rem">Curtindo o app?</div>
+        <div class="text-white" style="font-size:.68rem;margin-top:3px;line-height:1.35">Ajude a mantê-lo com uma doação via Pix.</div>
+      </div>
+      <button type="button" class="btn btn-sm fw-bold flex-shrink-0 ms-2 d-flex align-items-center gap-1" style="background:#f5820d;color:#fff;border:none;border-radius:10px;white-space:nowrap;padding:8px 14px" onclick="event.stopPropagation();showScreen('doar')">
+        <span style="width:16px;height:16px;display:inline-flex;flex-shrink:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 132" width="100%" height="100%"><path fill="#fff" d="M66 0C29.5 0 0 29.5 0 66s29.5 66 66 66 66-29.5 66-66S96.5 0 66 0zm0 119.6C36.4 119.6 12.4 95.6 12.4 66S36.4 12.4 66 12.4s53.6 24 53.6 53.6-24 53.6-53.6 53.6z"/><path fill="#fff" d="M85.7 44.5L66 24.8 46.3 44.5 66 64.2l19.7-19.7zm-32.9 0L66 31.3l13.2 13.2L66 57.7 52.8 44.5zM46.3 87.5L66 107.2l19.7-19.7L66 67.8 46.3 87.5zm32.9 0L66 100.7 52.8 87.5 66 74.3l13.2 13.2zM24.8 66l19.7 19.7L64.2 66 44.5 46.3 24.8 66zm26.4 0L44.5 52.8 31.3 66l13.2 13.2L51.2 66zm56-19.7L87.5 66l19.7 19.7L126.9 66l-19.7-19.7zm-6.7 19.7l-13.2-13.2L100.7 66l-13.2 13.2 13.2-13.2z"/></svg></span>
+        Doar agora
+      </button>
     </div>`;
   const bannersEl = document.getElementById('home-banners');
   bannersEl.innerHTML = banners;
