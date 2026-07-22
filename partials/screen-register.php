@@ -29,7 +29,7 @@
     <button class="btn auth-btn-primary d-block mx-auto" id="register-submit-btn" onclick="doRegister()">Criar conta</button>
 
     <div class="text-center small mt-4">
-      <a href="#" class="auth-link" onclick="showScreen('login');return false;">Já tenho conta — entrar</a>
+      <a href="#" class="auth-link" onclick="showScreen('login');return false;">Já tenho conta — Entrar</a>
     </div>
   </div>
 </div>
