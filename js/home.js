@@ -108,7 +108,7 @@ function positionNovoBtnDesktop() {
     // de vez o `bottom:0` que só existia como style inline no HTML (não
     // uma classe/regra CSS).
     wrap.style.top = '';
-    wrap.style.bottom = '32px';
+    wrap.style.bottom = '8px';
     return;
   }
   const container = wrap.offsetParent;
