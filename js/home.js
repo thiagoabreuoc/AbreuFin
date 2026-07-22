@@ -88,24 +88,25 @@ function updateNovoBtn() {
   positionNovoBtnDesktop();
 }
 
-// Na Home, o conteúdo costuma ser bem menor que a altura da tela
-// (diferente da Listagem, rolável) — em vez de deixar o botão Novo fixo
-// no rodapé do viewport (longe do card de saldo), gruda ele logo abaixo
-// do card, tanto no mobile quanto no desktop. Usa `top` (relativo ao
-// .app-content, offsetParent do wrap) em vez de `bottom`+altura da
-// viewport — a conta antiga ignorava a altura do próprio wrap e acabava
-// sobrepondo o card de saldo.
+// No desktop, o conteúdo da Home costuma ser bem menor que a altura da
+// tela (diferente da Listagem, rolável) — em vez de deixar o botão Novo
+// fixo no rodapé do viewport (longe do card de saldo), gruda ele logo
+// abaixo do card. Usa `top` (relativo ao .app-content, offsetParent do
+// wrap) em vez de `bottom`+altura da viewport — a conta antiga ignorava
+// a altura do próprio wrap e acabava sobrepondo o card de saldo.
+// No mobile, o botão sempre fica fixo no rodapé (com respiro), como
+// era originalmente — só o desktop usa a lógica de "grudar no saldo".
 function positionNovoBtnDesktop() {
   const wrap = document.getElementById('btn-novo-wrap');
   if (!wrap) return;
   const saldoCard = document.getElementById('home-card-saldo');
   const homeActive = document.querySelector('.screen.active') && document.querySelector('.screen.active').id === 'screen-home';
-  if (!homeActive || !saldoCard || getComputedStyle(saldoCard).display === 'none') {
-    // Listagem, ou Home sem card de saldo visível (aba Anual): volta pro
-    // fixo perto do rodapé do viewport, só que com um respiro em vez de
-    // colado — `wrap.style.bottom=''` sozinho NÃO bastaria aqui, porque
-    // remove de vez o `bottom:0` que só existia como style inline no
-    // HTML (não uma classe/regra CSS).
+  if (window.innerWidth < 900 || !homeActive || !saldoCard || getComputedStyle(saldoCard).display === 'none') {
+    // Mobile, Listagem, ou Home sem card de saldo visível (aba Anual):
+    // fixo perto do rodapé do viewport, com um respiro em vez de colado
+    // — `wrap.style.bottom=''` sozinho NÃO bastaria aqui, porque remove
+    // de vez o `bottom:0` que só existia como style inline no HTML (não
+    // uma classe/regra CSS).
     wrap.style.top = '';
     wrap.style.bottom = '32px';
     return;
