@@ -181,10 +181,13 @@ function buildMonthStrip() {
   strip.innerHTML =
     MONTHS.map((m,i) => `<button class="btn btn-sm rounded-pill flex-shrink-0 ${i===homeMonth?'btn-primary':'tab-inactive'}" style="border:none" onclick="selectMonth(${i})">${m}</button>`).join('');
   attachStripScroll(strip);
-  setTimeout(function() {
+  // requestAnimationFrame em vez de setTimeout com delay fixo — roda assim
+  // que o layout estiver pronto, sem o "flash" de conteúdo não-centralizado
+  // que um delay arbitrário (ex.: 50ms) pode deixar visível antes do salto.
+  requestAnimationFrame(function() {
     var active = strip.querySelector('.btn-primary');
     if (active) strip.scrollLeft = active.offsetLeft - (strip.offsetWidth / 2) + (active.offsetWidth / 2);
-  }, 50);
+  });
 }
 
 function buildYearStrip() {
