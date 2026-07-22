@@ -43,7 +43,7 @@ $csrfToken = csrfToken();
 <div id="app-shell">
   <nav class="sidebar-desktop" id="sidebar-desktop">
     <div class="drawer-header"><span class="fw-bold fs-5 text-primary">AB</span></div>
-    <a href="#" class="drawer-item" onclick="navigate('home');return false;"><span class="material-symbols-outlined">home</span><span class="drawer-item-label">Home</span></a>
+    <a href="#" class="drawer-item" onclick="navigate('home');return false;"><span class="material-symbols-outlined">home</span><span class="drawer-item-label">Dashboard</span></a>
     <a href="#" class="drawer-item" onclick="openListing('receita');return false;"><span class="material-symbols-outlined">arrow_upward</span><span class="drawer-item-label">Receitas</span></a>
     <a href="#" class="drawer-item" onclick="openListing('despesa');return false;"><span class="material-symbols-outlined">arrow_downward</span><span class="drawer-item-label">Despesas</span></a>
     <a href="#" class="drawer-item" onclick="openListing('investimento');return false;"><span class="material-symbols-outlined">trending_up</span><span class="drawer-item-label">Investimentos</span></a>
@@ -221,7 +221,7 @@ $csrfToken = csrfToken();
       <span class="fw-bold fs-5 text-primary">AB</span>
       <button class="btn btn-link text-secondary p-0" onclick="closeDrawer()"><span class="material-symbols-outlined">close</span></button>
     </div>
-    <a href="#" class="drawer-item" onclick="navigate('home');closeDrawer();return false;"><span class="material-symbols-outlined">home</span>Home</a>
+    <a href="#" class="drawer-item" onclick="navigate('home');closeDrawer();return false;"><span class="material-symbols-outlined">home</span>Dashboard</a>
     <a href="#" class="drawer-item" onclick="openListing('receita');closeDrawer();return false;"><span class="material-symbols-outlined">arrow_downward</span>Receitas</a>
     <a href="#" class="drawer-item" onclick="openListing('despesa');closeDrawer();return false;"><span class="material-symbols-outlined">arrow_upward</span>Despesas</a>
     <a href="#" class="drawer-item" onclick="openListing('investimento');closeDrawer();return false;"><span class="material-symbols-outlined">trending_up</span>Investimentos</a>
