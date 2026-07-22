@@ -498,7 +498,7 @@ function dpSelectDay(d) {
 function renderDatePicker() {
   document.getElementById('dp-month-label').textContent = `${DP_MONTHS_FULL[dpMonth]} ${dpYear}`;
   document.getElementById('dp-weekdays').innerHTML = DP_WEEKDAYS.map(w =>
-    `<span class="small text-secondary">${w}</span>`
+    `<span class="small text-secondary fw-semibold">${w}</span>`
   ).join('');
 
   const today = new Date(); today.setHours(0,0,0,0);

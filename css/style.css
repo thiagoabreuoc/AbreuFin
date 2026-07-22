@@ -163,7 +163,7 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 .dp-day{position:relative;overflow:hidden;width:100%;aspect-ratio:1;border:none;background:transparent;border-radius:50%;font-size:.8rem;color:var(--md-sys-color-on-surface);cursor:pointer;transition:background var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-standard)}
 .dp-day:hover{background:var(--md-sys-color-surface-container-highest)}
 .dp-day-today{border:1px solid var(--md-sys-color-primary)!important;color:var(--md-sys-color-primary)}
-.dp-day-selected{width:32px;height:32px;aspect-ratio:auto;margin:0 auto;background:var(--md-sys-color-primary)!important;color:var(--md-sys-color-on-primary)!important;font-weight:600}
+.dp-day-selected{width:32px;height:32px;aspect-ratio:auto;justify-self:center;align-self:center;background:var(--md-sys-color-primary)!important;color:var(--md-sys-color-on-primary)!important;font-weight:600}
 
 /* Primary tabs (M3) — https://m3.material.io/components/tabs/overview */
 .m3-tabs{display:flex;justify-content:center;border-bottom:1px solid var(--md-sys-color-outline-variant)}
