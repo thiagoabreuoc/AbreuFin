@@ -193,14 +193,6 @@ function updateListingTotals(list) {
 function renderListing() {
   const list=getListingEntries();
   updateListingTotals(list);
-  // Os 3 bullets de urgência (e o separador antes deles) sempre
-  // aparecem, mesmo sem nenhum item daquele status na lista atual —
-  // são um atalho de ordenação, não um resumo do que já está visível.
-  const setDisp = (id, val) => document.getElementById(id).style.setProperty('display', val, 'important');
-  setDisp('sort-btn-vencido', 'inline-flex');
-  setDisp('sort-btn-vencendo', 'inline-flex');
-  setDisp('sort-btn-neutro', 'inline-flex');
-  setDisp('sort-urgency-sep', 'inline');
   const el=document.getElementById('listing-entries');
   const tableHeader=document.getElementById('listing-table-header');
   if (!list.length){
@@ -360,16 +352,30 @@ function updateSortBtns(){
   // layout (d-inline-flex etc.) também, senão o link perde o flex e os
   // dois ícones internos (seta + símbolo) quebram em duas linhas.
   const base = 'text-decoration-none d-inline-flex align-items-center gap-1';
-  const active = (f,d) => ((sortField===f&&sortDir===d)?'text-primary':'text-secondary') + ' ' + base;
-  document.getElementById('sort-btn-desc').className      = active('valor','desc');
-  document.getElementById('sort-btn-asc').className       = active('valor','asc');
-  document.getElementById('sort-btn-date-desc').className = active('data','desc');
-  document.getElementById('sort-btn-date-asc').className  = active('data','asc');
+  const active = f => (sortField===f?'text-primary':'text-secondary') + ' ' + base;
+  document.getElementById('sort-btn-valor').className = active('valor');
+  document.getElementById('sort-btn-data').className  = active('data');
+  // A seta reflete a direção atual só quando o campo está ativo; parado
+  // (não é o campo de ordenação corrente), mostra a seta "padrão"
+  // (desc — maior valor / mais recente primeiro), que é o que o próximo
+  // clique nesse campo vai aplicar.
+  document.getElementById('sort-valor-arrow').textContent =
+    (sortField==='valor' && sortDir==='asc') ? 'arrow_downward' : 'arrow_upward';
+  document.getElementById('sort-data-arrow').textContent =
+    (sortField==='data' && sortDir==='asc') ? 'arrow_downward' : 'arrow_upward';
 }
 function sortEntries(field,dir){
   pinnedEntryId=null; sortField=field; sortDir=dir; listingLimit=10;
   updateSortBtns();
   renderListing();
+}
+// Um ícone só por campo (valor/data) em vez de dois (maior/menor,
+// mais recente/mais antigo) — clicar de novo no mesmo campo inverte a
+// direção; clicar num campo diferente troca pra ele com a direção
+// padrão (desc).
+function toggleSort(field){
+  const dir = (sortField===field && sortDir==='desc') ? 'asc' : 'desc';
+  sortEntries(field, dir);
 }
 function clearListingFilter(){
   csReset('f-cat'); csReset('f-subcat'); csReset('f-repeat');
