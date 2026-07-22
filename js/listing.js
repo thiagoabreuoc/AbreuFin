@@ -201,11 +201,17 @@ function renderListing() {
   document.getElementById('sort-btn-neutro').style.display   = hasNeutro   ? 'inline-flex' : 'none';
   document.getElementById('sort-urgency-sep').style.display  = (hasVencido || hasVencendo || hasNeutro) ? 'inline' : 'none';
   const el=document.getElementById('listing-entries');
+  const tableHeader=document.getElementById('listing-table-header');
   if (!list.length){
     el.innerHTML=`<li class="list-group-item text-center text-secondary small py-5 border-0" id="listing-empty-msg" style="border-radius:var(--md-sys-shape-corner-medium)">Nenhum lançamento neste período.</li>`;
+    // #listing-table-header vira display:grid!important no desktop
+    // (responsive.css) independente de ter item — sem lançamento, o
+    // cabeçalho de colunas (Descrição/Categoria/...) fica sem sentido.
+    tableHeader.style.setProperty('display', 'none', 'important');
     positionNovoBtnDesktop();
     return;
   }
+  tableHeader.style.removeProperty('display');
   const visible=list.slice(0,listingLimit);
   el.innerHTML=visible.map(e=>{
     const es=entryStatus(e);
