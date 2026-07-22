@@ -230,11 +230,11 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 .fab-item{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:none;background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);padding:0;border-radius:50%;box-shadow:var(--md-sys-elevation-level2);opacity:0;transform:translateY(6px) scale(.85);transition:opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard-decelerate),transform var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard-decelerate)}
 .fab-item .material-symbols-outlined{font-size:1.3rem;color:var(--md-sys-color-on-primary-container)}
 /* Item "Receita" do FAB Menu na mesma cor do status-cell da tela Receitas */
-.fab-item-receita{background:color-mix(in srgb, var(--md-extended-color-receita-color) 18%, var(--md-sys-color-surface))!important;color:var(--md-extended-color-receita-color)!important}
+.fab-item-receita{background:var(--md-sys-color-surface)!important;color:var(--md-extended-color-receita-color)!important}
 .fab-item-receita .material-symbols-outlined{color:var(--md-extended-color-receita-color)!important}
-.fab-item-despesa{background:color-mix(in srgb, var(--md-sys-color-error) 18%, var(--md-sys-color-surface))!important;color:var(--md-sys-color-error)!important}
+.fab-item-despesa{background:var(--md-sys-color-surface)!important;color:var(--md-sys-color-error)!important}
 .fab-item-despesa .material-symbols-outlined{color:var(--md-sys-color-error)!important}
-.fab-item-investimento{background:color-mix(in srgb, var(--md-extended-color-investimento-color) 18%, var(--md-sys-color-surface))!important;color:var(--md-extended-color-investimento-color)!important}
+.fab-item-investimento{background:var(--md-sys-color-surface)!important;color:var(--md-extended-color-investimento-color)!important}
 .fab-item-investimento .material-symbols-outlined{color:var(--md-extended-color-investimento-color)!important}
 #btn-novo-wrap.fab-open .fab-item-list{pointer-events:all}
 #btn-novo-wrap.fab-open .fab-item{opacity:1;transform:translateY(0) scale(1)}
