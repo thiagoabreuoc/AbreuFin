@@ -207,6 +207,10 @@
     letter-spacing:.02em;
   }
 
+  /* Banner de doação — mais respiro vertical no desktop; o botão "Doar
+     agora" continua igual ao mobile (mesmo style inline, sem sobrescrever) */
+  #banner-doar{padding-top:16px!important;padding-bottom:16px!important}
+
   /* Dados da conta — o CARD continua 100% (como as demais telas); só o
      conteúdo dentro dele (linhas Nome/E-mail/...) e o botão "Desconectar
      do Google" + aviso (que ficam fora do card) é que ficam compactos,
