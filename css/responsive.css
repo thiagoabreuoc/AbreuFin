@@ -19,6 +19,24 @@
 
   #app-shell{display:flex;justify-content:flex-start;align-items:stretch;height:100dvh;padding-left:72px}
 
+  /* Telas de autenticação (sem sidebar) — o padding-left:72px acima e o
+     .app{max-width:900px} abaixo são pensados pro app "logado" ao lado
+     da sidebar; aqui ficariam um vão vazio à esquerda e um formulário
+     esticado. Cartão compacto e centralizado, como um form de login. */
+  body:has(
+    #screen-splash.active, #screen-welcome.active, #screen-login.active,
+    #screen-register.active, #screen-forgot.active, #screen-reset.active
+  ) #app-shell{
+    justify-content:center;
+    padding-left:0;
+  }
+  body:has(
+    #screen-splash.active, #screen-welcome.active, #screen-login.active,
+    #screen-register.active, #screen-forgot.active, #screen-reset.active
+  ) .app{
+    max-width:440px;
+  }
+
   /* Sidebar fixa (fora do fluxo do flex) — reserva 72px permanentes via
      #app-shell{padding-left} pro .app nunca se mexer; ao expandir no
      hover, ela cresce por cima do conteúdo (z-index), em primeiro
