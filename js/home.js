@@ -610,7 +610,7 @@ function renderBanners() {
     </div>`;
   const bannersEl = document.getElementById('home-banners');
   bannersEl.innerHTML = banners;
-  bannersEl.style.marginTop = banners ? '8px' : '0';
+  bannersEl.style.marginTop = banners ? '2px' : '0';
   bannersEl.style.marginBottom = banners ? '16px' : '0';
 }
 
