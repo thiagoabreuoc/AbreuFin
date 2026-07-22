@@ -603,7 +603,7 @@ function renderBanners() {
   if (!dismissedBanners.doar && entries.length >= 10)
     banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-doar" style="background:linear-gradient(135deg,#a78bfa 0%,#8b5cf6 100%);cursor:pointer" onclick="showScreen('doar')">
       <div style="min-width:0" id="banner-doar-text">
-        <div class="fw-bold" id="banner-doar-title" style="color:#ffd54a;font-size:.78rem">Curtindo o app?</div>
+        <div class="fw-bold" id="banner-doar-title" style="color:#fff;font-size:.78rem">Curtindo o app?</div>
         <div class="text-white" id="banner-doar-desc" style="font-size:.68rem;margin-top:1px;line-height:1.35">Faça uma doação via PIX.</div>
       </div>
       <button type="button" class="btn fw-bold flex-shrink-0 ms-2 d-flex align-items-center gap-1" style="background:#ffd54a;color:#5c4d00;border:none;border-radius:8px;white-space:nowrap;padding:5px 10px;font-size:.72rem" onclick="event.stopPropagation();showScreen('doar')">
