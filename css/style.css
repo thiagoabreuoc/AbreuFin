@@ -332,6 +332,13 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 .drop-target-group{transition:background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard),box-shadow var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
 .drop-target-group.drop-target-active{background-color:var(--md-sys-color-primary-container)!important;box-shadow:inset 0 0 0 2px var(--md-sys-color-primary)}
 
+/* Some com #listing-table-header (cabeçalho de colunas da Listagem,
+   só existe no desktop) quando não há lançamentos no período — precisa
+   do #id junto (especificidade maior que só a classe) pra vencer o
+   #listing-table-header{display:grid!important} de responsive.css,
+   carregado depois deste arquivo (empate de !important vai pra ordem) */
+#listing-table-header.listing-header-force-hide{display:none!important}
+
 /* Toast — role "inverse-surface" (spec M3 pra snackbar) */
 .toast{background-color:var(--md-sys-color-inverse-surface)!important;color:var(--md-sys-color-inverse-on-surface)!important;border-radius:var(--md-sys-shape-corner-extra-small);box-shadow:var(--md-sys-elevation-level3)}
 

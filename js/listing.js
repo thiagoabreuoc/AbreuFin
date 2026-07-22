@@ -212,11 +212,16 @@ function renderListing() {
     // #listing-table-header vira display:grid!important no desktop
     // (responsive.css) independente de ter item — sem lançamento, o
     // cabeçalho de colunas (Descrição/Categoria/...) fica sem sentido.
-    tableHeader.style.setProperty('display', 'none', 'important');
+    // Classe em vez de mexer no style inline direto: o HTML original já
+    // tem style="display:none" (esconde no mobile) — sobrescrever via
+    // JS e depois tentar "restaurar" com removeProperty apagava esse
+    // display:none original de vez, deixando o cabeçalho reaparecer
+    // como display:block (padrão de <div>) no mobile.
+    tableHeader.classList.add('listing-header-force-hide');
     positionNovoBtnDesktop();
     return;
   }
-  tableHeader.style.removeProperty('display');
+  tableHeader.classList.remove('listing-header-force-hide');
   const visible=list.slice(0,listingLimit);
   el.innerHTML=visible.map(e=>{
     const es=entryStatus(e);
