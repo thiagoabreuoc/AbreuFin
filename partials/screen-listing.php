@@ -14,7 +14,7 @@
     <div style="width:24px"></div>
   </div>
   <div class="screen-body app-body-rounded" style="padding:16px 16px 16px">
-    <div style="display:flex;justify-content:center;align-items:center;gap:8px;margin-bottom:16px" id="listing-status-tabs">
+    <div style="display:flex;justify-content:center;align-items:center;gap:8px;margin-bottom:28px" id="listing-status-tabs">
       <!-- preenchido dinamicamente por openListing() -->
     </div>
     <div class="mb-2" id="listing-filter-sort-row" style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding-left:8px;padding-right:8px">
