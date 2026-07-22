@@ -184,10 +184,22 @@ function buildMonthStrip() {
   // requestAnimationFrame em vez de setTimeout com delay fixo — roda assim
   // que o layout estiver pronto, sem o "flash" de conteúdo não-centralizado
   // que um delay arbitrário (ex.: 50ms) pode deixar visível antes do salto.
-  requestAnimationFrame(function() {
-    var active = strip.querySelector('.btn-primary');
-    if (active) strip.scrollLeft = active.offsetLeft - (strip.offsetWidth / 2) + (active.offsetWidth / 2);
-  });
+  requestAnimationFrame(function() { centerActiveInStrip(strip); });
+}
+
+// offsetLeft do botão é relativo ao offsetParent comum (que inclui
+// qualquer padding do container ao redor do strip, não só o próprio
+// strip), então a conta ficava sistematicamente alguns px fora do
+// centro real. getBoundingClientRect() é sempre absoluto na viewport,
+// sem essa ambiguidade — soma o scroll atual pra achar a posição do
+// botão dentro do CONTEÚDO (independente de onde o scroll está agora).
+function centerActiveInStrip(strip) {
+  const active = strip.querySelector('.btn-primary');
+  if (!active) return;
+  const stripRect = strip.getBoundingClientRect();
+  const activeRect = active.getBoundingClientRect();
+  const activeCenterInContent = (activeRect.left - stripRect.left) + strip.scrollLeft + activeRect.width / 2;
+  strip.scrollLeft = activeCenterInContent - stripRect.width / 2;
 }
 
 function buildYearStrip() {
