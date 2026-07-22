@@ -137,7 +137,11 @@
      escondendo um deles via display inline só no mobile). As abas
      Anual/Mensal viram redundantes (os dois já aparecem sempre) */
   #home-tabs{display:none}
-  #home-value-toggle-slot{margin-top:0}
+  /* #home-tabs fica escondido no desktop (logo abaixo) — o próximo
+     elemento visível depois do toggle passa a ser o grid dos gráficos
+     (#home-summary), não as tabs; espaço maior só aqui, sem afetar o
+     mobile (onde as tabs Anual/Mensal realmente aparecem) */
+  #home-value-toggle-slot{margin-top:0;margin-bottom:20px}
   /* minmax(0,1fr) — sem o minmax, o conteúdo do year/month-strip (vários
      botões de mês, largura mínima grande) força aquela coluna do grid a
      crescer além da metade, desalinhando as duas colunas (mesma causa já
