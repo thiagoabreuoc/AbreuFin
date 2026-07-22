@@ -80,6 +80,12 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .screen-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;-ms-overflow-style:none;scrollbar-width:none}
 .screen-body::-webkit-scrollbar{display:none}
 .screen-body:not(.center-col){padding-bottom:32px!important}
+/* Home tem o botão Novo fixo por cima do conteúdo (position:absolute,
+   bottom:8px) — com banners empilhados (insights/vencido/vencendo/
+   doar) o conteúdo passa a rolar em telas menores, e no fim do scroll
+   o card de saldo ficava embaixo do botão. Reserva espaço extra pra
+   sempre sobrar respiro abaixo do último card, mesmo scrollado até o fim. */
+#home-body{padding-bottom:100px!important}
 
 .avatar-lg{width:56px;height:56px;font-size:22px}
 .avatar-sm{width:32px;height:32px;font-size:14px;box-shadow:0 0 0 1px var(--md-sys-color-primary)}
