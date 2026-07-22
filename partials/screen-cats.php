@@ -10,7 +10,7 @@
     <button class="badge status-cell status-cell-despesa d-inline-flex align-items-center" style="gap:8px" id="cats-tab-despesa"      onclick="switchCatsTab('despesa')"      ><span class="material-symbols-outlined" style="font-size:1rem">arrow_downward</span>Despesas</button>
     <button class="badge status-cell status-cell-investimento d-inline-flex align-items-center" style="gap:8px" id="cats-tab-investimento" onclick="switchCatsTab('investimento')" ><span class="material-symbols-outlined" style="font-size:1rem">trending_up</span>Investimentos</button>
   </div>
-  <div class="screen-body p-3" id="cats-body" style="padding-top:8px!important">
+  <div class="screen-body p-3" id="cats-body" style="padding-top:24px!important">
     <!-- rendered by JS -->
   </div>
 </div>

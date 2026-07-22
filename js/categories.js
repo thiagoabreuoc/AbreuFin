@@ -32,7 +32,7 @@ function byNameAlpha(dir) {
 }
 
 function renderAlphaSortRow(dir, ascCall, descCall) {
-  return '<div style="display:flex;justify-content:center;align-items:center;gap:16px;margin-bottom:12px">' +
+  return '<div style="display:flex;justify-content:center;align-items:center;gap:16px;margin-bottom:24px">' +
     '<a href="#" class="' + (dir === 'asc' ? 'text-primary' : 'text-secondary') + ' text-decoration-none d-inline-flex align-items-center gap-1" onclick="' + ascCall + ';return false;"><span class="material-symbols-outlined" style="font-size:.8rem">arrow_upward</span><span class="material-symbols-outlined" style="font-size:.9rem">sort_by_alpha</span></a>' +
     '<a href="#" class="' + (dir === 'desc' ? 'text-primary' : 'text-secondary') + ' text-decoration-none d-inline-flex align-items-center gap-1" onclick="' + descCall + ';return false;"><span class="material-symbols-outlined" style="font-size:.8rem">arrow_downward</span><span class="material-symbols-outlined" style="font-size:.9rem">sort_by_alpha</span></a>' +
     '</div>';
