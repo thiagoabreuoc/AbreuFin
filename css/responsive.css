@@ -151,6 +151,10 @@
      (align-items:stretch acima) mesmo sobrando o espaço da tira acima dele */
   #home-block-anual,#home-block-mensal{display:flex!important;flex-direction:column}
   .home-chart-card{flex:1}
+  /* sem lançamento nenhum no período, o título (ano/mês) some no
+     desktop — a mensagem "Nenhum lançamento..." dentro do card já dá
+     esse contexto, o título junto fica redundante */
+  .home-periodo-empty{display:none}
 
   /* Listagem — cards ocupam a largura toda (100%) e as colunas (título,
      sub-categoria, recorrência, status, valor, data) ficam padronizadas

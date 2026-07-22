@@ -88,37 +88,52 @@ function updateNovoBtn() {
   positionNovoBtnDesktop();
 }
 
+// Gruda o wrap do botão Novo logo abaixo de `el`, usando `top` (relativo
+// ao .app-content, offsetParent do wrap) em vez de `bottom`+altura da
+// viewport — a conta antiga ignorava a altura do próprio wrap e acabava
+// sobrepondo o elemento de referência.
+function stickNovoBtnBelow(el, gap) {
+  const wrap = document.getElementById('btn-novo-wrap');
+  const container = wrap.offsetParent;
+  const containerTop = container ? container.getBoundingClientRect().top : 0;
+  const elBottom = el.getBoundingClientRect().bottom;
+  // 20px é o padding-top do wrap antes do botão em si começar.
+  wrap.style.bottom = 'auto';
+  wrap.style.top = Math.round(elBottom - containerTop + gap - 20) + 'px';
+}
+
 // No desktop, o conteúdo da Home costuma ser bem menor que a altura da
 // tela (diferente da Listagem, rolável) — em vez de deixar o botão Novo
 // fixo no rodapé do viewport (longe do card de saldo), gruda ele logo
-// abaixo do card. Usa `top` (relativo ao .app-content, offsetParent do
-// wrap) em vez de `bottom`+altura da viewport — a conta antiga ignorava
-// a altura do próprio wrap e acabava sobrepondo o card de saldo.
-// No mobile, o botão sempre fica fixo no rodapé (com respiro), como
-// era originalmente — só o desktop usa a lógica de "grudar no saldo".
+// abaixo do card. No mobile, o botão sempre fica fixo no rodapé (com
+// respiro), como era originalmente — só o desktop usa essa lógica de
+// "grudar no saldo". Na Listagem sem lançamentos (mobile ou desktop),
+// gruda logo abaixo da mensagem "Nenhum lançamento...", em vez de ficar
+// fixo lá embaixo longe dela.
 function positionNovoBtnDesktop() {
   const wrap = document.getElementById('btn-novo-wrap');
   if (!wrap) return;
+  const activeScreen = document.querySelector('.screen.active');
+  const screenId = activeScreen ? activeScreen.id : null;
+
+  if (screenId === 'screen-listing') {
+    const emptyMsg = document.getElementById('listing-empty-msg');
+    if (emptyMsg) { stickNovoBtnBelow(emptyMsg, 32); return; }
+  }
+
   const saldoCard = document.getElementById('home-card-saldo');
-  const homeActive = document.querySelector('.screen.active') && document.querySelector('.screen.active').id === 'screen-home';
+  const homeActive = screenId === 'screen-home';
   if (window.innerWidth < 900 || !homeActive || !saldoCard || getComputedStyle(saldoCard).display === 'none') {
-    // Mobile, Listagem, ou Home sem card de saldo visível (aba Anual):
-    // fixo perto do rodapé do viewport, com um respiro em vez de colado
-    // — `wrap.style.bottom=''` sozinho NÃO bastaria aqui, porque remove
-    // de vez o `bottom:0` que só existia como style inline no HTML (não
-    // uma classe/regra CSS).
+    // Mobile, Listagem (com itens), ou Home sem card de saldo visível
+    // (aba Anual): fixo perto do rodapé do viewport, com um respiro em
+    // vez de colado — `wrap.style.bottom=''` sozinho NÃO bastaria aqui,
+    // porque remove de vez o `bottom:0` que só existia como style
+    // inline no HTML (não uma classe/regra CSS).
     wrap.style.top = '';
     wrap.style.bottom = '8px';
     return;
   }
-  const container = wrap.offsetParent;
-  const containerTop = container ? container.getBoundingClientRect().top : 0;
-  const cardBottom = saldoCard.getBoundingClientRect().bottom;
-  // Respiro visível entre o fim do card de saldo e o topo do botão
-  // (20px é o padding-top do wrap antes do botão em si começar).
-  const gap = 40;
-  wrap.style.bottom = 'auto';
-  wrap.style.top = Math.round(cardBottom - containerTop + gap - 20) + 'px';
+  stickNovoBtnBelow(saldoCard, 40);
 }
 window.addEventListener('resize', positionNovoBtnDesktop);
 
@@ -408,7 +423,7 @@ function emptyChart(aspectRatio) {
   // diferentes, por isso o aspect-ratio vem por parâmetro.
   return `<div style="aspect-ratio:${aspectRatio || '320/100'};display:flex;flex-direction:column;align-items:center;justify-content:center;color:${cssVar('--md-sys-color-outline')}">
     <span class="material-symbols-outlined" style="font-size:1.6rem;margin-bottom:6px">bar_chart</span>
-    <span class="small">Nenhum lançamento neste período ainda</span>
+    <span style="font-size:.72rem">Nenhum lançamento neste período ainda</span>
   </div>`;
 }
 
@@ -601,9 +616,11 @@ function renderHome() {
   const chartDataA = Array.from({length:12}, (_, m) => homeMonthTotals(m, yrA));
   const chartLabelsA = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
   const chartA = buildAreaChart(chartDataA, chartLabelsA);
+  const isEmptyA = dcA.receita + dcA.despesa + dcA.investimento === 0;
 
   const dcM = homeMonthTotals(homeMonth, homeYear);
   const chartM = buildBarChart(dcM);
+  const isEmptyM = dcM.receita + dcM.despesa + dcM.investimento === 0;
   const saldo = dcM.receita - dcM.despesa - dcM.investimento;
   const periodoLabelM = `${MONTHS_FULL[homeMonth]} ${homeYear}`;
 
@@ -611,7 +628,7 @@ function renderHome() {
     <div class="no-scrollbar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px;justify-content:center" id="year-strip"></div>
     <div class="card home-chart-card" id="home-card-anual" style="border-radius:var(--md-sys-shape-corner-small)!important">
       <div class="card-body py-3 px-3">
-        <div class="small text-center mb-2" id="home-periodo-anos" style="font-weight:400">${String(yrA)}</div>
+        <div class="small text-center mb-2${isEmptyA ? ' home-periodo-empty' : ''}" id="home-periodo-anos" style="font-weight:400">${String(yrA)}</div>
         <div class="mb-3">${chartA}</div>
         <div id="home-legend-anos" style="display:flex;justify-content:space-around">${buildLegendHtml(dcA, 'anos')}</div>
       </div>
@@ -622,7 +639,7 @@ function renderHome() {
     <div class="no-scrollbar" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px" id="month-strip"></div>
     <div class="card home-chart-card" id="home-card-mensal" style="border-radius:var(--md-sys-shape-corner-small)!important">
       <div class="card-body py-3 px-3">
-        <div class="small text-center mb-2" id="home-periodo-meses" style="font-weight:400">${periodoLabelM}</div>
+        <div class="small text-center mb-2${isEmptyM ? ' home-periodo-empty' : ''}" id="home-periodo-meses" style="font-weight:400">${periodoLabelM}</div>
         <div class="mb-3">${chartM}</div>
         <div id="home-legend-meses" style="display:flex;justify-content:space-around">${buildLegendHtml(dcM, 'meses')}</div>
       </div>
