@@ -207,6 +207,11 @@
     letter-spacing:.02em;
   }
 
+  /* Dados da conta — card, botão "Desconectar do Google" e o aviso
+     abaixo dele ficavam esticados 100% (herdando a largura do .app,
+     até 900px); compactos e centralizados, como os outros conteúdos de
+     formulário/tela simples no desktop */
+  #account-data-card,#ad-google-section{max-width:480px;margin-left:auto;margin-right:auto}
 
   /* Formulário (Novo lançamento) — grid 2 colunas; `order` reorganiza só
      a visualização em desktop, sem tocar DOM/tab-order/mobile */

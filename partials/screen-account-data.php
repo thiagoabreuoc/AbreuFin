@@ -6,7 +6,7 @@
     <div style="width:24px"></div>
   </div>
   <div class="screen-body p-3 app-body-rounded">
-    <div class="card" style="border-radius:var(--md-sys-shape-corner-large)!important">
+    <div class="card" id="account-data-card" style="border-radius:var(--md-sys-shape-corner-large)!important">
       <div class="card-body d-flex flex-column" style="gap:20px;padding:20px">
         <div class="d-flex align-items-start gap-2">
           <span class="material-symbols-outlined text-secondary" style="font-size:1.1rem;margin-top:1px">person</span>
