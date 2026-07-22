@@ -278,11 +278,20 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 .cs-item:active{background:var(--md-sys-color-surface-container-highest)}
 .cs-none{padding:14px;font-size:.875rem;color:var(--md-sys-color-outline);text-align:center}
 
-/* Botões — shape "Full" (pill) e cores M3 */
-.btn-primary{--bs-btn-color:var(--md-sys-color-on-primary);--bs-btn-bg:var(--md-sys-color-primary);--bs-btn-border-color:var(--md-sys-color-primary);--bs-btn-hover-color:var(--md-sys-color-on-primary);--bs-btn-hover-bg:var(--md-sys-color-primary);--bs-btn-hover-border-color:var(--md-sys-color-primary);--bs-btn-active-color:var(--md-sys-color-on-primary);--bs-btn-active-bg:var(--md-sys-color-primary);--bs-btn-active-border-color:var(--md-sys-color-primary);--bs-btn-disabled-bg:var(--md-sys-color-surface-variant);--bs-btn-disabled-border-color:var(--md-sys-color-surface-variant);border-radius:var(--md-sys-shape-corner-full)}
-.btn-outline-primary{--bs-btn-color:var(--md-sys-color-primary);--bs-btn-border-color:var(--md-sys-color-outline);--bs-btn-hover-color:var(--md-sys-color-on-primary);--bs-btn-hover-bg:var(--md-sys-color-primary);--bs-btn-hover-border-color:var(--md-sys-color-primary);--bs-btn-active-color:var(--md-sys-color-on-primary);--bs-btn-active-bg:var(--md-sys-color-primary);--bs-btn-active-border-color:var(--md-sys-color-primary);border-radius:var(--md-sys-shape-corner-full)}
-.btn-danger{--bs-btn-color:var(--md-sys-color-on-error);--bs-btn-bg:var(--md-sys-color-error);--bs-btn-border-color:var(--md-sys-color-error);--bs-btn-hover-bg:var(--md-sys-color-error);--bs-btn-hover-border-color:var(--md-sys-color-error);border-radius:var(--md-sys-shape-corner-full)}
+/* Botões — shape "Full" (pill) e cores M3.
+   Estados M3 (state layer): hover/active ganham uma leve tintura da
+   própria cor em vez de virar sólido — antes, .btn-outline-primary no
+   hover preenchia com --md-sys-color-primary sólida, ficando idêntico
+   ao .btn-primary (o botão "cheio") e confundindo qual é o principal. */
+.btn-primary{--bs-btn-color:var(--md-sys-color-on-primary);--bs-btn-bg:var(--md-sys-color-primary);--bs-btn-border-color:var(--md-sys-color-primary);--bs-btn-hover-color:var(--md-sys-color-on-primary);--bs-btn-hover-bg:color-mix(in srgb, var(--md-sys-color-primary) 92%, var(--md-sys-color-on-primary) 8%);--bs-btn-hover-border-color:var(--md-sys-color-primary);--bs-btn-active-color:var(--md-sys-color-on-primary);--bs-btn-active-bg:color-mix(in srgb, var(--md-sys-color-primary) 84%, var(--md-sys-color-on-primary) 16%);--bs-btn-active-border-color:var(--md-sys-color-primary);--bs-btn-disabled-bg:var(--md-sys-color-surface-variant);--bs-btn-disabled-border-color:var(--md-sys-color-surface-variant);border-radius:var(--md-sys-shape-corner-full);transition:background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.btn-primary:hover{box-shadow:var(--md-sys-elevation-level1)}
+.btn-outline-primary{--bs-btn-color:var(--md-sys-color-primary);--bs-btn-border-color:var(--md-sys-color-outline);--bs-btn-hover-color:var(--md-sys-color-primary);--bs-btn-hover-bg:color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent);--bs-btn-hover-border-color:var(--md-sys-color-primary);--bs-btn-active-color:var(--md-sys-color-primary);--bs-btn-active-bg:color-mix(in srgb, var(--md-sys-color-primary) 15%, transparent);--bs-btn-active-border-color:var(--md-sys-color-primary);border-radius:var(--md-sys-shape-corner-full);transition:background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.btn-danger{--bs-btn-color:var(--md-sys-color-on-error);--bs-btn-bg:var(--md-sys-color-error);--bs-btn-border-color:var(--md-sys-color-error);--bs-btn-hover-bg:color-mix(in srgb, var(--md-sys-color-error) 92%, var(--md-sys-color-on-error) 8%);--bs-btn-hover-border-color:var(--md-sys-color-error);--bs-btn-active-bg:color-mix(in srgb, var(--md-sys-color-error) 84%, var(--md-sys-color-on-error) 16%);border-radius:var(--md-sys-shape-corner-full)}
 .btn-link,.btn-link:hover{color:var(--md-sys-color-primary);text-decoration:none}
+.btn-link:hover{color:color-mix(in srgb, var(--md-sys-color-primary) 80%, black)}
+/* Anel de foco (teclado) — :focus-visible não aparece em cliques de
+   mouse, só em navegação por Tab, evitando ruído visual em cliques normais */
+.btn:focus-visible{outline:2px solid var(--md-sys-color-primary);outline-offset:2px}
 /* Ícones de navegação (voltar/hamburguer) usam .text-dark do Bootstrap
    (cor fixa, não respeita o tema) — força a cor do tema M3 */
 .btn-link.text-dark{color:var(--md-sys-color-on-surface)!important}
