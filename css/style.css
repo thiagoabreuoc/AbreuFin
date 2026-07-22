@@ -352,3 +352,29 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
 .m3-linear-progress::after{content:'';position:absolute;top:0;left:0;height:100%;width:40%;background:var(--md-sys-color-primary);border-radius:var(--md-sys-shape-corner-full);animation:m3-linear-indeterminate var(--md-sys-motion-duration-long4) var(--md-sys-motion-easing-standard) infinite}
 @keyframes m3-linear-indeterminate{0%{left:-40%}100%{left:100%}}
 
+/* ── Telas muito estreitas (≤380px, ex.: 320px) ──
+   Única exceção à convenção do projeto de manter @media só em
+   css/responsive.css (lá é pro breakpoint desktop) — aqui é o oposto,
+   um ajuste fino pra baixo, só de fonte/espaçamento, sem mudar layout/
+   estrutura. Sem isso, os chips de tipo (Receita/Despesa/Investimento)
+   e os pills de "Repetir a cada" ficavam menores que seu próprio texto
+   (button.status-cell tem overflow:hidden, pro efeito de ripple) e o
+   texto cortava, ou vazava pra fora do .app (que tem overflow:hidden)
+   sem gerar scroll — ambos invisíveis num teste só de scrollWidth. */
+@media (max-width: 380px) {
+  .status-cell{font-size:.68rem;padding:4px 8px!important}
+  .status-cell .material-symbols-outlined{font-size:.9rem!important}
+  #cats-type-tabs,#form-type-tabs{gap:4px!important}
+  #cats-tab-receita,#cats-tab-despesa,#cats-tab-investimento,
+  #tab-tipo-receita,#tab-tipo-despesa,#tab-tipo-investimento{gap:4px!important}
+
+  #repetir-pills{gap:4px!important}
+  #repetir-pills .form-check-label{font-size:.72rem}
+  #repetir-pills .form-check-input{margin-right:2px}
+
+  /* legenda dos gráficos da Home — "sem comparação" (palavra única de
+     10 letras, "comparação", não quebra no meio) estourava a coluna
+     de ~85px e virava "sem" / "comparação" em 2 linhas */
+  .smaller{font-size:.56rem;white-space:nowrap}
+}
+
