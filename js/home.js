@@ -598,8 +598,9 @@ function renderBanners() {
       <button type="button" class="btn btn-link p-0" style="color:inherit;line-height:0" onclick="dismissBanner('vencendo')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
     </div>`;
   if (!dismissedBanners.doar)
-    banners += `<div class="d-flex align-items-center justify-content-center px-3 py-2 mb-2 rounded" id="banner-doar" style="background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);max-height:60px;cursor:pointer" onclick="showScreen('doar')">
-      <span class="small">Curtindo o app? Ajude a mantê-lo com uma doação via Pix.</span>
+    banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-doar" style="background:linear-gradient(135deg,#0f9b7e 0%,#0b6e54 100%);max-height:60px;cursor:pointer" onclick="showScreen('doar')">
+      <span class="small text-white" style="line-height:1.3"><span class="fw-bold" style="color:#ffd54a">Curtindo o app?</span> Ajude a mantê-lo com uma doação via Pix.</span>
+      <button type="button" class="btn btn-sm fw-bold flex-shrink-0 ms-2" style="background:#f5820d;color:#fff;border:none;border-radius:999px;white-space:nowrap;padding:6px 16px" onclick="event.stopPropagation();showScreen('doar')">Doar agora</button>
     </div>`;
   const bannersEl = document.getElementById('home-banners');
   bannersEl.innerHTML = banners;
