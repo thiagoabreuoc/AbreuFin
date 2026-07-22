@@ -500,7 +500,7 @@ function buildLegendHtml(d, periodType) {
     : '';
   return TIPOS.map(tipo =>
     `<div class="text-center" style="flex:1${clickable ? ';cursor:pointer' : ''}" ${clickable ? `onclick="openListing('${tipo}', null, ${homeMonth})"` : ''}>
-      <div class="small d-flex align-items-center justify-content-center gap-2"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:color-mix(in srgb, ${TIPO_META[tipo].cor} 25%, var(--md-sys-color-surface));border:1.5px solid ${TIPO_META[tipo].cor};flex-shrink:0"></span>${TIPO_META[tipo].label}</div>
+      <div class="d-flex align-items-center justify-content-center gap-2" style="font-size:.72rem"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:color-mix(in srgb, ${TIPO_META[tipo].cor} 25%, var(--md-sys-color-surface));border:1.5px solid ${TIPO_META[tipo].cor};flex-shrink:0"></span>${TIPO_META[tipo].label}</div>
       <div class="small">${fmt(d[tipo])}</div>
       ${sub[tipo] || '<div class="smaller">&nbsp;</div>'}
       ${detalheLbl}
