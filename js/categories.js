@@ -31,10 +31,14 @@ function byNameAlpha(dir) {
   };
 }
 
+// Um ícone só (alterna direção ao clicar), mesma lógica do ordenador
+// da Listagem (toggleSort() em js/listing.js) — clicar sempre chama a
+// direção oposta à atual; a seta reflete a direção corrente.
 function renderAlphaSortRow(dir, ascCall, descCall) {
+  const nextCall = dir === 'asc' ? descCall : ascCall;
+  const icon = dir === 'desc' ? 'arrow_downward' : 'arrow_upward';
   return '<div style="display:flex;justify-content:center;align-items:center;gap:16px;margin-bottom:24px">' +
-    '<a href="#" class="' + (dir === 'asc' ? 'text-primary' : 'text-secondary') + ' text-decoration-none d-inline-flex align-items-center gap-1" onclick="' + ascCall + ';return false;"><span class="material-symbols-outlined" style="font-size:.8rem">arrow_upward</span><span class="material-symbols-outlined" style="font-size:.9rem">sort_by_alpha</span></a>' +
-    '<a href="#" class="' + (dir === 'desc' ? 'text-primary' : 'text-secondary') + ' text-decoration-none d-inline-flex align-items-center gap-1" onclick="' + descCall + ';return false;"><span class="material-symbols-outlined" style="font-size:.8rem">arrow_downward</span><span class="material-symbols-outlined" style="font-size:.9rem">sort_by_alpha</span></a>' +
+    '<a href="#" class="text-primary text-decoration-none d-inline-flex align-items-center gap-1" onclick="' + nextCall + ';return false;"><span class="material-symbols-outlined" style="font-size:.8rem">' + icon + '</span><span class="material-symbols-outlined" style="font-size:.9rem">sort_by_alpha</span></a>' +
     '</div>';
 }
 
