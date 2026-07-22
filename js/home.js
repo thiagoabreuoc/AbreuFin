@@ -4,7 +4,7 @@
 let homeTab = 'anos';
 let homeMonth = new Date().getMonth();
 let homeYear = new Date().getFullYear();
-let dismissedBanners = { vencido: false, vencendo: false };
+let dismissedBanners = { vencido: false, vencendo: false, doar: localStorage.getItem('doarBannerDismissed') === '1' };
 
 // Modo de entendimento dos valores da Home: "confirmado" (padrão) só soma
 // o que já foi pago/recebido/investido; "todos" soma tudo, independente
@@ -55,6 +55,10 @@ function dismissBanner(kind) {
     localStorage.setItem('dismissedInsightSignatures', JSON.stringify(merged));
   } else {
     dismissedBanners[kind] = true;
+    // "doar" fica dispensado entre sessões (localStorage), diferente de
+    // vencido/vencendo, que voltam a cada carregamento — são alertas
+    // recorrentes por natureza, o convite pra doação não precisa insistir.
+    if (kind === 'doar') localStorage.setItem('doarBannerDismissed', '1');
   }
   const el = document.getElementById('banner-'+kind);
   if (el) el.remove();
@@ -596,6 +600,11 @@ function renderBanners() {
     banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-vencendo" style="background:var(--md-extended-color-aviso-color-container);color:var(--md-extended-color-aviso-on-color-container)">
       <span class="small" onclick="goToVencendo('vencendo')" style="cursor:pointer">${vencendoCount} lançamento${vencendoCount>1?'s':''} ${vencendoLabel(minVencendoDays)}. <u>Ver</u></span>
       <button type="button" class="btn btn-link p-0" style="color:inherit;line-height:0" onclick="dismissBanner('vencendo')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
+    </div>`;
+  if (!dismissedBanners.doar)
+    banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-doar" style="background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);max-height:60px;cursor:pointer" onclick="showScreen('doar')">
+      <span class="small d-flex align-items-center gap-2"><span class="material-symbols-outlined" style="font-size:1.1rem;flex-shrink:0">volunteer_activism</span>Curtindo o app? Ajude a mantê-lo com uma doação via Pix.</span>
+      <button type="button" class="btn btn-link p-0" style="color:inherit;line-height:0" onclick="event.stopPropagation();dismissBanner('doar')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
     </div>`;
   const bannersEl = document.getElementById('home-banners');
   bannersEl.innerHTML = banners;
