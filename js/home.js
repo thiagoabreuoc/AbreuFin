@@ -321,7 +321,7 @@ function makeLinePath(ys, xs) {
 }
 
 function buildAreaChart(data, xLabels) {
-  if (data.every(d => TIPOS.every(t => d[t] === 0))) return emptyChart();
+  if (data.every(d => TIPOS.every(t => d[t] === 0))) return emptyChart('320/120');
   const W = 320, H = 100, PAD_B = 20, PAD_R = 8;
   const chartW = W - PAD_R;
   const n = data.length;
@@ -398,8 +398,14 @@ function updateYearView() {
   if (pl) pl.textContent = String(yr);
 }
 
-function emptyChart() {
-  return `<div style="height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:${cssVar('--md-sys-color-outline')}">
+function emptyChart(aspectRatio) {
+  // aspect-ratio igual ao viewBox do SVG que essa função substitui — ele
+  // tem width:100% sem height fixo, escalando proporcionalmente à
+  // largura real do card; um height fixo aqui deixava o card "vazio"
+  // com altura diferente do estado com dados, empurrando a legenda.
+  // buildAreaChart usa 320x120, buildBarChart usa 320x100 — proporções
+  // diferentes, por isso o aspect-ratio vem por parâmetro.
+  return `<div style="aspect-ratio:${aspectRatio || '320/100'};display:flex;flex-direction:column;align-items:center;justify-content:center;color:${cssVar('--md-sys-color-outline')}">
     <span class="material-symbols-outlined" style="font-size:1.6rem;margin-bottom:6px">bar_chart</span>
     <span class="small">Nenhum lançamento neste período ainda</span>
   </div>`;
@@ -408,7 +414,7 @@ function emptyChart() {
 let _barRaf = null;
 
 function buildBarChart(d) {
-  if (d.receita + d.despesa + d.investimento === 0) return emptyChart();
+  if (d.receita + d.despesa + d.investimento === 0) return emptyChart('320/100');
   const W = 320, H = 100, R = 6, GAP = 8, MARGIN_X = 4;
   const chartW = W;
   const barsW = chartW - MARGIN_X * 2;
