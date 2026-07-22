@@ -18,8 +18,8 @@
         <div class="d-flex align-items-start gap-2">
           <span class="material-symbols-outlined text-secondary" style="font-size:1.1rem;margin-top:1px">qr_code_2</span>
           <div>
-            <div class="fw-semibold" style="font-size:.82rem">Chave Pix (CPF)</div>
-            <div class="text-secondary small mt-1" id="doar-pix-key">219.757.459-97</div>
+            <div class="fw-semibold" style="font-size:.82rem">Chave Pix (Celular)</div>
+            <div class="text-secondary small mt-1" id="doar-pix-key">(21) 97574-5997</div>
           </div>
         </div>
         <div class="d-flex align-items-start gap-2">
