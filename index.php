@@ -187,17 +187,13 @@ $csrfToken = csrfToken();
         <span class="fw-semibold">Selecionar data</span>
         <button class="btn btn-link text-secondary p-0" onclick="closeDatePicker()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%)"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
       </div>
-      <div class="d-flex align-items-center justify-content-between" style="padding:0 8px">
+      <div class="d-flex align-items-center justify-content-between" style="padding:0 20px">
         <button type="button" class="btn btn-link text-secondary p-0" onclick="dpChangeMonth(-1)" aria-label="Mês anterior"><span class="material-symbols-outlined">chevron_left</span></button>
         <span class="fw-semibold" id="dp-month-label" style="font-size:.95rem"></span>
         <button type="button" class="btn btn-link text-secondary p-0" onclick="dpChangeMonth(1)" aria-label="Próximo mês"><span class="material-symbols-outlined">chevron_right</span></button>
       </div>
       <div id="dp-weekdays" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;padding:12px 12px 4px;text-align:center"></div>
-      <div id="dp-days" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;padding:0 12px 8px;text-align:center"></div>
-      <div class="d-flex justify-content-end gap-2" style="padding:8px 16px 16px">
-        <button class="btn btn-outline-primary btn-sm" type="button" onclick="closeDatePicker()">Cancelar</button>
-        <button class="btn btn-primary btn-sm" type="button" onclick="dpConfirm()" style="padding:10px 24px">OK</button>
-      </div>
+      <div id="dp-days" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;padding:0 12px 16px;text-align:center"></div>
     </div>
 
     <!-- FAB Menu — https://m3.material.io/components/fab-menu/overview -->

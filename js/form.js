@@ -487,14 +487,10 @@ function dpChangeMonth(delta) {
   renderDatePicker();
 }
 
+// Sem Cancelar/OK — selecionar o dia já aplica a data e fecha o modal.
 function dpSelectDay(d) {
   dpSelectedDay = d;
-  renderDatePicker();
-}
-
-function dpConfirm() {
-  if (!dpSelectedDay) { closeDatePicker(); return; }
-  setDataField(String(dpSelectedDay).padStart(2,'0'), String(dpMonth+1).padStart(2,'0'), dpYear);
+  setDataField(String(d).padStart(2,'0'), String(dpMonth+1).padStart(2,'0'), dpYear);
   closeDatePicker();
   scheduleAutoSave();
 }
