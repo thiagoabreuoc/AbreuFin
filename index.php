@@ -77,6 +77,7 @@ $csrfToken = csrfToken();
     <?php include 'partials/screen-export.php'; ?>
     <?php include 'partials/screen-notifications.php'; ?>
     <?php include 'partials/screen-privacy.php'; ?>
+    <?php include 'partials/screen-doar.php'; ?>
     <?php include 'partials/modal.php'; ?>
     <?php include 'partials/toast.php'; ?>
 

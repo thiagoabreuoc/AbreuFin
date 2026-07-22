@@ -45,6 +45,10 @@
         <span class="material-symbols-outlined" style="font-size:1.3rem">privacy_tip</span>
         <span class="fw-normal small">Privacidade e LGPD</span>
       </div>
+      <div class="profile-item d-flex align-items-center gap-3" onclick="showScreen('doar')">
+        <span class="material-symbols-outlined" style="font-size:1.3rem">volunteer_activism</span>
+        <span class="fw-normal small">Apoie o projeto</span>
+      </div>
     </div>
 
     <div class="text-center mt-2">
