@@ -45,7 +45,7 @@
         <span id="ad-unlink-btn-label">Desconectar do Google</span>
       </button>
       <div class="mt-2 px-3 py-2 text-center" id="ad-unlink-hint-box" style="background:#fffde7;color:#5c4d00;border-radius:var(--md-sys-shape-corner-medium)">
-        <span class="small" id="ad-unlink-hint"></span>
+        <span id="ad-unlink-hint" style="font-size:.72rem"></span>
       </div>
     </div>
   </div>
