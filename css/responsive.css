@@ -19,22 +19,31 @@
 
   #app-shell{display:flex;justify-content:flex-start;align-items:stretch;height:100dvh;padding-left:72px}
 
-  /* Telas de autenticação (sem sidebar) — o padding-left:72px acima e o
-     .app{max-width:900px} abaixo são pensados pro app "logado" ao lado
-     da sidebar; aqui ficariam um vão vazio à esquerda e um formulário
-     esticado. Cartão compacto e centralizado, como um form de login. */
+  /* Telas de autenticação (sem sidebar) — o fundo (.app) continua 100%
+     da tela (sem o padding-left:72px reservado da sidebar nem o teto de
+     900px, que são pensados pro app "logado"); só o conteúdo do form
+     (.center-col) fica compacto e centralizado dentro desse fundo cheio,
+     como um form de login moderno. */
   body:has(
     #screen-splash.active, #screen-welcome.active, #screen-login.active,
     #screen-register.active, #screen-forgot.active, #screen-reset.active
   ) #app-shell{
-    justify-content:center;
     padding-left:0;
   }
   body:has(
     #screen-splash.active, #screen-welcome.active, #screen-login.active,
     #screen-register.active, #screen-forgot.active, #screen-reset.active
   ) .app{
-    max-width:440px;
+    max-width:none;
+    flex:1 1 auto;
+  }
+  body:has(
+    #screen-splash.active, #screen-welcome.active, #screen-login.active,
+    #screen-register.active, #screen-forgot.active, #screen-reset.active
+  ) .center-col{
+    max-width:420px;
+    width:100%;
+    margin:0 auto;
   }
 
   /* Sidebar fixa (fora do fluxo do flex) — reserva 72px permanentes via
