@@ -214,6 +214,8 @@
   /* Banner de doação — mais respiro vertical no desktop; o botão "Doar
      agora" continua igual ao mobile (mesmo style inline, sem sobrescrever) */
   #banner-doar{padding-top:16px!important;padding-bottom:16px!important}
+  #banner-doar-title{font-size:1rem!important}
+  #banner-doar-desc{font-size:.85rem!important}
 
   /* Dados da conta — o CARD continua 100% (como as demais telas); só o
      conteúdo dentro dele (linhas Nome/E-mail/...) e o botão "Desconectar
