@@ -212,6 +212,11 @@
      até 900px); compactos, alinhados à esquerda no desktop */
   #account-data-card,#ad-google-section{max-width:480px;margin-left:0;margin-right:auto}
 
+  /* Personalização — card "Tema" ficava esticado 100% (herdando
+     .cat-row-list, que no desktop volta a ser 100% pra Categorias/
+     Exportar dados); compacto, alinhado à esquerda */
+  #personalizacao-tema-card{max-width:480px;margin-left:0;margin-right:auto}
+
   /* Formulário (Novo lançamento) — grid 2 colunas; `order` reorganiza só
      a visualização em desktop, sem tocar DOM/tab-order/mobile */
   #form-fields{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;align-content:start}

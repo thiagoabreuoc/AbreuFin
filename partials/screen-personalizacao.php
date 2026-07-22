@@ -7,14 +7,14 @@
   </div>
   <div class="screen-body p-3 app-body-rounded">
     <div class="list-group cat-row-list">
-      <div class="list-group-item cat-row-card">
+      <div class="list-group-item cat-row-card" id="personalizacao-tema-card">
         <div class="mb-2 text-secondary small fw-semibold">Tema</div>
         <div class="d-flex gap-2">
           <button class="badge status-cell status-cell-white d-inline-flex align-items-center justify-content-center gap-1" id="theme-mode-light" style="flex:1;padding:10px!important" onclick="toggleTheme(false)">
-            <span class="material-symbols-outlined" style="font-size:1.1rem">light_mode</span> Tema claro
+            <span class="material-symbols-outlined" style="font-size:1.1rem">light_mode</span> Claro
           </button>
           <button class="badge status-cell status-cell-white d-inline-flex align-items-center justify-content-center gap-1" id="theme-mode-dark" style="flex:1;padding:10px!important" onclick="toggleTheme(true)">
-            <span class="material-symbols-outlined" style="font-size:1.1rem">dark_mode</span> Tema escuro
+            <span class="material-symbols-outlined" style="font-size:1.1rem">dark_mode</span> Escuro
           </button>
         </div>
       </div>
