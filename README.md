@@ -1,4 +1,4 @@
-# AbreuFin
+# ABFinanças
 
 Aplicativo web pessoal de controle financeiro (receitas, despesas e
 investimentos), em PHP + SQLite no backend e JS puro (sem framework) no

@@ -1,7 +1,7 @@
 /* ────────────────────────────────────────────────────────────────
    Material 3 design tokens (https://m3.material.io/)
 
-   Paleta única do app — "Verde AbreuFin", seed #0f9b7e (a mesma cor
+   Paleta única do app — "Verde ABFinanças", seed #0f9b7e (a mesma cor
    do gradiente do header e das telas de autenticação), gerada com a
    biblioteca oficial @material/material-color-utilities. Cores
    estendidas (receita/investimento/aviso) geradas do mesmo jeito;
@@ -25,7 +25,7 @@
   --md-status-dot-warning:#FFC107;
   --md-status-dot-error:#E53935;
 
-  /* ── Cor — tema claro (default, e único: Verde AbreuFin, seed #0f9b7e) ── */
+  /* ── Cor — tema claro (default, e único: Verde ABFinanças, seed #0f9b7e) ── */
   --md-sys-color-primary:#0f9b7e;
   --md-sys-color-on-primary:#ffffff;
   --md-sys-color-primary-container:#d3eee8;

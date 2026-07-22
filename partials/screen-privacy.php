@@ -11,7 +11,7 @@
     <div class="d-flex flex-column" style="gap:8px;margin-top:12px">
       <details class="privacy-accordion-item" open>
         <summary>1. Quem somos<span class="material-symbols-outlined privacy-accordion-chevron">expand_more</span></summary>
-        <p class="small mb-0 mt-2">O AbreuFin é uma aplicação de controle financeiro pessoal. Esta política descreve como tratamos seus dados em conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).</p>
+        <p class="small mb-0 mt-2">O ABFinanças é uma aplicação de controle financeiro pessoal. Esta política descreve como tratamos seus dados em conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).</p>
       </details>
 
       <details class="privacy-accordion-item">

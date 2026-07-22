@@ -14,19 +14,19 @@ function downloadFile(content, filename, type) {
 function exportCSV() {
   const headers='ID,Tipo,Categoria,Sub-categoria,Valor,DD,MM,AAAA,Status,Observação,Repetir,Notif';
   const rows=entries.map(e=>[e.id,e.tipo,e.categoria,e.subcategoria,e.valor.toFixed(2),e.dd,e.mm,e.yyyy,e.status,`"${e.obs}"`,e.repetir,e.notif].join(','));
-  downloadFile([headers,...rows].join('\n'),'abreufin_export.csv','text/csv;charset=utf-8');
+  downloadFile([headers,...rows].join('\n'),'abfinancas_export.csv','text/csv;charset=utf-8');
   showToast('CSV exportado!','success');
 }
 
 function exportJSON() {
-  downloadFile(JSON.stringify({entries,categories,exportedAt:new Date().toISOString()},null,2),'abreufin_backup.json','application/json');
+  downloadFile(JSON.stringify({entries,categories,exportedAt:new Date().toISOString()},null,2),'abfinancas_backup.json','application/json');
   showToast('JSON exportado!','success');
 }
 
 function buildAnnualReportText() {
   const anoAtual=new Date().getFullYear();
   const yr=getYearTotals(anoAtual);
-  const lines=[`AbreuFin — Relatório Anual ${anoAtual}`,'='.repeat(40),''];
+  const lines=[`ABFinanças — Relatório Anual ${anoAtual}`,'='.repeat(40),''];
   MONTHS.forEach((m,i)=>{
     const d=getMonthTotals(i,anoAtual);
     if (d.receita+d.despesa+d.investimento===0) return;
@@ -47,13 +47,13 @@ function buildAnnualReportText() {
 
 function exportTxt() {
   const { text, anoAtual } = buildAnnualReportText();
-  downloadFile(text,`abreufin_relatorio_${anoAtual}.txt`,'text/plain;charset=utf-8');
+  downloadFile(text,`abfinancas_relatorio_${anoAtual}.txt`,'text/plain;charset=utf-8');
   showToast('Relatório exportado!','success');
 }
 
 function exportEmail() {
   const { text, anoAtual } = buildAnnualReportText();
-  const subject = encodeURIComponent(`AbreuFin — Relatório Anual ${anoAtual}`);
+  const subject = encodeURIComponent(`ABFinanças — Relatório Anual ${anoAtual}`);
   const body = encodeURIComponent(text);
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
 }

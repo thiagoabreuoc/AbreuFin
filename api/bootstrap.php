@@ -79,7 +79,7 @@ if ($pushLast !== $today) {
         if ($overdue)  $parts[] = "{$overdue} despesa(s) vencida(s).";
         if ($upcoming) $parts[] = "{$upcoming} vencendo em 3 dias.";
         if ($parts) {
-            $payload = json_encode(['title' => 'AbreuFin', 'body' => implode(' ', $parts)]);
+            $payload = json_encode(['title' => 'ABFinanças', 'body' => implode(' ', $parts)]);
             $sent = false;
             foreach ($subs as $sub) {
                 $code = wpSend($sub['endpoint'], $sub['p256dh'], $sub['auth'], $payload);

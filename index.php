@@ -14,14 +14,14 @@ $csrfToken = csrfToken();
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>AbreuFin — Controle financeiro pessoal</title>
-<meta name="description" content="AbreuFin é um aplicativo de controle financeiro pessoal: gerencie receitas, despesas e investimentos em um só lugar, de forma simples e segura.">
+<title>ABFinanças — Controle financeiro pessoal</title>
+<meta name="description" content="ABFinanças é um aplicativo de controle financeiro pessoal: gerencie receitas, despesas e investimentos em um só lugar, de forma simples e segura.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="AbreuFin — Controle financeiro pessoal">
+<meta property="og:title" content="ABFinanças — Controle financeiro pessoal">
 <meta property="og:description" content="Gerencie receitas, despesas e investimentos em um só lugar, de forma simples e segura.">
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AbreuFin — Controle financeiro pessoal">
+<meta name="twitter:title" content="ABFinanças — Controle financeiro pessoal">
 <meta name="twitter:description" content="Gerencie receitas, despesas e investimentos em um só lugar, de forma simples e segura.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <script>

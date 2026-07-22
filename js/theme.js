@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════
    THEME (Material 3 — claro/escuro)
 
-   A paleta de cor (Verde AbreuFin) é fixa e vive inteiramente em
+   A paleta de cor (Verde ABFinanças) é fixa e vive inteiramente em
    css/material3-tokens.css — este arquivo só alterna o atributo
    [data-theme] do <html>, que já basta pra trocar todos os tokens
    via CSS (:root vs :root[data-theme="dark"]).
