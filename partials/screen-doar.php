@@ -9,7 +9,7 @@
     <div class="text-center" style="padding:8px 8px 20px">
       <span class="material-symbols-outlined text-primary" style="font-size:2.4rem">volunteer_activism</span>
       <p class="text-secondary small mt-2 mb-0">
-        O ABFinanças é mantido de forma independente. Se ele te ajuda a organizar suas finanças, considere fazer uma doação via Pix para cobrir os custos de manutenção.
+        O Abreu Finanças é mantido de forma independente. Se ele te ajuda a organizar suas finanças, considere fazer uma doação via Pix para cobrir os custos de manutenção.
       </p>
     </div>
 

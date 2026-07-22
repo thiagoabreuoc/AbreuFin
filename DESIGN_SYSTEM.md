@@ -1,6 +1,6 @@
-# Design System — ABFinanças
+# Design System — Abreu Finanças
 
-Este documento descreve o sistema de design do ABFinanças: de onde vêm os
+Este documento descreve o sistema de design do Abreu Finanças: de onde vêm os
 tokens visuais, como estão organizados nos arquivos CSS, quais os padrões
 de componente já existentes e as convenções a seguir ao adicionar algo
 novo. É a referência para manter a UI consistente conforme o app cresce.
@@ -71,7 +71,7 @@ recalculando ou reaplicando cor nenhuma.
 > resolvida em `material3-tokens.css`, mesmo que dependente de estado
 > (o padrão `:root[data-theme="..."]` é o jeito correto de fazer isso).
 
-## 4. Paleta ativa: Verde ABFinanças
+## 4. Paleta ativa: Verde Abreu Finanças
 
 O app tem **uma única paleta de cor**, com seed `#0f9b7e` (a mesma cor do
 gradiente do header e das telas de login/cadastro) — não há mais seletor
