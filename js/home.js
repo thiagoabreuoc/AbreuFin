@@ -597,7 +597,10 @@ function renderBanners() {
       <span class="small" onclick="goToVencendo('vencendo')" style="cursor:pointer">${vencendoCount} lançamento${vencendoCount>1?'s':''} ${vencendoLabel(minVencendoDays)}. <u>Ver</u></span>
       <button type="button" class="btn btn-link p-0" style="color:inherit;line-height:0" onclick="dismissBanner('vencendo')"><span class="material-symbols-outlined" style="font-size:1.1rem">close</span></button>
     </div>`;
-  if (!dismissedBanners.doar)
+  // Só aparece depois que o usuário já incluiu pelo menos 10 lançamentos
+  // no sistema — não faz sentido pedir doação pra quem ainda nem
+  // experimentou o app de verdade.
+  if (!dismissedBanners.doar && entries.length >= 10)
     banners += `<div class="d-flex align-items-center justify-content-between px-3 py-2 mb-2 rounded" id="banner-doar" style="background:linear-gradient(135deg,#0f9b7e 0%,#0b6e54 100%);cursor:pointer" onclick="showScreen('doar')">
       <div style="min-width:0">
         <div class="fw-bold" style="color:#ffd54a;font-size:.78rem">Curtindo o app?</div>
