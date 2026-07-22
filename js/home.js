@@ -118,7 +118,7 @@ function positionNovoBtnDesktop() {
 
   if (screenId === 'screen-listing') {
     const emptyMsg = document.getElementById('listing-empty-msg');
-    if (emptyMsg) { stickNovoBtnBelow(emptyMsg, 8); return; }
+    if (emptyMsg) { stickNovoBtnBelow(emptyMsg, -8); return; }
   }
 
   const saldoCard = document.getElementById('home-card-saldo');
