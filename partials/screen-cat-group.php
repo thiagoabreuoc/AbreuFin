@@ -8,7 +8,7 @@
     </div>
     <div style="width:24px"></div>
   </div>
-  <div class="screen-body p-3 app-body-rounded" id="cat-group-body">
+  <div class="screen-body p-3 app-body-rounded" id="cat-group-body" style="padding-top:24px!important">
     <!-- preenchido por JS -->
   </div>
 </div>
