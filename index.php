@@ -24,6 +24,13 @@ $csrfToken = csrfToken();
 <meta name="twitter:title" content="AB Finanças — Controle financeiro pessoal">
 <meta name="twitter:description" content="Gerencie receitas, despesas e investimentos em um só lugar, de forma simples e segura.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0f9b7e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AB Finanças">
 <script>
 (function() {
   var saved = localStorage.getItem('theme');
@@ -225,6 +232,7 @@ $csrfToken = csrfToken();
     <a href="#" class="drawer-item" onclick="openListing('receita');closeDrawer();return false;"><span class="material-symbols-outlined">arrow_downward</span>Receitas</a>
     <a href="#" class="drawer-item" onclick="openListing('despesa');closeDrawer();return false;"><span class="material-symbols-outlined">arrow_upward</span>Despesas</a>
     <a href="#" class="drawer-item" onclick="openListing('investimento');closeDrawer();return false;"><span class="material-symbols-outlined">trending_up</span>Investimentos</a>
+    <a href="#" class="drawer-item" id="drawer-install-item" onclick="installApp();closeDrawer();return false;"><span class="material-symbols-outlined">install_mobile</span>Instalar app</a>
   </div>
 
 </div><!-- /.app -->
@@ -248,7 +256,7 @@ window.__VAPID_PUBLIC_KEY__ = <?= json_encode(wpVapidPublicKey()) ?>;
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <?php
-$jsFiles = ['data','ripple','api','navigation','auth','account','theme','toast','home','listing','vencendo','form','categories','profile','notifications','export','main'];
+$jsFiles = ['data','ripple','api','navigation','auth','account','theme','toast','home','listing','vencendo','form','categories','profile','notifications','export','install','main'];
 foreach ($jsFiles as $f):
   $v = filemtime(__DIR__."/js/{$f}.js");
 ?>
