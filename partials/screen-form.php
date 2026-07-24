@@ -3,7 +3,19 @@
   <div class="d-flex align-items-center p-3 flex-shrink-0 app-header-gradient">
     <button class="btn btn-link text-dark p-0" onclick="formBack()" aria-label="Voltar"><span class="material-symbols-outlined">arrow_back</span></button>
     <div class="flex-grow-1 text-center fw-bold" id="form-title">Novo</div>
-    <div style="width:24px"></div>
+    <div style="width:24px;position:relative" id="form-menu-wrap">
+      <button class="btn btn-link text-dark p-0" id="form-menu-btn" style="display:none" onclick="toggleFormMenu();return false;" aria-label="Mais opções" aria-haspopup="true">
+        <span class="material-symbols-outlined">more_vert</span>
+      </button>
+      <div id="form-menu-dropdown" class="form-menu-dropdown">
+        <a href="#" class="form-menu-item" onclick="closeFormMenu();confirmClone();return false;">
+          <span class="material-symbols-outlined">content_copy</span> Duplicar p/ próx. mês
+        </a>
+        <a href="#" class="form-menu-item form-menu-item-danger" onclick="closeFormMenu();confirmRemove();return false;">
+          <span class="material-symbols-outlined">delete</span> Remover
+        </a>
+      </div>
+    </div>
   </div>
   <div class="screen-body p-3 app-body-rounded" style="padding-top:28px!important">
 
@@ -111,14 +123,6 @@
       </div>
     </fieldset>
 
-    <div class="d-flex flex-column align-items-center gap-4 mb-3 form-row-full" id="remove-row" style="display:none;margin-top:24px">
-      <a href="#" class="text-primary small fw-semibold text-decoration-none" onclick="confirmClone();return false;">
-        <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">content_copy</span> Duplicar p/ próx. mês
-      </a>
-      <a href="#" class="text-danger small fw-semibold text-decoration-none" onclick="confirmRemove();return false;">
-        <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">delete</span> Remover
-      </a>
-    </div>
 
     <div class="d-flex gap-2 form-row-full" id="form-actions-row" style="margin-top:40px;margin-bottom:32px">
       <button class="btn btn-outline-primary flex-fill" style="padding-top:10px;padding-bottom:10px" onclick="formBack()">Cancelar</button>

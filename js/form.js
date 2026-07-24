@@ -330,7 +330,8 @@ function openNovo(tipo) {
   ensureCSInit();
   editingId=null;
   document.getElementById('form-title').textContent='Novo';
-  document.getElementById('remove-row').style.setProperty('display','none','important');
+  document.getElementById('form-menu-btn').style.display='none';
+  closeFormMenu();
   document.getElementById('form-actions-row').classList.remove('d-none');
   document.getElementById('form-actions-row').classList.add('d-flex');
   clearForm();
@@ -350,7 +351,7 @@ function openEdit(id) {
   document.getElementById('form-actions-row').classList.remove('d-flex');
   document.getElementById('form-actions-row').classList.add('d-none');
   clearForm();
-  document.getElementById('remove-row').style.setProperty('display','flex','important');
+  document.getElementById('form-menu-btn').style.display='flex';
   setTipo(e.tipo);
   setValorField(e.valor);
   setDataField(String(e.dd).padStart(2,'0'), String(e.mm).padStart(2,'0'), e.yyyy);
@@ -708,6 +709,18 @@ async function saveEntry() {
     setBtnLoading(saveBtn, false);
   }
 }
+
+// Menu "..." do header (Duplicar/Remover) — fecha sozinho ao clicar fora.
+function toggleFormMenu() {
+  document.getElementById('form-menu-dropdown').classList.toggle('open');
+}
+function closeFormMenu() {
+  document.getElementById('form-menu-dropdown').classList.remove('open');
+}
+document.addEventListener('click', (e) => {
+  const wrap = document.getElementById('form-menu-wrap');
+  if (wrap && !wrap.contains(e.target)) closeFormMenu();
+});
 
 // Soma 1 mês à data, ajustando o dia se o mês seguinte for mais curto
 // (ex.: 31/01 -> 28 ou 29/02).

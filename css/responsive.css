@@ -241,7 +241,6 @@
   #fieldset-repetir{order:4}
   #fieldset-status{order:5}
   #fieldset-obs{order:6}
-  #remove-row{order:7}
   #form-actions-row{order:8}
   /* Cancelar/Salvar usam .flex-fill (Bootstrap, flex:1 1 auto!important)
      esticando pela largura toda do container (~900px no form, ~560px em
