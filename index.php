@@ -86,7 +86,6 @@ $csrfToken = csrfToken();
     <?php include 'partials/screen-privacy.php'; ?>
     <?php include 'partials/screen-doar.php'; ?>
     <?php include 'partials/modal.php'; ?>
-    <?php include 'partials/install-modal.php'; ?>
     <?php include 'partials/toast.php'; ?>
 
     <!-- Period Picker dropdown card -->
