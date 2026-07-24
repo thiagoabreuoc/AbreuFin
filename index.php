@@ -232,7 +232,13 @@ $csrfToken = csrfToken();
     <a href="#" class="drawer-item" onclick="openListing('receita');closeDrawer();return false;"><span class="material-symbols-outlined">arrow_downward</span>Receitas</a>
     <a href="#" class="drawer-item" onclick="openListing('despesa');closeDrawer();return false;"><span class="material-symbols-outlined">arrow_upward</span>Despesas</a>
     <a href="#" class="drawer-item" onclick="openListing('investimento');closeDrawer();return false;"><span class="material-symbols-outlined">trending_up</span>Investimentos</a>
-    <a href="#" class="drawer-item" id="drawer-install-item" onclick="installApp();closeDrawer();return false;"><span class="material-symbols-outlined">install_mobile</span>Instalar app</a>
+    <a href="#" class="drawer-install-cta" id="drawer-install-item" onclick="installApp();closeDrawer();return false;">
+      <span class="material-symbols-outlined drawer-install-cta-icon">install_mobile</span>
+      <div>
+        <div class="drawer-install-cta-title">Instalar app</div>
+        <div class="drawer-install-cta-sub">Disponível para Android e iOS</div>
+      </div>
+    </a>
   </div>
 
 </div><!-- /.app -->
