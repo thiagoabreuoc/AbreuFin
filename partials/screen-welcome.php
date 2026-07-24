@@ -1,7 +1,7 @@
 <!-- ═══════════════ WELCOME ═══════════════ -->
 <div class="screen hidden auth-screen" id="screen-welcome">
   <div class="screen-body center-col">
-    <div class="auth-icon-badge"><span class="material-symbols-outlined">account_balance_wallet</span></div>
+    <div class="auth-icon-badge"><img src="icons/logo-white.png" alt="AB"></div>
     <h4 class="auth-title">Bem-vindo ao futuro<br>das suas finanças</h4>
     <p class="auth-subtitle">Crie sua carteira digital.</p>
 
