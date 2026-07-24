@@ -70,3 +70,27 @@ function confirmInstallIOS() {
   btn.onclick = hideConfirmModal;
   showConfirmModal();
 }
+
+/* ─────────── Modal "instale o app" — aparece 1x, após o 5º lançamento ─────────── */
+function showInstallModal() {
+  const el = document.getElementById('install-modal');
+  if (!el) return;
+  el.style.display = 'flex';
+  requestAnimationFrame(() => { requestAnimationFrame(() => { el.style.opacity = '1'; }); });
+}
+function dismissInstallModal() {
+  const el = document.getElementById('install-modal');
+  if (!el) return;
+  el.style.opacity = '0';
+  localStorage.setItem('installModalShown', '1');
+  setTimeout(() => { el.style.display = 'none'; }, 190);
+}
+// Chamado depois de criar um lançamento novo — só dispara na primeira vez
+// que o total chega a 5, nunca mais depois de fechado (já tem o atalho
+// fixo "Instale o app" no menu pra quem quiser depois).
+function maybeShowInstallModal() {
+  if (isStandaloneApp()) return;
+  if (localStorage.getItem('installModalShown')) return;
+  if (entries.length < 5) return;
+  showInstallModal();
+}
