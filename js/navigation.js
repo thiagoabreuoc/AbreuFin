@@ -26,6 +26,7 @@ function showScreen(id, push = true) {
   if (appContent) appContent.scrollLeft = 0;
   if (push && screenStack[screenStack.length-1] !== id) screenStack.push(id);
   if (typeof updateNovoBtn === 'function') updateNovoBtn();
+  if (id === 'login' && typeof updateLoginBiometricOption === 'function') updateLoginBiometricOption();
 }
 
 function goBack() {

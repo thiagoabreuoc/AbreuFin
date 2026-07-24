@@ -80,7 +80,6 @@ async function enterApp() {
   screenStack = ['home'];
   showScreen('home', false);
   switchHomeTab('meses');
-  if (typeof lockIfBiometricEnabled === 'function') lockIfBiometricEnabled();
 }
 
 async function doLogin() {
@@ -97,6 +96,7 @@ async function doLogin() {
     await apiLogin(email, senha, lembrar);
     document.getElementById('l-senha').value = '';
     await enterApp();
+    if (typeof maybeSuggestBiometric === 'function') maybeSuggestBiometric();
   } catch (e) {
     err.textContent = e.message;
   } finally {
@@ -122,6 +122,7 @@ async function doRegister() {
     document.getElementById('r-senha').value = '';
     document.getElementById('r-senha2').value = '';
     await enterApp();
+    if (typeof maybeSuggestBiometric === 'function') maybeSuggestBiometric();
   } catch (e) {
     err.textContent = e.message;
   } finally {
@@ -129,9 +130,16 @@ async function doRegister() {
   }
 }
 
+// Com o bloqueio biométrico ativado, "Sair da conta" vira só um bloqueio:
+// a sessão continua válida no servidor (não chama apiLogout), e a
+// biometria passa a ser o único cadeado pra voltar sem digitar senha.
+// Sem biometria ativada, comportamento de sempre (encerra a sessão).
 async function doLogout() {
-  try { await apiLogout(); } catch (e) {}
   if (typeof hideBiometricLock === 'function') hideBiometricLock();
+  const softLock = typeof isBiometricLockEnabled === 'function' && isBiometricLockEnabled();
+  if (!softLock) {
+    try { await apiLogout(); } catch (e) {}
+  }
   currentUser = null;
   catGroups   = { receita: [], despesa: [], investimento: [] };
   categories  = { receita: [], despesa: [], investimento: [] };
@@ -140,4 +148,23 @@ async function doLogout() {
   showScreen('login', false);
   document.getElementById('l-senha').value = '';
   document.getElementById('login-err').textContent = '';
+}
+
+// Escape hatch pra quando o "Sair" virou bloqueio (biometria ativada):
+// encerra a sessão de verdade no servidor e remove a biometria deste
+// aparelho, pra quando precisar mesmo desconectar (ex.: emprestou o
+// celular). Depois disso só entra de novo com e-mail e senha.
+async function fullLogout() {
+  try { await apiLogout(); } catch (e) {}
+  if (typeof disableBiometricLock === 'function') disableBiometricLock();
+  currentUser = null;
+  catGroups   = { receita: [], despesa: [], investimento: [] };
+  categories  = { receita: [], despesa: [], investimento: [] };
+  entries = [];
+  screenStack = ['welcome', 'login'];
+  showScreen('login', false);
+  document.getElementById('l-senha').value = '';
+  document.getElementById('login-err').textContent = '';
+  if (typeof updateLoginBiometricOption === 'function') updateLoginBiometricOption();
+  showToast('Sessão encerrada neste aparelho.', 'success');
 }

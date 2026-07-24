@@ -12,6 +12,7 @@ const GOOGLE_ERROR_MESSAGES = {
 async function syncAuthState() {
   try {
     await enterApp();
+    if (typeof lockIfBiometricEnabled === 'function') lockIfBiometricEnabled();
   } catch (e) {
     console.error('Falha ao entrar no app:', e);
     if (window.__GOOGLE_ERROR__) {

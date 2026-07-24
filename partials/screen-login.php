@@ -7,6 +7,16 @@
     <h4 class="auth-title">Suas finanças,<br>sob controle.</h4>
     <p class="auth-subtitle">Entre e continue de onde parou.</p>
 
+    <div id="login-biometric-option" style="display:none">
+      <button type="button" class="btn auth-btn-primary d-flex align-items-center justify-content-center gap-2" style="width:100%" onclick="attemptBiometricLogin()">
+        <span class="material-symbols-outlined">fingerprint</span> Entrar com biometria
+      </button>
+      <p class="text-center auth-subtitle" style="margin:14px 0 4px">ou entre com e-mail e senha</p>
+      <div class="text-center small mb-3" id="login-full-logout-wrap">
+        <a href="#" class="auth-link text-muted" style="opacity:.8" onclick="fullLogout();return false;">Sair de verdade deste aparelho</a>
+      </div>
+    </div>
+
     <div class="mb-3">
       <input class="form-control auth-input-box" id="l-email" type="email" placeholder="E-mail" autocomplete="email">
     </div>

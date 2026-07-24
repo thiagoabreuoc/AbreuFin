@@ -100,10 +100,9 @@ async function attemptBiometricUnlock() {
   else showToast('Não foi possível confirmar a biometria.', 'error');
 }
 
-// Chamado sempre que o app termina de entrar numa sessão válida (login,
-// reload, volta do bfcache) — se o cadeado estiver ligado, trava a tela
-// e já dispara o gesto biométrico (o navegador pode exigir 1 toque no
-// botão "Desbloquear" se não aceitar disparo automático sem interação).
+// Chamado quando o app reabre sozinho com uma sessão já válida (reload,
+// volta do bfcache) — não em login/registro manual, pra não pedir a
+// biometria de novo logo depois de já ter digitado a senha.
 async function lockIfBiometricEnabled() {
   if (!isBiometricLockEnabled()) return;
   showBiometricLock();
@@ -143,4 +142,45 @@ async function onBiometricToggle(checked) {
     showToast('Bloqueio biométrico desativado.', 'success');
   }
   initBiometricSettings();
+}
+
+/* ─────────── Entrar com biometria (tela de login) ─────────── */
+// Mostra/esconde o botão de acordo com o aparelho ter (ou não) a
+// biometria configurada — chamado sempre que a tela de login aparece.
+function updateLoginBiometricOption() {
+  const wrap = document.getElementById('login-biometric-option');
+  if (!wrap) return;
+  wrap.style.display = isBiometricLockEnabled() ? 'block' : 'none';
+}
+
+async function attemptBiometricLogin() {
+  const ok = await verifyBiometric();
+  if (!ok) { showToast('Não foi possível confirmar a biometria.', 'error'); return; }
+  try {
+    // Só funciona porque doLogout() (com biometria ativada) não destrói
+    // a sessão no servidor — a biometria confirma "é este aparelho de
+    // novo", e enterApp() reaproveita a sessão que já estava válida.
+    await enterApp();
+  } catch (e) {
+    // Sessão não está mais válida (expirou, ou "Sair de verdade" foi
+    // usado) — biometria sozinha não loga sem sessão por trás, então
+    // esconde a opção e deixa o formulário normal de e-mail/senha.
+    showToast('Sessão expirada. Entre com e-mail e senha.', 'error');
+    const wrap = document.getElementById('login-biometric-option');
+    if (wrap) wrap.style.display = 'none';
+  }
+}
+
+/* ─────────── Sugestão de ativar após login manual ─────────── */
+async function maybeSuggestBiometric() {
+  if (isBiometricLockEnabled()) return;
+  if (!(await isBiometricAvailable())) return;
+  document.getElementById('modal-title').textContent = 'Ativar bloqueio biométrico?';
+  document.getElementById('modal-desc').textContent =
+    'Da próxima vez, abra o app com Face ID, digital ou reconhecimento facial, sem digitar senha.';
+  const btn = document.getElementById('modal-confirm-btn');
+  btn.className = 'btn btn-primary flex-fill';
+  btn.textContent = 'Ativar';
+  btn.onclick = async () => { hideConfirmModal(); await enableBiometricLock(); };
+  showConfirmModal();
 }
