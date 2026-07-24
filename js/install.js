@@ -11,14 +11,32 @@ window.addEventListener('beforeinstallprompt', (e) => {
 window.addEventListener('appinstalled', () => {
   _deferredInstallPrompt = null;
   updateInstallMenuItem();
+  if (!localStorage.getItem('pwaInstallTracked')) {
+    localStorage.setItem('pwaInstallTracked', '1');
+    trackPwaInstall('android_appinstalled');
+  }
 });
-document.addEventListener('DOMContentLoaded', updateInstallMenuItem);
+document.addEventListener('DOMContentLoaded', () => {
+  updateInstallMenuItem();
+  // iOS (e qualquer instalação que o appinstalled não tenha pego) não tem
+  // evento de "acabou de instalar" — a melhor aproximação é: primeira vez
+  // que o app abre em modo standalone (ícone na tela de início), nesse
+  // dispositivo/navegador. Um flag no localStorage evita contar de novo
+  // a cada abertura, e evita duplicar quando o appinstalled já contou.
+  if (isStandaloneApp() && !localStorage.getItem('pwaInstallTracked')) {
+    localStorage.setItem('pwaInstallTracked', '1');
+    trackPwaInstall(isIOSDevice() ? 'ios_standalone' : 'android_standalone');
+  }
+});
 
 function isStandaloneApp() {
   return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 }
 function isIOSDevice() {
   return /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+}
+function trackPwaInstall(method) {
+  if (typeof gtag === 'function') gtag('event', 'pwa_install', { method });
 }
 // Já instalado (aberto a partir do ícone na tela de início) — esconde o
 // item do menu, não faz sentido oferecer instalar de novo.
