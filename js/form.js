@@ -680,6 +680,7 @@ async function saveEntry() {
   const repeatCount = repetir && (!editingId || isGroupEdit) ? getRepetirCount() : undefined;
   const entry={tipo,categoria,subcategoria,valor,dd,mm,yyyy,status,obs:document.getElementById('f-obs').value,repetir,repeat_count:repeatCount,notif:false};
 
+  const wasNew = !editingId;
   try {
     let newId = null;
     if (editingId) {
@@ -697,6 +698,7 @@ async function saveEntry() {
       showToast(res.ids.length>1?`Salvo + ${res.ids.length-1} recorrência(s)!`:'Lançamento salvo.','success');
     }
     await refreshData();
+    if (wasNew && typeof maybeShowInstallModal === 'function') maybeShowInstallModal();
     screenStack = ['home'];
     openListing(tipo, newId);
   } catch (e) {
