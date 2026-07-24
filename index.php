@@ -49,7 +49,7 @@ $csrfToken = csrfToken();
 <body>
 <div id="app-shell">
   <nav class="sidebar-desktop" id="sidebar-desktop">
-    <div class="drawer-header"><span class="fw-bold fs-5 text-primary">AB</span></div>
+    <div class="drawer-header"><img src="icons/logo-green.png" alt="AB" style="height:20px;width:auto"></div>
     <a href="#" class="drawer-item" onclick="navigate('home');return false;"><span class="material-symbols-outlined">home</span><span class="drawer-item-label">Dashboard</span></a>
     <a href="#" class="drawer-item" onclick="openListing('receita');return false;"><span class="material-symbols-outlined">arrow_upward</span><span class="drawer-item-label">Receitas</span></a>
     <a href="#" class="drawer-item" onclick="openListing('despesa');return false;"><span class="material-symbols-outlined">arrow_downward</span><span class="drawer-item-label">Despesas</span></a>
@@ -226,7 +226,7 @@ $csrfToken = csrfToken();
   <div id="drawer-overlay" onclick="closeDrawer()"></div>
   <div id="drawer">
     <div class="drawer-header">
-      <span class="fw-bold fs-5 text-primary">AB</span>
+      <img src="icons/logo-green.png" alt="AB" style="height:20px;width:auto">
       <button class="btn btn-link text-secondary p-0" onclick="closeDrawer()"><span class="material-symbols-outlined">close</span></button>
     </div>
     <a href="#" class="drawer-item" onclick="navigate('home');closeDrawer();return false;"><span class="material-symbols-outlined">home</span>Dashboard</a>
