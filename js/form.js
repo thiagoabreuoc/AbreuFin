@@ -719,11 +719,11 @@ function addOneMonth(dd, mm, yyyy) {
 }
 
 function confirmClone() {
-  document.getElementById('modal-title').textContent='Clonar lançamento?';
+  document.getElementById('modal-title').textContent='Duplicar lançamento?';
   document.getElementById('modal-desc').textContent='Uma cópia será criada com a data um mês à frente, como pendente.';
   const btn = document.getElementById('modal-confirm-btn');
   btn.className = 'btn btn-primary flex-fill';
-  btn.textContent = 'Clonar';
+  btn.textContent = 'Duplicar';
   btn.onclick = doCloneToNextMonth;
   showConfirmModal();
 }
@@ -743,7 +743,7 @@ async function doCloneToNextMonth() {
       obs: e.obs, repetir: '', notif: e.notif,
     });
     await refreshData();
-    showToast('Lançamento clonado para o próximo mês.', 'success');
+    showToast('Lançamento duplicado para o próximo mês.', 'success');
   } catch (err) {
     showToast(err.message, 'error');
   }
