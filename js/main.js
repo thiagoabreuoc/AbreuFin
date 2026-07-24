@@ -9,11 +9,7 @@ const GOOGLE_ERROR_MESSAGES = {
   email_nao_verificado: 'Seu e-mail do Google precisa estar verificado.',
 };
 
-(async function init() {
-  if (window.__RESET_TOKEN__) {
-    openResetFromLink(window.__RESET_TOKEN__);
-    return;
-  }
+async function syncAuthState() {
   try {
     await enterApp();
   } catch (e) {
@@ -28,7 +24,23 @@ const GOOGLE_ERROR_MESSAGES = {
       showScreen('welcome', false);
     }
   }
+}
+
+(async function init() {
+  if (window.__RESET_TOKEN__) {
+    openResetFromLink(window.__RESET_TOKEN__);
+    return;
+  }
+  await syncAuthState();
 })();
+
+/* Voltar pelo botão do navegador depois de sair da conta restaura a página
+   do cache (bfcache) sem re-executar este script — a tela ficava presa no
+   estado (ex.: Home) de antes do logout, sem dados. pageshow com persisted
+   dispara nesse caso e força reconferir a sessão atual. */
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) syncAuthState();
+});
 
 /* Sidebar desktop: expande por posição do mouse (não :hover puro) — o
    .fab-scrim cobre a tela inteira (pointer-events:all) quando o menu do
