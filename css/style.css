@@ -69,7 +69,13 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .app{width:100%;max-width:560px;height:100dvh;background:var(--md-sys-color-surface);position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 24px color-mix(in srgb, var(--md-sys-color-scrim) 40%, transparent)}
 
 /* app-content: o container que hospeda todas as telas */
-.app-content{flex:1;position:relative;overflow:hidden;min-height:0;background:var(--md-sys-color-surface)}
+/* overflow:clip (não hidden) — as telas fora de tela ficam posicionadas
+   via transform:translateX(100%), fora da caixa visível; com "hidden" o
+   navegador ainda trata isso como container rolável e o foco automático
+   num input (ex.: campo de e-mail/senha) arrasta um scrollLeft residual
+   pra dentro dele, empurrando a tela ativa pra esquerda e revelando um
+   pedaço da próxima tela — "clip" desativa scroll de verdade. */
+.app-content{flex:1;position:relative;overflow:clip;min-height:0;background:var(--md-sys-color-surface)}
 
 /* Shell "app" único, usado em qualquer largura de tela — sem layout desktop
    separado. Navegação sempre via hamburguer + drawer (ver #drawer abaixo). */

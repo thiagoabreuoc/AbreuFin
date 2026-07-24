@@ -22,6 +22,8 @@ function showScreen(id, push = true) {
   });
   document.getElementById('screen-'+id).classList.remove('hidden');
   document.getElementById('screen-'+id).classList.add('active');
+  const appContent = document.getElementById('app-content');
+  if (appContent) appContent.scrollLeft = 0;
   if (push && screenStack[screenStack.length-1] !== id) screenStack.push(id);
   if (typeof updateNovoBtn === 'function') updateNovoBtn();
 }
