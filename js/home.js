@@ -704,9 +704,14 @@ function switchNotifTab(tab) {
   renderNotifCenter();
 }
 
+// Abre direto na aba que tem conteúdo — se as duas tiverem, prioriza
+// Vencimentos. Se nenhuma tiver, mantém Vencimentos como padrão.
 function openNotifCenter() {
-  _notifTab = 'vencimentos';
-  ['vencimentos','insights'].forEach(t => setTabActive(document.getElementById('notif-tab-'+t), t==='vencimentos'));
+  const { vencendoCount, vencidoCount } = getAlertCounts();
+  const hasVencimentos = vencendoCount > 0 || vencidoCount > 0;
+  const hasInsights = (insights || []).length > 0;
+  _notifTab = hasVencimentos || !hasInsights ? 'vencimentos' : 'insights';
+  ['vencimentos','insights'].forEach(t => setTabActive(document.getElementById('notif-tab-'+t), t===_notifTab));
   renderNotifCenter();
 }
 
