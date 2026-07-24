@@ -3,7 +3,7 @@
   <div class="screen-body center-col">
     <div class="auth-icon-badge"><img src="icons/logo-white.png" alt="AB"></div>
     <h4 class="auth-title">Bem-vindo ao futuro<br>das suas finanças</h4>
-    <p class="auth-subtitle">Crie sua carteira digital.</p>
+    <p class="auth-subtitle">Organize seus gastos.</p>
 
     <button class="btn auth-btn-primary d-block mx-auto mt-3" onclick="showScreen('register')">Começar</button>
 
