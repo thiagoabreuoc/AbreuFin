@@ -262,7 +262,10 @@ function selectMonth(i) {
     document.getElementById('home-legend-meses').innerHTML = buildLegendHtml(dc, 'meses');
     const saldo = dc.receita - dc.despesa - dc.investimento;
     const sv = document.getElementById('home-saldo-val');
-    if (sv) sv.innerHTML = fmtBig(saldo);
+    if (sv) {
+      sv.innerHTML = fmtBig(saldo);
+      sv.style.color = saldo < 0 ? cssVar('--md-sys-color-error') : '#4caf7d';
+    }
     const sl = document.getElementById('home-periodo-meses');
     if (sl) sl.textContent = `${MONTHS_FULL[homeMonth]} ${homeYear}`;
   } else {
@@ -666,7 +669,7 @@ function renderHome() {
         <div style="font-size:1rem;color:var(--md-sys-color-on-surface-variant)"><span style="font-weight:300">Olá,</span> <span style="font-weight:600">${escapeHtml((currentUser && currentUser.name ? currentUser.name.split(' ')[0] : ''))}</span>,</div>
         <div style="font-size:.72rem;color:var(--md-sys-color-outline);margin-top:1px">Balanço total</div>
       </div>
-      <div style="font-size:1.4rem;font-weight:600;letter-spacing:-.5px;color:#4caf7d" id="home-saldo-val">${fmtBig(saldo)}</div>
+      <div style="font-size:1.4rem;font-weight:600;letter-spacing:-.5px;color:${saldo < 0 ? cssVar('--md-sys-color-error') : '#4caf7d'}" id="home-saldo-val">${fmtBig(saldo)}</div>
     </div>
   </div>`;
 
