@@ -8,12 +8,8 @@
         <span class="material-symbols-outlined">more_vert</span>
       </button>
       <div id="form-menu-dropdown" class="form-menu-dropdown">
-        <a href="#" class="form-menu-item" onclick="closeFormMenu();confirmClone();return false;">
-          <span class="material-symbols-outlined">content_copy</span> Duplicar p/ próx. mês
-        </a>
-        <a href="#" class="form-menu-item form-menu-item-danger" onclick="closeFormMenu();confirmRemove();return false;">
-          <span class="material-symbols-outlined">delete</span> Remover
-        </a>
+        <a href="#" class="form-menu-item" onclick="closeFormMenu();confirmClone();return false;">Duplicar p/ próx. mês</a>
+        <a href="#" class="form-menu-item" onclick="closeFormMenu();confirmRemove();return false;">Remover</a>
       </div>
     </div>
   </div>

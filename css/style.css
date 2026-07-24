@@ -238,10 +238,8 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
    próximo clique fora dele. */
 .form-menu-dropdown{display:none;position:absolute;top:36px;right:0;background:var(--md-sys-color-surface-container-high);border-radius:var(--md-sys-shape-corner-medium);box-shadow:var(--md-sys-elevation-level2);min-width:210px;z-index:50;overflow:hidden}
 .form-menu-dropdown.open{display:block}
-.form-menu-item{display:flex;align-items:center;gap:10px;padding:12px 16px;color:var(--md-sys-color-on-surface);font-size:.85rem;font-weight:600;text-decoration:none;white-space:nowrap}
-.form-menu-item .material-symbols-outlined{font-size:1.1rem}
+.form-menu-item{display:block;padding:16px 18px;color:#000;font-size:.85rem;font-weight:600;text-decoration:none;white-space:nowrap}
 .form-menu-item:hover,.form-menu-item:active{background:var(--md-sys-color-surface-container-highest)}
-.form-menu-item-danger{color:var(--md-sys-color-error)}
 
 /* FAB — cor "primary/onPrimary" (mesmo tom do estado pressed, sempre) */
 .fab-main-btn{position:relative;overflow:hidden;width:44px;height:44px;border-radius:50%;background:var(--md-sys-color-primary)!important;border:none;color:var(--md-sys-color-on-primary)!important;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;box-shadow:var(--md-sys-elevation-level3);transition:transform var(--md-sys-motion-duration-medium3) var(--md-sys-motion-easing-emphasized),box-shadow var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard)}
