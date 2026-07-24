@@ -247,9 +247,13 @@ const SWIPE_PENDING_STATUS = {receita:'a_receber', despesa:'pendente', investime
 const SWIPE_THRESHOLD = 70;
 let _swipeState = null;
 
-function initSwipeCards(container) {
+// renderFn: função de re-render chamada depois de um swipe confirmado —
+// cada tela com cards deslizáveis (Listagem, Vencendo/Vencidas) passa a
+// sua própria, já que o gesto e a lógica de status são genéricos.
+function initSwipeCards(container, renderFn) {
   if (!container || container._swipeInited) return;
   container._swipeInited = true;
+  container._renderFn = renderFn || renderListing;
   container.addEventListener('pointerdown', onSwipePointerDown);
   container.addEventListener('pointermove', onSwipePointerMove);
   container.addEventListener('pointerup', onSwipePointerUp);
@@ -262,7 +266,7 @@ function onSwipePointerDown(e) {
   if (!front) return;
   const wrap = front.closest('.swipe-card-wrap');
   if (!wrap) return;
-  _swipeState = { front, wrap, startX: e.clientX, dx: 0, pointerId: e.pointerId, moved: false };
+  _swipeState = { front, wrap, container: e.currentTarget, startX: e.clientX, dx: 0, pointerId: e.pointerId, moved: false };
   front.style.transition = 'none';
 }
 
@@ -276,7 +280,7 @@ function onSwipePointerMove(e) {
 
 function onSwipePointerUp(e) {
   if (!_swipeState || e.pointerId !== _swipeState.pointerId) return;
-  const { front, wrap, dx, moved } = _swipeState;
+  const { front, wrap, container, dx, moved } = _swipeState;
   _swipeState = null;
   front.style.transition = 'transform var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)';
   front.style.transform = 'translateX(0)';
@@ -292,7 +296,7 @@ function onSwipePointerUp(e) {
   if (!entry) return;
   const newStatus = dx > 0 ? CONFIRMED_STATUS[entry.tipo] : SWIPE_PENDING_STATUS[entry.tipo];
   if (entry.status === newStatus) return;
-  updateEntryStatusSwipe(entry, newStatus);
+  updateEntryStatusSwipe(entry, newStatus, container && container._renderFn);
 }
 
 function suppressNextClick(e) {
@@ -300,10 +304,11 @@ function suppressNextClick(e) {
   e.stopPropagation();
 }
 
-async function updateEntryStatusSwipe(entry, newStatus) {
+async function updateEntryStatusSwipe(entry, newStatus, renderFn) {
+  renderFn = renderFn || renderListing;
   const prevStatus = entry.status;
   entry.status = newStatus;
-  renderListing();
+  renderFn();
   try {
     await apiUpdateEntry(entry.id, {
       tipo: entry.tipo, categoria: entry.categoria, subcategoria: entry.subcategoria,
@@ -313,7 +318,7 @@ async function updateEntryStatusSwipe(entry, newStatus) {
     showToast('Status atualizado.', 'success');
   } catch (err) {
     entry.status = prevStatus;
-    renderListing();
+    renderFn();
     showToast(err.message, 'error');
   }
 }

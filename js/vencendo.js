@@ -27,20 +27,32 @@ function goToVencendo(mode='vencendo') {
   showScreen('vencendo');
   updateVencendoSortBtns();
   renderVencendo();
+  initSwipeCards(document.getElementById('vencendo-entries'), renderVencendo);
 }
 
+// Um ícone só por campo (valor/data), igual à tela de Receitas: clicar de
+// novo no mesmo campo inverte a direção; clicar no outro campo troca pra
+// ele com a direção padrão (asc), a mesma que a seta em repouso já sugere.
 function updateVencendoSortBtns() {
-  const active = (f,d) => (vSortField===f&&vSortDir===d) ? 'text-primary text-decoration-none' : 'text-secondary text-decoration-none';
-  const dd = document.getElementById('vsort-btn-desc');      if (dd) dd.className = active('valor','desc') + ' d-inline-flex align-items-center gap-1';
-  const da = document.getElementById('vsort-btn-asc');       if (da) da.className = active('valor','asc')  + ' d-inline-flex align-items-center gap-1';
-  const td = document.getElementById('vsort-btn-date-desc'); if (td) td.className = active('data','desc')  + ' d-inline-flex align-items-center gap-1';
-  const ta = document.getElementById('vsort-btn-date-asc');  if (ta) ta.className = active('data','asc')   + ' d-inline-flex align-items-center gap-1';
+  const base = 'text-decoration-none d-inline-flex align-items-center gap-1';
+  const active = f => (vSortField===f?'text-primary':'text-secondary') + ' ' + base;
+  document.getElementById('vsort-btn-valor').className = active('valor');
+  document.getElementById('vsort-btn-data').className  = active('data');
+  document.getElementById('vsort-valor-arrow').textContent =
+    (vSortField==='valor' && vSortDir==='desc') ? 'arrow_downward' : 'arrow_upward';
+  document.getElementById('vsort-data-arrow').textContent =
+    (vSortField==='data' && vSortDir==='desc') ? 'arrow_downward' : 'arrow_upward';
 }
 
 function sortVend(field, dir) {
   vSortField = field; vSortDir = dir;
   updateVencendoSortBtns();
   renderVencendo();
+}
+
+function toggleSortVend(field) {
+  const dir = (vSortField===field && vSortDir==='asc') ? 'desc' : 'asc';
+  sortVend(field, dir);
 }
 
 function renderVencendo() {
@@ -66,14 +78,18 @@ function renderVencendo() {
   }
   const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
   el.innerHTML = list.map(e => `
-    <li class="list-group-item cat-row-card d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer">
-      <div>
-        <div class="fw-semibold small">${cap(escapeHtml(e.subcategoria||e.categoria))}</div>
-        <div class="text-secondary small" style="margin-top:4px">${cap(escapeHtml(e.categoria))}</div>
-      </div>
-      <div class="text-end">
-        <span class="badge status-cell status-cell-neutral mb-1">${statusLabel(entryStatus(e))}</span>
-        <div class="fw-semibold small">${fmt(e.valor)}</div>
-        <div class="text-secondary small">${String(e.dd).padStart(2,'0')}/${String(e.mm).padStart(2,'0')}/${e.yyyy}${dueBadge(e)}</div>
+    <li class="swipe-card-wrap" data-entry-id="${e.id}">
+      <div class="swipe-bg swipe-bg-left"><span class="material-symbols-outlined">check_circle</span></div>
+      <div class="swipe-bg swipe-bg-right"><span class="material-symbols-outlined">schedule</span></div>
+      <div class="list-group-item cat-row-card swipe-card-front d-flex justify-content-between align-items-start" onclick="openEdit(${e.id})" style="cursor:pointer">
+        <div>
+          <div class="fw-semibold small">${cap(escapeHtml(e.subcategoria||e.categoria))}</div>
+          <div class="text-secondary small" style="margin-top:4px">${cap(escapeHtml(e.categoria))}</div>
+        </div>
+        <div class="text-end">
+          <span class="badge status-cell status-cell-neutral mb-1">${statusLabel(entryStatus(e))}</span>
+          <div class="fw-semibold small">${fmt(e.valor)}</div>
+          <div class="text-secondary small">${String(e.dd).padStart(2,'0')}/${String(e.mm).padStart(2,'0')}/${e.yyyy}${dueBadge(e)}</div>
+        </div>
       </div></li>`).join('');
 }
