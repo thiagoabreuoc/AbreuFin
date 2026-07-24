@@ -5,7 +5,7 @@
     <div class="flex-grow-1 text-center fw-bold">Insights</div>
     <div style="width:24px"></div>
   </div>
-  <div class="screen-body p-3" id="insights-body">
+  <div class="screen-body p-3 app-body-rounded" id="insights-body">
     <!-- preenchido por JS -->
   </div>
 </div>
