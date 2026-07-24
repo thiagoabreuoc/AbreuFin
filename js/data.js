@@ -7,7 +7,7 @@ const fmt = v => 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2,maxi
 // Valor com os centavos menores/sobrescritos (ex.: "R$ 23.452," seguido de "34" menor), como em referências de apps bancários
 const fmtBig = v => {
   const [intPart, centsPart] = v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}).split(',');
-  return `R$ ${intPart}<span style="font-size:.6em;vertical-align:text-top;position:relative;top:.12em">,${centsPart}</span>`;
+  return `R$ ${intPart}<span style="font-size:.6em;vertical-align:text-top;position:relative;top:.28em">,${centsPart}</span>`;
 };
 const escapeHtml = str => String(str ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
