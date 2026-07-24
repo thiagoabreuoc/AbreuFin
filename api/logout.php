@@ -8,4 +8,11 @@ requireCsrf();
    qualquer ação seguinte, como logar de novo sem dar F5. */
 unset($_SESSION['user_id']);
 session_regenerate_id(true);
+setcookie('remember', '', [
+    'expires' => time() - 3600,
+    'path' => '/',
+    'httponly' => true,
+    'samesite' => 'Lax',
+    'secure' => !empty($_SERVER['HTTPS']),
+]);
 jsonResponse(['ok' => true]);

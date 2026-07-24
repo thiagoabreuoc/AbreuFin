@@ -2,13 +2,46 @@
 /* Sessão + helpers de autenticação e resposta JSON usados pelos endpoints da API */
 require_once __DIR__ . '/db.php';
 
-function startSession(int $cookieLifetimeSeconds = 0): void {
+/* $cookieLifetimeSeconds nulo = chamada genérica (qualquer página/endpoint
+   só retomando a sessão já aberta). Nesses casos reaplicamos a duração
+   escolhida no login (via um cookie auxiliar "remember"), porque o PHP
+   reenvia o Set-Cookie da sessão a cada chamada — sem isso, a próxima
+   requisição depois do login já derrubava o "Lembrar-me" de volta pra
+   cookie de sessão (expira ao fechar o navegador). */
+function startSession(?int $cookieLifetimeSeconds = null): void {
     if (session_status() === PHP_SESSION_ACTIVE) return;
+
+    if ($cookieLifetimeSeconds === null) {
+        $cookieLifetimeSeconds = !empty($_COOKIE['remember']) ? 60 * 60 * 24 * 30 : 0;
+    }
+
+    $secure = !empty($_SERVER['HTTPS']);
+    if ($cookieLifetimeSeconds > 0) {
+        // GC padrão do PHP (~24min) apagaria o arquivo de sessão no servidor
+        // bem antes dos 30 dias do cookie no navegador.
+        ini_set('session.gc_maxlifetime', (string)$cookieLifetimeSeconds);
+        setcookie('remember', '1', [
+            'expires' => time() + $cookieLifetimeSeconds,
+            'path' => '/',
+            'httponly' => true,
+            'samesite' => 'Lax',
+            'secure' => $secure,
+        ]);
+    } else {
+        setcookie('remember', '', [
+            'expires' => time() - 3600,
+            'path' => '/',
+            'httponly' => true,
+            'samesite' => 'Lax',
+            'secure' => $secure,
+        ]);
+    }
+
     session_set_cookie_params([
         'lifetime' => $cookieLifetimeSeconds,
         'httponly' => true,
         'samesite' => 'Lax',
-        'secure' => !empty($_SERVER['HTTPS']),
+        'secure' => $secure,
     ]);
     session_start();
 }
