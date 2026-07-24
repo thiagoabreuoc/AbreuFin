@@ -190,13 +190,40 @@ function updateListingTotals(list) {
     `<div class="fw-semibold" style="font-size:1.15rem">${fmt(total)}</div>`;
 }
 
+// Saldo confirmado acumulado de TODOS os meses anteriores ao informado
+// (efeito cascata: já inclui o que veio antes deles também), mesma
+// convenção do saldo da Home (receita - despesa - investimento, só
+// status confirmado — pendente ainda não aconteceu de verdade).
+function accumulatedBalanceBefore(month, year) {
+  return entries
+    .filter(e => (e.yyyy < year) || (e.yyyy === year && e.mm - 1 < month))
+    .filter(e => e.status === CONFIRMED_STATUS[e.tipo])
+    .reduce((sum, e) => sum + (e.tipo === 'receita' ? e.valor : -e.valor), 0);
+}
+
+// Card não-editável (não é um lançamento de verdade) só pra dar contexto
+// do saldo acumulado ao entrar num mês específico — não aparece na visão
+// "ano inteiro" (listingMonth null), onde a ideia de "mês anterior" não
+// se aplica.
+function previousBalanceCardHtml() {
+  if (listingMonth === null) return '';
+  const yr = listingYear || homeYear;
+  const saldo = accumulatedBalanceBefore(listingMonth, yr);
+  const color = saldo < 0 ? 'var(--md-sys-color-error)' : '#4caf7d';
+  return `<li class="list-group-item cat-row-card d-flex justify-content-between align-items-center" style="cursor:default">
+    <div class="fw-semibold small">Saldo do mês anterior</div>
+    <div class="fw-semibold small" style="color:${color}">${fmt(saldo)}</div>
+  </li>`;
+}
+
 function renderListing() {
   const list=getListingEntries();
   updateListingTotals(list);
   const el=document.getElementById('listing-entries');
   const tableHeader=document.getElementById('listing-table-header');
+  const prevBalanceHtml = previousBalanceCardHtml();
   if (!list.length){
-    el.innerHTML=`<li class="list-group-item text-center text-secondary small py-5 border-0" id="listing-empty-msg" style="border-radius:var(--md-sys-shape-corner-medium)">Nenhum lançamento neste período.</li>`;
+    el.innerHTML=prevBalanceHtml+`<li class="list-group-item text-center text-secondary small py-5 border-0" id="listing-empty-msg" style="border-radius:var(--md-sys-shape-corner-medium)">Nenhum lançamento neste período.</li>`;
     // #listing-table-header vira display:grid!important no desktop
     // (responsive.css) independente de ter item — sem lançamento, o
     // cabeçalho de colunas (Descrição/Categoria/...) fica sem sentido.
@@ -211,7 +238,7 @@ function renderListing() {
   }
   tableHeader.classList.remove('listing-header-force-hide');
   const visible=list.slice(0,listingLimit);
-  el.innerHTML=visible.map(e=>{
+  el.innerHTML=prevBalanceHtml+visible.map(e=>{
     const es=entryStatus(e);
     const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
     const title = cap(escapeHtml(e.subcategoria||e.categoria));
