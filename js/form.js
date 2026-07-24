@@ -707,6 +707,35 @@ async function saveEntry() {
   }
 }
 
+// Soma 1 mês à data, ajustando o dia se o mês seguinte for mais curto
+// (ex.: 31/01 -> 28 ou 29/02).
+function addOneMonth(dd, mm, yyyy) {
+  let nmm = mm + 1, nyyyy = yyyy;
+  if (nmm > 12) { nmm = 1; nyyyy++; }
+  const daysInMonth = new Date(nyyyy, nmm, 0).getDate();
+  return { dd: Math.min(dd, daysInMonth), mm: nmm, yyyy: nyyyy };
+}
+
+async function cloneToNextMonth() {
+  const e = entries.find(x => x.id === editingId);
+  if (!e) return;
+  const { dd, mm, yyyy } = addOneMonth(e.dd, e.mm, e.yyyy);
+  // Sempre nasce pendente (a_pagar/a_receber/a_investir conforme o tipo),
+  // mesmo clonando um lançamento já confirmado — é uma ocorrência futura.
+  const pendingStatus = (STATUS_MAP[e.tipo] || [])[0]?.value || e.status;
+  try {
+    await apiCreateEntry({
+      tipo: e.tipo, categoria: e.categoria, subcategoria: e.subcategoria,
+      valor: e.valor, dd, mm, yyyy, status: pendingStatus,
+      obs: e.obs, repetir: '', notif: e.notif,
+    });
+    await refreshData();
+    showToast('Lançamento clonado para o próximo mês.', 'success');
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
+}
+
 function confirmRemove() {
   document.getElementById('modal-title').textContent='Remover lançamento?';
   document.getElementById('modal-desc').textContent='Esta ação não pode ser desfeita.';

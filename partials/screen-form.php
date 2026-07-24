@@ -111,7 +111,10 @@
       </div>
     </fieldset>
 
-    <div class="text-center mb-3 form-row-full" id="remove-row" style="display:none;margin-top:24px">
+    <div class="d-flex justify-content-center gap-3 mb-3 form-row-full" id="remove-row" style="display:none;margin-top:24px">
+      <a href="#" class="text-primary small text-decoration-none" onclick="cloneToNextMonth();return false;">
+        <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">content_copy</span> Clonar p/ próx. mês
+      </a>
       <a href="#" class="text-danger small text-decoration-none" onclick="confirmRemove();return false;">
         <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-2px">delete</span> Remover
       </a>
