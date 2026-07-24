@@ -7,16 +7,6 @@
     <h4 class="auth-title">Suas finanças,<br>sob controle.</h4>
     <p class="auth-subtitle">Entre e continue de onde parou.</p>
 
-    <div id="login-biometric-option" style="display:none">
-      <button type="button" class="btn auth-btn-primary d-flex align-items-center justify-content-center gap-2" style="width:100%" onclick="attemptBiometricLogin()">
-        <span class="material-symbols-outlined">fingerprint</span> Entrar com biometria
-      </button>
-      <p class="text-center auth-subtitle" style="margin:14px 0 4px">ou entre com e-mail e senha</p>
-      <div class="text-center small mb-3" id="login-full-logout-wrap">
-        <a href="#" class="auth-link text-muted" style="opacity:.8" onclick="fullLogout();return false;">Sair de verdade deste aparelho</a>
-      </div>
-    </div>
-
     <div class="mb-3">
       <input class="form-control auth-input-box" id="l-email" type="email" placeholder="E-mail" autocomplete="email">
     </div>
@@ -35,6 +25,13 @@
     </div>
     <div class="text-center small auth-err" style="min-height:18px;margin:6px 0" id="login-err"></div>
     <button class="btn auth-btn-primary d-block mx-auto mt-2" id="login-submit-btn" onclick="doLogin()">Entrar</button>
+
+    <div id="login-biometric-option" class="text-center" style="display:none;margin-top:20px">
+      <button type="button" class="btn btn-link d-inline-flex align-items-center gap-2 text-decoration-none" style="color:#fff" onclick="attemptBiometricLogin()">
+        <span class="material-symbols-outlined" style="color:#fff">fingerprint</span>
+        <span style="color:#fff">Entrar com biometria</span>
+      </button>
+    </div>
 
     <p class="text-center auth-subtitle mt-4" style="margin-bottom:12px">ou continue com</p>
     <div class="text-center">

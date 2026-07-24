@@ -149,22 +149,3 @@ async function doLogout() {
   document.getElementById('l-senha').value = '';
   document.getElementById('login-err').textContent = '';
 }
-
-// Escape hatch pra quando o "Sair" virou bloqueio (biometria ativada):
-// encerra a sessão de verdade no servidor e remove a biometria deste
-// aparelho, pra quando precisar mesmo desconectar (ex.: emprestou o
-// celular). Depois disso só entra de novo com e-mail e senha.
-async function fullLogout() {
-  try { await apiLogout(); } catch (e) {}
-  if (typeof disableBiometricLock === 'function') disableBiometricLock();
-  currentUser = null;
-  catGroups   = { receita: [], despesa: [], investimento: [] };
-  categories  = { receita: [], despesa: [], investimento: [] };
-  entries = [];
-  screenStack = ['welcome', 'login'];
-  showScreen('login', false);
-  document.getElementById('l-senha').value = '';
-  document.getElementById('login-err').textContent = '';
-  if (typeof updateLoginBiometricOption === 'function') updateLoginBiometricOption();
-  showToast('Sessão encerrada neste aparelho.', 'success');
-}
