@@ -228,7 +228,7 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
    dois sistemas (texto, já que Material Symbols não tem logo da Apple). */
 .drawer-install-cta{display:flex;align-items:center;gap:12px;margin:4px 12px 20px;padding:14px 16px;border-radius:var(--md-sys-shape-corner-medium);text-decoration:none;background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);margin-top:auto;transition:background var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-standard)}
 .drawer-install-cta:hover,.drawer-install-cta:active{background:color-mix(in srgb, var(--md-sys-color-primary-container) 80%, var(--md-sys-color-primary) 20%)}
-.drawer-install-cta-icon{font-size:1.6rem;color:var(--md-sys-color-on-primary-container);flex-shrink:0}
+.drawer-install-cta-icon{font-size:2.2rem;color:var(--md-sys-color-on-primary-container);flex-shrink:0}
 .drawer-install-cta-title{font-weight:700;font-size:.9rem}
 .drawer-install-cta-sub{font-size:.72rem;opacity:.85;margin-top:1px}
 /* FAB — cor "primary/onPrimary" (mesmo tom do estado pressed, sempre) */

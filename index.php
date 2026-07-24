@@ -235,7 +235,7 @@ $csrfToken = csrfToken();
     <a href="#" class="drawer-install-cta" id="drawer-install-item" onclick="installApp();closeDrawer();return false;">
       <span class="material-symbols-outlined drawer-install-cta-icon">install_mobile</span>
       <div>
-        <div class="drawer-install-cta-title">Instalar app</div>
+        <div class="drawer-install-cta-title">Instale o app</div>
         <div class="drawer-install-cta-sub">Disponível para Android e iOS</div>
       </div>
     </a>
