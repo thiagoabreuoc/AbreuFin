@@ -12,6 +12,6 @@
     </div>
   </div>
   <div class="text-center" style="position:absolute;left:0;right:0;bottom:24px;font-size:.7rem;color:rgba(255,255,255,.6)">
-    Criado por Abreu Soluções.
+    Desenvolvido por Abreu Soluções.
   </div>
 </div>
