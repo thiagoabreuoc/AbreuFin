@@ -21,7 +21,7 @@
         <span class="material-symbols-outlined" style="font-size:1.3rem">badge</span>
         <span class="fw-normal small">Dados da conta</span>
       </div>
-      <div class="profile-item d-flex align-items-center gap-3" onclick="showScreen('personalizacao');initThemeToggle()">
+      <div class="profile-item d-flex align-items-center gap-3" onclick="showScreen('personalizacao');initThemeToggle();initBiometricSettings()">
         <span class="material-symbols-outlined" style="font-size:1.3rem">palette</span>
         <span class="fw-normal small">Personalização</span>
       </div>

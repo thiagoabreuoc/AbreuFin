@@ -80,6 +80,7 @@ async function enterApp() {
   screenStack = ['home'];
   showScreen('home', false);
   switchHomeTab('meses');
+  if (typeof lockIfBiometricEnabled === 'function') lockIfBiometricEnabled();
 }
 
 async function doLogin() {
@@ -130,6 +131,7 @@ async function doRegister() {
 
 async function doLogout() {
   try { await apiLogout(); } catch (e) {}
+  if (typeof hideBiometricLock === 'function') hideBiometricLock();
   currentUser = null;
   catGroups   = { receita: [], despesa: [], investimento: [] };
   categories  = { receita: [], despesa: [], investimento: [] };
