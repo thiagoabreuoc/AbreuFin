@@ -330,7 +330,7 @@ function openNovo(tipo) {
   ensureCSInit();
   editingId=null;
   document.getElementById('form-title').textContent='Novo';
-  document.getElementById('remove-row').style.display='none';
+  document.getElementById('remove-row').style.setProperty('display','none','important');
   document.getElementById('form-actions-row').classList.remove('d-none');
   document.getElementById('form-actions-row').classList.add('d-flex');
   clearForm();
@@ -350,7 +350,7 @@ function openEdit(id) {
   document.getElementById('form-actions-row').classList.remove('d-flex');
   document.getElementById('form-actions-row').classList.add('d-none');
   clearForm();
-  document.getElementById('remove-row').style.display='block';
+  document.getElementById('remove-row').style.setProperty('display','flex','important');
   setTipo(e.tipo);
   setValorField(e.valor);
   setDataField(String(e.dd).padStart(2,'0'), String(e.mm).padStart(2,'0'), e.yyyy);
@@ -716,7 +716,18 @@ function addOneMonth(dd, mm, yyyy) {
   return { dd: Math.min(dd, daysInMonth), mm: nmm, yyyy: nyyyy };
 }
 
-async function cloneToNextMonth() {
+function confirmClone() {
+  document.getElementById('modal-title').textContent='Clonar lançamento?';
+  document.getElementById('modal-desc').textContent='Uma cópia será criada com a data um mês à frente, como pendente.';
+  const btn = document.getElementById('modal-confirm-btn');
+  btn.className = 'btn btn-primary flex-fill';
+  btn.textContent = 'Clonar';
+  btn.onclick = doCloneToNextMonth;
+  showConfirmModal();
+}
+
+async function doCloneToNextMonth() {
+  hideConfirmModal();
   const e = entries.find(x => x.id === editingId);
   if (!e) return;
   const { dd, mm, yyyy } = addOneMonth(e.dd, e.mm, e.yyyy);
@@ -739,7 +750,10 @@ async function cloneToNextMonth() {
 function confirmRemove() {
   document.getElementById('modal-title').textContent='Remover lançamento?';
   document.getElementById('modal-desc').textContent='Esta ação não pode ser desfeita.';
-  document.getElementById('modal-confirm-btn').onclick=removeEntry;
+  const btn = document.getElementById('modal-confirm-btn');
+  btn.className = 'btn btn-danger flex-fill';
+  btn.textContent = 'Remover';
+  btn.onclick = removeEntry;
   showConfirmModal();
 }
 async function removeEntry() {
