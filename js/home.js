@@ -666,7 +666,7 @@ function renderHome() {
   const cardSaldo = `<div class="card mb-2" id="home-card-saldo" style="border-radius:var(--md-sys-shape-corner-small)!important${showAnos ? ';display:none' : ''}">
     <div class="card-body d-flex justify-content-between align-items-center py-3 px-3">
       <div>
-        <div style="font-size:1rem;color:var(--md-sys-color-on-surface-variant)"><span style="font-weight:300">Olá,</span> <span style="font-weight:600">${escapeHtml((currentUser && currentUser.name ? currentUser.name.split(' ')[0] : ''))}</span>,</div>
+        <div style="font-size:1rem;color:var(--md-sys-color-on-surface-variant)"><span style="font-weight:300">Olá,</span> <span style="font-weight:600">${escapeHtml((currentUser && currentUser.name ? currentUser.name.split(' ')[0] : ''))}</span>!</div>
         <div style="font-size:.72rem;color:var(--md-sys-color-outline);margin-top:1px">Balanço total</div>
       </div>
       <div style="font-size:1.4rem;font-weight:600;letter-spacing:-.5px;color:${saldo < 0 ? cssVar('--md-sys-color-error') : '#4caf7d'}" id="home-saldo-val">${fmtBig(saldo)}</div>
