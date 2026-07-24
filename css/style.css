@@ -236,7 +236,7 @@ button.status-cell:active::after{opacity:var(--md-sys-state-pressed-opacity)}
    alinhado à direita do botão, mesma lógica de abrir/fechar do
    dropdown de busca (cs-panel): fica fechado por padrão, some no
    próximo clique fora dele. */
-.form-menu-dropdown{display:none;position:absolute;top:36px;right:0;background:var(--md-sys-color-surface-container-high);border-radius:var(--md-sys-shape-corner-medium);box-shadow:var(--md-sys-elevation-level2);min-width:210px;z-index:50;overflow:hidden}
+.form-menu-dropdown{display:none;position:absolute;top:36px;right:0;background:var(--md-sys-color-surface-container-high);border-radius:var(--md-sys-shape-corner-medium);box-shadow:var(--md-sys-elevation-level2);min-width:210px;z-index:50;overflow:hidden;padding:10px 0}
 .form-menu-dropdown.open{display:block}
 .form-menu-item{display:block;padding:16px 18px;color:#000;font-size:.85rem;font-weight:600;text-decoration:none;white-space:nowrap}
 .form-menu-item:hover,.form-menu-item:active{background:var(--md-sys-color-surface-container-highest)}
