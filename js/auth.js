@@ -134,7 +134,7 @@ async function doLogout() {
   catGroups   = { receita: [], despesa: [], investimento: [] };
   categories  = { receita: [], despesa: [], investimento: [] };
   entries = [];
-  screenStack = ['login'];
+  screenStack = ['welcome', 'login'];
   showScreen('login', false);
   document.getElementById('l-senha').value = '';
   document.getElementById('login-err').textContent = '';
