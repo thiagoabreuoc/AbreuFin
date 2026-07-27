@@ -226,6 +226,7 @@
      alinhados à esquerda, em vez de esticar até a largura do .app (900px) */
   #account-data-card .card-body{max-width:400px}
   #ad-google-section{max-width:480px;margin-left:0;margin-right:auto}
+  #account-biometric-card{max-width:480px;margin-left:0;margin-right:auto}
 
   /* Personalização — o CARD "Tema" continua 100%; só o grupo de botões
      Claro/Escuro dentro dele fica compacto */

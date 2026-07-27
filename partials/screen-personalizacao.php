@@ -18,21 +18,6 @@
           </button>
         </div>
       </div>
-
-      <div class="list-group-item cat-row-card">
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="d-flex align-items-center gap-2">
-            <span class="material-symbols-outlined text-primary">fingerprint</span>
-            <div>
-              <div class="fw-semibold small">Bloqueio biométrico</div>
-              <div class="text-muted" id="biometric-status-text" style="font-size:.72rem">Verificando...</div>
-            </div>
-          </div>
-          <div class="form-check form-switch mb-0">
-            <input class="form-check-input" type="checkbox" id="biometric-toggle" role="switch" onchange="onBiometricToggle(this.checked)" disabled>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </div>
