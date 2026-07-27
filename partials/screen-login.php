@@ -7,6 +7,16 @@
     <h4 class="auth-title">Suas finanças,<br>sob controle.</h4>
     <p class="auth-subtitle">Entre e continue de onde parou.</p>
 
+    <a href="api/google_login.php" class="d-flex align-items-center justify-content-between auth-input-box text-decoration-none mb-3" aria-label="Continuar com Google">
+      <span class="fw-semibold" style="color:#fff">Continuar com Google</span>
+      <svg width="22" height="22" viewBox="0 0 18 18" style="flex-shrink:0"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.71v2.26h2.9c1.7-1.57 2.7-3.88 2.7-6.61z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.9-2.26c-.8.54-1.84.86-3.06.86-2.35 0-4.34-1.59-5.05-3.72H.96v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.95 10.7A5.4 5.4 0 0 1 3.66 9c0-.59.1-1.17.29-1.7V4.97H.96A9 9 0 0 0 0 9c0 1.45.35 2.83.96 4.03z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58A9 9 0 0 0 9 0 9 9 0 0 0 .96 4.97L3.95 7.3C4.66 5.17 6.65 3.58 9 3.58z"/></svg>
+    </a>
+    <div class="d-flex align-items-center mb-3">
+      <div style="flex:1;height:1px;background:rgba(255,255,255,.35)"></div>
+      <span class="mx-3" style="color:rgba(255,255,255,.75);font-size:.85rem">ou</span>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,.35)"></div>
+    </div>
+
     <div class="mb-3">
       <input class="form-control auth-input-box" id="l-email" type="email" placeholder="E-mail" autocomplete="email">
     </div>
@@ -31,13 +41,6 @@
         <span class="material-symbols-outlined" style="color:#fff">fingerprint</span>
         <span style="color:#fff">Entrar com biometria</span>
       </button>
-    </div>
-
-    <p class="text-center auth-subtitle mt-4" style="margin-bottom:12px">ou continue com</p>
-    <div class="text-center">
-      <a class="auth-social-circle d-inline-flex" href="api/google_login.php" aria-label="Continuar com Google">
-        <svg width="20" height="20" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.71v2.26h2.9c1.7-1.57 2.7-3.88 2.7-6.61z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.9-2.26c-.8.54-1.84.86-3.06.86-2.35 0-4.34-1.59-5.05-3.72H.96v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.95 10.7A5.4 5.4 0 0 1 3.66 9c0-.59.1-1.17.29-1.7V4.97H.96A9 9 0 0 0 0 9c0 1.45.35 2.83.96 4.03z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58A9 9 0 0 0 9 0 9 9 0 0 0 .96 4.97L3.95 7.3C4.66 5.17 6.65 3.58 9 3.58z"/></svg>
-      </a>
     </div>
 
     <div class="text-center small mt-4">
