@@ -21,7 +21,7 @@ async function openAdminStats() {
     const data = await apiAdminStats();
     el.innerHTML =
       adminStatCardHtml('group', 'Contas cadastradas', data.totalUsers) +
-      adminStatCardHtml('install_mobile', 'Pessoas que instalaram o app', data.totalInstalls) +
+      adminStatCardHtml('install_mobile', 'Vezes que o app foi baixado', data.totalInstalls) +
       adminStatCardHtml('qr_code_2', 'Pessoas que copiaram a chave Pix', data.totalPixCopies);
   } catch (e) {
     el.innerHTML = `<div class="text-center text-danger small py-4">${escapeHtml(e.message)}</div>`;

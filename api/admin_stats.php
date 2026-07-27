@@ -9,7 +9,7 @@ if (!isAdminUser($user)) jsonError('Acesso negado.', 403);
 $pdo = db();
 $totalUsers = (int)$pdo->query('SELECT COUNT(*) FROM users')->fetchColumn();
 
-$stmt = $pdo->prepare("SELECT COUNT(DISTINCT user_id) FROM usage_events WHERE type = 'pwa_install'");
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM usage_events WHERE type = 'pwa_install'");
 $stmt->execute();
 $totalInstalls = (int)$stmt->fetchColumn();
 
