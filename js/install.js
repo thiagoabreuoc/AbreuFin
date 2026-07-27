@@ -33,7 +33,20 @@ function isStandaloneApp() {
   return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 }
 function isIOSDevice() {
-  return /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+  // iPadOS (desde a versão 13) manda o Safari com User-Agent de desktop por
+  // padrão ("Macintosh..."), sem "ipad" nenhum — sem esse fallback via
+  // maxTouchPoints, todo iPad caía no aviso genérico de Android/Chrome.
+  const iPadDesktopUA = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+  return (/iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream) || iPadDesktopUA;
+}
+// No iOS, só o Safari de verdade consegue instalar como app — Chrome,
+// Firefox e Edge no iPhone/iPad são só uma casca do WebKit por exigência
+// da Apple, sem a opção de "Adicionar à Tela de Início".
+function isIOSNonSafariBrowser() {
+  return isIOSDevice() && /CriOS|FxiOS|EdgiOS|OPiOS/i.test(navigator.userAgent);
+}
+function isAndroidDevice() {
+  return /android/i.test(navigator.userAgent);
 }
 function trackPwaInstall(method) {
   if (typeof gtag === 'function') gtag('event', 'pwa_install', { method });
@@ -55,8 +68,20 @@ async function installApp() {
     if (choice.outcome === 'accepted') showToast('App instalado!', 'success');
     return;
   }
+  if (isIOSNonSafariBrowser()) {
+    showToast('No iPhone/iPad, a instalação só funciona pelo Safari — esse navegador não suporta.', 'error');
+    return;
+  }
   if (isIOSDevice()) { confirmInstallIOS(); return; }
-  showToast('Pra instalar, abra este site no Chrome (Android) ou Safari (iPhone).', 'error');
+  if (isAndroidDevice()) {
+    // Chegou aqui mesmo estando no Android/Chrome: o navegador já pode ter
+    // recusado o prompt automático antes (Chrome some com o evento por um
+    // tempo depois de um "não" do usuário) — o menu do navegador continua
+    // funcionando manualmente nesse caso.
+    showToast('Toque no menu (⋮) do navegador e escolha "Instalar app" ou "Adicionar à tela inicial".', 'error');
+    return;
+  }
+  showToast('Pra instalar, abra este site no Chrome (Android) ou Safari (iPhone/iPad).', 'error');
 }
 
 // iOS não tem API de instalação — só o passo manual pelo menu Compartilhar
