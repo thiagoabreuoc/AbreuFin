@@ -97,7 +97,7 @@ function confirmInstallIOS() {
   showConfirmModal();
 }
 
-/* ─────────── Modal "instale o app" — aparece 1x, após o 5º lançamento ─────────── */
+/* ─────────── Modal "instale o app" — aparece 1x, logo após logar ─────────── */
 function showInstallModal() {
   const el = document.getElementById('install-modal');
   if (!el) return;
@@ -111,12 +111,11 @@ function dismissInstallModal() {
   localStorage.setItem('installModalShown', '1');
   setTimeout(() => { el.style.display = 'none'; }, 190);
 }
-// Chamado depois de criar um lançamento novo — só dispara na primeira vez
-// que o total chega a 5, nunca mais depois de fechado (já tem o atalho
-// fixo "Instale o app" no menu pra quem quiser depois).
+// Chamado logo após entrar no app (login, reload, volta do bfcache) — só
+// dispara uma vez (localStorage), nunca mais depois de fechado (já tem o
+// atalho fixo "Instale o app" no menu pra quem quiser depois).
 function maybeShowInstallModal() {
   if (isStandaloneApp()) return;
   if (localStorage.getItem('installModalShown')) return;
-  if (entries.length < 5) return;
   showInstallModal();
 }

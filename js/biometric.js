@@ -173,6 +173,10 @@ async function attemptBiometricLogin() {
 
 /* ─────────── Sugestão de ativar após login manual ─────────── */
 async function maybeSuggestBiometric() {
+  // Evita empilhar com o modal "Instale o app" (também dispara no login) —
+  // se ele acabou de abrir, deixa a sugestão de biometria pro próximo login.
+  const installModal = document.getElementById('install-modal');
+  if (installModal && installModal.style.display === 'flex') return;
   if (isBiometricLockEnabled()) return;
   if (!(await isBiometricAvailable())) return;
   document.getElementById('modal-title').textContent = 'Ativar bloqueio biométrico?';

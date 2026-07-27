@@ -83,6 +83,7 @@ async function enterApp() {
   screenStack = ['home'];
   showScreen('home', false);
   switchHomeTab('meses');
+  if (typeof maybeShowInstallModal === 'function') maybeShowInstallModal();
 }
 
 async function doLogin() {
