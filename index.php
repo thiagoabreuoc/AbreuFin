@@ -23,6 +23,7 @@ $csrfToken = csrfToken();
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="google-site-verification" content="eTp3589BvcZed4hbwmDh8gvYc9Exz1V1ftXcWIhT2xU">
 <title>AB Finanças — Controle financeiro pessoal</title>
 <meta name="description" content="AB Finanças é um aplicativo de controle financeiro pessoal: gerencie receitas, despesas e investimentos em um só lugar, de forma simples e segura.">
 <meta property="og:type" content="website">
