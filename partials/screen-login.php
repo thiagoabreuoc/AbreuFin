@@ -31,7 +31,7 @@
         <input class="form-check-input" type="checkbox" id="l-remember">
         <label class="form-check-label small" for="l-remember">Lembrar-me</label>
       </div>
-      <a href="#" class="auth-link small" style="text-decoration:none" onclick="showScreen('forgot');return false;">Esqueci a senha</a>
+      <a href="#" class="auth-link small" onclick="showScreen('forgot');return false;">Esqueci a senha</a>
     </div>
     <div class="text-center small auth-err" style="min-height:18px;margin:0 0 6px" id="login-err"></div>
     <button class="btn auth-btn-primary d-block mx-auto" style="width:210px" id="login-submit-btn" onclick="doLogin()">Entrar</button>
