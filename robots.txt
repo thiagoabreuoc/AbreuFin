@@ -1,2 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /js/
+Disallow: /css/
+Disallow: /config/
+
+Sitemap: https://abfinancas.online/sitemap.xml

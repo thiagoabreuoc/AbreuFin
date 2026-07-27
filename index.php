@@ -29,9 +29,29 @@ $csrfToken = csrfToken();
 <meta property="og:title" content="AB Finanças — Controle financeiro pessoal">
 <meta property="og:description" content="Gerencie receitas, despesas e investimentos em um só lugar, de forma simples e segura.">
 <meta property="og:locale" content="pt_BR">
-<meta name="twitter:card" content="summary">
+<meta property="og:url" content="https://abfinancas.online/">
+<meta property="og:site_name" content="AB Finanças">
+<meta property="og:image" content="https://abfinancas.online/icons/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AB Finanças — Controle financeiro pessoal">
 <meta name="twitter:description" content="Gerencie receitas, despesas e investimentos em um só lugar, de forma simples e segura.">
+<meta name="twitter:image" content="https://abfinancas.online/icons/og-image.png">
+<link rel="canonical" href="https://abfinancas.online/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "AB Finanças",
+  "url": "https://abfinancas.online/",
+  "description": "Aplicativo de controle financeiro pessoal: gerencie receitas, despesas e investimentos em um só lugar, de forma simples e segura.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web, Android, iOS",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+  "inLanguage": "pt-BR"
+}
+</script>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
