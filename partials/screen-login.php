@@ -33,8 +33,8 @@
       </div>
       <a href="#" class="auth-link small" style="text-decoration:none" onclick="showScreen('forgot');return false;">Esqueci a senha</a>
     </div>
-    <div class="text-center small auth-err" style="min-height:18px;margin:6px 0" id="login-err"></div>
-    <button class="btn auth-btn-primary d-block mx-auto" style="width:210px;margin-top:2px" id="login-submit-btn" onclick="doLogin()">Entrar</button>
+    <div class="text-center small auth-err" style="min-height:18px;margin:0 0 6px" id="login-err"></div>
+    <button class="btn auth-btn-primary d-block mx-auto" style="width:210px" id="login-submit-btn" onclick="doLogin()">Entrar</button>
 
     <div id="login-biometric-option" class="text-center" style="display:none;margin-top:20px">
       <button type="button" class="btn btn-link d-inline-flex align-items-center gap-2 text-decoration-none" style="color:#fff" onclick="attemptBiometricLogin()">
@@ -43,8 +43,8 @@
       </button>
     </div>
 
-    <div class="text-center small mt-4">
-      <a href="#" class="auth-link" onclick="showScreen('register');return false;">Não tem conta? Criar conta</a>
+    <div class="text-center small" style="margin-top:40px">
+      <a href="#" class="auth-link" onclick="showScreen('register');return false;">Não tenho conta. Criar agora</a>
     </div>
   </div>
   <div class="text-center small" style="position:absolute;left:0;right:0;bottom:24px">
