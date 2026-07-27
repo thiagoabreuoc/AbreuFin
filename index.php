@@ -235,7 +235,7 @@ $csrfToken = csrfToken();
        até o gesto de biometria da plataforma confirmar. -->
   <div id="biometric-lock" class="auth-screen" style="display:none;position:absolute;inset:0;z-index:600;flex-direction:column;align-items:center;justify-content:center">
     <img class="auth-logo" src="icons/logo-white.png" alt="AB">
-    <div class="auth-title" style="margin-bottom:28px">Desbloqueie pra continuar</div>
+    <div class="auth-title" style="margin-bottom:28px;font-size:1.1rem">Desbloqueie pra continuar</div>
     <button class="btn auth-btn-primary d-flex align-items-center gap-2" onclick="attemptBiometricUnlock()">
       <span class="material-symbols-outlined">fingerprint</span> Desbloquear
     </button>
