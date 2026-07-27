@@ -128,12 +128,24 @@ function migrate(PDO $pdo): void {
     if (!in_array('insight_last_notif', $userCols, true))
         $pdo->exec("ALTER TABLE users ADD COLUMN insight_last_notif TEXT NOT NULL DEFAULT ''");
 
+    // Eventos de uso pra estatísticas do painel admin (instalação do PWA,
+    // cópia da chave Pix, etc.) — genérico por "type" pra não precisar de
+    // migration nova a cada estatística adicionada no futuro.
+    $pdo->exec("CREATE TABLE IF NOT EXISTS usage_events (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER REFERENCES users(id),
+        type TEXT NOT NULL,
+        meta TEXT NOT NULL DEFAULT '',
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    )");
+
     $pdo->exec("CREATE INDEX IF NOT EXISTS idx_category_groups_user ON category_groups(user_id)");
     $pdo->exec("CREATE INDEX IF NOT EXISTS idx_categories_user ON categories(user_id)");
     $pdo->exec("CREATE INDEX IF NOT EXISTS idx_entries_user ON entries(user_id)");
     $pdo->exec("CREATE INDEX IF NOT EXISTS idx_resets_token ON password_resets(token)");
     $pdo->exec("CREATE INDEX IF NOT EXISTS idx_rate_limits_lookup ON rate_limits(bucket, identifier, created_at)");
     $pdo->exec("CREATE INDEX IF NOT EXISTS idx_push_subs_user ON push_subscriptions(user_id)");
+    $pdo->exec("CREATE INDEX IF NOT EXISTS idx_usage_events_type ON usage_events(type)");
 }
 
 function defaultReceitas(): array {

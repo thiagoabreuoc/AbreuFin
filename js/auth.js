@@ -47,6 +47,9 @@ function applyCurrentUser(user) {
   });
 
   updateGoogleBadge(user.viaGoogle);
+
+  const statsItem = document.getElementById('profile-admin-stats-item');
+  if (statsItem) statsItem.style.setProperty('display', user.isAdmin ? 'flex' : 'none', 'important');
 }
 
 function updateGoogleBadge(viaGoogle) {

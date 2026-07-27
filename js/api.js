@@ -42,3 +42,5 @@ const apiDeleteCategory = (id) => apiCall(`api/categories.php?id=${id}`, 'DELETE
 const apiCreateEntry = (entry) => apiCall('api/entries.php', 'POST', entry);
 const apiUpdateEntry = (id, entry) => apiCall(`api/entries.php?id=${id}`, 'PUT', entry);
 const apiDeleteEntry = (id) => apiCall(`api/entries.php?id=${id}`, 'DELETE');
+const apiTrackEvent = (type, meta = '') => apiCall('api/track_event.php', 'POST', { type, meta });
+const apiAdminStats = () => apiCall('api/admin_stats.php');

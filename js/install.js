@@ -37,6 +37,7 @@ function isIOSDevice() {
 }
 function trackPwaInstall(method) {
   if (typeof gtag === 'function') gtag('event', 'pwa_install', { method });
+  if (typeof apiTrackEvent === 'function') apiTrackEvent('pwa_install', method).catch(() => {});
 }
 // Já instalado (aberto a partir do ícone na tela de início) — esconde o
 // item do menu, não faz sentido oferecer instalar de novo.

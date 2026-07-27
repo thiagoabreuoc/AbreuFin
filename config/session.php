@@ -105,8 +105,17 @@ function currentUserRow(): ?array {
     $user['viaGoogle']    = $user['google_id'] !== null;
     $user['googlePhoto']  = $user['google_photo'] ?? '';
     $user['hasPassword']  = $user['password_hash'] !== '';
+    $user['isAdmin']      = isAdminUser($user);
     unset($user['google_id'], $user['google_photo'], $user['password_hash']);
     return $user;
+}
+
+/* Item "Estatísticas" em Perfil só existe pra essa conta — checagem
+   sempre refeita no servidor (api/admin_stats.php), nunca só escondida
+   no front, já que qualquer usuário logado poderia chamar o endpoint
+   direto. */
+function isAdminUser(?array $user): bool {
+    return $user !== null && strtolower((string)$user['email']) === 'thiagoabreuoc@gmail.com';
 }
 
 /* Regra mínima de força de senha, compartilhada por cadastro, troca e

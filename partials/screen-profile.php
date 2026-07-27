@@ -49,6 +49,10 @@
         <span class="material-symbols-outlined" style="font-size:1.3rem">volunteer_activism</span>
         <span class="fw-normal small">Apoie o projeto</span>
       </div>
+      <div class="profile-item d-flex align-items-center gap-3" id="profile-admin-stats-item" style="display:none" onclick="openAdminStats()">
+        <span class="material-symbols-outlined" style="font-size:1.3rem">query_stats</span>
+        <span class="fw-normal small">Estatísticas</span>
+      </div>
     </div>
 
     <div class="text-center mt-2">

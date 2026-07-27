@@ -109,6 +109,7 @@ $csrfToken = csrfToken();
     <?php include 'partials/screen-cat-group.php'; ?>
     <?php include 'partials/screen-cat-detail.php'; ?>
     <?php include 'partials/screen-profile.php'; ?>
+    <?php include 'partials/screen-admin-stats.php'; ?>
     <?php include 'partials/screen-account-data.php'; ?>
     <?php include 'partials/screen-personalizacao.php'; ?>
     <?php include 'partials/screen-export.php'; ?>
@@ -303,7 +304,7 @@ window.__VAPID_PUBLIC_KEY__ = <?= json_encode(wpVapidPublicKey()) ?>;
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <?php
-$jsFiles = ['data','ripple','api','navigation','auth','account','theme','toast','home','listing','vencendo','form','categories','profile','notifications','export','install','biometric','main'];
+$jsFiles = ['data','ripple','api','navigation','auth','account','theme','toast','home','listing','vencendo','form','categories','profile','notifications','export','install','biometric','admin','main'];
 foreach ($jsFiles as $f):
   $v = filemtime(__DIR__."/js/{$f}.js");
 ?>
