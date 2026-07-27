@@ -117,9 +117,15 @@ body{background:var(--md-sys-color-scrim);display:flex;justify-content:center;al
 .auth-check .form-check-input:checked{background-color:#fff;border-color:#fff;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23159957'%3e%3cpath d='M7 11.5L4.5 9 3 10.5l4 4 9-9L14.5 4z'/%3e%3c/svg%3e")}
 .auth-check .form-check-label{color:rgba(255,255,255,.85)}
 .auth-input-box{background:rgba(255,255,255,.14)!important;border:1.5px solid rgba(255,255,255,.45)!important;border-radius:10px!important;color:#fff!important;padding:14px 16px!important;font-size:.95rem}
-.auth-google-card{background:#fff!important;border-color:#fff!important;color:#000!important}
+.auth-google-card{background:#fff!important;border-color:#fff!important;color:#000!important;-webkit-tap-highlight-color:transparent;position:relative;overflow:hidden}
 .auth-input-box::placeholder{color:rgba(255,255,255,.75)}
 .auth-input-box:focus{background:rgba(255,255,255,.22)!important;border-color:#fff!important;box-shadow:none!important;color:#fff!important}
+/* .auth-google-card também carrega .auth-input-box (pro visual de borda
+   arredondada) — precisa vir DEPOIS de :focus acima (mesma
+   especificidade de seletor, quem ganha é a ordem no arquivo) senão o
+   link, que recebe :focus ao ser clicado, ficava esverdeado/translúcido
+   igual aos campos de input em vez de continuar branco sólido. */
+.auth-google-card:focus,.auth-google-card:active{background:#fff!important;border-color:#fff!important;color:#000!important}
 .auth-social-circle{width:52px;height:52px;border-radius:50%;background:#fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,.15)}
 .auth-spinner{width:32px;height:32px;border-radius:50%;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;margin:24px auto 0;animation:auth-spinner-spin .8s linear infinite}
 @keyframes auth-spinner-spin{to{transform:rotate(360deg)}}

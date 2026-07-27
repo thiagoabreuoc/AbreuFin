@@ -4,7 +4,7 @@
    elementos injetados dinamicamente (delegação)
 ═══════════════════════════════════════ */
 (function () {
-  const SELECTOR = '.btn, .list-group-item, .profile-item, .cs-item, .fab-main-btn, .fab-item, .drawer-item, .m3-tab, button.status-cell, .dp-day';
+  const SELECTOR = '.btn, .list-group-item, .profile-item, .cs-item, .fab-main-btn, .fab-item, .drawer-item, .m3-tab, button.status-cell, .dp-day, .auth-google-card';
 
   document.addEventListener('pointerdown', e => {
     if (e.button !== 0 && e.pointerType === 'mouse') return;
