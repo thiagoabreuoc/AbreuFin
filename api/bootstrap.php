@@ -6,18 +6,6 @@ $pdo = db();
 
 $user = currentUserRow();
 
-// Category migrations (versioned, run once per user)
-$catsVerRow = $pdo->prepare('SELECT cats_ver FROM users WHERE id=?');
-$catsVerRow->execute([$userId]);
-$catsVer = (int)($catsVerRow->fetchColumn() ?? 0);
-$ins = $pdo->prepare('INSERT INTO categories (user_id, tipo, name, emoji, subs) VALUES (?,?,?,?,?)');
-if ($catsVer < 5) {
-    $pdo->prepare('DELETE FROM categories WHERE user_id=?')->execute([$userId]);
-    foreach (defaultCategories() as $c) {
-        $ins->execute([$userId, $c['tipo'], $c['name'], $c['emoji'], json_encode($c['subs'], JSON_UNESCAPED_UNICODE)]);
-    }
-    $pdo->prepare('UPDATE users SET cats_ver=5 WHERE id=?')->execute([$userId]);
-}
 
 $groups = ['receita' => [], 'despesa' => [], 'investimento' => []];
 $gStmt = $pdo->prepare('SELECT id, tipo, name FROM category_groups WHERE user_id = ? ORDER BY id');

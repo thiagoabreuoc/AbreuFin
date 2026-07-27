@@ -29,8 +29,6 @@ $stmt = $pdo->prepare('INSERT INTO users (name, email, password_hash) VALUES (?,
 $stmt->execute([$name, $email, $hash]);
 $userId = (int)$pdo->lastInsertId();
 
-seedDefaultCategories($pdo, $userId);
-
 session_regenerate_id(true);
 $_SESSION['user_id'] = $userId;
 

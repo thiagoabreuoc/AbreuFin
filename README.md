@@ -39,8 +39,7 @@ css/, js/              # estilos e lógica de frontend
   categoria/subcategoria, valor, data (dd/mm/yyyy), status e recorrência
   (`repetir`).
 - **Categorias** (`categories` + `category_groups`): por usuário, com emoji e
-  subcategorias; existe um conjunto de categorias padrão pré-populado
-  (`defaultCategories()` em `config/db.php`).
+  subcategorias; toda conta nova começa sem nenhuma categoria pré-populada.
 - **Notificações**: push web e WhatsApp (via API externa) para lançamentos
   a vencer.
 

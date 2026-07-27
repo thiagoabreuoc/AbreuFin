@@ -54,7 +54,6 @@ if ($user) {
     $stmt = $pdo->prepare('INSERT INTO users (name, email, password_hash, google_id, google_photo) VALUES (?,?,?,?,?)');
     $stmt->execute([$name, $email, '', $googleId, $photo]);
     $userId = (int)$pdo->lastInsertId();
-    seedDefaultCategories($pdo, $userId);
 }
 
 session_regenerate_id(true);
