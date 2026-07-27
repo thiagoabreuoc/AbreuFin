@@ -29,7 +29,7 @@
     <div class="d-flex justify-content-between align-items-center mb-2 auth-check">
       <div class="form-check mb-0">
         <input class="form-check-input" type="checkbox" id="l-remember">
-        <label class="form-check-label" for="l-remember">Lembrar-me</label>
+        <label class="form-check-label small" for="l-remember">Lembrar-me</label>
       </div>
       <a href="#" class="auth-link small" style="text-decoration:none" onclick="showScreen('forgot');return false;">Esqueci a senha?</a>
     </div>
