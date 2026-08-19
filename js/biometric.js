@@ -109,14 +109,6 @@ async function lockIfBiometricEnabled() {
   if (await verifyBiometric()) hideBiometricLock();
 }
 
-// Reforça o cadeado ao voltar pro app (ex.: minimizou e reabriu) —
-// é justamente o cenário que a biometria existe pra cobrir.
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible' && isBiometricLockEnabled() && typeof currentUser !== 'undefined' && currentUser) {
-    lockIfBiometricEnabled();
-  }
-});
-
 /* ─────────── Toggle na tela de Personalização ─────────── */
 async function initBiometricSettings() {
   const toggle = document.getElementById('biometric-toggle');
