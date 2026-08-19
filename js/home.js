@@ -319,26 +319,10 @@ function formatAxisValue(v) {
   return Math.round(v).toLocaleString('pt-BR');
 }
 
-// Arredonda o valor máximo do eixo pra um número "redondo" (1/2/5 × 10^n),
-// em vez de usar a fração exata do maior valor real
-function niceCeil(value) {
-  if (value <= 0) return 1;
-  const exp = Math.floor(Math.log10(value));
-  const base = Math.pow(10, exp);
-  const frac = value / base;
-  let niceFrac;
-  if (frac <= 1) niceFrac = 1;
-  else if (frac <= 2) niceFrac = 2;
-  else if (frac <= 5) niceFrac = 5;
-  else niceFrac = 10;
-  return niceFrac * base;
-}
-
-function buildGridLines(chartW, H, maxVal, topPad) {
-  if (topPad === undefined) topPad = 0.92;
+function buildGridLines(chartW, H, maxVal) {
   const stroke = cssVar('--md-sys-color-outline-variant');
   return [1, 0.75, 0.5, 0.25, 0].map(pct => {
-    const y = H - pct * H * topPad;
+    const y = H - pct * H;
     return pct > 0
       ? `<line x1="0" y1="${y}" x2="${chartW}" y2="${y}" stroke="${stroke}" stroke-width="1" stroke-dasharray="4,3"/>`
       : `<line x1="0" y1="${y}" x2="${chartW}" y2="${y}" stroke="${stroke}" stroke-width="1"/>`;
@@ -381,9 +365,8 @@ function buildAreaChart(data, xLabels) {
   const W = 320, H = 100, PAD_B = 20, PAD_R = 8;
   const chartW = W - PAD_R;
   const n = data.length;
-  // Sem niceCeil e sem padding de topo aqui (diferente do gráfico mensal
-  // de barras): o pico da linha deve encostar no topo do gráfico, então a
-  // escala usa o valor máximo real dos dados, não um teto arredondado.
+  // O pico da linha deve encostar no topo do gráfico, então a escala usa
+  // o valor máximo real dos dados, não um teto arredondado.
   const maxVal = Math.max(1, ...data.flatMap(d => TIPOS.map(t => d[t])));
   const xs = data.map((_, i) => n === 1 ? chartW/2 : (i / (n-1)) * chartW);
 
@@ -412,7 +395,7 @@ function buildAreaChart(data, xLabels) {
     `<text id="chart-area-peaklabel-${i}" x="${r.x}" y="${r.y}" text-anchor="end" font-size="7" fill="${labelColor}"${r.show ? '' : ' style="display:none"'}>${formatAxisValue(r.val)}</text>`
   ).join('');
 
-  return `<svg id="chart-area-svg" viewBox="0 0 ${W} ${H + PAD_B}" width="100%" style="display:block;overflow:visible">${buildGridLines(chartW,H,maxVal,1)}${lines}${peakLabelsSvg}${xLabelsSvg}</svg>`;
+  return `<svg id="chart-area-svg" viewBox="0 0 ${W} ${H + PAD_B}" width="100%" style="display:block;overflow:visible">${buildGridLines(chartW,H,maxVal)}${lines}${peakLabelsSvg}${xLabelsSvg}</svg>`;
 }
 
 function animateAreaTo(targetData) {
@@ -496,7 +479,7 @@ let _barRaf = null;
 function computeBarPeakRanks(d, maxVal, H, rightX) {
   const ranks = TIPOS.map(tipo => ({ tipo, val: d[tipo] })).sort((a, b) => b.val - a.val);
   return ranks.map((r, rank) => {
-    const barH = Math.max((r.val / maxVal) * H * 0.92, r.val > 0 ? 4 : 0);
+    const barH = Math.max((r.val / maxVal) * H, r.val > 0 ? 4 : 0);
     const y = H - barH;
     const ty = y > 10 ? y - 5 : y + 11;
     return { ...r, x: rightX, y: ty, show: rank === 0 || r.val > 1000 };
@@ -508,11 +491,13 @@ function buildBarChart(d) {
   const W = 320, H = 100, R = 6, GAP = 8, MARGIN_X = 4;
   const chartW = W;
   const barsW = chartW - MARGIN_X * 2;
-  const maxVal = niceCeil(Math.max(1, ...TIPOS.map(t => d[t])));
+  // Sem niceCeil e sem padding de topo (mesmo tratamento do gráfico
+  // anual): a barra mais alta encosta no topo do gráfico.
+  const maxVal = Math.max(1, ...TIPOS.map(t => d[t]));
   const barW = (barsW - GAP * (TIPOS.length - 1)) / TIPOS.length;
   const bars = TIPOS.map((tipo, i) => {
     const x = MARGIN_X + i * (barW + GAP);
-    const barH = Math.max((d[tipo] / maxVal) * H * 0.92, d[tipo] > 0 ? 4 : 0);
+    const barH = Math.max((d[tipo] / maxVal) * H, d[tipo] > 0 ? 4 : 0);
     const y = H - barH;
     const c = TIPO_META[tipo].cor;
     return `<rect id="chart-bar-${tipo}" x="${x}" y="${y}" width="${barW}" height="${barH}" rx="${R}" ry="${R}"
@@ -530,7 +515,7 @@ function animateBarsTo(target) {
   if (_barRaf) { cancelAnimationFrame(_barRaf); _barRaf = null; }
 
   const H = 100, MARGIN_X = 4, barsW = 320 - MARGIN_X * 2;
-  const maxVal = niceCeil(Math.max(1, target.receita, target.despesa, target.investimento));
+  const maxVal = Math.max(1, target.receita, target.despesa, target.investimento);
 
   computeBarPeakRanks(target, maxVal, H, MARGIN_X + barsW).forEach((r, i) => {
     const el = document.getElementById('chart-bar-peaklabel-' + i);
@@ -554,7 +539,7 @@ function animateBarsTo(target) {
 
   const toH = {};
   TIPOS.forEach(tipo => {
-    toH[tipo] = Math.max((target[tipo] / maxVal) * H * 0.92, 0);
+    toH[tipo] = Math.max((target[tipo] / maxVal) * H, 0);
   });
 
   function frame(now) {
