@@ -334,10 +334,11 @@ function niceCeil(value) {
   return niceFrac * base;
 }
 
-function buildGridLines(chartW, H, maxVal) {
+function buildGridLines(chartW, H, maxVal, topPad) {
+  if (topPad === undefined) topPad = 0.92;
   const stroke = cssVar('--md-sys-color-outline-variant');
   return [1, 0.75, 0.5, 0.25, 0].map(pct => {
-    const y = H - pct * H * 0.92;
+    const y = H - pct * H * topPad;
     return pct > 0
       ? `<line x1="0" y1="${y}" x2="${chartW}" y2="${y}" stroke="${stroke}" stroke-width="1" stroke-dasharray="4,3"/>`
       : `<line x1="0" y1="${y}" x2="${chartW}" y2="${y}" stroke="${stroke}" stroke-width="1"/>`;
@@ -360,13 +361,16 @@ function buildAreaChart(data, xLabels) {
   const W = 320, H = 100, PAD_B = 20, PAD_R = 8;
   const chartW = W - PAD_R;
   const n = data.length;
-  const maxVal = niceCeil(Math.max(1, ...data.flatMap(d => TIPOS.map(t => d[t]))));
+  // Sem niceCeil e sem padding de topo aqui (diferente do gráfico mensal
+  // de barras): o pico da linha deve encostar no topo do gráfico, então a
+  // escala usa o valor máximo real dos dados, não um teto arredondado.
+  const maxVal = Math.max(1, ...data.flatMap(d => TIPOS.map(t => d[t])));
   const xs = data.map((_, i) => n === 1 ? chartW/2 : (i / (n-1)) * chartW);
 
   _areaXs = xs;
   _areaYs = {};
   TIPOS.forEach(tipo => {
-    _areaYs[tipo] = data.map(d => H - (d[tipo] / maxVal) * H * 0.92);
+    _areaYs[tipo] = data.map(d => H - (d[tipo] / maxVal) * H);
   });
 
   const lines = TIPOS.map(tipo =>
@@ -380,7 +384,7 @@ function buildAreaChart(data, xLabels) {
     `<text x="${xs[i]}" y="${H + PAD_B - 2}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}" font-size="8" fill="${labelColor}">${xLabels[i]}</text>`
   ).join('');
 
-  return `<svg id="chart-area-svg" viewBox="0 0 ${W} ${H + PAD_B}" width="100%" style="display:block;overflow:visible">${buildGridLines(chartW,H,maxVal)}${lines}${xLabelsSvg}</svg>`;
+  return `<svg id="chart-area-svg" viewBox="0 0 ${W} ${H + PAD_B}" width="100%" style="display:block;overflow:visible">${buildGridLines(chartW,H,maxVal,1)}${lines}${xLabelsSvg}</svg>`;
 }
 
 function animateAreaTo(targetData) {
@@ -389,12 +393,12 @@ function animateAreaTo(targetData) {
   const W = 320, H = 100, PAD_R = 8;
   const chartW = W - PAD_R;
   const n = targetData.length;
-  const maxVal = niceCeil(Math.max(1, ...targetData.flatMap(d => TIPOS.map(t => d[t]))));
+  const maxVal = Math.max(1, ...targetData.flatMap(d => TIPOS.map(t => d[t])));
   const xs = _areaXs || targetData.map((_, i) => n === 1 ? chartW/2 : (i / (n-1)) * chartW);
 
   const toYs = {};
   TIPOS.forEach(tipo => {
-    toYs[tipo] = targetData.map(d => H - (d[tipo] / maxVal) * H * 0.92);
+    toYs[tipo] = targetData.map(d => H - (d[tipo] / maxVal) * H);
   });
 
   // Read current Y values from DOM paths as starting point
