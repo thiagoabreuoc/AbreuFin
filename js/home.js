@@ -260,7 +260,7 @@ function selectMonth(i) {
     renderBanners();
     animateBarsTo(dc);
     document.getElementById('home-legend-meses').innerHTML = buildLegendHtml(dc, 'meses');
-    const saldo = dc.receita - dc.despesa - dc.investimento;
+    const saldo = getCarriedBalance(homeMonth, homeYear) + dc.receita - dc.despesa - dc.investimento;
     const sv = document.getElementById('home-saldo-val');
     if (sv) {
       sv.innerHTML = fmtBig(saldo);
@@ -290,6 +290,22 @@ function getYearTotals(year=2026) {
 }
 
 const CONFIRMED_STATUS = {receita:'recebido', despesa:'pago', investimento:'investido'};
+
+// Saldo carregado dos meses anteriores: soma só o que já foi de fato
+// realizado (recebido/pago/investido) antes do mês/ano alvo, independente
+// do modo de visualização (Realizado/Previsto) selecionado — o card de
+// saldo é "Balanço total" (acumulado), não só o líquido do mês corrente.
+function getCarriedBalance(month, year) {
+  const targetKey = year * 12 + month;
+  let total = 0;
+  for (const e of entries) {
+    if (e.status !== CONFIRMED_STATUS[e.tipo]) continue;
+    if (e.yyyy * 12 + (e.mm - 1) >= targetKey) continue;
+    total += e.tipo === 'receita' ? e.valor : -e.valor;
+  }
+  return total;
+}
+
 function getConfirmedTotals(month, year=2026) {
   return entries.filter(e => e.mm-1===month && e.yyyy===year && e.status===CONFIRMED_STATUS[e.tipo])
     .reduce((a,e)=>{ a[e.tipo]=(a[e.tipo]||0)+e.valor; return a; },{receita:0,despesa:0,investimento:0});
@@ -638,7 +654,7 @@ function renderHome() {
   const dcM = homeMonthTotals(homeMonth, homeYear);
   const chartM = buildBarChart(dcM);
   const isEmptyM = dcM.receita + dcM.despesa + dcM.investimento === 0;
-  const saldo = dcM.receita - dcM.despesa - dcM.investimento;
+  const saldo = getCarriedBalance(homeMonth, homeYear) + dcM.receita - dcM.despesa - dcM.investimento;
   const periodoLabelM = `${MONTHS_FULL[homeMonth]} ${homeYear}`;
 
   const cardAnual = `<div class="home-chart-block" id="home-block-anual" style="margin-bottom:12px${showAnos ? '' : ';display:none'}">
