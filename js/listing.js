@@ -342,6 +342,10 @@ async function updateEntryStatusSwipe(entry, newStatus, renderFn) {
       valor: entry.valor, dd: entry.dd, mm: entry.mm, yyyy: entry.yyyy,
       status: newStatus, obs: entry.obs, repetir: entry.repetir, notif: entry.notif,
     });
+    // A mudança de status afeta o saldo (Balanço total) e os banners de
+    // vencido/vencendo da Home — sem isso, quem voltar pro Dashboard vê
+    // valores desatualizados até a próxima ação que force um render.
+    if (typeof renderHome === 'function') renderHome();
     showToast('Status atualizado.', 'success');
   } catch (err) {
     entry.status = prevStatus;
