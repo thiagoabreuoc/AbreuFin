@@ -345,6 +345,24 @@ function buildGridLines(chartW, H, maxVal, topPad) {
   }).join('');
 }
 
+// Ranqueia o pico anual de cada tipo (receita/despesa/investimento) do
+// maior pro menor — usado pra rotular máximo (sempre), médio e mínimo
+// (só quando o valor passa de 1000, pra não poluir gráficos pequenos).
+function computePeakRanks(data, maxVal, H, xs) {
+  const ranks = TIPOS.map(tipo => {
+    let idx = 0, val = -Infinity;
+    data.forEach((d, i) => { if (d[tipo] > val) { val = d[tipo]; idx = i; } });
+    return { tipo, val, idx };
+  }).sort((a, b) => b.val - a.val);
+  return ranks.map((r, rank) => {
+    const y = H - (r.val / maxVal) * H;
+    // texto acima do ponto quando há espaço; perto do topo, desce pra
+    // dentro do gráfico em vez de vazar pra fora da área visível.
+    const ty = y > 10 ? y - 5 : y + 11;
+    return { ...r, x: xs[r.idx], y: ty, show: rank === 0 || r.val > 1000 };
+  });
+}
+
 function makeLinePath(ys, xs) {
   const n = ys.length;
   if (n === 1) return `M 0 ${ys[0]} L ${xs[0]} ${ys[0]}`;
@@ -384,11 +402,15 @@ function buildAreaChart(data, xLabels) {
     `<text x="${xs[i]}" y="${H + PAD_B - 2}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}" font-size="8" fill="${labelColor}">${xLabels[i]}</text>`
   ).join('');
 
-  // Marca a altura máxima do gráfico (o pico encosta no topo) — pequeno e
-  // discreto, no canto, pra não competir com as linhas em si.
-  const maxLabelSvg = `<text id="chart-area-maxlabel" x="${chartW}" y="9" text-anchor="end" font-size="7" fill="${labelColor}">${formatAxisValue(maxVal)}</text>`;
+  // Marca o pico de cada linha (máximo, médio e mínimo dos três tipos) —
+  // pequeno e discreto, junto ao próprio ponto. Médio/mínimo só aparecem
+  // acima de 1000, pra não poluir quando os valores são pequenos.
+  const peakRanks = computePeakRanks(data, maxVal, H, xs);
+  const peakLabelsSvg = peakRanks.map((r, i) =>
+    `<text id="chart-area-peaklabel-${i}" x="${r.x}" y="${r.y}" text-anchor="middle" font-size="7" fill="${labelColor}"${r.show ? '' : ' style="display:none"'}>${formatAxisValue(r.val)}</text>`
+  ).join('');
 
-  return `<svg id="chart-area-svg" viewBox="0 0 ${W} ${H + PAD_B}" width="100%" style="display:block;overflow:visible">${buildGridLines(chartW,H,maxVal,1)}${lines}${maxLabelSvg}${xLabelsSvg}</svg>`;
+  return `<svg id="chart-area-svg" viewBox="0 0 ${W} ${H + PAD_B}" width="100%" style="display:block;overflow:visible">${buildGridLines(chartW,H,maxVal,1)}${lines}${peakLabelsSvg}${xLabelsSvg}</svg>`;
 }
 
 function animateAreaTo(targetData) {
@@ -400,8 +422,14 @@ function animateAreaTo(targetData) {
   const maxVal = Math.max(1, ...targetData.flatMap(d => TIPOS.map(t => d[t])));
   const xs = _areaXs || targetData.map((_, i) => n === 1 ? chartW/2 : (i / (n-1)) * chartW);
 
-  const maxLabel = document.getElementById('chart-area-maxlabel');
-  if (maxLabel) maxLabel.textContent = formatAxisValue(maxVal);
+  computePeakRanks(targetData, maxVal, H, xs).forEach((r, i) => {
+    const el = document.getElementById('chart-area-peaklabel-' + i);
+    if (!el) return;
+    el.setAttribute('x', r.x);
+    el.setAttribute('y', r.y);
+    el.style.display = r.show ? '' : 'none';
+    el.textContent = formatAxisValue(r.val);
+  });
 
   const toYs = {};
   TIPOS.forEach(tipo => {
