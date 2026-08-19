@@ -348,18 +348,20 @@ function buildGridLines(chartW, H, maxVal, topPad) {
 // Ranqueia o pico anual de cada tipo (receita/despesa/investimento) do
 // maior pro menor — usado pra rotular máximo (sempre), médio e mínimo
 // (só quando o valor passa de 1000, pra não poluir gráficos pequenos).
-function computePeakRanks(data, maxVal, H, xs) {
+// x é sempre a borda direita do gráfico — todos os labels alinhados numa
+// mesma coluna, só a altura (y) varia conforme o valor de cada um.
+function computePeakRanks(data, maxVal, H, chartW) {
   const ranks = TIPOS.map(tipo => {
-    let idx = 0, val = -Infinity;
-    data.forEach((d, i) => { if (d[tipo] > val) { val = d[tipo]; idx = i; } });
-    return { tipo, val, idx };
+    let val = -Infinity;
+    data.forEach(d => { if (d[tipo] > val) val = d[tipo]; });
+    return { tipo, val };
   }).sort((a, b) => b.val - a.val);
   return ranks.map((r, rank) => {
     const y = H - (r.val / maxVal) * H;
     // texto acima do ponto quando há espaço; perto do topo, desce pra
     // dentro do gráfico em vez de vazar pra fora da área visível.
     const ty = y > 10 ? y - 5 : y + 11;
-    return { ...r, x: xs[r.idx], y: ty, show: rank === 0 || r.val > 1000 };
+    return { ...r, x: chartW, y: ty, show: rank === 0 || r.val > 1000 };
   });
 }
 
@@ -405,7 +407,7 @@ function buildAreaChart(data, xLabels) {
   // Marca o pico de cada linha (máximo, médio e mínimo dos três tipos) —
   // pequeno e discreto, junto ao próprio ponto. Médio/mínimo só aparecem
   // acima de 1000, pra não poluir quando os valores são pequenos.
-  const peakRanks = computePeakRanks(data, maxVal, H, xs);
+  const peakRanks = computePeakRanks(data, maxVal, H, chartW);
   const peakLabelsSvg = peakRanks.map((r, i) =>
     `<text id="chart-area-peaklabel-${i}" x="${r.x}" y="${r.y}" text-anchor="end" font-size="7" fill="${labelColor}"${r.show ? '' : ' style="display:none"'}>${formatAxisValue(r.val)}</text>`
   ).join('');
@@ -422,7 +424,7 @@ function animateAreaTo(targetData) {
   const maxVal = Math.max(1, ...targetData.flatMap(d => TIPOS.map(t => d[t])));
   const xs = _areaXs || targetData.map((_, i) => n === 1 ? chartW/2 : (i / (n-1)) * chartW);
 
-  computePeakRanks(targetData, maxVal, H, xs).forEach((r, i) => {
+  computePeakRanks(targetData, maxVal, H, chartW).forEach((r, i) => {
     const el = document.getElementById('chart-area-peaklabel-' + i);
     if (!el) return;
     el.setAttribute('x', r.x);
@@ -488,17 +490,16 @@ function emptyChart(aspectRatio) {
 let _barRaf = null;
 
 // Mesma ideia do computePeakRanks (anual), mas por barra: máximo sempre,
-// médio/mínimo só acima de 1000. Rótulo alinhado à direita, na borda
-// direita de cada barra.
-function computeBarPeakRanks(d, maxVal, H, MARGIN_X, barW, GAP) {
-  const ranks = TIPOS.map((tipo, i) => ({ tipo, val: d[tipo], i }))
-    .sort((a, b) => b.val - a.val);
+// médio/mínimo só acima de 1000. x é sempre a borda direita da área de
+// barras — todos os labels alinhados numa mesma coluna, só a altura (y)
+// varia conforme o valor de cada um.
+function computeBarPeakRanks(d, maxVal, H, rightX) {
+  const ranks = TIPOS.map(tipo => ({ tipo, val: d[tipo] })).sort((a, b) => b.val - a.val);
   return ranks.map((r, rank) => {
     const barH = Math.max((r.val / maxVal) * H * 0.92, r.val > 0 ? 4 : 0);
     const y = H - barH;
-    const x = MARGIN_X + r.i * (barW + GAP) + barW;
     const ty = y > 10 ? y - 5 : y + 11;
-    return { ...r, x, y: ty, show: rank === 0 || r.val > 1000 };
+    return { ...r, x: rightX, y: ty, show: rank === 0 || r.val > 1000 };
   });
 }
 
@@ -518,7 +519,7 @@ function buildBarChart(d) {
       fill="${c}" fill-opacity="0.25" stroke="${c}" stroke-width="1.5"/>`;
   }).join('');
   const labelColor = cssVar('--md-sys-color-outline');
-  const barRanks = computeBarPeakRanks(d, maxVal, H, MARGIN_X, barW, GAP);
+  const barRanks = computeBarPeakRanks(d, maxVal, H, MARGIN_X + barsW);
   const barLabelsSvg = barRanks.map((r, i) =>
     `<text id="chart-bar-peaklabel-${i}" x="${r.x}" y="${r.y}" text-anchor="end" font-size="7" fill="${labelColor}"${r.show ? '' : ' style="display:none"'}>${formatAxisValue(r.val)}</text>`
   ).join('');
@@ -528,11 +529,10 @@ function buildBarChart(d) {
 function animateBarsTo(target) {
   if (_barRaf) { cancelAnimationFrame(_barRaf); _barRaf = null; }
 
-  const H = 100, GAP = 8, MARGIN_X = 4;
-  const barW = (320 - MARGIN_X * 2 - GAP * (TIPOS.length - 1)) / TIPOS.length;
+  const H = 100, MARGIN_X = 4, barsW = 320 - MARGIN_X * 2;
   const maxVal = niceCeil(Math.max(1, target.receita, target.despesa, target.investimento));
 
-  computeBarPeakRanks(target, maxVal, H, MARGIN_X, barW, GAP).forEach((r, i) => {
+  computeBarPeakRanks(target, maxVal, H, MARGIN_X + barsW).forEach((r, i) => {
     const el = document.getElementById('chart-bar-peaklabel-' + i);
     if (!el) return;
     el.setAttribute('x', r.x);
