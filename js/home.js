@@ -407,7 +407,7 @@ function buildAreaChart(data, xLabels) {
   // acima de 1000, pra não poluir quando os valores são pequenos.
   const peakRanks = computePeakRanks(data, maxVal, H, xs);
   const peakLabelsSvg = peakRanks.map((r, i) =>
-    `<text id="chart-area-peaklabel-${i}" x="${r.x}" y="${r.y}" text-anchor="middle" font-size="7" fill="${labelColor}"${r.show ? '' : ' style="display:none"'}>${formatAxisValue(r.val)}</text>`
+    `<text id="chart-area-peaklabel-${i}" x="${r.x}" y="${r.y}" text-anchor="end" font-size="7" fill="${labelColor}"${r.show ? '' : ' style="display:none"'}>${formatAxisValue(r.val)}</text>`
   ).join('');
 
   return `<svg id="chart-area-svg" viewBox="0 0 ${W} ${H + PAD_B}" width="100%" style="display:block;overflow:visible">${buildGridLines(chartW,H,maxVal,1)}${lines}${peakLabelsSvg}${xLabelsSvg}</svg>`;
@@ -487,6 +487,21 @@ function emptyChart(aspectRatio) {
 
 let _barRaf = null;
 
+// Mesma ideia do computePeakRanks (anual), mas por barra: máximo sempre,
+// médio/mínimo só acima de 1000. Rótulo alinhado à direita, na borda
+// direita de cada barra.
+function computeBarPeakRanks(d, maxVal, H, MARGIN_X, barW, GAP) {
+  const ranks = TIPOS.map((tipo, i) => ({ tipo, val: d[tipo], i }))
+    .sort((a, b) => b.val - a.val);
+  return ranks.map((r, rank) => {
+    const barH = Math.max((r.val / maxVal) * H * 0.92, r.val > 0 ? 4 : 0);
+    const y = H - barH;
+    const x = MARGIN_X + r.i * (barW + GAP) + barW;
+    const ty = y > 10 ? y - 5 : y + 11;
+    return { ...r, x, y: ty, show: rank === 0 || r.val > 1000 };
+  });
+}
+
 function buildBarChart(d) {
   if (d.receita + d.despesa + d.investimento === 0) return emptyChart('320/100');
   const W = 320, H = 100, R = 6, GAP = 8, MARGIN_X = 4;
@@ -502,14 +517,30 @@ function buildBarChart(d) {
     return `<rect id="chart-bar-${tipo}" x="${x}" y="${y}" width="${barW}" height="${barH}" rx="${R}" ry="${R}"
       fill="${c}" fill-opacity="0.25" stroke="${c}" stroke-width="1.5"/>`;
   }).join('');
-  return `<svg id="chart-bars-svg" viewBox="0 0 ${W} ${H}" width="100%" style="display:block;overflow:visible">${buildGridLines(chartW,H,maxVal)}${bars}</svg>`;
+  const labelColor = cssVar('--md-sys-color-outline');
+  const barRanks = computeBarPeakRanks(d, maxVal, H, MARGIN_X, barW, GAP);
+  const barLabelsSvg = barRanks.map((r, i) =>
+    `<text id="chart-bar-peaklabel-${i}" x="${r.x}" y="${r.y}" text-anchor="end" font-size="7" fill="${labelColor}"${r.show ? '' : ' style="display:none"'}>${formatAxisValue(r.val)}</text>`
+  ).join('');
+  return `<svg id="chart-bars-svg" viewBox="0 0 ${W} ${H}" width="100%" style="display:block;overflow:visible">${buildGridLines(chartW,H,maxVal)}${bars}${barLabelsSvg}</svg>`;
 }
 
 function animateBarsTo(target) {
   if (_barRaf) { cancelAnimationFrame(_barRaf); _barRaf = null; }
 
-  const H = 100;
+  const H = 100, GAP = 8, MARGIN_X = 4;
+  const barW = (320 - MARGIN_X * 2 - GAP * (TIPOS.length - 1)) / TIPOS.length;
   const maxVal = niceCeil(Math.max(1, target.receita, target.despesa, target.investimento));
+
+  computeBarPeakRanks(target, maxVal, H, MARGIN_X, barW, GAP).forEach((r, i) => {
+    const el = document.getElementById('chart-bar-peaklabel-' + i);
+    if (!el) return;
+    el.setAttribute('x', r.x);
+    el.setAttribute('y', r.y);
+    el.style.display = r.show ? '' : 'none';
+    el.textContent = formatAxisValue(r.val);
+  });
+
   const DURATION = 380;
   const startTime = performance.now();
   const ease = t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
