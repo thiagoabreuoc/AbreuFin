@@ -384,7 +384,11 @@ function buildAreaChart(data, xLabels) {
     `<text x="${xs[i]}" y="${H + PAD_B - 2}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}" font-size="8" fill="${labelColor}">${xLabels[i]}</text>`
   ).join('');
 
-  return `<svg id="chart-area-svg" viewBox="0 0 ${W} ${H + PAD_B}" width="100%" style="display:block;overflow:visible">${buildGridLines(chartW,H,maxVal,1)}${lines}${xLabelsSvg}</svg>`;
+  // Marca a altura máxima do gráfico (o pico encosta no topo) — pequeno e
+  // discreto, no canto, pra não competir com as linhas em si.
+  const maxLabelSvg = `<text id="chart-area-maxlabel" x="${chartW}" y="9" text-anchor="end" font-size="7" fill="${labelColor}">${formatAxisValue(maxVal)}</text>`;
+
+  return `<svg id="chart-area-svg" viewBox="0 0 ${W} ${H + PAD_B}" width="100%" style="display:block;overflow:visible">${buildGridLines(chartW,H,maxVal,1)}${lines}${maxLabelSvg}${xLabelsSvg}</svg>`;
 }
 
 function animateAreaTo(targetData) {
@@ -395,6 +399,9 @@ function animateAreaTo(targetData) {
   const n = targetData.length;
   const maxVal = Math.max(1, ...targetData.flatMap(d => TIPOS.map(t => d[t])));
   const xs = _areaXs || targetData.map((_, i) => n === 1 ? chartW/2 : (i / (n-1)) * chartW);
+
+  const maxLabel = document.getElementById('chart-area-maxlabel');
+  if (maxLabel) maxLabel.textContent = formatAxisValue(maxVal);
 
   const toYs = {};
   TIPOS.forEach(tipo => {
