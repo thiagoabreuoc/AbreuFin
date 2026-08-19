@@ -7,7 +7,7 @@ $email = trim(strtolower($body['email'] ?? ''));
 $password = (string)($body['password'] ?? '');
 $remember = !empty($body['remember']);
 
-startSession($remember ? 60 * 60 * 24 * 30 : 0);
+startSession($remember ? SESSION_LIFETIME_LONG : SESSION_LIFETIME_SHORT);
 requireCsrf();
 
 $ip = rateLimitIdentifier();

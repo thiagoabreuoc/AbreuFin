@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../config/google_oauth.php';
 
-startSession(60 * 60 * 24 * 30);
+startSession(SESSION_LIFETIME_LONG);
 $config = googleOAuthConfig();
 
 function redirectWithGoogleError(string $code): void {

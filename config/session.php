@@ -2,40 +2,37 @@
 /* Sessão + helpers de autenticação e resposta JSON usados pelos endpoints da API */
 require_once __DIR__ . '/db.php';
 
+// Mesmo sem "Lembrar-me", a sessão precisa sobreviver a um fechamento
+// rápido do app (PWA); 30min é o piso mínimo garantido. Com "Lembrar-me"
+// (ou login via Google, que sempre usa essa duração), sobe pra 30 dias.
+const SESSION_LIFETIME_SHORT = 60 * 30;
+const SESSION_LIFETIME_LONG  = 60 * 60 * 24 * 30;
+
 /* $cookieLifetimeSeconds nulo = chamada genérica (qualquer página/endpoint
    só retomando a sessão já aberta). Nesses casos reaplicamos a duração
    escolhida no login (via um cookie auxiliar "remember"), porque o PHP
    reenvia o Set-Cookie da sessão a cada chamada — sem isso, a próxima
-   requisição depois do login já derrubava o "Lembrar-me" de volta pra
-   cookie de sessão (expira ao fechar o navegador). */
+   requisição depois do login já derrubava o "Lembrar-me" de volta pro
+   piso curto. */
 function startSession(?int $cookieLifetimeSeconds = null): void {
     if (session_status() === PHP_SESSION_ACTIVE) return;
 
     if ($cookieLifetimeSeconds === null) {
-        $cookieLifetimeSeconds = !empty($_COOKIE['remember']) ? 60 * 60 * 24 * 30 : 0;
+        $cookieLifetimeSeconds = ($_COOKIE['remember'] ?? '') === 'long' ? SESSION_LIFETIME_LONG : SESSION_LIFETIME_SHORT;
     }
 
     $secure = !empty($_SERVER['HTTPS']);
-    if ($cookieLifetimeSeconds > 0) {
-        // GC padrão do PHP (~24min) apagaria o arquivo de sessão no servidor
-        // bem antes dos 30 dias do cookie no navegador.
-        ini_set('session.gc_maxlifetime', (string)$cookieLifetimeSeconds);
-        setcookie('remember', '1', [
-            'expires' => time() + $cookieLifetimeSeconds,
-            'path' => '/',
-            'httponly' => true,
-            'samesite' => 'Lax',
-            'secure' => $secure,
-        ]);
-    } else {
-        setcookie('remember', '', [
-            'expires' => time() - 3600,
-            'path' => '/',
-            'httponly' => true,
-            'samesite' => 'Lax',
-            'secure' => $secure,
-        ]);
-    }
+    // GC padrão do PHP (~24min) apagaria o arquivo de sessão no servidor
+    // antes do previsto — sempre alinhado à duração real escolhida, mesmo
+    // no piso curto de 30min.
+    ini_set('session.gc_maxlifetime', (string)$cookieLifetimeSeconds);
+    setcookie('remember', $cookieLifetimeSeconds >= SESSION_LIFETIME_LONG ? 'long' : 'short', [
+        'expires' => time() + $cookieLifetimeSeconds,
+        'path' => '/',
+        'httponly' => true,
+        'samesite' => 'Lax',
+        'secure' => $secure,
+    ]);
 
     session_set_cookie_params([
         'lifetime' => $cookieLifetimeSeconds,

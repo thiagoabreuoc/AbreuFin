@@ -1,12 +1,14 @@
 /* ═══════════════════════════════════════
    BIOMETRIC LOCK (WebAuthn — Face ID / Touch ID / impressão digital)
 
-   Não é login sem senha: a sessão de 30 dias continua sendo a
-   autenticação de verdade (config/session.php). Isto é só um cadeado
-   local, tipo app de banco — trava a tela até o gesto biométrico da
-   plataforma confirmar, sem nenhuma verificação no servidor (não há
-   nada a provar pro backend, só "este aparelho específico" de novo).
-   Por isso tudo aqui é client-side: sem endpoint novo, sem tabela nova.
+   Não é login sem senha: a sessão (de até 30 dias) continua sendo a
+   autenticação de verdade (config/session.php). Reabrir o app com a
+   sessão ainda válida NÃO pede biometria — ela só entra em cena como
+   atalho pra voltar sem digitar senha depois de um "Sair da conta"
+   (soft lock, sessão preservada no servidor) ou de a sessão cair de
+   verdade. Sem nenhuma verificação no servidor (não há nada a provar
+   pro backend, só "este aparelho específico" de novo), por isso tudo
+   aqui é client-side: sem endpoint novo, sem tabela nova.
 ═══════════════════════════════════════ */
 const BIOMETRIC_ENABLED_KEY = 'biometricLockEnabled';
 const BIOMETRIC_CRED_KEY = 'biometricCredentialId';
@@ -84,29 +86,6 @@ async function verifyBiometric() {
   } catch (e) {
     return false;
   }
-}
-
-function showBiometricLock() {
-  const el = document.getElementById('biometric-lock');
-  if (el) el.style.display = 'flex';
-}
-function hideBiometricLock() {
-  const el = document.getElementById('biometric-lock');
-  if (el) el.style.display = 'none';
-}
-
-async function attemptBiometricUnlock() {
-  if (await verifyBiometric()) hideBiometricLock();
-  else showToast('Não foi possível confirmar a biometria.', 'error');
-}
-
-// Chamado quando o app reabre sozinho com uma sessão já válida (reload,
-// volta do bfcache) — não em login/registro manual, pra não pedir a
-// biometria de novo logo depois de já ter digitado a senha.
-async function lockIfBiometricEnabled() {
-  if (!isBiometricLockEnabled()) return;
-  showBiometricLock();
-  if (await verifyBiometric()) hideBiometricLock();
 }
 
 /* ─────────── Toggle na tela de Personalização ─────────── */

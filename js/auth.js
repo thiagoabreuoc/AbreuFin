@@ -139,7 +139,6 @@ async function doRegister() {
 // biometria passa a ser o único cadeado pra voltar sem digitar senha.
 // Sem biometria ativada, comportamento de sempre (encerra a sessão).
 async function doLogout() {
-  if (typeof hideBiometricLock === 'function') hideBiometricLock();
   const softLock = typeof isBiometricLockEnabled === 'function' && isBiometricLockEnabled();
   if (!softLock) {
     try { await apiLogout(); } catch (e) {}
