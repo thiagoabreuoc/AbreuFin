@@ -6,7 +6,7 @@ startSession(SESSION_LIFETIME_LONG);
 $config = googleOAuthConfig();
 
 function redirectWithGoogleError(string $code): void {
-    header('Location: /index.php?google_error=' . urlencode($code));
+    header('Location: /?google_error=' . urlencode($code));
     exit;
 }
 
@@ -58,5 +58,5 @@ if ($user) {
 
 session_regenerate_id(true);
 $_SESSION['user_id'] = $userId;
-header('Location: /index.php');
+header('Location: /');
 exit;
